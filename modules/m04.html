@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M4 · RTFA — Problemfall vs Extremfall — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m04">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil II — Risikotragfähigkeit › Module 4</div>
+      <h1>Module 4 — The RTFA framework: Problemfall (95%), Extremfall (99,9%), and the traffic lights</h1>
+    </div>
+    <p class="lead">The <em>Risikotragfähigkeitskalkül</em> is the whole machine in one inequality: aggregated <strong>Risiko</strong> on one side, <strong>Deckungsmasse</strong> on the other, read at two confidence levels. This module makes that inequality precise — the probabilities, the VaR logic that lets you compare risks measured at different horizons, and the green/yellow/red rules with their reporting duties.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Explain why 95% means "once in 20 years" and 99,9% means a Liquidationsfall — from the quantile, not by assertion.</li>
+        <li>State exactly what risk and what Deckungsmasse each scenario uses, and why they differ.</li>
+        <li>Use VaR horizontal/vertical consistency to convert a risk measured at one horizon/confidence to another.</li>
+        <li>Apply the green/yellow/red thresholds — and know they differ between Problemfall and Extremfall.</li>
+        <li>Name the reporting consequences (Management Summary, Redepflicht) and who receives them.</li>
+      </ul>
+    </div>
+
+    <h2>1 · Motivation — one inequality, two questions</h2>
+    <p>Every quarter your unit answers, per institution and per view: <strong>is there enough loss-absorbing substance in front of the risk?</strong> Formally,</p>
+    <div class="formula">
+      $$ \text{Auslastung} \;=\; \frac{\text{Risiko}_q}{\text{Deckungsmasse}_q} \;\overset{?}{\le}\; 100\% $$
+      <div class="where"><b>Auslastung</b> = utilisation; <b>q</b> = the confidence level of the scenario. The genius — and the trap — is that <em>both numerator and denominator change with the scenario</em>. It is not the same risk measured against more or less cover; it is two <em>different</em> definitions of risk set against two <em>different</em> definitions of cover.</div>
+    </div>
+    <div class="box motivation">
+      <div class="box-title">▶ Why two scenarios and not one</div>
+      <p>A single confidence level cannot serve two masters. The supervisor cares whether you breach the <em>regulatory minimum</em> after a plausibly bad year (a frequent, "manageable" stress — the <strong>Problemfall</strong>). The bank's own risk management cares whether it could be <em>economically wiped out</em> (a rare, near-fatal stress — the <strong>Extremfall</strong>). Different questions ⇒ different probabilities ⇒ different cover. The Leitfaden lets <em>each</em> institution choose which is the binding steering measure and which is the side-condition (§4).</p>
+    </div>
+
+    <h2>2 · Concept — what each scenario is</h2>
+
+    <h3>2.1 The two scenarios side by side</h3>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>Problemfall</th><th>Extremfall</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Konfidenzintervall</strong></td><td>95%</td><td>99,9%</td></tr>
+        <tr><td><strong>Risiko</strong></td><td>Unerwarteter Verlust, rescaled to 95%</td><td>Unerwarteter Verlust = <em>ökonomisches Kapital</em> at 99,9%</td></tr>
+        <tr><td><strong>Conceptual lens</strong></td><td>Pillar 1 / normative — "stay above the regulatory minimum (incl. P2R + buffers) after a bad year"</td><td>Pillar 2 / economic (ICAAP) — "enough economic substance for our own risk"; a <em>Liquidationsfall</em></td></tr>
+        <tr><td><strong>Deckungsmasse</strong></td><td>budgeted Jahres-/Konzernüberschuss after tax − Mindestausschüttung + Gewinnvortrag + freies Kapital + stille Reserven ± excess/shortfall</td><td>profit from continuing ops pre-tax + Gewinnvortrag + anrechenbare Eigenmittel + stille Reserven − Neubewertungsreserve ± excess/shortfall</td></tr>
+        <tr><td><strong>Horizon</strong></td><td colspan="2">1 year (both)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Module 13 dissects each Deckungsmasse line by line. Here the point is the <em>shape</em>: the Problemfall cover leans on <strong>earnings + free capital above the regulatory minimum</strong>; the Extremfall cover is essentially <strong>all available own funds</strong> (because in a near-liquidation you may use the whole capital stack, but you may <em>not</em> count next year's hoped-for profit, and you strip out the Neubewertungsreserve).</p>
+
+    <h3>2.2 The Solvabilität and Stress side-conditions</h3>
+    <p>Two further lenses sit <em>around</em> the RTFA (§4.3–4.4):</p>
+    <ul>
+      <li><strong>Solvabilität</strong> — the pure regulatory capital ratio (CET1/T1/T2 vs Eigenmittelerfordernis). Because it may not capture all risks adequately, the Leitfaden treats it as a <em>strict side-condition</em> (Nebenbedingung), not the main measure.</li>
+      <li><strong>Stress-Szenario</strong> — a 2–3-year "bad case" narrative whose probability is <em>not</em> statistically measured; it catches things the parametric VaR misses (concentration follow-on effects, funding-cost spirals). See the <em>Leitfaden Stress Testing</em>. <strong>Reverse stress testing</strong> inverts it: find the loss that exhausts the cover, then build the scenario that produces it.</li>
+    </ul>
+
+    <h2>3 · Derivation — where 95% and 99,9% come from</h2>
+
+    <h3>3.1 The "once in 20 years" reading of 95%</h3>
+    <p>A confidence level \(q\) on a one-year loss distribution is a quantile statement: the loss exceeds the capital only with probability \(1-q\) per year. Treating years as independent Bernoulli trials, the expected waiting time to the first exceedance is geometric:</p>
+    <div class="formula">
+      $$ \mathbb{E}[\text{years to first breach}] \;=\; \frac{1}{1-q}. $$
+      <div class="where">At <b>q = 95%</b>: \(1/(1-0.95)=20\) years. At <b>q = 99,9%</b>: \(1/(1-0.999)=1000\) years.</div>
+    </div>
+    <p>So at 100% Problemfall utilisation, statistically a loss larger than the Deckungsmasse is expected <strong>once every 20 years</strong> — which the Leitfaden judges adequate <em>precisely because the sector safety nets (IPS, Sicherungseinrichtungen) stand behind a single bank</em>. A remedial action once in 20 years is acceptable when you are not alone. This is the explicit ÖRS justification for 95% being "conservative enough", even for larger banks, given that risks are <em>added</em> (correlation +1) and the statistical assumptions are more representative at portfolio scale.</p>
+
+    <div class="box reg">
+      <div class="box-title">⚖️ Why 99,9% / 1-year for the Extremfall is not arbitrary</div>
+      <p>The Extremfall mirrors the <strong>IRB approach</strong>: the CRR's credit risk-weight formula is itself calibrated to a 99,9% / one-year confidence (Module 5). Using the same calibration makes the economic-capital number <em>commensurable</em> with the regulatory one and defensible to the supervisor. The Leitfaden cites the OeNB/FMA <em>Gesamtbankrisikosteuerung</em> guide: the Liquidationsfall is "a VaR-consistent determination of total bank risk over a one-year horizon at 99,9%, because this holding period and probability also underlie the IRB approach for credit risk." So the 99,9% is <span class="tag reg">regulatory-anchored</span>, not an ÖRS invention.</p>
+    </div>
+
+    <h3>3.2 VaR horizontal &amp; vertical consistency — the conversion engine</h3>
+    <p>The Leitfaden makes a strong claim: a risk measured at one (horizon, confidence) can be <em>transformed</em> into an equivalent at another. This is what lets the bank measure market risk at, say, 10 days/95% and credit risk at 1 year/99,9% and still add them coherently.</p>
+    <p><strong>Vertical (re-scale the confidence)</strong> — under a normal/parametric assumption, a VaR is a quantile multiple of a volatility, so converting confidence is just a ratio of standard-normal quantiles:</p>
+    <div class="formula">
+      $$ \text{VaR}_{q_2} \;=\; \text{VaR}_{q_1}\cdot\frac{\Phi^{-1}(q_2)}{\Phi^{-1}(q_1)}. $$
+      <div class="where">\(\Phi^{-1}\) = standard-normal inverse CDF. Key quantiles you will reuse constantly: \(\Phi^{-1}(0.95)=1{,}6449\); \(\Phi^{-1}(0.99)=2{,}3263\); \(\Phi^{-1}(0.999)=3{,}0902\).</div>
+    </div>
+    <p><strong>Horizontal (re-scale the holding period)</strong> — under i.i.d. returns, volatility scales with the square root of time (the "square-root-of-time rule"):</p>
+    <div class="formula">
+      $$ \text{VaR}_{T_2} \;=\; \text{VaR}_{T_1}\cdot\sqrt{\frac{T_2}{T_1}}. $$
+      <div class="where"><b>T</b> = holding period in (trading) days. This is exactly why the market-risk and liquidity modules scale a daily/annual volatility to a <strong>250-day</strong> holding period.</div>
+    </div>
+    <div class="box key">
+      <div class="box-title">This is the thread tying Modules 6–9 together</div>
+      <p>The CVA scalars <code>0,71</code> and <code>1,33</code> (Module 7), the trading-book scalars, and the op-risk <code>5%</code> factor (Module 8) are <em>all</em> just the vertical formula applied to a regulatory charge calibrated at 99% (or 99,9%). Once you have this, those "magic numbers" stop being magic.</p>
+    </div>
+
+    <h2>4 · Worked example — converting a risk and reading the light</h2>
+    <div class="box example">
+      <div class="box-title">Worked example A — vertical conversion (the CVA scalar, previewed)</div>
+      <p>A CVA own-funds charge is calibrated at 99% (the regulatory CVA confidence). What is the Problemfall (95%) equivalent under the normal assumption?</p>
+      <div class="formula">$$ \text{factor} = \frac{\Phi^{-1}(0.95)}{\Phi^{-1}(0.99)} = \frac{1{,}6449}{2{,}3263} = 0{,}71. $$</div>
+      <p>And the Extremfall (99,9%) equivalent: \(\;3{,}0902/2{,}3263 = 1{,}33.\) These are <em>exactly</em> the Leitfaden's CVA factors (§5.2). You have just derived two of the course's headline numbers from one formula.</p>
+    </div>
+
+    <div class="box example">
+      <div class="box-title">Worked example B — reading the traffic light</div>
+      <p>An institution reports, on a Solo basis:</p>
+      <ul>
+        <li>Problemfall: Risiko = €86 m, Deckungsmasse (CRR+P2R+Puffer) = €93 m → Auslastung = 92,5%.</li>
+        <li>Extremfall: Risiko = €140 m, Deckungsmasse = €152 m → Auslastung = 92,1%.</li>
+      </ul>
+      <p>Problemfall 92,5% is &gt; 90% → <span class="tl yellow">gelb</span> (Beobachtungsstatus). Extremfall 92,1% is &gt; 90% and ≤ 95% → <span class="tl yellow">gelb</span>. The institution must produce a <strong>Management Summary</strong> commenting on the result and describing measures to reduce risk or raise the Deckungsmasse. Note: the Leitfaden states that &gt; 90% on a single-institution basis is <em>not targeted</em> and triggers planning of remedial measures regardless of colour.</p>
+    </div>
+
+    <h2>5 · In practice — the thresholds and the reporting chain</h2>
+
+    <h3>5.1 The traffic lights (note: they are not identical)</h3>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Light</th><th>Problemfall (§4.1)</th><th>Extremfall (§4.2)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tl green">grün</span></td><td>Risiko/DM (CRR+P2R+Puffer) ≤ 90%</td><td>Risiko/DM ≤ 90%</td></tr>
+        <tr><td><span class="tl yellow">gelb</span></td><td>Risiko/DM (CRR+P2R+Puffer) &gt; 90%</td><td>&gt; 90% and ≤ 95%</td></tr>
+        <tr><td><span class="tl red">rot</span></td><td>Risiko/DM (CRR+P2R) &gt; 95%</td><td>&gt; 95%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ The subtle Problemfall detail</div>
+      <p>In the Problemfall, the <strong>denominator changes between the yellow and red tests</strong>: yellow is measured against cover <em>including</em> the Kapitalerhaltungspuffer and supervisory buffers (CRR+P2R+<strong>Puffer</strong>); red is measured against cover <em>excluding</em> those buffers (CRR+P2R only). The logic: yellow warns when you start eating into buffers; red fires only when you would breach the <em>hard</em> minimum even after buffers are gone. The Extremfall uses a single denominator. Examiners probe this.</p>
+    </div>
+
+    <h3>5.2 Reporting &amp; Redepflicht (§4.5)</h3>
+    <ul>
+      <li><strong><span class="tl yellow">Gelb</span> (Beobachtungsstatus):</strong> the unit writes a <em>Management Summary</em> commenting on the result and the measures to reduce risk / increase the Deckungsmasse.</li>
+      <li><strong><span class="tl red">Rot</span>:</strong> a <em>detailed</em> Management Summary with concrete steps and timelines to get back to yellow.</li>
+      <li><strong>Who is covered:</strong> all R-IPS member institutions (Solo or KI-/FH-Gruppe view) and the R-IPS itself.</li>
+      <li><strong>Addressees:</strong> for an RLB (solo + consolidated) and its Primärbanken, the respective <em>Landesorganisationen</em>; for all RLBs, their subsidiaries, individual Primärbanken, RBI and the R-IPS, the <strong>ÖRS</strong>.</li>
+      <li><strong>Redepflicht Bankprüfer (§63(3) BWG):</strong> when the auditor's duty-to-report is triggered, reports go to <code>bg-lg@raiffeisen-einlagensicherung.at</code>.</li>
+    </ul>
+
+    <div class="box ors">
+      <div class="box-title">🟣 ÖRS choice vs regulatory requirement here</div>
+      <p>The <strong>95% Problemfall confidence</strong>, the <strong>90%/95% traffic-light cut-offs</strong>, and the <strong>"&gt;90% solo not targeted"</strong> rule are <span class="tag ors">ÖRS modelling/appetite choices</span> — expressions of the sector's <em>Risikoappetit</em>. The <strong>99,9%/1-year Extremfall</strong> and the requirement to run an ICAAP at all (§39a BWG) are <span class="tag reg">regulatory-anchored</span>. The trade-off the ÖRS makes at 95%: it accepts a ~once-in-20-years remedial trigger in exchange for not over-capitalising the sector, justified by the mutual safety nets.</p>
+    </div>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — "more conservative confidence = bigger number" is not automatic here</div>
+      <p>Going from 95% to 99,9% raises the <em>risk</em>, but it <em>also changes the Deckungsmasse definition</em> (the Extremfall lets you count the full own-funds stack). So a bank can be greener in the Extremfall than the Problemfall, or vice versa. Never assume the Extremfall is the binding constraint — the Leitfaden explicitly lets each institution decide which scenario steers and which is the side-condition.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — aggregation is addition (correlation +1)</div>
+      <p>The RTFA adds the single risks with <strong>correlation = +1</strong> (Module 12) — i.e. <em>no</em> diversification benefit across risk types. This is deliberately conservative and is what makes the simple 95% defensible. The only place correlation &lt; 1 enters is <em>within</em> a risk type (e.g. between currencies in FX risk, between rating classes in spread risk, and between Zinsrisiko and Credit-Spread risk inside market risk).</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>RTFA = <strong>Risiko / Deckungsmasse</strong>, read at <strong>95% (Problemfall)</strong> and <strong>99,9% (Extremfall)</strong> — both numerator <em>and</em> denominator change between scenarios.</li>
+      <li>95% ⇒ a breach once every <strong>20 years</strong> (\(1/(1-q)\)); acceptable because of the sector safety nets. 99,9%/1-yr = Liquidationsfall, anchored to the IRB calibration.</li>
+      <li>VaR is <strong>vertically</strong> (\(\Phi^{-1}(q_2)/\Phi^{-1}(q_1)\)) and <strong>horizontally</strong> (\(\sqrt{T_2/T_1}\)) consistent — this generates the 0,71 / 1,33 / 5% scalars later.</li>
+      <li>Traffic lights: Problemfall green ≤90 / yellow &gt;90 / red &gt;95 (red drops the Puffer from the denominator); Extremfall green ≤90 / yellow 90–95 / red &gt;95.</li>
+      <li>Yellow → Management Summary; Red → detailed Summary with steps &amp; timing; auditor's <strong>Redepflicht</strong> per §63(3) BWG.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Das <strong>Risikotragfähigkeitskalkül</strong> stellt das aggregierte <em>Risiko</em> der <em>Deckungsmasse</em> gegenüber — im <strong>Problemfall (95%)</strong> und im <strong>Extremfall (99,9%)</strong>. Beide Größen ändern sich je Szenario.</li>
+        <li>95% bedeutet statistisch einen Schadensfall größer der Deckungsmasse <strong>alle 20 Jahre</strong> (\(1/(1-q)\)) — wegen der Sicherungseinrichtungen im Sektor als ausreichend erachtet. Der Extremfall (99,9%/1 Jahr) ist der <em>Liquidationsfall</em> und an den IRB-Ansatz angelehnt.</li>
+        <li>Der VaR ist <strong>horizontal und vertikal konsistent</strong> — daraus folgen später die Skalierungsfaktoren 0,71 und 1,33.</li>
+        <li>Ampel: Problemfall grün ≤90% / gelb &gt;90% / rot &gt;95% (rot ohne Puffer im Nenner); Extremfall grün ≤90% / gelb 90–95% / rot &gt;95%.</li>
+        <li>Gelb → Management Summary; Rot → ausführliche Summary mit Maßnahmen; <strong>Redepflicht</strong> des Bankprüfers gem. §63 Abs. 3 BWG.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, Ch. 4 (incl. §4.1–4.5); OeNB/FMA <em>Leitfaden Gesamtbankrisikosteuerung</em>. Quantile values are standard-normal.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m03.html"><div class="dir">← Previous</div><div class="ttl">M3 · Two lenses: normative vs economic</div></a>
+      <a class="next" href="m05.html"><div class="dir">Next →</div><div class="ttl">M5 · Credit risk: the IRB formula from Vasicek</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"RTFA", pass:0.7, questions:[
+  { q:"Why does the Leitfaden consider a 95% Problemfall confidence 'conservative enough', even for larger banks?",
+    options:[
+      "Because 95% is the regulatory minimum confidence under the CRR",
+      "Because at 100% utilisation it implies a breach only once every ~20 years, and the sector's mutual safety nets stand behind any single bank",
+      "Because risks are aggregated with diversification, lowering the true risk",
+      "Because the Extremfall already covers everything"],
+    answer:1,
+    explain:"1/(1−0.95) = 20 years. The ÖRS argues a remedial trigger once in 20 years is adequate given the IPS/Sicherungseinrichtungen behind each member, and that adding risks (correlation +1) plus portfolio-scale statistics make 95% representative. It is an ÖRS appetite choice, not a CRR minimum." },
+  { q:"You hold a CVA charge calibrated at 99%. The Extremfall (99,9%) scaling factor is:",
+    options:["0,71","1,33","2,33","3,09"],
+    answer:1,
+    explain:"Vertical VaR consistency: Φ⁻¹(0.999)/Φ⁻¹(0.99) = 3,0902/2,3263 = 1,33. (The Problemfall factor is 1,6449/2,3263 = 0,71.) Same machinery generates the op-risk and trading-book scalars." },
+  { q:"In the Problemfall traffic light, what changes between the yellow (>90%) and red (>95%) tests?",
+    options:[
+      "The confidence level rises from 95% to 99,9%",
+      "The holding period changes",
+      "The denominator: yellow includes the buffers (CRR+P2R+Puffer), red excludes them (CRR+P2R)",
+      "Nothing — only the percentage threshold changes"],
+    answer:2,
+    explain:"Yellow warns when you start eating into the Kapitalerhaltungspuffer/supervisory buffers (cover incl. Puffer); red fires only when you would breach the hard minimum even after buffers are exhausted (cover excl. Puffer). The Extremfall uses one denominator throughout." },
+  { q:"A bank is greener in the Extremfall than in the Problemfall. Is that possible, and why?",
+    options:[
+      "Impossible — higher confidence must always give a worse ratio",
+      "Possible, because the Extremfall also redefines the Deckungsmasse to include the full own-funds stack, which can outweigh the higher risk",
+      "Possible only if the bank uses an internal model",
+      "Impossible unless there is a calculation error"],
+    answer:1,
+    explain:"Both numerator and denominator change between scenarios. The Extremfall risk is larger, but its Deckungsmasse counts essentially all available own funds (while excluding next-year profit and the Neubewertungsreserve). Net effect can go either way, which is why the Leitfaden lets each institution pick the binding scenario." },
+  { q:"Across risk TYPES, how does the RTFA aggregate, and where is the only diversification allowed?",
+    options:[
+      "Full correlation matrix across all risk types",
+      "Addition (correlation +1) across risk types; sub-correlations only WITHIN a type (e.g. currencies, rating classes, and Zins vs Credit-Spread inside market risk)",
+      "Square-root-of-sum-of-squares across all risks",
+      "No aggregation — each risk has its own Deckungsmasse"],
+    answer:1,
+    explain:"The Leitfaden adds material single risks (correlation +1 — no cross-type diversification), which keeps the 95% defensible. Correlation <1 enters only within a risk type: FX currencies, credit-spread rating classes, FLVaR maturity bands, and the Zinsrisiko↔Credit-Spread correlation inside market risk." },
+]};
+</script>
+</body>
+</html>
