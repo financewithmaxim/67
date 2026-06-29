@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>★ Capstone · Mock-RTFA + Viva — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="capstone">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="index.html">Home</a> › Abschluss › Capstone</div>
+      <h1>★ Capstone — a full mock <em>Risikotragfähigkeitsanalyse</em> for Raiffeisenbank Mustertal eGen, and the viva</h1>
+    </div>
+    <p class="lead">One hypothetical bank, one reporting date (31.12., Q4), every risk computed with the Leitfaden's own methods, both Deckungsmassen built, the traffic light read — and then you defend each choice to the Vorstand and the Aufsichtsrat. This is the exam.</p>
+
+    <div class="box key">
+      <div class="box-title">How to use the capstone</div>
+      <p>Work through the RTFA top to bottom; each risk line links back to the module that derived it, so check anything you've forgotten. The numbers are deliberately clean and internally consistent — recompute them yourself in R from the inputs as a drill. Then take the <strong>viva</strong> at the bottom: a graded defence quiz plus open "defend this" prompts with model answers.</p>
+    </div>
+
+    <h2>0 · The institution — inputs</h2>
+    <p><strong>Raiffeisenbank Mustertal eGen</strong> — a <em>Primärbank</em>, UGB-Bilanzierer, R-IPS member, viewed <strong>Solo</strong>. Balance sheet ≈ €1,0 bn. Reporting date 31.12. (Q4 → budgeted-surplus haircut factor = 100%, and the buffer-inclusive minimum quotas of the following year apply).</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Input</th><th class="num">Value</th><th>Note / module</th></tr></thead>
+      <tbody>
+        <tr><td>Credit Risikoposition (Exposure − interne Sicherheiten)</td><td class="num">€720 m</td><td>M5; floored at 0 per customer</td></tr>
+        <tr><td>— of which FX loans (CHF/JPY)</td><td class="num">€60 m</td><td>FX add-on applies (M5)</td></tr>
+        <tr><td>Top-Corporate book (for HHI)</td><td class="num">€150 m</td><td>HHI = 0,05 computed (M5)</td></tr>
+        <tr><td>Portfolio EL (PD·LGD) / provisions (Vorsorgen)</td><td class="num">€5,0 m / €5,5 m</td><td>excess/shortfall = +€0,5 m (M13)</td></tr>
+        <tr><td>CVA risk position (PosNr 7516000)</td><td class="num">€6,25 m</td><td>EM-Erfordernis = 8% = €0,50 m (M7)</td></tr>
+        <tr><td>Participations (Verkehrswert): Sektorbet. at RLB + a small industry stake</td><td class="num">€30 m</td><td>M10; rating ~2,0</td></tr>
+        <tr><td>IRRBB gaps / FX open position / "nur Wertpapiere"</td><td class="num">see M6</td><td>250-day VaR</td></tr>
+        <tr><td>Betriebserträge (3-yr avg)</td><td class="num">€20 m</td><td>op-risk indicator (M8)</td></tr>
+        <tr><td>Over-1y liquidity gaps (Normalfall)</td><td class="num">net funding need</td><td>FLVaR applies in Extremfall (M9)</td></tr>
+        <tr><td>Budgeted Jahresüberschuss / Mindestausschüttung / Gewinnvortrag</td><td class="num">€4,0 / €1,0 / €2,0 m</td><td>Deckungsmasse (M13)</td></tr>
+        <tr><td>Pre-tax profit (continuing ops) / anrechenbare Eigenmittel (free of req.)</td><td class="num">€5,0 m / €66 m</td><td>Extremfall cover (M13)</td></tr>
+        <tr><td>Stille Reserven (securities + participations) / Neubewertungsreserve</td><td class="num">€6,0 m / €1,0 m</td><td>M13</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2>1 · Risk measurement — every risk, both scenarios</h2>
+
+    <h3>1.1 Credit risk (M5)</h3>
+    <p>UL via the IRB formula (Art. 153/154), <strong>Extremfall at q = 99,9%</strong>, <strong>Problemfall rescaled to q = 95%</strong>; M = 2,5y (maturity adj. = 1); pooled LGDs (45,5% Corp / 54,4% / 55,8% Retail). The engine runs the formula per rating bucket; here is the build:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Component</th><th class="num">Problemfall (95%)</th><th class="num">Extremfall (99,9%)</th><th>Method</th></tr></thead>
+      <tbody>
+        <tr><td>Base UL (IRB, per-bucket)</td><td class="num">€10,5 m</td><td class="num">€38,0 m</td><td>conditional PD with Φ⁻¹(0,95)=1,6449 vs Φ⁻¹(0,999)=3,0902</td></tr>
+        <tr><td>+ FX exposure add-on (on €60 m FX, vola-scaled; PD-elasticity 1,9)</td><td class="num">€0,8 m</td><td class="num">€2,1 m</td><td>exposure uplift treated unsecured</td></tr>
+        <tr><td>+ Concentration (Granularitätsaufschlag = UL·HHI, HHI=0,05)</td><td class="num">€0,7 m</td><td class="num">€1,9 m</td><td>UL·(1+HHI)</td></tr>
+        <tr><td><strong>= Credit UL</strong></td><td class="num"><strong>€12,0 m</strong></td><td class="num"><strong>€42,0 m</strong></td><td>EL (€5,0 m) sits in Deckungsmasse</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="footnote">Sanity check on the ratio: the Extremfall/Problemfall UL multiple (≈3,5×) is driven by the quantile substitution inside the conditional PD — exactly the VaR vertical consistency of M4, not a separate scaling.</p>
+
+    <h3>1.2 Counterparty &amp; country</h3>
+    <ul>
+      <li><strong>CVA (M7):</strong> EM-Erfordernis €0,50 m → Problemfall = 0,50·<strong>0,71</strong> = <strong>€0,36 m</strong>; Extremfall = 0,50·<strong>1,33</strong> = <strong>€0,67 m</strong>.</li>
+      <li><strong>Länderrisiko (M11):</strong> small cross-border book; UL-only add-on by sovereign PD → Problemfall <strong>€0,3 m</strong> / Extremfall <strong>€0,8 m</strong>.</li>
+    </ul>
+
+    <h3>1.3 Participation risk (M10)</h3>
+    <p>Verkehrswert €30 m, blended rating ≈ 2,0. Bank/sector band: Problemfall 10–15% (use 12%), Extremfall 30–45% (use 30%, honouring the ≈3× rule). No diversification (sum of singles).</p>
+    <p>Problemfall = 30·0,10 = <strong>€3,0 m</strong>; Extremfall = 30·0,30 = <strong>€9,0 m</strong>. <span class="kpill">≈ 3× — consistent</span></p>
+
+    <h3>1.4 Market risk (M6)</h3>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Sub-risk</th><th class="num">Problemfall</th><th class="num">Extremfall</th><th>Method</th></tr></thead>
+      <tbody>
+        <tr><td>Zinsrisiko Bankbuch (IRRBB)</td><td class="num">€1,4 m</td><td class="num">€3,6 m</td><td>parametric VaR, 250-day, +200bp shift</td></tr>
+        <tr><td>FX / offene Devisenposition (diversified)</td><td class="num">€0,5 m</td><td class="num">€1,3 m</td><td>correlation-matrix VaR</td></tr>
+        <tr><td>Credit-Spread VaR (diversified)</td><td class="num">€0,5 m</td><td class="num">€1,2 m</td><td>PV2−PV1, rating-class corr.</td></tr>
+        <tr><td>Trading-book Preisrisiko (EM·scalar)</td><td class="num">€0,1 m</td><td class="num">€0,2 m</td><td>×0,71 / ×1,33</td></tr>
+        <tr><td><strong>= Market risk</strong> (Zins↔Spread corr. applied)</td><td class="num"><strong>€2,5 m</strong></td><td class="num"><strong>€6,5 m</strong></td><td>within-type correlation &lt; 1</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>1.5 Operational, liquidity, macro, FW-EM, others</h3>
+    <ul>
+      <li><strong>Operationelles Risiko (M8):</strong> Betriebserträge €20 m → Extremfall 15% = <strong>€3,0 m</strong>; Problemfall <strong>5%</strong> = <strong>€1,0 m</strong> (⅓-normal/⅔-lognormal derivation).</li>
+      <li><strong>Liquiditätsrisiko / FLVaR (M9):</strong> Problemfall <strong>€0</strong> (no charge); Extremfall FLVaR (funding need, 99,9%/250d, stressed Mischzinssatz) = <strong>€2,2 m</strong>.</li>
+      <li><strong>Makroökonomisches Risiko (M11):</strong> GDP −2% → PD ×1,25, LGD ×1,05, recompute credit EL+UL, take the difference → Problemfall <strong>€1,5 m</strong> / Extremfall <strong>€5,0 m</strong>.</li>
+      <li><strong>Fremdwährungs-Eigenmittelrisiko (M11):</strong> Problemfall only — €60 m FX, no full currency separation → 15% proxy = €9 m uplift; ×8% = <strong>€0,72 m</strong>. <em>(Rounded into "others" below.)</em> Extremfall: not applied.</li>
+      <li><strong>Risiko aus Großkrediten (M11):</strong> GvK exposures vs R-IPS CET1 — a <em>monitoring</em> figure, not an additive capital charge here; flagged green (no single GvK &gt; sector limit).</li>
+    </ul>
+
+    <h2>2 · Aggregation (M12) — addition, correlation +1, then the 5% buffer</h2>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Risk</th><th class="num">Problemfall (€m)</th><th class="num">Extremfall (€m)</th></tr></thead>
+      <tbody>
+        <tr><td>Credit (incl. FX &amp; concentration)</td><td class="num">12,00</td><td class="num">42,00</td></tr>
+        <tr><td>CVA</td><td class="num">0,36</td><td class="num">0,67</td></tr>
+        <tr><td>Länderrisiko</td><td class="num">0,30</td><td class="num">0,80</td></tr>
+        <tr><td>Beteiligungsrisiko</td><td class="num">3,00</td><td class="num">9,00</td></tr>
+        <tr><td>Marktrisiko</td><td class="num">2,50</td><td class="num">6,50</td></tr>
+        <tr><td>Operationelles Risiko</td><td class="num">1,00</td><td class="num">3,00</td></tr>
+        <tr><td>Liquiditätsrisiko (FLVaR)</td><td class="num">0,00</td><td class="num">2,20</td></tr>
+        <tr><td>Makroökonomisches Risiko</td><td class="num">1,50</td><td class="num">5,00</td></tr>
+        <tr><td>FW-Eigenmittelrisiko + sonstige Einzelposten</td><td class="num">0,72</td><td class="num">0,00</td></tr>
+        <tr style="font-weight:700"><td>Σ quantifizierte Risiken (Korrelation +1)</td><td class="num">21,38</td><td class="num">69,17</td></tr>
+        <tr><td>+ Puffer sonstige Risiken (5%)</td><td class="num">1,07</td><td class="num">3,46</td></tr>
+        <tr style="font-weight:800;background:#eef6ff"><td>= Gesamtrisiko</td><td class="num">22,45</td><td class="num">72,63</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="footnote">Note the asymmetries that test understanding: liquidity is €0 in the Problemfall but €2,2 m in the Extremfall; FW-Eigenmittelrisiko is Problemfall-only; participation honours the ≈3× rule; the 5% buffer scales the <em>whole</em> stack. All single risks are <strong>added</strong> (no cross-type diversification) — the conservatism that makes 95% defensible.</p>
+
+    <h2>3 · Deckungsmassen (M13) — both scenarios</h2>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Building block</th><th class="num">Problemfall (€m)</th><th class="num">Extremfall (€m)</th></tr></thead>
+      <tbody>
+        <tr><td>Freier Jahres-/Konzernüberschuss</td><td class="num">5,00<br><small>4,0×100%(Q4) −1,0 +2,0</small></td><td class="num">7,00<br><small>5,0 pre-tax +2,0 Vortrag</small></td></tr>
+        <tr><td>Freies Kapital</td><td class="num">18,00</td><td class="num">66,00<br><small>anrechenbare EM −NBR +nachrang. FK +Abzugsp. Bet.</small></td></tr>
+        <tr><td>Stille Reserven</td><td class="num">6,00</td><td class="num">6,00</td></tr>
+        <tr><td>− Neubewertungsreserve</td><td class="num">—</td><td class="num">−1,00</td></tr>
+        <tr><td>Excess/Shortfall (Vorsorgen €5,5 − EL €5,0)</td><td class="num">+0,50</td><td class="num">+0,50</td></tr>
+        <tr style="font-weight:800;background:#e7f4ec"><td>= Deckungsmasse</td><td class="num">29,50</td><td class="num">78,50</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="footnote">The Problemfall "freier Überschuss" uses the Q4 haircut factor of 100%; the Neubewertungsreserve is stripped in <em>both</em> (excluded from freies Kapital in the Problemfall, explicitly subtracted in the Extremfall). Excess/shortfall is positive here because provisions exceed EL — it <em>adds</em> to cover.</p>
+
+    <h2>4 · Verdict — the traffic light</h2>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Szenario</th><th class="num">Risiko</th><th class="num">Deckungsmasse</th><th class="num">Auslastung</th><th>Ampel</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Problemfall (95%)</strong></td><td class="num">€22,45 m</td><td class="num">€29,50 m</td><td class="num">76,1%</td><td><span class="tl green">grün</span> (≤90%)</td></tr>
+        <tr><td><strong>Extremfall (99,9%)</strong></td><td class="num">€72,63 m</td><td class="num">€78,50 m</td><td class="num">92,5%</td><td><span class="tl yellow">gelb</span> (&gt;90%, ≤95%)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="box key">
+      <div class="box-title">The teaching point in the verdict</div>
+      <p>The bank is <strong>green in the Problemfall but yellow in the Extremfall</strong> — a direct illustration of M4's lesson that the two scenarios redefine <em>both</em> numerator and denominator, so neither dominates automatically. Here the Extremfall is the binding constraint: the economic-capital view, with its full risk set (liquidity FLVaR, full participation haircut, macro), bites harder than the regulatory view even though the Extremfall Deckungsmasse counts the whole own-funds stack. Because the Extremfall is yellow and Solo utilisation exceeds 90%, the bank owes a <strong>Management Summary</strong> and must plan remedial measures (§4.5).</p>
+    </div>
+
+    <h2>5 · Management Summary (the deliverable)</h2>
+    <div class="box example">
+      <div class="box-title">Management Summary — Raiffeisenbank Mustertal eGen, 31.12. (English)</div>
+      <p><strong>Result.</strong> Problemfall utilisation 76,1% (<span class="tl green">green</span>); Extremfall utilisation 92,5% (<span class="tl yellow">yellow / Beobachtungsstatus</span>). The regulatory/normative view is comfortable; the economic (Extremfall) view is the binding constraint and exceeds the 90% appetite threshold.</p>
+      <p><strong>Drivers.</strong> The Extremfall is dominated by credit unexpected loss (€42,0 m, 58% of risk before buffer), of which the FX add-on and the granularity surcharge (HHI 0,05) contribute €4,0 m; participation risk (€9,0 m) and market risk (€6,5 m) are the next-largest. Liquidity (FLVaR €2,2 m) and macro (€5,0 m) appear only in the Extremfall, explaining the green-to-yellow gap versus the Problemfall.</p>
+      <p><strong>Measures (to restore ≤90%).</strong> (1) Reduce single-name corporate concentration to lower the HHI surcharge; (2) hedge/limit the CHF/JPY FX book to cut the FX exposure add-on and the FW-Eigenmittelrisiko; (3) lengthen funding to shrink the over-1y liquidity gap and the FLVaR; (4) build the Deckungsmasse via retained earnings (raise freies Kapital). Target: Extremfall utilisation ≤ 88% by the next two quarter-ends. (5) Großkredite monitoring remains green; no GvK breaches the sector concentration signal.</p>
+    </div>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Management Summary (Deutsch)</div>
+      <p><strong>Ergebnis.</strong> Problemfall-Auslastung 76,1% (<span class="tl green">grün</span>); Extremfall-Auslastung 92,5% (<span class="tl yellow">gelb / Beobachtungsstatus</span>). Die normative Sicht ist komfortabel; die ökonomische (Extremfall-)Sicht ist die bindende Nebenbedingung und überschreitet die 90%-Schwelle des Risikoappetits.</p>
+      <p><strong>Treiber.</strong> Den Extremfall dominiert der unerwartete Kreditverlust (€42,0 m), davon FX-Aufschlag und Granularitätsaufschlag (HHI 0,05) rund €4,0 m; gefolgt von Beteiligungs- (€9,0 m) und Marktrisiko (€6,5 m). Liquiditäts- (FLVaR €2,2 m) und makroökonomisches Risiko (€5,0 m) treten nur im Extremfall auf.</p>
+      <p><strong>Maßnahmen.</strong> (1) Abbau von Einzelkonzentrationen (HHI); (2) Begrenzung/Hedging des Fremdwährungsbuchs; (3) Verlängerung der Refinanzierung zur Reduktion des FLVaR; (4) Stärkung der Deckungsmasse über Thesaurierung. Ziel: Extremfall-Auslastung ≤ 88% binnen zwei Quartalen.</p>
+    </div>
+
+    <h2>6 · Viva — defend the methodology</h2>
+    <p>The Aufsichtsrat does not want the answer; it wants to know that <em>you</em> know <em>why</em>. First, the graded multiple-choice defence. Then six open "defend this" prompts with model answers — speak each aloud before revealing.</p>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h3>Open defence prompts (model answers)</h3>
+    <div class="box example">
+      <div class="box-title">1. "Why do you add the risks with correlation +1? Isn't that needlessly punitive?"</div>
+      <p><em>Model answer:</em> Addition (ρ=+1) means we claim <strong>no</strong> diversification benefit across risk types. It is deliberately conservative: it is what lets us defend a <strong>95% Problemfall</strong> as adequate even for larger banks, and it sidesteps the hardest-to-estimate, least-stable parameter in any economic-capital model — the inter-risk correlation matrix, which spikes toward 1 in exactly the stress we care about. We <em>do</em> allow ρ&lt;1 where it is empirically well-grounded and within a single risk type: currencies in FX, rating classes in spread, maturity bands in the FLVaR, and Zinsrisiko↔Credit-Spread inside market risk. (M4, M12)</p>
+    </div>
+    <div class="box example">
+      <div class="box-title">2. "M = 2,5 years and LGD = 45% are just fixed. Defend hard-coding parameters the CRR lets banks estimate."</div>
+      <p><em>Model answer:</em> The <em>functional form</em> (Art. 153/154, the 99,9% calibration, R(PD), the maturity adjustment) is regulatory and untouched. What we fix are <em>inputs</em>, under the <strong>Proportionalitätsgedanke</strong>: estimating M and full A-IRB LGDs per borrower across ~400 small Primärbanken is infeasible and would add model risk we cannot validate. M = 2,5y sets the maturity adjustment to exactly 1 (its normalisation point), so we neither inflate nor deflate; 45% is the regulatory F-IRB unsecured value, and for Corporate/Retail we replaced it with <em>pooled, backtested</em> estimates (45,5 / 54,4 / 55,8%) that are more sector-representative. The trade-off — precision for comparability and auditability across the sector — is exactly what proportionality licenses. (M5, M15)</p>
+    </div>
+    <div class="box example">
+      <div class="box-title">3. "Where do 0,71 and 1,33 come from, and why is the op-risk factor 5% and not also a simple ratio?"</div>
+      <p><em>Model answer:</em> Both are VaR vertical consistency — rescaling a charge calibrated at 99% to our confidence: 0,71 = Φ⁻¹(0,95)/Φ⁻¹(0,99) and 1,33 = Φ⁻¹(0,999)/Φ⁻¹(0,99), under a <em>normal</em> assumption. Op risk is different because its loss distribution is fat-tailed: we model it as ⅓ normal + ⅔ <strong>lognormal</strong>, so the 95% factor is 15%·(0,33·1,645/3,090 + 0,67·5,180/21,982) = <strong>5,0%</strong> — materially below the ~8% a normal-only rescaling would give. The lognormal weight is what captures the rare-but-large operational loss. (M7, M8)</p>
+    </div>
+    <div class="box example">
+      <div class="box-title">4. "Why is liquidity risk zero in the Problemfall but €2,2 m in the Extremfall?"</div>
+      <p><em>Model answer:</em> Short-term liquidity is managed as a <em>limit-and-monitoring</em> discipline under the Leitfaden Liquidität and the LCR/NSFR — it is not a capital charge, so it does not consume the Problemfall Deckungsmasse. The Extremfall is an economic, near-liquidation view, where the <em>structural funding-cost</em> risk does consume economic capital: the FLVaR is the present-value loss of closing the over-1y funding gaps at a stressed Mischzinssatz (99,9%, 250 days), and it only counts when there is a genuine funding need (negative undiversified FLVaR). (M9)</p>
+    </div>
+    <div class="box example">
+      <div class="box-title">5. "You flagged the Leitfaden's own FX example as wrong. Explain — carefully."</div>
+      <p><em>Model answer:</em> §5.1 states an FX-elasticity of the PiT PD of <strong>1,9</strong>, but its worked example computes "2% + 273%·25%·2% = 3,005%", which uses 273% and even then doesn't reconcile (273% gives 3,365%; the printed 3,005% implies ≈2,0). The three figures are mutually inconsistent — a documentation slip left from an earlier parameterisation, confirmed by the version history updating the FX elasticity. We apply the governing parameter <strong>1,9</strong>: PD_PiT = 2%·(1+1,9·0,25) = 2,95%. We have flagged the erratum to the methodology owners. (M5)</p>
+    </div>
+    <div class="box example">
+      <div class="box-title">6. "This bank is green Solo. Could the IPS view change that, and why?"</div>
+      <p><em>Model answer:</em> Yes. The same bank shows different utilisation Solo vs KI-Gruppe (§30 BWG) vs consolidated IPS, because consolidation changes <em>both</em> sides: on the risk side we <strong>eliminate intra-circle participations</strong> (our Sektorbeteiligung at the RLB) and <strong>intra-group exposures</strong> (e.g. the Liquiditätsreserve) to avoid counting the same euro twice; on the cover side we use consolidated own funds. So our Solo participation risk of €9,0 m largely disappears at IPS level, but so does some cover. We must always pair risk and Deckungsmasse on the <em>same</em> scope — never a Solo risk against a consolidated cover. (M12)</p>
+    </div>
+
+    <div class="box motivation">
+      <div class="box-title">▶ You're done</div>
+      <p>If you can deliver the RTFA above and answer all six prompts without notes, you can defend the Früherkennung methodology to senior management and the Aufsichtsrat — the stated goal of the course. Revisit any weak spot via the module links, and keep the <a href="glossary.html">glossary</a> open during the real quarterly run.</p>
+    </div>
+
+    <div class="disclaimer">All figures are illustrative and internally consistent for teaching; they are not an ÖRS calculation. Methods and parameters follow the ÖRS <em>Leitfaden Früherkennung</em> 09/2024 as reconstructed in Modules 1–17. CRR III and deposit-guarantee specifics post-date the guide — verify per Modules 16–17.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="modules/m17.html"><div class="dir">← Previous</div><div class="ttl">M17 · Einlagensicherung</div></a>
+      <a class="next" href="glossary.html"><div class="dir">Next →</div><div class="ttl">📖 Bilingual glossary</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/app.js"></script>
+<script>
+const QUIZ = { title:"Viva (graded)", pass:0.8, questions:[
+  { q:"Mustertal is green in the Problemfall (76,1%) but yellow in the Extremfall (92,5%). What is the single best explanation?",
+    options:[
+      "A calculation error — higher confidence must always raise utilisation proportionally",
+      "The Extremfall redefines both risk (adds FLVaR, full participation haircut, macro) AND cover (full own-funds stack), and here the larger risk set outweighs the larger cover",
+      "The Problemfall uses a diversified correlation matrix",
+      "The Extremfall ignores the Deckungsmasse"],
+    answer:1,
+    explain:"Both numerator and denominator change between scenarios. The Extremfall pulls in liquidity FLVaR, the full participation factor and macro risk, and its cover counts the whole own-funds stack but excludes next-year profit and the Neubewertungsreserve. Net, the economic view binds here — exactly M4's lesson." },
+  { q:"In the aggregation, why is the 5% 'sonstige Risiken' buffer applied to €69,17 m (the sum) rather than to credit risk alone?",
+    options:[
+      "Because it only covers credit-related strategic risk",
+      "Because it is an approximation for strategic/reputational/business-model/systemic/model risk across the whole bank, so it scales the entire quantified stack by 1,05",
+      "Because the CRR requires 5% of credit RWAs",
+      "It is a typo; it should be 5% of the Deckungsmasse"],
+    answer:1,
+    explain:"The 5% buffer is an ÖRS proxy for the qualitative §3.10 risks affecting the whole institution; it is taken on the sum of quantified risks. It is partly justified because future operating income is not counted in the Extremfall cover." },
+  { q:"The Extremfall Deckungsmasse counts €66 m of freies Kapital but the Problemfall only €18 m. Why the gap?",
+    options:[
+      "The Problemfall uses a lower confidence so needs less cover",
+      "Problemfall freies Kapital is only CET1 ABOVE the regulatory requirement (incl. P2R+buffers); the Extremfall counts essentially all anrechenbare Eigenmittel (+subordinated debt, +participation deductions), since in a liquidation the whole stack absorbs loss",
+      "The Extremfall double-counts capital",
+      "The Problemfall excludes stille Reserven"],
+    answer:1,
+    explain:"Problemfall cover is earnings + the free CET1 sitting above the binding minimum; the Extremfall is a gone-concern economic view that may draw on the full own-funds stack (minus Neubewertungsreserve, and it may NOT count next year's hoped-for profit after tax). Different question, different admissible cover — M13." },
+  { q:"A board member says 'just hedge the FX book and we're fine.' Which risks does the €60 m CHF/JPY book touch, per the RTFA?",
+    options:[
+      "Only the FX/Devisen market-risk line",
+      "The FX credit-risk add-on (exposure uplift, both scenarios), the FX/Devisen market-risk VaR, AND the Problemfall-only Fremdwährungs-Eigenmittelrisiko (capital-base effect)",
+      "Only operational risk",
+      "Nothing — FX is diversified away"],
+    answer:1,
+    explain:"FX appears three times: (a) the credit add-on raises exposure/loss (M5, both scenarios); (b) the open position is market risk (M6); (c) the Problemfall-only FW-Eigenmittelrisiko captures the higher RWA base (M11). A hedge helps all three — which is why it's a high-leverage measure." },
+  { q:"Why does the credit Extremfall UL (€42 m) exceed the Problemfall UL (€12 m) by ~3,5×, while the participation Extremfall is exactly 3× the Problemfall?",
+    options:[
+      "Both are coincidences",
+      "Credit scales via the quantile substitution inside the non-linear conditional-PD (Φ), which is not a constant multiple; participation scales by a fixed expert rule-of-thumb (≈3×) baked into the rating bands",
+      "Credit uses correlation +1 and participation does not",
+      "Participation uses the IRB formula too"],
+    answer:1,
+    explain:"Credit UL rescales by swapping Φ⁻¹(0,95) for Φ⁻¹(0,999) inside Φ — a non-linear map, so the multiple depends on PD/R and isn't constant. Participation factors are expert estimates where the Leitfaden sets Extremfall ≈ 3× Problemfall by design. Same idea (more confidence → more loss), different machinery." },
+  { q:"The auditor invokes the Redepflicht. To whom does the report go, and what triggered our Management Summary obligation here?",
+    options:[
+      "To the ECB; triggered by the green Problemfall",
+      "To bg-lg@raiffeisen-einlagensicherung.at (§63(3) BWG); the Management Summary is owed because the Extremfall is yellow (and Solo utilisation > 90%)",
+      "To the OeNB; triggered by the 5% buffer",
+      "No report is needed because the Problemfall is green"],
+    answer:1,
+    explain:"The auditor's Redepflicht reports go to bg-lg@raiffeisen-einlagensicherung.at per §63(3) BWG. Separately, the yellow Extremfall (and >90% Solo utilisation) obliges a Management Summary commenting on the result and the remedial measures — §4.5. A green Problemfall does not excuse a yellow Extremfall." },
+]};
+</script>
+</body>
+</html>

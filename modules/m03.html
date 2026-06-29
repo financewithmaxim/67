@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M3 · Two lenses: normative vs economic — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m03">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil I — Regulatorische Architektur › Module 3</div>
+      <h1>Module 3 — The two lenses: normative (Pillar 1) vs economic (Pillar 2 / ICAAP)</h1>
+    </div>
+    <p class="lead">The ECB's ICAAP asks every bank to look at its capital through <em>two</em> lenses at once — a <strong>normative</strong> view (can we keep meeting <em>all</em> regulatory demands, even after a bad year?) and an <strong>economic</strong> view (is there enough economic substance against <em>our own</em> picture of risk?). This module builds those two lenses, anchors them in ICAAP/SREP/P2R/P2G and the capital stack, and shows they are the conceptual root of the Leitfaden's <em>Problemfall</em> and <em>Extremfall</em> — an analogy that is illuminating but not an identity.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>State the two ICAAP perspectives the ECB requires — <em>normative</em> vs <em>economic</em> — and what question each answers.</li>
+        <li>Distinguish <strong>ICAAP</strong> (the bank's process) from <strong>SREP</strong> (the supervisor's review), and name their legal anchors.</li>
+        <li>Place <strong>Pillar 1, P2R, the combined buffer requirement, and P2G</strong> in the correct stacking order and say what breaching each one triggers.</li>
+        <li>Explain the <strong>MDA trigger</strong> and why it maps to the Problemfall yellow/red mechanics of Module 4.</li>
+        <li>Say precisely why <strong>economic ≠ regulatory</strong> capital — confidence, risk types, correlations — and why the Leitfaden's economic view is <em>conservative</em>, not a diversified internal model.</li>
+        <li>Map <strong>normative ↔ Problemfall</strong> and <strong>economic ↔ Extremfall</strong>, and articulate where the analogy breaks.</li>
+        <li>Use proportionality to justify why ~400 small banks run a <em>simplified</em> ICAAP rather than a full internal economic-capital model.</li>
+      </ul>
+    </div>
+
+    <h2>1 · Motivation — why one capital number is never enough</h2>
+
+    <p>Ask "is this bank adequately capitalised?" and you immediately hit a fork. <em>Adequate against what?</em> Two answers are both legitimate and both necessary:</p>
+    <ul>
+      <li><strong>Against the rulebook.</strong> The supervisor sets binding minima and buffers. A bank that drifts below them faces automatic restrictions and supervisory measures — independently of whether its own models say it is "really" safe. Capital adequacy here means <em>staying continuously above every regulatory demand</em>, including over a planning horizon and under stress.</li>
+      <li><strong>Against reality as the bank sees it.</strong> Pillar 1 charges deliberately omit or undercapture some risks (participations, macro, concentration, IRRBB). The bank's own economic model — its own risk types, its own confidence level, its own correlations — may demand <em>more</em> (or differently shaped) capital than the rulebook. Capital adequacy here means <em>enough economic substance to survive a near-fatal year</em>.</li>
+    </ul>
+
+    <div class="box motivation">
+      <div class="box-title">▶ The ECB's answer: run both views, always</div>
+      <p>The ECB's <em>ICAAP Guide</em> (2018) makes this explicit: an institution must assess capital adequacy under <strong>two perspectives in parallel</strong> — the <strong>normative perspective</strong> (a multi-year ability to meet <em>all</em> capital-related legal/regulatory/supervisory requirements and demands, under a baseline and adverse scenarios) and the <strong>economic perspective</strong> (the institution's own internal view of economic value, covering <em>all</em> material risks, typically at a higher confidence). Neither dominates; they inform each other. This dual-perspective requirement is the conceptual root of everything in Module 4.</p>
+    </div>
+
+    <p>The Leitfaden inherits exactly this shape. Its <strong>Problemfall</strong> is the "stay above the regulatory minimum after a bad year" lens; its <strong>Extremfall</strong> is the "enough economic substance for our own risk" lens. Holding the ECB's two perspectives in your head first makes the two scenarios feel inevitable rather than arbitrary — and lets you defend them to the Aufsichtsrat in the supervisor's own vocabulary.</p>
+
+    <h2>2 · Concept &amp; logic — ICAAP, SREP, and the two perspectives</h2>
+
+    <h3>2.1 ICAAP vs SREP — the bank's process vs the supervisor's review</h3>
+    <p>These two acronyms are constantly confused. They are opposite ends of the same conversation.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>ICAAP</th><th>SREP</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Whose process</strong></td><td>The <em>bank's</em> own internal process.</td><td>The <em>supervisor's</em> annual review of the bank.</td></tr>
+        <tr><td><strong>Full name</strong></td><td>Internal Capital Adequacy Assessment Process</td><td>Supervisory Review and Evaluation Process</td></tr>
+        <tr><td><strong>Legal anchor</strong></td><td>CRD Art. 73 → §39a BWG</td><td>CRD Art. 97 (run by ECB/SSM or FMA/OeNB)</td></tr>
+        <tr><td><strong>What it produces</strong></td><td>The bank's own assessment that capital covers all material risks (both perspectives).</td><td>A score of business model, governance, capital risk &amp; liquidity risk → <strong>Pillar-2 add-ons</strong> (P2R + P2G).</td></tr>
+        <tr><td><strong>Where in the Leitfaden</strong></td><td>The whole RTFA <em>is</em> the sector's simplified ICAAP.</td><td>Sets the P2R the Problemfall must add to its minimum.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>So the flow is: the bank runs its <strong>ICAAP</strong> (CRD Art. 73 / §39a BWG); the supervisor reviews it through the <strong>SREP</strong> (CRD Art. 97), scoring four blocks — <em>business model viability, internal governance, risks to capital, risks to liquidity &amp; funding</em>; and the SREP outcome is, among other things, a <strong>Pillar-2 Requirement (P2R)</strong> and a <strong>Pillar-2 Guidance (P2G)</strong> bolted onto the bank's Pillar-1 minimum. The ICAAP feeds the SREP; the SREP feeds back a capital add-on the ICAAP must then respect.</p>
+
+    <div class="box trap">
+      <div class="box-title">⚠ ICAAP ≠ SREP</div>
+      <p>One is yours, one is theirs. The <strong>ICAAP</strong> is the bank's <em>self</em>-assessment; the <strong>SREP</strong> is the supervisor's <em>verdict</em> on it (and on much else). Saying "we did our SREP this quarter" is wrong — you do your ICAAP; the supervisor does the SREP <em>to</em> you. In the sector, the ÖRS Leitfaden is the standardised ICAAP machinery; the FMA/OeNB (or ECB for significant institutions like RBI) run the SREP.</p>
+    </div>
+
+    <h3>2.2 The two ICAAP perspectives</h3>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>Normative perspective</th><th>Economic perspective</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Question</strong></td><td>Can we meet <em>all</em> regulatory/supervisory capital demands — Pillar 1 + P2R + buffers (+ P2G as a soft target) — continuously, under baseline <em>and</em> adverse scenarios?</td><td>Do we have enough economic capital to cover <em>all</em> material risks, on our own internal value basis?</td></tr>
+        <tr><td><strong>Horizon</strong></td><td><em>Multi-year</em> capital planning (typically ≥ 3 years), baseline + adverse.</td><td>Point-in-time economic value; usually a 1-year risk horizon.</td></tr>
+        <tr><td><strong>Metric basis</strong></td><td>Regulatory own funds &amp; ratios (CET1/T1/Total vs requirements).</td><td>Internal economic capital vs internal coverage potential.</td></tr>
+        <tr><td><strong>Confidence</strong></td><td>Inherited from the regulatory framework (Pillar 1 ≈ 99,9%, but the <em>test</em> is "ratio ≥ requirement").</td><td>The bank's own choice — often <strong>higher</strong> (here 99,9%).</td></tr>
+        <tr><td><strong>Risk scope</strong></td><td>Regulatory risk categories + P2R add-ons.</td><td><em>All</em> material risks, including those Pillar 1 omits (participation, macro, concentration, IRRBB).</td></tr>
+        <tr><td><strong>Leitfaden analogue</strong></td><td><strong>Problemfall</strong> (95%)</td><td><strong>Extremfall</strong> (99,9%)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box key">
+      <div class="box-title">The key mapping of this module</div>
+      <p><strong>Normative perspective ↔ Leitfaden Problemfall</strong>; <strong>economic perspective ↔ Leitfaden Extremfall</strong>. The normative view asks "are we above the regulatory bar (incl. Säule-2 add-on) after a plausibly bad year?" — exactly the Problemfall. The economic view asks "is there enough substance against our own, fuller, higher-confidence risk picture?" — exactly the Extremfall. Hold this mapping; Module 4 turns it into thresholds and traffic lights.</p>
+    </div>
+
+    <div class="box trap">
+      <div class="box-title">⚠ The mapping is an analogy, not an identity</div>
+      <p>The Problemfall is <strong>not</strong> the ECB's full normative perspective. The ECB's normative view is a genuine <em>multi-year capital-planning</em> exercise (project CET1/T1/Total ratios out 3+ years under baseline and adverse paths, checking they never dip below Pillar 1 + P2R + buffers). The Leitfaden's Problemfall is a <strong>one-year, 95%</strong> unexpected-loss view set against a one-year Deckungsmasse. It captures the <em>spirit</em> of the normative view (stay above the regulatory minimum incl. the Säule-2 add-on after a stress) but compresses the multi-year planning into a single-year quantile. Likewise the Extremfall is at 99,9% but, as we'll see in §6, it is deliberately <em>conservative</em> (correlation +1) rather than a diversified internal model. Treat both mappings as conceptual bridges, and flag the gap when challenged.</p>
+    </div>
+
+    <h2>3 · Structure — the capital stack and the Pillar-2 add-ons</h2>
+
+    <h3>3.1 P2R vs P2G — binding vs guidance</h3>
+    <p>The SREP delivers two Pillar-2 numbers, and the difference between them is the single most examined point in this area.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>P2R — Pillar 2 Requirement</th><th>P2G — Pillar 2 Guidance</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Binding?</strong></td><td><strong>Yes</strong> — must be met like Pillar 1.</td><td><strong>No</strong> — a soft target / supervisory expectation.</td></tr>
+        <tr><td><strong>Position in stack</strong></td><td><em>Below</em> the buffers (sits directly on top of Pillar 1).</td><td><em>On top</em> of everything (above the combined buffer requirement).</td></tr>
+        <tr><td><strong>What a breach triggers</strong></td><td>Counts toward the <strong>MDA</strong>-relevant stack and supervisory measures; a breach is a hard problem (distribution-restriction-adjacent, capital plan, possible licence consequences).</td><td><strong>Dialogue</strong> with the supervisor; <em>no</em> automatic distribution restriction and it does not feed the MDA.</td></tr>
+        <tr><td><strong>Addresses</strong></td><td>Risks underestimated by Pillar 1 (the "normal" Pillar-2 risks).</td><td>Capital needed to withstand stress (a stress-buffer expectation).</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box reg">
+      <div class="box-title">⚖️ Why "binding" matters: P2R sits in the MDA stack, P2G does not</div>
+      <p>P2R is <span class="tag reg">regulatory</span> and binding: it is added to the Pillar-1 own-funds requirement and the <em>combined buffer requirement</em> stacks on top of <em>that</em>. So a P2R shortfall is treated like an own-funds shortfall. P2G is also <span class="tag reg">regulatory</span> in origin but explicitly <em>non-binding</em>: it sits above the buffers and a breach prompts a supervisory dialogue, not an automatic Maximum Distributable Amount restriction. Conflating the two — treating P2G as hard, or P2R as soft — is a classic error in front of senior management.</p>
+    </div>
+
+    <h3>3.2 The stacking order and the MDA trigger</h3>
+    <p>Capital demands stack from the hard floor upward. Read bottom-to-top: each layer must be filled before the next is considered "available."</p>
+
+    <div class="formula" style="background:#eef0f4;border-left-color:var(--brand)">
+<pre style="margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.45">
+   ┌──────────────────────────────────────────────┐
+   │  P2G   — Pillar 2 Guidance (non-binding)       │   ← breach ⇒ dialogue only
+   ├──────────────────────────────────────────────┤
+   │  Combined Buffer Requirement (CBR)             │
+   │     CCB + CCyB + SyRB + (O/G-)SII              │   ← breach of CBR ⇒ MDA trigger
+   ├──────────────────────────────────────────────┤   ═══════ MDA line ═══════
+   │  P2R   — Pillar 2 Requirement (binding)        │
+   ├──────────────────────────────────────────────┤
+   │  Pillar 1 minimum:  8% total / 4,5% CET1       │   ← hard floor (CRR Art. 92)
+   └──────────────────────────────────────────────┘
+</pre>
+      <div class="where">
+        <b>Pillar 1</b> <span class="tag reg">regulatory</span> — CRR Art. 92: 8% total own funds, of which 4,5% CET1, 6% T1.<br>
+        <b>P2R</b> <span class="tag reg">regulatory</span> — SREP-set, binding, sits directly above Pillar 1, <em>below</em> buffers.<br>
+        <b>CBR</b> <span class="tag reg">regulatory</span> — capital conservation buffer (<em>Kapitalerhaltungspuffer</em>, 2,5% CET1) + countercyclical (<em>antizyklischer</em>) buffer + systemic-risk buffer (<em>SyRB</em>) + the higher of the O-SII/G-SII buffers, all CET1, stacked on top of Pillar 1 + P2R.<br>
+        <b>P2G</b> <span class="tag reg">regulatory</span> — SREP-set, non-binding, on top of the CBR.<br>
+        <b>MDA line</b> — the <strong>Maximum Distributable Amount</strong> mechanism (CRD Art. 141) bites the moment you dip into the <em>combined buffer requirement</em> — i.e. you have met Pillar 1 + P2R but eaten into CCB/CCyB/SyRB/SII. Dividends, AT1 coupons and bonuses are then automatically capped.
+      </div>
+    </div>
+
+    <div class="box key">
+      <div class="box-title">Why the stacking order maps to the Problemfall traffic light</div>
+      <p>This is the bridge to Module 4. The Problemfall measures utilisation against a Deckungsmasse defined by where you sit in the stack:</p>
+      <ul>
+        <li><strong>Yellow (&gt;90%)</strong> is read against cover <em>including the buffers</em> — <strong>CRR + P2R + Puffer</strong>. Yellow fires when you start eating into the combined buffer requirement, i.e. you cross the <strong>MDA line</strong>. Yellow ≈ "MDA territory."</li>
+        <li><strong>Red (&gt;95%)</strong> is read against cover <em>excluding the buffers</em> — <strong>CRR + P2R</strong> only. Red fires only when you would breach the <em>hard</em> minimum (Pillar 1 + binding P2R) even after the buffers are spent. Red ≈ "binding-minimum breach."</li>
+      </ul>
+      <p>So the yellow/red denominator switch in the Problemfall is just the capital stack read top-down: yellow strips nothing but warns at the buffer line (MDA), red strips the buffers and tests the binding floor. The exact wording the Problemfall checks — "<em>regulatorische Mindesterfordernisse inklusive Säule 2 Anforderung, falls von der Aufsicht vorgegeben</em>" (regulatory minimum requirements <em>including the Pillar-2 requirement, where set by the supervisor</em>) — is precisely <strong>Pillar 1 + P2R</strong>. That phrase is why P2R, and only P2R (not P2G), enters the Problemfall denominator.</p>
+    </div>
+
+    <h2>4 · Worked example — a SREP P2R moving the Problemfall light</h2>
+
+    <div class="box example">
+      <div class="box-title">Worked example — how a 2% P2R changes the Problemfall but not the Extremfall</div>
+      <p>Take a small Raiffeisenbank near its limits, with <strong>RWAs = €1.000 m</strong>. Last year it had no Pillar-2 add-on. This year's SREP imposes a <strong>P2R of 2%</strong> <span class="tag reg">regulatory</span> (SREP-set). Trace the effect on each lens.</p>
+
+      <p><strong>Regulatory demands (CET1-equivalent, on €1.000 m RWA), before vs after the SREP:</strong></p>
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th>Layer</th><th class="num">Rate</th><th class="num">€ before P2R</th><th class="num">€ after P2R</th></tr></thead>
+        <tbody>
+          <tr><td>Pillar 1 (total, CRR Art. 92)</td><td class="num">8,0%</td><td class="num">80,0</td><td class="num">80,0</td></tr>
+          <tr><td><strong>P2R</strong> (SREP)</td><td class="num">2,0%</td><td class="num">0,0</td><td class="num">20,0</td></tr>
+          <tr><td>Combined buffer requirement (CCB+CCyB+SyRB)</td><td class="num">3,0%</td><td class="num">30,0</td><td class="num">30,0</td></tr>
+          <tr><td><strong>Binding stack (P1+P2R)</strong></td><td class="num">10,0%</td><td class="num">80,0</td><td class="num">100,0</td></tr>
+          <tr><td><strong>Stack incl. buffers (P1+P2R+Puffer)</strong></td><td class="num">13,0%</td><td class="num">110,0</td><td class="num">130,0</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>Now suppose the bank holds <strong>available own funds of €150 m</strong> and its Problemfall <strong>Risiko = €17 m</strong> (the 95% unexpected loss). The Problemfall Deckungsmasse is essentially the <em>free</em> capital — own funds <em>above</em> the regulatory requirement — plus earnings and reserves. Holding earnings/reserves aside to isolate the P2R effect, the "freies Kapital" portion is own funds minus the requirement:</p>
+
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th></th><th class="num">Before P2R</th><th class="num">After P2R of 2%</th></tr></thead>
+        <tbody>
+          <tr><td>Available own funds</td><td class="num">150,0</td><td class="num">150,0</td></tr>
+          <tr><td>− Required incl. buffers (yellow basis)</td><td class="num">110,0</td><td class="num">130,0</td></tr>
+          <tr><td><strong>= Freies Kapital (yellow denominator)</strong></td><td class="num">40,0</td><td class="num">20,0</td></tr>
+          <tr><td>Problemfall Risiko</td><td class="num">17,0</td><td class="num">17,0</td></tr>
+          <tr><td><strong>Auslastung (Risiko / freies Kapital)</strong></td><td class="num">42,5%</td><td class="num">85,0%</td></tr>
+          <tr><td>Traffic light (yellow at &gt;90%)</td><td class="num"><span class="tl green">grün</span></td><td class="num"><span class="tl green">grün</span> (but close)</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p><strong>The point:</strong> the SREP-imposed P2R did not touch the bank's risk at all — the €17 m unexpected loss is unchanged. It moved the <strong>Problemfall denominator</strong>: by raising the regulatory requirement from €110 m to €130 m, it shrank free capital from €40 m to €20 m and doubled utilisation from 42,5% to 85,0%. A slightly larger risk, or a 2,5% P2R, would tip this bank from green into yellow purely through the supervisor's add-on. This is exactly the "<em>regulatorische Mindesterfordernisse inklusive Säule 2 Anforderung, falls von der Aufsicht vorgegeben</em>" clause biting.</p>
+
+      <p><strong>And the Extremfall?</strong> Unmoved by the P2R. The economic lens is governed by the bank's <em>own</em> 99,9% number and its <em>own</em> coverage potential (anrechenbare Eigenmittel + reserves − Neubewertungsreserve). The SREP P2R is a regulatory-demand concept; it lives in the normative/Problemfall denominator, not in the economic/Extremfall one. So the two lenses move <em>independently</em> — precisely the value of running both.</p>
+    </div>
+
+    <h2>5 · In practice — economic vs regulatory capital, and proportionality</h2>
+
+    <h3>5.1 Why economic capital differs from regulatory capital</h3>
+    <p>The economic (Extremfall) view is not "the regulatory number with a bigger quantile." The Leitfaden says the Extremfall "<em>ähnelt der regulatorischen Solvabilitätsbetrachtung, hat aber eine umfassendere und sensitivere Risikobetrachtung</em>" — it <em>resembles</em> the regulatory solvency view but has a <strong>broader and more sensitive risk treatment</strong>. Three knobs are turned:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Knob</th><th>Regulatory (Pillar 1)</th><th>Economic (Extremfall)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Confidence</strong></td><td>99,9% for credit (IRB); other charges at mixed quantiles.</td><td>The bank's own — here a uniform <strong>99,9%</strong> across all material risks <span class="tag ors">ÖRS choice</span>.</td></tr>
+        <tr><td><strong>Risk types</strong></td><td>Credit, market, op, CVA — <em>omits</em> participation, macro, IRRBB; <em>undercaptures</em> concentration.</td><td>Adds <strong>Beteiligungsrisiko, makroökonomisches Risiko, Konzentrationsrisiko (Granularitätsaufschlag), Zinsrisiko Bankbuch</strong> and more — a fuller catalogue.</td></tr>
+        <tr><td><strong>Correlations</strong></td><td>Implicit in the regulatory formulas.</td><td>The bank's own — here deliberately <strong>correlation = +1</strong> (simple addition) across risk types <span class="tag ors">ÖRS choice</span>.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box ors">
+      <div class="box-title">🟣 The Leitfaden's economic view is conservative, not a diversified internal model</div>
+      <p>A "real" economic-capital model is usually <em>generous</em> to the bank: it claims diversification benefit (correlations &lt; 1) across risk types, often producing <em>less</em> capital than the sum of standalone risks. The Leitfaden does the <strong>opposite</strong>: it aggregates with <strong>correlation = +1</strong>, i.e. it simply <em>adds</em> the material single risks (Module 12). That is the most conservative possible aggregation — it gives away no diversification benefit. So the Extremfall is "economic" in the sense of <em>fuller risk scope and higher confidence and own-chosen parameters</em>, but it is <strong>not</strong> a diversified internal model. This is a deliberate proportionality trade: simplicity and defensibility over theoretical fidelity. The only place correlation &lt; 1 enters is <em>within</em> a risk type (e.g. between currencies, between rating classes, and Zins ↔ Credit-Spread inside market risk).</p>
+    </div>
+
+    <h3>5.2 Risikoappetit — expressed through the Deckungsmasse choice</h3>
+    <p><strong>Risikoappetit</strong> (risk appetite) is normally a statement of how much risk a bank is willing to run. The Leitfaden expresses it indirectly but precisely: through the <strong>choice of which Deckungsmasse composition counts in each scenario</strong>. The Problemfall counts only earnings + free capital above the regulatory floor + reserves; the Extremfall counts essentially the whole own-funds stack but excludes next year's hoped-for profit and the Neubewertungsreserve. By <em>defining what may serve as cover</em> in each lens, the sector encodes how cautious it wants to be. The appetite also shows up in the thresholds: the "<strong>&gt;90% on a single-institution basis is not targeted</strong>" rule (Module 4) is an explicit appetite statement — the sector wants members to plan remedial action well before utilisation reaches 100%, regardless of the traffic-light colour.</p>
+
+    <h3>5.3 Proportionality — the licence for a simplified ICAAP</h3>
+    <p>CRD Art. 73 / §39a BWG require <em>every</em> institution to run an ICAAP covering all material risks. For a globally significant bank that means a full internal economic-capital model with bespoke correlations and risk engines. For the Raiffeisen sector that would mean asking <strong>~400 small Primärbanken</strong> each to build and validate such a model — operationally infeasible and statistically unsound (a single small bank has too little data to estimate its own correlations or tail).</p>
+
+    <div class="box reg">
+      <div class="box-title">⚖️ Proportionality (Proportionalitätsgedanke) is the enabling clause</div>
+      <p>CRD/EBA proportionality lets the <em>depth</em> of the ICAAP scale with the size and complexity of the institution. The ÖRS uses this to run <strong>one standardised, simplified ICAAP</strong> — the Leitfaden — across all members, with pooled data (e.g. the LGD data pool), fixed parameters (M = 2,5 years, the 5% op-risk factor, the 5% "sonstige Risiken" buffer), and conservative aggregation (correlation +1) standing in for bank-specific internal models. <strong>This is the licence for every simplification later in the course.</strong> Whenever you see a fixed ÖRS number replacing a bank-specific estimate, the justification traces back here: proportionality permits a sector-standard simplification, and the conservatism (e.g. correlation +1) buys back the modelling error the simplification introduces.</p>
+    </div>
+
+    <h2>6 · Nuances &amp; traps</h2>
+
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 1 — P2R is binding, P2G is not</div>
+      <p>P2R must be met like Pillar 1 and sits <em>below</em> the buffers; a P2R breach is treated like an own-funds shortfall and is MDA-relevant once you eat into the combined buffer. P2G sits <em>on top</em> of the buffers and is non-binding; a P2G breach triggers a supervisory dialogue, not an automatic distribution restriction. Only <strong>P2R</strong> enters the Problemfall denominator ("inklusive Säule 2 Anforderung") — never P2G.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 2 — ICAAP ≠ SREP</div>
+      <p>ICAAP is the <em>bank's</em> process (CRD Art. 73 / §39a BWG); SREP is the <em>supervisor's</em> review (CRD Art. 97) that scores the bank and sets P2R/P2G. The ICAAP feeds the SREP; the SREP feeds back the add-on. The Leitfaden <em>is</em> the sector's ICAAP — it is not a SREP.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 3 — normative ≈ Problemfall is an analogy, not an identity</div>
+      <p>The ECB's normative perspective is a <em>multi-year</em> capital-planning exercise (project regulatory ratios out 3+ years, baseline + adverse). The Leitfaden's Problemfall is a <em>one-year, 95%</em> unexpected-loss view. It captures the spirit (stay above the regulatory minimum incl. P2R after a stress) but is not the same instrument. Say "analogous to," not "equal to."</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 4 — the economic view here is conservative, not diversified</div>
+      <p>"Economic capital" normally connotes a diversified internal model that <em>reduces</em> capital via correlations &lt; 1. The Leitfaden's Extremfall does the opposite: it adds material single risks with <strong>correlation +1</strong>. It is economic in <em>scope and confidence</em>, not in claiming diversification. Do not describe the Extremfall as a "diversified internal model" — it is a deliberately conservative, simplified one.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>The ECB's ICAAP requires <strong>two perspectives</strong>: <em>normative</em> (multi-year, meet <em>all</em> regulatory demands — P1 + P2R + buffers — under baseline &amp; adverse) and <em>economic</em> (own internal view of all material risks, often higher confidence).</li>
+      <li><strong>Normative ↔ Problemfall</strong>; <strong>economic ↔ Extremfall</strong> — the key mapping, but an <em>analogy</em>: the Problemfall is one-year/95%, not the ECB's full multi-year planning, and the Extremfall is conservative (corr +1), not a diversified internal model.</li>
+      <li><strong>ICAAP</strong> is the bank's process (CRD Art. 73 / §39a BWG); <strong>SREP</strong> is the supervisor's review (CRD Art. 97) that scores the bank and sets <strong>P2R</strong> (binding) and <strong>P2G</strong> (guidance).</li>
+      <li>Stack: <strong>Pillar 1 (8%/4,5% CET1) → P2R → combined buffer requirement (CCB+CCyB+SyRB+SII) → P2G</strong>. The <strong>MDA</strong> triggers on breaching the combined buffer; that is why Problemfall yellow (incl. Puffer) ≈ MDA line and red (excl. Puffer) ≈ binding-minimum breach.</li>
+      <li>Only <strong>P2R</strong> enters the Problemfall denominator — the "<em>inklusive Säule 2 Anforderung, falls von der Aufsicht vorgegeben</em>" clause; a SREP P2R moves the Problemfall light without touching the economic Extremfall view.</li>
+      <li>Economic ≠ regulatory capital because the bank uses its own <strong>confidence (99,9%)</strong>, its own <strong>risk types</strong> (participation, macro, concentration, IRRBB), and its own <strong>correlations (+1, conservative)</strong>.</li>
+      <li><strong>Proportionality</strong> lets the ÖRS run one simplified, standardised ICAAP for ~400 small banks — the licence for every later simplification.</li>
+    </ul>
+
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Der ICAAP der EZB verlangt <strong>zwei Perspektiven</strong>: die <em>normative</em> (mehrjährig: Erfüllung <strong>aller</strong> regulatorischen Anforderungen — Säule 1 + P2R + Puffer — unter Basis- und Stressszenario) und die <em>ökonomische</em> (interne Sicht aller materiellen Risiken, oft höhere Konfidenz).</li>
+        <li><strong>Normativ ↔ Problemfall</strong>, <strong>ökonomisch ↔ Extremfall</strong> — die zentrale Zuordnung, aber eine <em>Analogie</em>: der Problemfall ist 1-jährig/95%, nicht die volle Mehrjahresplanung; der Extremfall ist konservativ (Korrelation +1), kein diversifiziertes internes Modell.</li>
+        <li><strong>ICAAP</strong> = Prozess der Bank (CRD Art. 73 / §39a BWG); <strong>SREP</strong> = aufsichtliche Bewertung (CRD Art. 97) → setzt <strong>P2R</strong> (verbindlich) und <strong>P2G</strong> (Empfehlung).</li>
+        <li>Stapelung: <strong>Säule 1 → P2R → kombinierte Pufferanforderung (KEP+antizykl.+SyRB+SII) → P2G</strong>. Der <strong>MDA</strong>-Mechanismus greift beim Anbruch der Pufferanforderung — daher Problemfall gelb (inkl. Puffer) ≈ MDA-Linie, rot (exkl. Puffer) ≈ Bruch des harten Mindesterfordernisses.</li>
+        <li>Ökonomisches ≠ regulatorisches Kapital wegen eigener <strong>Konfidenz (99,9%)</strong>, eigener <strong>Risikoarten</strong> (Beteiligung, Makro, Konzentration) und eigener <strong>Korrelationen (+1, konservativ)</strong>. Die <strong>Proportionalität</strong> erlaubt der ÖRS einen vereinfachten Standard-ICAAP für ~400 Banken.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, Ch. 4; ECB <em>ICAAP Guide</em> (2018); CRD 2013/36/EU Art. 73, 97, 141 → BWG §39a; CRR (EU) 575/2013 Art. 92; EBA SREP Guidelines (EBA/GL/2022/03). Normative/economic ICAAP terminology per the ECB Guide — flag ECB-specific wording for verification against the current Guide.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m02.html"><div class="dir">← Previous</div><div class="ttl">M2 · Own funds &amp; the buffer stack</div></a>
+      <a class="next" href="m04.html"><div class="dir">Next →</div><div class="ttl">M4 · The RTFA framework</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Two lenses", pass:0.7, questions:[
+  { q:"The ECB's ICAAP requires which two perspectives, and which Leitfaden scenario does each map to?",
+    options:[
+      "Liquidity vs solvency → Problemfall vs Extremfall",
+      "Normative (meet all regulatory demands, multi-year, baseline+adverse) ↔ Problemfall; economic (internal view of all material risks, often higher confidence) ↔ Extremfall",
+      "Pillar 1 vs Pillar 3 → Problemfall vs Extremfall",
+      "Solo vs IPS → Problemfall vs Extremfall"],
+    answer:1,
+    explain:"The ECB ICAAP Guide requires a NORMATIVE perspective (a multi-year ability to meet all regulatory/supervisory capital demands — P1+P2R+buffers — under baseline and adverse) and an ECONOMIC perspective (the bank's own internal view of all material risks, typically higher confidence). Normative maps to the Problemfall, economic to the Extremfall — though the Problemfall is a one-year 95% view, not the ECB's full multi-year planning, so the mapping is an analogy, not an identity." },
+  { q:"What is the correct relationship between ICAAP and SREP?",
+    options:[
+      "ICAAP is the supervisor's review; SREP is the bank's internal process",
+      "ICAAP is the bank's own process (CRD Art. 73 / §39a BWG); SREP is the supervisor's review (CRD Art. 97) that scores the bank and sets P2R/P2G",
+      "They are two names for the same supervisory exercise",
+      "ICAAP sets P2R; SREP is run by the bank to check it"],
+    answer:1,
+    explain:"ICAAP = Internal Capital Adequacy Assessment Process, the BANK's self-assessment (CRD Art. 73 → §39a BWG). SREP = Supervisory Review and Evaluation Process, the SUPERVISOR's annual scoring of business model, governance, capital and liquidity risk (CRD Art. 97), which produces the Pillar-2 add-ons P2R and P2G. The ÖRS Leitfaden is the sector's standardised ICAAP." },
+  { q:"In the capital stack, where do P2R and P2G sit, and what does breaching each trigger?",
+    options:[
+      "Both sit above the buffers; both breaches trigger an automatic MDA distribution restriction",
+      "P2R sits below the buffers and is binding (MDA-relevant once buffers are eaten / treated like an own-funds shortfall); P2G sits on top of the buffers and is non-binding (breach ⇒ supervisory dialogue, no automatic restriction)",
+      "P2R sits on top and is non-binding; P2G sits below and is binding",
+      "Both sit below Pillar 1 and are non-binding"],
+    answer:1,
+    explain:"Stacking order: Pillar 1 → P2R → combined buffer requirement (CCB+CCyB+SyRB+SII) → P2G. P2R is binding and sits below the buffers, so a shortfall is treated like an own-funds breach; the MDA (CRD Art. 141) triggers on dipping into the combined buffer requirement. P2G sits on top and is non-binding — a breach prompts dialogue, not an automatic distribution restriction. Only P2R enters the Problemfall denominator." },
+  { q:"A SREP imposes a new P2R of 2% on a bank. Holding earnings/reserves aside, what happens to the Problemfall and the Extremfall?",
+    options:[
+      "Both worsen equally, since P2R raises the risk in both scenarios",
+      "The Problemfall worsens (P2R raises the regulatory requirement, shrinking free capital in the denominator); the Extremfall is unmoved (governed by the bank's own 99,9% economic view)",
+      "The Extremfall worsens; the Problemfall is unmoved",
+      "Neither changes, because P2R only affects Pillar 3 disclosure"],
+    answer:1,
+    explain:"P2R does not change the bank's risk; it raises the regulatory requirement, which shrinks the 'freies Kapital' in the Problemfall denominator and pushes utilisation up (e.g. 42,5% → 85,0% in the worked example) — the 'inklusive Säule 2 Anforderung, falls von der Aufsicht vorgegeben' clause biting. The Extremfall is an economic-capital view at the bank's own 99,9% confidence and own coverage potential; the regulatory P2R add-on does not enter it. The two lenses move independently — which is exactly why both are run." },
+  { q:"Why is the Leitfaden's Extremfall described as 'economic' yet NOT a diversified internal model?",
+    options:[
+      "Because it uses correlations below 1 across all risk types to reduce capital",
+      "Because it is economic in scope (all material risks), confidence (own 99,9%) and own parameters, but aggregates with correlation = +1 (simple addition), the most conservative possible — giving away no cross-type diversification",
+      "Because it ignores participation and macro risk entirely",
+      "Because it uses the regulatory 99,9% IRB number unchanged"],
+    answer:1,
+    explain:"A real economic-capital model usually claims diversification (correlations < 1), producing LESS capital than the sum of standalone risks. The Leitfaden does the opposite: it adds material single risks with correlation +1 (correlation < 1 only WITHIN a risk type). So the Extremfall is 'economic' in risk scope, confidence and own-chosen parameters, but is a deliberately CONSERVATIVE, simplified view — a proportionality trade of fidelity for simplicity and defensibility — not a diversified internal model." },
+]};
+</script>
+</body>
+</html>

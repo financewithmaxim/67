@@ -71,15 +71,17 @@ function buildSidebar(currentId) {
   const el = document.getElementById("sidebar-nav");
   if (!el) return;
   const prog = loadProgress();
+  const inModules = location.pathname.includes("/modules/");
   let html = "";
   COURSE.parts.forEach(pt => {
     html += `<div class="part-label">${pt.label}</div><nav><ul>`;
     pt.mods.forEach(m => {
       const [id, title] = m;
-      const href = id === "glossary" ? "glossary.html"
-                 : id === "capstone" ? "capstone.html"
-                 : `modules/${id}.html`;
-      const rel = (location.pathname.includes("/modules/")) ? (id === "glossary" || id === "capstone" ? "../" + href : href) : href;
+      // Resolve the link relative to the current page's directory.
+      let rel;
+      if (id === "glossary") rel = inModules ? "../glossary.html" : "glossary.html";
+      else if (id === "capstone") rel = inModules ? "../capstone.html" : "capstone.html";
+      else rel = inModules ? `${id}.html` : `modules/${id}.html`;
       const active = id === currentId ? " active" : "";
       const done = (prog[id] && id !== "glossary") ? `<span class="done">✓</span>` : "";
       const num = id.startsWith("m") ? id.slice(1).replace(/^0/, "") : (id === "capstone" ? "★" : "📖");

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M11 · Other risks — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m11">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil II — Risikotragfähigkeit › Module 11</div>
+      <h1>Module 11 — Other risks: Länderrisiko, makroökonomisches Risiko, Großkredite, the 5% buffer &amp; FX-capital risk</h1>
+    </div>
+    <p class="lead">This module sweeps up the "long tail" of the RTFA: the country-transfer add-on (Länderrisiko), the point-in-time macro overlay on credit risk (makroökonomisches Risiko), the sector-level large-exposure monitor (Risiko aus Großkrediten), and the §5.10 closers — the flat 5% buffer for unquantified qualitative risks and the Problemfall-only Fremdwährungs-Eigenmittelrisiko — anchored against the §3.10 list of qualitative risks each one stands in for.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Explain why <em>Länderrisiko</em> (country risk) is an add-on even though sovereign ratings already feed credit risk — and compute it (UL-only, pre-collateral, defaults excluded).</li>
+        <li>Run the <em>makroökonomisches Risiko</em> mechanics: PD·1,25, LGD·1,05, rerun the IRB formula, take the difference — and explain why it is credit-only and includes EL.</li>
+        <li>Distinguish the Leitfaden's <em>Großkredite</em> concentration monitor (vs R-IPS CET1) from the CRR 25%-of-Tier-1 legal large-exposure limit.</li>
+        <li>Show that the 5% <em>sonstige-Risiken</em> buffer scales the whole quantified risk stack by 1,05, and justify it via the Deckungsmasse.</li>
+        <li>Separate the <em>Fremdwährungs-Eigenmittelrisiko</em> (capital-base effect, Problemfall only) from the FX credit-risk add-on of M5 (exposure effect, both scenarios).</li>
+        <li>Define the §3.10 qualitative risks and say which capital element captures them.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP: Motivation → Concept → Derivation → Worked example → In practice → Traps → Quiz → Recap -->
+
+    <h2>1 · Motivation — why a "rest" category exists</h2>
+    <p>By Module 10 you have quantified the heavy hitters: credit (M5), market (M6), operational (M7), liquidity (M8), CVA (M9), participation (M10). But the RTFA must be <strong>complete</strong> — every <em>material</em> single risk has to sit in the additive stack, because aggregation is by addition with correlation \(+1\) (Module 4/12). Three groups of risk remain that are real but do not fit the main engines cleanly:</p>
+    <ul>
+      <li><strong>Cross-border risk</strong> that ratings under-capture — a sovereign can block transfer/convertibility even when individual obligors are sound. → <em>Länderrisiko</em> (§5.3).</li>
+      <li><strong>A whole-cycle downturn</strong> that pushes PDs and LGDs together — a point-in-time stress the through-the-cycle credit number does not show. → <em>makroökonomisches Risiko</em> (§5.8).</li>
+      <li><strong>Sector-level concentration in the largest names</strong>, monitored above the legal limit. → <em>Risiko aus Großkrediten</em> (§5.9).</li>
+    </ul>
+    <p>And finally the §5.10 closers: a flat buffer for risks too soft to model (strategic, reputational, business-model, systemic, model — the §3.10 list), and the FX effect on the <em>capital requirement</em> itself.</p>
+    <div class="box motivation">
+      <div class="box-title">▶ The thread that ties §5.3, §5.8, §5.9, §5.10 together</div>
+      <p>All four are <strong>credit-risk-adjacent overlays</strong> or <strong>completeness patches</strong>. Länderrisiko and makro reuse the M5 credit machinery on different inputs; Großkredite re-reads the same exposures through a concentration lens; the 5% buffer and FW-Eigenmittelrisiko close the gap between "what we modelled" and "what can hurt the Deckungsmasse". None introduces a new statistical engine — which is exactly why they live in one module.</p>
+    </div>
+
+    <h2>2 · Concept &amp; logic</h2>
+
+    <h3>2.1 Länderrisiko — transfer &amp; convertibility</h3>
+    <p><strong>Länderrisiko</strong> (country risk) here means <em>Transfer- und Konvertierungsrisiko</em> (transfer and convertibility risk): the risk that a solvent foreign obligor cannot service a cross-border claim because the sovereign restricts FX or capital movement. The motivating question — "why an add-on at all, given we already rate sovereigns inside credit risk?" — is answered by <strong>rating ceilings</strong>: an obligor's rating is capped near its sovereign's, but the cap does not <em>fully</em> capture the sovereign-driven transfer/convertibility component. The add-on isolates that residual.</p>
+
+    <h3>2.2 Makroökonomisches Risiko — a point-in-time overlay</h3>
+    <p>Credit UL in M5 uses through-the-cycle PDs. A genuine cyclical downturn raises PDs <em>and</em> LGDs simultaneously across the book. <strong>Makroökonomisches Risiko</strong> (macroeconomic risk) measures that: assume a GDP downturn, recompute credit EL+UL with stressed inputs, and take the increment. It is applied <strong>only to credit risk</strong>, the most material single risk, and — unusually — it captures <strong>both EL and UL</strong>, because a downturn raises expected loss too. It is a <em>point-in-time macro overlay</em>, conceptually distinct from M5's FX PD-elasticity (which reacts to the exchange rate, not GDP).</p>
+
+    <h3>2.3 Risiko aus Großkrediten — a monitor, not the legal limit</h3>
+    <p><strong>Risiko aus Großkrediten</strong> (large-exposure risk) is a <strong>sector-level concentration monitor</strong>, assessed per <em>Gruppe verbundener Kunden</em> (GvK — group of connected clients, per the OeNB customer structure). It sets the total of the largest exposures (customers, FI, Sovereigns) in relation to <strong>R-IPS CET1 (Kernkapital — core capital)</strong>. Crucially it is <strong>not</strong> the CRR Part Four legal large-exposure <em>limit</em> (25% of Tier 1 to one client/group). The legal limit binds at the single-institution level; the Leitfaden monitor watches the aggregated sector book on top of it.</p>
+
+    <h3>2.4 §5.10 closers</h3>
+    <p>Two devices close the framework: a <strong>5% buffer</strong> (Puffer sonstige Risiken) standing in for the qualitative §3.10 risks, and the <strong>Fremdwährungs-Eigenmittelrisiko</strong> (FX own-funds risk) — the effect of an FX move on the <em>capital requirement base</em>, applied in the Problemfall only.</p>
+
+    <h2>3 · Derivation &amp; mechanics</h2>
+
+    <h3>3.1 Länderrisiko (§5.3)</h3>
+    <p>The add-on is <strong>computed like credit risk</strong> — the same IRB UL engine of M5 — but on three specific settings:</p>
+    <div class="formula">
+      $$ \text{Länderrisiko} \;=\; \sum_{c}\; UL_{\text{IRB}}\!\big(PD_{\text{sov}(c)},\,LGD,\,EAD^{\text{vor Sicherheiten}}_{c}\big),\qquad \text{rating } 5{,}x \text{ excluded.} $$
+      <div class="where">Computed on <strong>internal data BEFORE collateral</strong> (vor Sicherheiten) — transfer risk is not mitigated by local collateral you cannot repatriate. PD is taken by <strong>sovereign rating</strong> (\(PD_{\text{sov}}\)) of the obligor's country, not the obligor's own PD. Only the <strong>unexpected loss (UL)</strong> is taken — no EL term. <strong>Defaulted exposures (Ratingstufe 5,x) are excluded</strong> — a name already in default carries no incremental transfer risk.</div>
+    </div>
+    <div class="box ors">
+      <div class="box-title">🟣 Sitzlandprinzip vs Haftungszuordnung</div>
+      <p>Which country does an exposure belong to? Two assignment rules: <strong>Sitzlandprinzip</strong> (domicile principle — a <em>political</em>/legal-seat assignment) versus <strong>Haftungszuordnung</strong> (an <em>economic</em> assignment to where the repayment risk actually sits, e.g. the location of the cash flows or guarantor). The Leitfaden <strong>prefers the economic Haftungszuordnung</strong> — it tracks the real source of transfer risk rather than the registered address. <span class="tag ors">ÖRS choice</span></p>
+    </div>
+    <div class="box reg">
+      <div class="box-title">🟦 When you may skip it</div>
+      <p>If the <strong>country rating already embeds transfer/convertibility risk</strong>, the add-on may be <strong>skipped for direct sovereign investments</strong> — applying it there would double-count the very risk the sovereign rating already prices. This is the consistency check that keeps the add-on a genuine <em>residual</em>.</p>
+    </div>
+
+    <h3>3.2 Makroökonomisches Risiko (§5.8)</h3>
+    <p>Take the existing credit risk (EL+UL). Stress the two credit drivers, rerun the M5 IRB formula, and difference:</p>
+    <div class="formula">
+      $$ PD' = PD\cdot 1{,}25,\qquad LGD' = LGD\cdot 1{,}05 $$
+      $$ \text{Makro-Risiko} \;=\; \underbrace{\big[EL(PD',LGD') + UL(PD',LGD')\big]}_{\text{new credit risk}} \;-\; \underbrace{\big[EL(PD,LGD) + UL(PD,LGD)\big]}_{\text{original credit risk}} $$
+      <div class="where">The calibration comes from the <em>Leitfaden Stresstesting</em>: a \(\approx 2\%\) GDP decline maps to <strong>PDs up \(\approx 25\%\)</strong> and <strong>LGDs up \(\approx 5\%\)</strong>. <span class="tag ors">ÖRS modelling</span> Re-run means: feed \(PD',LGD'\) through the same conditional-PD / \(K\) machinery of M5 (cross-link Module 5), recompute both the EL term \(LGD'\!\cdot PD'\) and the UL term, and subtract the un-stressed total. The result covers <strong>both EL and UL</strong>.</div>
+    </div>
+    <div class="box key">
+      <div class="box-title">Why both EL and UL here — and only credit</div>
+      <p>Elsewhere the RTFA capital number is pure UL (EL lives in the Deckungsmasse). Makro risk breaks that pattern <em>on purpose</em>: a downturn raises expected loss too, and the point is to capture the <em>full</em> deterioration of the credit book, so the difference is taken on EL+UL together. It is applied to <strong>credit risk only</strong> because credit is the most material risk — stressing the smaller risks would add complexity without materiality.</p>
+    </div>
+
+    <h3>3.3 Risiko aus Großkrediten (§5.9)</h3>
+    <p>Assess at the <strong>GvK</strong> level. For the three relevant client structures — customers, FI, Sovereigns — take the largest exposures, sum them, and relate to R-IPS CET1:</p>
+    <div class="formula">
+      $$ \text{Großkredit-Kennzahl} \;=\; \frac{\sum_{\text{largest GvK}}\text{Exposure}}{\text{R-IPS CET1 (Kernkapital)}},\qquad \text{R-IPS members excluded.} $$
+      <div class="where">The numerator sums the largest exposures across customers / FI / Sovereigns at GvK level; <strong>R-IPS-member companies, banks and issues are excluded</strong> (intra-circle exposures are not external concentration — cf. the consolidation logic of Module 13). The denominator is R-IPS CET1. This is a <strong>monitoring view</strong>, set <em>in relation to</em> capital, not a binding cap.</div>
+    </div>
+    <div class="box reg">
+      <div class="box-title">🟦 Monitor vs legal limit — keep them apart</div>
+      <p><span class="tag reg">regulatory</span> <strong>CRR Part Four</strong> sets a hard <em>large-exposure limit</em>: exposure to one client or GvK may not exceed <strong>25% of Tier 1</strong> capital. That is a legal ceiling on a <em>single</em> name/group. &nbsp; The Leitfaden's §5.9 measure is a <strong>sector-level concentration monitor on top of</strong> that limit: it aggregates the largest exposures and watches the whole stack against R-IPS CET1. Concentration is <em>also</em> handled in two other places — the <strong>HHI granularity add-on</strong> inside credit risk (Module 5) and via internal <strong>limits</strong>. §5.9 is the macro-prudential lens; the others are the per-loan and governance lenses.</p>
+    </div>
+
+    <h3>3.4 Sonstige Risiken — the 5% buffer (§5.10)</h3>
+    <p>Both scenarios add <strong>5% of the quantified risks</strong> as an approximation for the qualitative §3.10 risks. Because it is applied to the <em>sum</em> of all quantified risks, it scales the whole stack:</p>
+    <div class="formula">
+      $$ \text{Puffer} = 0{,}05\cdot \sum_k R_k,\qquad \text{Gesamtrisiko} = \Big(\sum_k R_k\Big)\cdot 1{,}05 $$
+      <div class="where">\(R_k\) = each quantified single risk (credit incl. its add-ons, market, op, CVA, participation, country, macro, Großkredite, and — Problemfall — FW-EM). The buffer is a flat \(+5\%\) on their sum, i.e. a \(\times 1{,}05\) on the entire quantified risk total. <span class="tag ors">ÖRS choice</span></div>
+    </div>
+    <div class="box ors">
+      <div class="box-title">🟣 Why a flat % — and what it trades off</div>
+      <p><strong>Justification:</strong> the qualitative risks (strategic, reputational, business-model, systemic, model) are hard to quantify, and — decisively — <strong>future operating income is NOT counted in the Extremfall Deckungsmasse</strong>. Normally a healthy earnings stream is the first cushion against these soft risks; since the Extremfall (a Liquidationsfall) cannot rely on it, a flat capital buffer is a reasonable proxy for that missing cushion. <strong>The trade-off:</strong> a flat percentage <em>cannot distinguish</em> a bank with high strategic/business-model risk from one with low — it charges both 5%. It buys comparability and simplicity across hundreds of banks at the cost of risk sensitivity. <span class="tag ors">ÖRS choice</span></p>
+    </div>
+
+    <h3>3.5 Fremdwährungs-Eigenmittelrisiko (§5.10, Problemfall only)</h3>
+    <p>This is the FX effect on the <strong>capital requirement</strong>, not on the exposure. An FX appreciation raises the euro <em>Saldo</em> of FX loans → raises the RWA base (<em>Bemessungsgrundlage</em>) → raises the Eigenmittel (own-funds) requirement → reduces free Deckungsmasse. Mechanics:</p>
+    <div class="formula">
+      $$ \Delta\text{Bemessungsgrundlage} = \text{Risikoposition}_{\text{FX}}\cdot v_{\text{fx}},\qquad \text{FW-Eigenmittelrisiko} = 0{,}08\cdot \Delta\text{Bemessungsgrundlage} $$
+      <div class="where">\(\text{Risikoposition}_{\text{FX}}\) = the FX portion of the risk positions in <strong>Corporates, Retail, LRG, CIU</strong>; \(v_{\text{fx}}\) = the scenario-scaled 3-year FX volatility. If there is <strong>no full currency separation</strong> in the data, use the FX proxy <strong>15% (Problemfall)</strong> / <strong>30% (Extremfall)</strong> in place of \(v_{\text{fx}}\). The \(0{,}08 = 8\%\) is the own-funds rate applied to the uplift of the RWA base. <span class="tag reg">regulatory</span> (8% own-funds factor) on an <span class="tag ors">ÖRS-modelled</span> base.</div>
+    </div>
+    <div class="box reg">
+      <div class="box-title">🟦 Why the Extremfall does NOT apply it</div>
+      <p>In the <strong>Extremfall (Liquidationsfall)</strong> the FW-Eigenmittelrisiko is <strong>not applied</strong>: in a liquidation you no longer run the bank as a going concern, so the <em>RWA-base / capital-requirement</em> effect is irrelevant to the cover — what matters there is the loss on the assets themselves, which is already in credit risk. The 15%/30% proxy still defines the <em>scaling</em> conceptually, but the 8%-on-RWA-base charge is a Problemfall-only construct.</p>
+    </div>
+
+    <h2>4 · Worked example</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — three §5.8 / §5.10 calculations (illustrative; assumptions stated)</div>
+      <p><strong>(a) Makroökonomisches Risiko.</strong> A portfolio's current credit risk is \(EL+UL = \)€50m. Apply the calibrated downturn: \(PD' = PD\cdot 1{,}25\), \(LGD' = LGD\cdot 1{,}05\). Rerunning the M5 IRB formula with the stressed inputs lifts the EL term roughly proportionally and the UL term more than proportionally (the conditional-PD is convex in PD); for this book the rerun gives a new credit risk of \(\approx\)€64m.</p>
+      <div class="formula">$$ \text{Makro-Risiko} \approx 64 - 50 = \textbf{€14m.} $$</div>
+      <p><em>Assumptions:</em> the €64m is the full rerun (not a back-of-envelope ×1,25); the exact uplift depends on the PD/LGD mix and rating distribution — a high-PD book moves more because the conditional-PD response steepens. The €14m is added to the stack as a single number covering both EL and UL.</p>
+      <hr style="margin:14px 0">
+      <p><strong>(b) Fremdwährungs-Eigenmittelrisiko (Problemfall).</strong> Risikoposition of FX loans (Corporates/Retail/LRG/CIU) = €40m, and the data has <strong>no full currency separation</strong>, so use the 15% Problemfall proxy:</p>
+      <div class="formula">$$ \Delta\text{Bemessungsgrundlage} = 40\text{m}\cdot 0{,}15 = \textbf{€6m},\qquad \text{FW-EM-Risiko} = 0{,}08\cdot 6\text{m} = \textbf{€0,48m.} $$</div>
+      <p>So €0,48m of Deckungsmasse is consumed by the higher own-funds requirement. In the Extremfall this charge is €0 (not applied).</p>
+      <hr style="margin:14px 0">
+      <p><strong>(c) 5% buffer.</strong> Suppose every quantified single risk sums to €100m (credit + market + op + CVA + participation + country + macro + Großkredite + FW-EM). The buffer is:</p>
+      <div class="formula">$$ \text{Puffer} = 0{,}05\cdot 100\text{m} = \textbf{€5m},\qquad \text{Gesamtrisiko} = 100\text{m}\cdot 1{,}05 = \textbf{€105m.} $$</div>
+      <p>Note the buffer is computed on the <em>total after</em> all the other §5 items — including the macro and FW-EM numbers from (a) and (b) — so it genuinely scales the whole stack by 1,05.</p>
+    </div>
+
+    <h2>5 · In practice — the §3.10 qualitative risks the buffer stands for</h2>
+    <p>The 5% buffer is the capital home for the §3.10 risks. Define them briefly; note they are <strong>mostly captured by the buffer rather than separately quantified</strong>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>§3.10 risk (German)</th><th>English gloss</th><th>What it is</th><th>Where it lands</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Strategisches Risiko</strong></td><td>Strategic risk</td><td>Loss from poor strategic decisions or failure to adapt to the environment.</td><td>5% buffer</td></tr>
+        <tr><td><strong>Reputationsrisiko</strong></td><td>Reputational risk</td><td>Loss of franchise value / funding from damaged reputation.</td><td>5% buffer</td></tr>
+        <tr><td><strong>Eigenkapitalrisiko</strong> (incl. FW-Eigenmittelrisiko)</td><td>Equity / own-funds risk</td><td>Risk that own funds become insufficient; the FX-driven part is the FW-Eigenmittelrisiko of §3.5/§5.10.</td><td>FW-EM quantified (Problemfall); rest in buffer</td></tr>
+        <tr><td><strong>Geschäftsmodellrisiko</strong></td><td>Business-model risk (Earnings Risk)</td><td>Risk that the business model / earnings base erodes (volume, margin, structural).</td><td>5% buffer</td></tr>
+        <tr><td><strong>Systemisches Risiko</strong></td><td>Systemic risk</td><td>Contagion / system-wide stress spilling into the institution.</td><td>5% buffer</td></tr>
+        <tr><td><strong>Modellrisiko</strong></td><td>Model risk</td><td>Loss from wrong / mis-applied models (the RTFA's own models included).</td><td>5% buffer</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Mapping to data: Länderrisiko and makro reuse the credit-risk inputs (internal exposures, sovereign ratings, the master-scale PDs, the pooled LGDs) already wired for M5; Großkredite reads the GvK customer structure from the OeNB melders against the R-IPS CET1 reported in COREP; the FX positions for FW-EM come from the currency split of the Corporates/Retail/LRG/CIU risk positions (or the 15%/30% proxy when that split is unavailable).</p>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ Makro risk is credit-only and includes EL</div>
+      <p>Everywhere else the capital figure is pure <strong>UL</strong> and EL lives in the Deckungsmasse. <strong>Makroökonomisches Risiko is the exception</strong>: it is the difference in <em>EL+UL</em>, and it is applied to <strong>credit risk only</strong>. If you (a) apply the PD·1,25 / LGD·1,05 stress to market or op risk, or (b) strip the EL out of the difference, you have mis-specified it. The whole point is the full credit-book deterioration in a downturn.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ FW-Eigenmittelrisiko ≠ the FX credit-risk add-on (M5)</div>
+      <p>Two different FX effects, easily conflated:</p>
+      <ul>
+        <li><strong>FX credit-risk add-on (M5):</strong> FX appreciation raises the <em>exposure/loss</em> of FX loans → bigger UL. Applied in <strong>both</strong> scenarios.</li>
+        <li><strong>FW-Eigenmittelrisiko (M11, §5.10):</strong> the same appreciation raises the <em>RWA base / capital requirement</em> → less free Deckungsmasse. Applied in the <strong>Problemfall only</strong> (irrelevant in a liquidation).</li>
+      </ul>
+      <p>One hits the <em>asset/loss</em> side, the other the <em>capital-requirement</em> side. Charging both is correct; charging the FW-EM in the Extremfall is not.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Großkredite monitor ≠ the CRR 25% legal limit</div>
+      <p>The §5.9 measure relates the <em>aggregated largest exposures</em> to <strong>R-IPS CET1</strong> as a sector-level concentration monitor. It is <strong>not</strong> the CRR Part Four <strong>25%-of-Tier-1</strong> hard limit on a single client/GvK. Citing 25% as the §5.9 threshold, or treating §5.9 as the binding legal cap, is wrong — they are two layers (governance limit vs macro monitor), alongside the HHI granularity add-on inside credit risk.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Country risk is UL-only and excludes defaults</div>
+      <p>Länderrisiko takes <strong>only UL</strong> (no EL term), is computed <strong>before collateral</strong>, by <strong>sovereign-rating PD</strong>, and <strong>excludes Ratingstufe 5,x</strong> (already-defaulted exposures carry no incremental transfer risk). Don't add an EL term, don't net collateral, and remember it may be skipped for direct sovereign investments where the country rating already embeds transfer/convertibility risk.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ The 5% buffer scales the WHOLE stack</div>
+      <p>It is 5% of the <em>sum</em> of all quantified risks, i.e. a \(\times 1{,}05\) on the total — not a separate fixed line item bolted on independently. Compute it last, on everything else (including macro and FW-EM), or you understate it.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li><strong>Länderrisiko (§5.3):</strong> transfer/convertibility add-on because rating ceilings under-capture sovereign-driven risk; computed like credit risk on internal data <em>before collateral</em>, by sovereign-rating PD, <strong>UL-only</strong>, defaults (5,x) <strong>excluded</strong>; may skip for direct sovereign investments if the country rating already embeds it; economic <em>Haftungszuordnung</em> preferred over the political <em>Sitzlandprinzip</em>.</li>
+      <li><strong>Makroökonomisches Risiko (§5.8):</strong> credit-only point-in-time overlay; \(PD'=PD\cdot1{,}25\), \(LGD'=LGD\cdot1{,}05\) (from a ~2% GDP decline), rerun the IRB formula, take the difference — covering <strong>both EL and UL</strong>. Distinct from M5's FX PD-elasticity.</li>
+      <li><strong>Risiko aus Großkrediten (§5.9):</strong> GvK-level monitor of the largest customer/FI/Sovereign exposures vs <strong>R-IPS CET1</strong>, R-IPS members excluded — a sector concentration monitor on top of the CRR <strong>25%-of-Tier-1</strong> legal limit; concentration also via HHI (M5) and limits.</li>
+      <li><strong>5% buffer (§5.10):</strong> both scenarios add 5% of the <em>sum</em> of quantified risks (×1,05) for strategic/reputational/business-model/systemic/model risk; justified because future operating income is excluded from the Extremfall Deckungsmasse; flat % can't distinguish high- from low-strategic-risk banks.</li>
+      <li><strong>Fremdwährungs-Eigenmittelrisiko (§5.10, Problemfall only):</strong> FX appreciation → higher Saldo → higher RWA base → higher own-funds requirement → less Deckungsmasse; scale the Corporates/Retail/LRG/CIU FX Risikoposition by the FX vola (or 15%/30% proxy), take 8%. Not applied in the Extremfall. ≠ the FX credit add-on of M5.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li><strong>Länderrisiko (§5.3):</strong> Aufschlag für Transfer- und Konvertierungsrisiko, da Rating-Obergrenzen das souveräne Risiko nicht voll erfassen; gerechnet wie Kreditrisiko auf internen Daten <em>vor Sicherheiten</em>, mit Staaten-PD, nur <strong>unerwarteter Verlust</strong>, Ausfälle (5,x) ausgeschlossen; wirtschaftliche <em>Haftungszuordnung</em> vor politischem <em>Sitzlandprinzip</em>.</li>
+        <li><strong>Makroökonomisches Risiko (§5.8):</strong> nur auf Kreditrisiko; \(PD'=PD\cdot1{,}25\), \(LGD'=LGD\cdot1{,}05\) (≈2% BIP-Rückgang), IRB-Formel neu rechnen, Differenz — deckt <strong>EL und UL</strong>.</li>
+        <li><strong>Risiko aus Großkrediten (§5.9):</strong> auf GvK-Ebene; größte Forderungen (Kunden, FI, Staaten) im Verhältnis zum <strong>R-IPS-CET1 (Kernkapital)</strong>; R-IPS-Mitglieder ausgenommen. Sektoraler Konzentrationsmonitor <em>zusätzlich</em> zum gesetzlichen 25%-Limit (CRR Teil 4).</li>
+        <li><strong>5%-Puffer (§5.10):</strong> beide Szenarien addieren 5% der quantifizierten Risiken (×1,05) für strategisches/Reputations-/Geschäftsmodell-/systemisches/Modellrisiko; begründet, weil künftige Betriebserträge nicht in der Extremfall-Deckungsmasse enthalten sind.</li>
+        <li><strong>Fremdwährungs-Eigenmittelrisiko (§5.10, nur Problemfall):</strong> FW-Aufwertung → höherer Saldo → höhere Bemessungsgrundlage → höheres Eigenmittelerfordernis; FX-Risikoposition skalieren (bzw. 15%/30%-Näherung), 8% davon. Im Extremfall nicht angewandt. Nicht zu verwechseln mit dem FX-Kreditaufschlag aus M5.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, §3.10, §5.3, §5.8, §5.9, §5.10; CRR (EU) 575/2013 Part Four (large exposures); Leitfaden Stresstesting (macro calibration). Worked numbers are illustrative with stated assumptions.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m10.html"><div class="dir">← Previous</div><div class="ttl">M10 · Participation risk</div></a>
+      <a class="next" href="m12.html"><div class="dir">Next →</div><div class="ttl">M12 · Risk aggregation</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Other risks", pass:0.7, questions:[
+  { q:"Makroökonomisches Risiko (§5.8) differs from every other RTFA capital figure in two ways. Which pair is correct?",
+    options:[
+      "It is applied to all risk types and covers UL only",
+      "It is applied to credit risk only and covers BOTH EL and UL (PD·1,25, LGD·1,05, rerun, difference)",
+      "It is applied to market risk only and covers EL only",
+      "It is applied to credit risk only and covers UL only, like every other figure"],
+    answer:1,
+    explain:"Macro risk is the exception to the 'capital = pure UL' rule: it takes the difference in EL+UL after stressing PD by ×1,25 and LGD by ×1,05 (≈2% GDP decline) and rerunning the M5 IRB formula. It is applied to credit risk only because credit is the most material risk. Charging EL twice elsewhere, or stressing other risks, mis-specifies it." },
+  { q:"Why is Länderrisiko (§5.3) an add-on at all, and how is it computed?",
+    options:[
+      "Because sovereign ratings ignore obligors entirely; computed on EL only, after collateral",
+      "Because rating ceilings don't fully capture transfer/convertibility risk; computed like credit risk before collateral, by sovereign-rating PD, UL-only, excluding defaulted (5,x) exposures",
+      "Because the CRR forces a 25% charge; computed as 25% of Tier 1",
+      "Because FX volatility raises exposures; computed as 8% of the RWA base"],
+    answer:1,
+    explain:"An obligor's rating is capped near its sovereign's, but the cap doesn't fully isolate the sovereign-driven transfer/convertibility (Transfer- und Konvertierungs-) component, so the add-on captures the residual. It reuses the credit engine on internal data BEFORE collateral, by sovereign PD, UL-only, with 5,x defaults excluded — and may be skipped for direct sovereign investments where the rating already embeds the risk." },
+  { q:"How does the Leitfaden's Risiko aus Großkrediten (§5.9) relate to the CRR large-exposure limit?",
+    options:[
+      "They are the same thing — both cap one client at 25% of Tier 1",
+      "§5.9 is a sector-level concentration MONITOR relating the largest GvK exposures to R-IPS CET1, sitting ON TOP OF the CRR 25%-of-Tier-1 legal limit on a single client/group",
+      "§5.9 replaces the CRR limit with a 5% buffer",
+      "§5.9 is the legal limit; the CRR rule is only a monitor"],
+    answer:1,
+    explain:"CRR Part Four sets a binding 25%-of-Tier-1 limit on a single client/GvK. The §5.9 measure is a different layer: an aggregated, sector-level concentration monitor relating the largest customer/FI/Sovereign exposures (GvK level, R-IPS members excluded) to R-IPS CET1. Concentration is also handled via the HHI granularity add-on (M5) and internal limits." },
+  { q:"An FX appreciation hits the bank two ways. Which statement correctly separates the FW-Eigenmittelrisiko (§5.10) from the FX credit-risk add-on (M5)?",
+    options:[
+      "Both raise the exposure/loss and both apply in both scenarios",
+      "FW-Eigenmittelrisiko raises the RWA base / capital requirement (Problemfall only); the FX credit add-on raises the exposure/loss (both scenarios)",
+      "FW-Eigenmittelrisiko raises the exposure (both scenarios); the credit add-on raises the capital requirement (Extremfall only)",
+      "They are identical and double-counting is intended"],
+    answer:1,
+    explain:"The FX credit add-on (M5) lifts the euro exposure/loss of FX loans → bigger UL, in both scenarios. The FW-Eigenmittelrisiko (§5.10) lifts the euro Saldo → RWA base → own-funds requirement → less free Deckungsmasse, and is applied in the Problemfall ONLY (in an Extremfall liquidation the capital-requirement effect is irrelevant). Mechanics: scale the Corporates/Retail/LRG/CIU FX Risikoposition by the FX vola (or 15%/30% proxy), then take 8%." },
+  { q:"On a quantified risk total of €100m, the 5% sonstige-Risiken buffer (§5.10) gives what, and why is a flat % used?",
+    options:[
+      "€5m, because the CRR mandates exactly 5% for model risk",
+      "€5m (→ €105m total), as a proxy for strategic/reputational/business-model/systemic/model risk — justified partly because future operating income is excluded from the Extremfall Deckungsmasse; the trade-off is it can't distinguish high- from low-strategic-risk banks",
+      "€0,40m, by taking 8% of a 5% base",
+      "€25m, being 25% of the largest exposure"],
+    answer:1,
+    explain:"The buffer is 5% of the SUM of quantified risks — €5m, scaling the stack to €105m (×1,05). It stands in for the qualitative §3.10 risks that are hard to model, and is reasonable partly because the Extremfall Deckungsmasse excludes future operating income (the usual first cushion). Its weakness: a flat percentage charges a high-strategic-risk and a low-strategic-risk bank identically — comparability bought at the cost of risk sensitivity. ÖRS choice." },
+]};
+</script>
+</body>
+</html>

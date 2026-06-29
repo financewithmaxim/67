@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M17 · Einlagensicherung — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m17">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil V — Ausblick &amp; Einlagensicherung › Module 17</div>
+      <h1>Module 17 — Einlagensicherung: DGSD, ESAEG, and how the DGS interacts with the IPS and early intervention</h1>
+    </div>
+    <p class="lead">The <em>Einlagensicherung</em> (deposit guarantee) is the <strong>post-failure backstop</strong> of the system: distinct from capital (which absorbs loss) and from the IPS (which prevents failure). This module places the EU <em>DGSD</em>, the Austrian <em>ESAEG</em> and the sector's <em>R-IPS</em> on one map, and shows why the <em>Früherkennung</em>'s early-warning output is exactly what lets the sector act <em>before</em> a depositor payout is ever needed.</p>
+
+    <div class="box reg">
+      <div class="box-title">⚖️ Verify against current sources (FMA / ESA / EUR-Lex)</div>
+      <p>This is the <strong>lowest-priority, verify-heavy</strong> module of the course, and deposit-guarantee specifics are the most likely to have moved since this material was authored — and they may <strong>post-date the Leitfaden (09/2024)</strong> itself. Treat every figure, deadline and scheme name below as <strong>"as of the framework — verify current status"</strong>. In particular you MUST check against primary sources before relying on any of it:</p>
+      <ul>
+        <li>the <strong>current Austrian scheme structure</strong> (number of statutory schemes, who belongs to which) — verify on the <strong>FMA</strong> register;</li>
+        <li>the <strong>current Raiffeisen deposit-guarantee arrangement</strong> (which scheme the sector's banks are members of <em>today</em>) — verify on the FMA register, not from memory;</li>
+        <li><strong>coverage, payout deadlines and the target level</strong> — verify against the <strong>DGSD</strong> on EUR-Lex, the <strong>ESAEG</strong> in the RIS, and <strong>EBA/ESA</strong> guidance;</li>
+        <li>any <strong>2024–2026 changes</strong> (e.g. the EU's <em>Crisis Management and Deposit Insurance</em> / CMDI review may alter payout, scope, or the use of DGS funds).</li>
+      </ul>
+      <p><strong>What is stable</strong> (and what the exam tests) is the <em>conceptual architecture</em>: DGS = compensation after failure; IPS = prevention before failure; covered deposits = super-preferred. The exact numbers are secondary here.</p>
+    </div>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Explain <em>why</em> a deposit guarantee exists — bank-run dynamics (link to M1) — and why it is a <strong>post-failure backstop</strong>, not capital and not the IPS.</li>
+        <li>State the core <strong>DGSD (2014/49/EU)</strong> parameters (coverage, payout deadline, target level, ex-ante risk-based funding) and the Austrian <strong>ESAEG</strong> transposition (covered deposits, Anlegerentschädigung).</li>
+        <li>Draw the crucial <strong>IPS (Art. 113(7) CRR) vs DGS (DGSD/ESAEG)</strong> distinction — prevention vs compensation — and explain when an IPS-run DGS may use its funds for <em>alternative</em> (failure-prevention) measures.</li>
+        <li>Locate the DGS/IPS in the <strong>BRRD/SRM</strong> creditor hierarchy (covered deposits super-preferred) and show how the RTFA + Ampelung feed the sector's decision to deploy IPS support <em>before</em> a payout.</li>
+        <li>Reason about <strong>funding &amp; moral hazard</strong>: risk-based contributions, the 0,8% target, and why ex-ante funding + prevention reduce the chance of ever paying out.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP -->
+
+    <h2>1 · Motivation — why a deposit guarantee exists</h2>
+    <p>Recall the fragility from <a href="m01.html">Module 1</a>: a bank funds illiquid, long-dated assets with liquid, on-demand deposits. A depositor who fears the bank may fail has a private incentive to withdraw <em>first</em>, before the cash runs out — and because everyone reasons the same way, the fear is self-fulfilling. This is a classic <strong>coordination failure</strong>: a <em>Bankrun</em> (bank run) can sink even a fundamentally <em>solvent</em> bank purely through illiquidity.</p>
+    <p>The deposit guarantee breaks the coordination failure at its root. If a small depositor <em>knows</em> their money is protected up to a credible limit regardless of what others do, they have no reason to run — and the run does not start. So the guarantee's first job is <strong>confidence</strong>: it works precisely when it is <em>not</em> used, by removing the incentive that triggers runs.</p>
+
+    <div class="box motivation">
+      <div class="box-title">▶ Three different jobs, three different tools</div>
+      <p>Do not conflate the layers of protection — the exam loves this:</p>
+      <ul>
+        <li><strong>Kapital / Eigenmittel</strong> (capital / own funds) — <em>absorbs</em> loss inside the bank. First line. (Modules 1–2.)</li>
+        <li><strong>IPS</strong> (Institutssicherungssystem / institutional protection scheme) — <em>prevents</em> failure by supporting a member <em>before</em> it fails. Pre-emptive. The <em>Früherkennung</em> serves this layer.</li>
+        <li><strong>DGS / Einlagensicherung</strong> (deposit-guarantee scheme) — <em>compensates</em> depositors <em>after</em> failure. The last-resort backstop, capped per depositor.</li>
+      </ul>
+      <p>Capital and the IPS try to make sure the DGS never has to pay. The DGS exists for the case where they fail.</p>
+    </div>
+
+    <h2>2 · Concept &amp; logic — DGSD and ESAEG</h2>
+
+    <h3>2.1 The EU layer — DGSD (Directive 2014/49/EU)</h3>
+    <p>The <em>Deposit Guarantee Schemes Directive</em> harmonises deposit protection across the EU. As a <strong>Directive</strong> it is not directly applicable — it must be transposed into national law (contrast the directly-binding CRR; see M1). Its core parameters, <em>as of the framework — verify current status</em>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Value (as of framework — verify)</th><th>Nature</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Coverage level</strong> (Deckungssumme)</td><td><strong>€100.000</strong> per depositor <strong>per institution</strong></td><td><span class="tag reg">regulatory</span> harmonised DGSD ceiling. <em>Not</em> per account.</td></tr>
+        <tr><td><strong>Payout deadline</strong> (Auszahlungsfrist)</td><td>shortening toward <strong>7 working days</strong></td><td><span class="tag reg">regulatory</span> <span class="tag reg">verify current deadlines/targets</span> — the phase-in to 7 working days post-dates the original directive.</td></tr>
+        <tr><td><strong>Target level</strong> (Zielausstattung)</td><td><strong>0,8%</strong> of <strong>covered deposits</strong></td><td><span class="tag reg">regulatory</span> minimum of available financial means, reached by ex-ante contributions.</td></tr>
+        <tr><td><strong>Contributions</strong> (Beiträge)</td><td><strong>risk-based, ex-ante</strong></td><td><span class="tag reg">regulatory</span> riskier banks pay more (EBA methodology).</td></tr>
+        <tr><td><strong>Temporary high balances</strong></td><td>extra cover, time-limited</td><td><span class="tag reg">regulatory</span> e.g. proceeds from a house sale — covered above €100k for a limited window. <span class="tag reg">verify scope/limit</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Note the target is <strong>0,8% of <em>covered</em> deposits</strong> — the protected subset (deposits within scope and within the ceiling), not total deposits and not total liabilities. That denominator matters: it ties the fund's size to exactly the exposure it insures.</p>
+
+    <h3>2.2 The Austrian layer — ESAEG</h3>
+    <p>Austria transposes the DGSD via the <strong>ESAEG</strong> — <em>Einlagensicherungs- und Anlegerentschädigungsgesetz</em> (Deposit Guarantee and Investor Compensation Act). It defines what counts as a <em>gedeckte Einlage</em> (covered deposit), the contribution mechanics, and bundles in <strong>Anlegerentschädigung</strong> (investor compensation, for claims arising from investment services) up to <strong>€20.000</strong> <span class="tag reg">regulatory</span> — a separate, lower cap from the €100.000 deposit cover.</p>
+    <div class="box reg">
+      <div class="box-title">⚖️ Austrian scheme structure — VERIFY on the FMA register</div>
+      <p><em>As of the framework</em>: since <strong>2019</strong> Austria consolidated into a <strong>single statutory scheme</strong> for most banks — <strong>Einlagensicherung AUSTRIA Ges.m.b.H.</strong> Before that, the Raiffeisen sector ran its own scheme, the <strong>Österreichische Raiffeisen-Einlagensicherung</strong>.</p>
+      <p><strong>The current Raiffeisen deposit-guarantee membership/structure is to be VERIFIED</strong> against the FMA's current register — do not assert it from memory. Distinguish two roles that are easy to blur:</p>
+      <ul>
+        <li>the <strong>ÖRS</strong> — <em>Österreichische Raiffeisen-Sicherungseinrichtung</em> — is the sector's <strong>Sicherungseinrichtung</strong> (protection body) named in the Leitfaden; it operates the <strong>R-IPS</strong> and runs the <em>Früherkennung</em> over its members;</li>
+        <li>which <strong>statutory DGS</strong> the sector's banks belong to (the single AUSTRIA scheme vs a sector arrangement) is a separate question of <em>deposit-guarantee</em> membership — check FMA's current register.</li>
+      </ul>
+      <p>The Leitfaden uses the ÖRS as the body running the early-warning system; the deposit-guarantee scheme membership is the thing most likely to have changed.</p>
+    </div>
+
+    <h2>3 · The crucial distinction — IPS vs DGS</h2>
+    <p>If you remember one thing from this module, remember this table. The <strong>R-IPS</strong> and the <strong>DGS</strong> are two different machines with two different jobs and two different legal bases.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>R-IPS (Institutssicherungssystem)</th><th>DGS (Einlagensicherung)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Legal basis</strong></td><td><strong>Art. 113(7) CRR</strong> <span class="tag reg">regulatory</span></td><td><strong>DGSD 2014/49/EU → ESAEG</strong> <span class="tag reg">regulatory</span></td></tr>
+        <tr><td><strong>Function</strong></td><td><strong>Prevention</strong> — keep members solvent &amp; liquid</td><td><strong>Compensation</strong> — pay out depositors</td></tr>
+        <tr><td><strong>Timing</strong></td><td><strong>BEFORE</strong> failure (pre-emptive)</td><td><strong>AFTER</strong> failure (deposits unavailable / resolution)</td></tr>
+        <tr><td><strong>Trigger</strong></td><td>Monitoring signals — <em>the Früherkennung!</em> (Ampelung, RTFA)</td><td><strong>Feststellung der Nichtverfügbarkeit</strong> (deposits declared unavailable) or resolution</td></tr>
+        <tr><td><strong>Beneficiary</strong></td><td>the <em>member institution</em></td><td>the <em>depositor</em></td></tr>
+        <tr><td><strong>Coverage / benefit</strong></td><td>mutual support; <strong>0% intra-IPS risk weight</strong> + <strong>waiver of large-exposure limits</strong> intra-IPS</td><td><strong>€100.000</strong> per depositor per institution</td></tr>
+        <tr><td><strong>Funding</strong></td><td>by the <strong>members</strong> (sector-funded)</td><td>risk-based <strong>ex-ante</strong> contributions to <strong>0,8%</strong> target</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The IPS benefits are themselves a powerful incentive: an Art. 113(7) IPS lets members assign a <strong>0% risk weight</strong> to intra-IPS exposures and waive the <strong>large-exposure (Großkredit) limits</strong> for them — in exchange for joint monitoring and a binding obligation to support each other. That monitoring obligation <em>is</em> the regulatory home of the <em>Früherkennung</em>.</p>
+
+    <h3>3.1 The linkage — when an IPS-run DGS can <em>prevent</em> failure</h3>
+    <p>Here is the conceptual bridge that makes this module matter. An IPS that is <strong>also officially recognised as (or operates) a DGS</strong> is permitted, under conditions, to use its available financial means not only to pay out depositors but for <strong>failure-prevention measures</strong> — the DGSD's "<em>alternative measures</em>". Instead of waiting for the bank to fail and then compensating depositors (the costly path), the scheme can deploy funds <em>early</em> to keep the bank alive, provided this is cheaper than a payout (the <em>least-cost</em> / cheaper-than-payout test) and the conditions are met.</p>
+    <div class="box key">
+      <div class="box-title">Why the Früherkennung is the enabler</div>
+      <p>Early action requires an <strong>early signal</strong>. You cannot deploy preventive support against a failure you only discover at the counter. The <em>Früherkennung</em>'s output — the <strong>RTFA</strong> utilisation and the <strong>Ampelung</strong> (traffic lights, Module 4) — is precisely the forward-looking trigger that lets the sector act while options are still cheap. RED in the Extremfall is not the end of the story; in this system it is the <em>start</em> of the IPS's preventive intervention. <strong>The early-warning system is what converts "compensate after" into "prevent before".</strong></p>
+    </div>
+
+    <h2>4 · Worked example</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — RED in the Extremfall: IPS prevention vs DGS payout</div>
+      <p>A sector member bank — call it RB-Süd — has covered deposits of, say, €800m and is steered through the <em>Früherkennung</em>.</p>
+      <p><strong>The IPS path (what actually happens):</strong></p>
+      <ol>
+        <li>The quarterly RTFA shows the <strong>Extremfall</strong> utilisation crossing into <span class="tl red">RED</span> (&gt;95%; Module 4) — economic substance no longer covers the 99,9% risk.</li>
+        <li>The <strong>ÖRS / Sektorrisikokomitee (SRK)</strong> reviews the case: the detailed RED report (concrete steps &amp; timing — Module 11) lands on the committee's desk.</li>
+        <li>The IPS deploys <strong>preventive measures</strong> — capital and/or liquidity support — to restore RB-Süd's solvency and liquidity <em>before</em> any deposit becomes unavailable.</li>
+        <li>RB-Süd does not fail. <strong>No <em>Feststellung der Nichtverfügbarkeit</em> is ever made. The DGS payout is never triggered. Depositor loss = €0.</strong></li>
+      </ol>
+      <p><strong>The counterfactual (no IPS):</strong></p>
+      <ol>
+        <li>Absent preventive support, RB-Süd fails; deposits are declared unavailable.</li>
+        <li>The <strong>DGS</strong> must pay out <strong>€100.000 per depositor per institution</strong>, within the (shortening) deadline — drawing on the ex-ante fund (0,8% target).</li>
+        <li>The DGS then becomes a creditor of the <em>Insolvenzmasse</em> (the estate) and recovers what it can — but covered-deposit claims are <strong>super-preferred</strong> (see §5), and recovery is slow and partial.</li>
+        <li>Depositors above €100k take losses on the excess; the sector's confidence takes a hit.</li>
+      </ol>
+      <p><strong>The lesson:</strong> the IPS intervention is the <strong>cheaper, earlier</strong> intervention — and the <em>Früherkennung</em> is what makes it <em>possible</em> by surfacing the problem while it is still fixable. The DGS payout is the expensive fallback you are trying to never reach.</p>
+    </div>
+
+    <h2>5 · In practice — interaction with early intervention &amp; resolution</h2>
+    <p>The DGS and IPS do not live in a vacuum; they sit alongside the EU recovery-and-resolution machinery: the <strong>BRRD</strong> (Bank Recovery and Resolution Directive) and, for the banking union, the <strong>SRM</strong> (Single Resolution Mechanism). Where do covered deposits sit when the worst happens?</p>
+
+    <h3>5.1 The creditor hierarchy — covered deposits are super-preferred</h3>
+    <p>In insolvency or resolution, claims are paid in a strict order (the <em>Haftungskaskade</em>). Covered deposits enjoy a <strong>super-preference</strong>: they rank <em>above</em> other ordinary unsecured claims, and the DGS — having paid the depositors — steps into that super-preferred rank by subrogation. Schematically (highest priority first):</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Rank (high → low)</th><th>Claim</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Secured / collateralised claims, certain preferred claims</td></tr>
+        <tr><td>2</td><td><strong>Covered deposits</strong> (and the DGS by subrogation) — <strong>super-preferred</strong></td></tr>
+        <tr><td>3</td><td>Eligible deposits of natural persons &amp; SMEs above €100k — preferred</td></tr>
+        <tr><td>4</td><td>Other ordinary unsecured claims (incl. large-corporate deposits)</td></tr>
+        <tr><td>5</td><td>Subordinated debt → AT1/T2 → CET1 (loss-absorbing capital)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The super-preference is what makes the DGS's recovery from the estate relatively good — but "relatively good and slow" is still worse than "never paid out". Hence prevention.</p>
+
+    <h3>5.2 How the RTFA + Ampelung feed the decision</h3>
+    <p>The chain the Leitfaden builds is exactly the early-intervention pipeline:</p>
+    <p style="text-align:center;font-weight:600;margin:14px 0">Data (VERA/COREP/FINREP) → RTFA (Problemfall 95% · Extremfall 99,9%) → <span class="tl green">grün</span>/<span class="tl yellow">gelb</span>/<span class="tl red">rot</span> Ampelung → ÖRS / SRK decision → IPS support <em>before</em> DGS payout</p>
+    <p>The <strong>Sektorrisikokomitee (SRK)</strong> is the body that acts on the signals: it consumes the RTFA output and the RED/YELLOW reports and decides whether and how to deploy IPS support. The DGS payout is the branch of the tree the whole apparatus is designed to prune.</p>
+
+    <h3>5.3 Funding &amp; moral hazard</h3>
+    <p>Two design features fight the moral hazard that any guarantee creates (M1: insured depositors stop monitoring the bank, so the bank can take more risk):</p>
+    <ul>
+      <li><strong>Risk-based, ex-ante contributions</strong> <span class="tag reg">regulatory</span> — riskier banks pay more <em>up front</em>, internalising some of the risk they impose on the fund, and the fund exists <em>before</em> a crisis rather than being levied during one.</li>
+      <li><strong>The 0,8% target of covered deposits</strong> <span class="tag reg">regulatory</span> — a credible pre-funded pot, sized to the insured exposure.</li>
+      <li><strong>IPS prevention on top</strong> — mutual monitoring + early support reduces the <em>probability</em> of ever drawing the fund. Every prevented failure is a payout that never happens.</li>
+    </ul>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 1 — IPS (prevention) ≠ DGS (payout)</div>
+      <p>The single most-tested confusion. The <strong>R-IPS</strong> rests on <strong>Art. 113(7) CRR</strong> and intervenes <em>before</em> failure to keep a member alive (benefit: 0% intra-IPS risk weight + large-exposure waiver). The <strong>DGS</strong> rests on the <strong>DGSD/ESAEG</strong> and pays depositors €100.000 <em>after</em> a <em>Feststellung der Nichtverfügbarkeit</em> or resolution. Same sector, different machines, different legal bases.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 2 — €100.000 is per depositor PER institution, not per account</div>
+      <p>Open ten accounts at the same bank and you are still covered to €100.000 in total at that bank (joint accounts and certain categories aside). The "per institution" wording is what lets a depositor with two <em>different</em> banks be covered €100.000 at each. <span class="tag reg">verify current status</span></p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 3 — covered deposits are super-preferred in insolvency</div>
+      <p>They rank <em>above</em> ordinary unsecured creditors; the DGS inherits that super-preference by subrogation after it pays out. Do not assume the DGS recovers <em>pari passu</em> with general creditors — it sits near the top of the cascade.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 4 — the target level is 0,8% of COVERED deposits</div>
+      <p>Not 0,8% of total deposits, not of total liabilities, not of RWAs. The denominator is the protected subset — the exposure the fund actually insures. Getting the denominator wrong overstates or understates the required fund by a lot.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap 5 — the ÖRS in the Leitfaden is the sector <em>Sicherungseinrichtung</em> running the Früherkennung; the current DGS membership must be verified</div>
+      <p>The Leitfaden's ÖRS is the body operating the R-IPS and the early-warning system. <em>Which statutory deposit-guarantee scheme</em> the sector's banks belong to today (single AUSTRIA scheme vs a sector arrangement) is a separate question — <strong>check the FMA register</strong>, do not infer it from the IPS role or from memory.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>The deposit guarantee exists to <strong>break bank-run coordination failures</strong> (M1) and underpin confidence; it is the <strong>post-failure backstop</strong>, distinct from capital (loss absorption) and the IPS (prevention).</li>
+      <li><strong>DGSD (2014/49/EU)</strong>: <strong>€100.000</strong> per depositor per institution; payout toward <strong>7 working days</strong>; target <strong>0,8% of covered deposits</strong> from risk-based ex-ante contributions; temporary high balances get extra cover. <span class="tag reg">verify current deadlines/targets</span></li>
+      <li><strong>ESAEG</strong> transposes it in Austria (covered deposits, contributions, <strong>Anlegerentschädigung €20.000</strong>); since 2019 a single scheme <strong>Einlagensicherung AUSTRIA</strong> for most banks — <strong>the current Raiffeisen arrangement must be verified on the FMA register.</strong></li>
+      <li><strong>IPS (Art. 113(7) CRR) = prevention before failure</strong> (0% intra-IPS RW + large-exposure waiver); <strong>DGS = compensation after failure</strong> (€100k). An IPS-run DGS may use its funds for <strong>alternative (prevention) measures</strong> if cheaper than payout — and the <em>Früherkennung</em>'s Ampelung is the trigger that makes early action possible.</li>
+      <li>Covered deposits are <strong>super-preferred</strong> in the creditor hierarchy; the <strong>SRK</strong> acts on the RTFA/Ampelung signals to deploy IPS support <em>before</em> the DGS is ever needed.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Die <strong>Einlagensicherung</strong> verhindert <em>Bankruns</em>, indem sie Kleinanleger schützt — sie ist der <strong>Auffangmechanismus nach dem Ausfall</strong>, getrennt vom Kapital (Verlustdeckung) und vom IPS (Prävention).</li>
+        <li><strong>DGSD 2014/49/EU</strong>: <strong>€100.000</strong> je Einleger je Institut; Auszahlung Richtung <strong>7 Arbeitstage</strong>; Zielausstattung <strong>0,8% der gedeckten Einlagen</strong> aus risikobasierten Ex-ante-Beiträgen. <span class="tag reg">aktuelle Werte prüfen</span></li>
+        <li><strong>ESAEG</strong> setzt die DGSD in Österreich um (gedeckte Einlagen, Anlegerentschädigung <strong>€20.000</strong>); seit 2019 ein einheitliches System <strong>Einlagensicherung AUSTRIA</strong> — die <strong>aktuelle Raiffeisen-Zugehörigkeit ist beim FMA-Register zu verifizieren.</strong></li>
+        <li><strong>IPS (Art. 113(7) CRR) = Prävention vor dem Ausfall</strong>; <strong>DGS = Entschädigung nach dem Ausfall</strong>. Ein als DGS anerkanntes IPS darf seine Mittel unter Bedingungen für <strong>Präventivmaßnahmen</strong> nutzen — und die <strong>Ampelung der Früherkennung</strong> ist genau der Auslöser für frühes Handeln.</li>
+        <li>Gedeckte Einlagen sind in der Haftungskaskade <strong>super-bevorrechtigt</strong>; das <strong>Sektorrisikokomitee (SRK)</strong> handelt auf Basis der RTFA-/Ampel-Signale, bevor eine DGS-Auszahlung nötig wird.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024; DGSD (EU) 2014/49; ESAEG (Austria); CRR (EU) 575/2013 Art. 113(7); BRRD 2014/59/EU; SRM Reg. (EU) 806/2014. Deposit-guarantee specifics (scheme structure, Raiffeisen arrangement, coverage/payout/target, 2024–2026 CMDI changes) post-date this material and the Leitfaden — <strong>verify against current FMA / ESA / EUR-Lex sources.</strong></div>
+
+    <nav class="modnav">
+      <a class="prev" href="m16.html"><div class="dir">← Previous</div><div class="ttl">M16 · Basel IV / CRR III</div></a>
+      <a class="next" href="../capstone.html"><div class="dir">Next →</div><div class="ttl">★ Capstone: Mock-RTFA + Viva</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Einlagensicherung", pass:0.7, questions:[
+  { q:"What is the essential difference between the R-IPS (Art. 113(7) CRR) and the DGS (DGSD/ESAEG)?",
+    options:[
+      "They are the same body under two names; the distinction is purely historical",
+      "The IPS is a PREVENTIVE mutual-support scheme that keeps members solvent before failure; the DGS is a COMPENSATION scheme that pays depositors after failure",
+      "The IPS pays depositors €100.000; the DGS supports member banks",
+      "The IPS applies only to large banks and the DGS only to small ones"],
+    answer:1,
+    explain:"The IPS rests on Art. 113(7) CRR and intervenes BEFORE failure to keep members solvent and liquid (benefit: 0% intra-IPS risk weight + large-exposure waiver). The DGS rests on the DGSD/ESAEG and pays depositors (€100.000 per depositor per institution) AFTER a Feststellung der Nichtverfügbarkeit or resolution. Prevention vs compensation — different functions, timings and legal bases." },
+  { q:"The DGSD target level of 0,8% is measured against which base?",
+    options:[
+      "0,8% of total deposits",
+      "0,8% of total liabilities",
+      "0,8% of covered deposits",
+      "0,8% of risk-weighted assets"],
+    answer:2,
+    explain:"The target level of available financial means is 0,8% of COVERED deposits — the protected subset (within scope and within the €100k ceiling), not total deposits, not total liabilities, not RWAs. The denominator ties the fund's size to exactly the exposure it insures. (Verify the current figure against EUR-Lex/EBA.)" },
+  { q:"The €100.000 DGSD coverage is best described as…",
+    options:[
+      "per account",
+      "per depositor per institution",
+      "per depositor across all banks combined",
+      "per household"],
+    answer:1,
+    explain:"Coverage is €100.000 per depositor PER institution — not per account (ten accounts at one bank are still capped at €100k there) and not aggregated across banks (a depositor with two different banks is covered €100k at each). 'Per account' is the classic trap." },
+  { q:"A sector member hits RED in the Extremfall. In this system, what is the intended consequence — and what does it have to do with the Früherkennung?",
+    options:[
+      "The DGS immediately pays out €100.000 to every depositor",
+      "The ÖRS/Sektorrisikokomitee reviews the signal and the IPS can deploy preventive (capital/liquidity) support BEFORE failure, so a DGS payout is never triggered — the Ampelung is exactly the early signal that enables this",
+      "The bank is immediately put into resolution under the BRRD",
+      "Nothing happens until deposits are formally declared unavailable"],
+    answer:1,
+    explain:"RED is the START of the IPS's preventive intervention, not the end. The SRK acts on the RTFA/Ampelung signal and the IPS deploys early support to keep the member alive, so the DGS payout (and depositor loss) is never reached. An IPS-recognised-as-DGS may even use DGS funds for such alternative measures if cheaper than payout — and early action is only possible because the Früherkennung surfaces the problem while it is still fixable." },
+  { q:"Where do covered deposits sit in the insolvency/resolution creditor hierarchy, and what does that mean for the DGS?",
+    options:[
+      "They rank below ordinary unsecured creditors, so the DGS recovers little",
+      "They are super-preferred (rank above ordinary unsecured claims), and the DGS inherits that super-preference by subrogation after paying out",
+      "They rank pari passu with CET1",
+      "They are excluded from the hierarchy entirely"],
+    answer:1,
+    explain:"Covered deposits are super-preferred — they rank above ordinary unsecured claims. Having paid depositors, the DGS steps into that super-preferred rank by subrogation and recovers from the estate. Recovery is therefore relatively good but still slow and partial — which is why early IPS prevention (no payout at all) is the cheaper outcome." },
+]};
+</script>
+</body>
+</html>

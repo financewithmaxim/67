@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M6 · Market risk: IRRBB, FX, price &amp; spread VaR — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m06">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil II — Risikotragfähigkeit › Module 6</div>
+      <h1>Module 6 — Market risk (§5.5): Zinsrisiko Bankbuch, Währungsrisiko, Preisrisiko &amp; Credit-Spread VaR</h1>
+    </div>
+    <p class="lead">Market risk in the Leitfaden is not one number but four sub-risks — <em>Zinsrisiko Bankbuch</em> (interest-rate risk in the banking book / IRRBB), <em>Währungsrisiko</em> (FX / open foreign-currency position), <em>Preisrisiko</em> (price risk, trading and banking book), and <em>Spreadrisiko</em> (credit-spread VaR) — each measured on a <strong>250-day</strong> banking-book holding period, except the trading book, which is charged off own funds. This module derives the parametric-VaR machinery they share, the <strong>+200 bp</strong> shift that rescues the log-volatility method under negative rates, and the undiversified-vs-diversified split that is one of the few places the guide lets correlation fall below +1.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>State the general market-risk frame: confidence-defined Problem-/Extremfall, the 250-day banking-book holding period, and the trading-book "own-funds charge minus the FX charge" double-count fix.</li>
+        <li>Derive the IRRBB parametric VaR as <em>Barwert − simulierter Barwert</em> per Laufzeitband and currency, and explain the +200 bp parallel shift as a computational device for the <em>stetige</em> (log) method under negative rates.</li>
+        <li>Compute an FX VaR per currency and aggregate it both <strong>undiversified</strong> (sign-neutral sum) and <strong>diversified</strong> (correlation matrix), and write the two-asset formula.</li>
+        <li>Scale a trading-book price charge by ×0,71 / ×1,33 and explain it is the same normal-quantile-ratio scaling as CVA.</li>
+        <li>Build the Credit-Spread VaR (PV2 − PV1) by Forderungsklasse × Ratingklasse and explain why it does <em>not</em> double-count with credit risk.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP -->
+
+    <h2>1 · Motivation — why market risk is four risks, not one</h2>
+    <p>A Raiffeisen banking book is dominated by loans and deposits, not by a trading desk. Yet it still carries <em>market</em> risk: its assets and liabilities reprice at different speeds (interest-rate gap), it holds foreign-currency positions, it owns securities whose prices and credit spreads move, and — for the few Landesbanken with a desk — it runs a small Handelsbuch. The Leitfaden refuses to fold these into a single "market VaR". Each has a different driver, a different data source, and a different regulatory anchor, so each is modelled separately and then <strong>added</strong> into the Risikotragfähigkeitskalkül (correlation +1 across risk types, Module 4/12) — with one carefully-scoped exception inside market risk itself.</p>
+    <div class="box motivation">
+      <div class="box-title">▶ The one place correlation &lt; 1 is allowed</div>
+      <p>Across risk <em>types</em> the guide aggregates by addition (no diversification). But <em>within</em> market risk it permits sub-correlations: between currencies in FX risk, between rating classes in spread risk, and — per §7 — between <strong>Zinsrisiko and Credit-Spread risk</strong>. Recognising where diversification is and is not allowed is half of defending this methodology to the Aufsichtsrat (supervisory board). Cross-link: Module 4 (aggregation) and Module 12 (correlation governance).</p>
+    </div>
+
+    <h2>2 · Concept &amp; logic — the shared frame</h2>
+    <p>Every banking-book market sub-risk is a <strong>parametric (variance-covariance) VaR</strong>: take a position, shock the relevant market rate by a <em>volatility scaled to a confidence level</em>, revalue, and call the present-value loss the risk. Two scenario settings drive the confidence:</p>
+    <ul>
+      <li><strong>Problemfall</strong> — confidence 95% <span class="tag ors">ÖRS choice</span> (the sector's Risikoappetit; see Module 4).</li>
+      <li><strong>Extremfall</strong> — confidence 99,9% <span class="tag reg">regulatory</span>-anchored (IRB-consistent economic capital).</li>
+    </ul>
+    <p>The FX sub-risk is stated over the full <strong>95% … 99,9%</strong> percentile range for completeness. The shared mechanics:</p>
+    <div class="box key">
+      <div class="box-title">Three structural choices that recur in every sub-risk</div>
+      <ul style="margin:6px 0">
+        <li><strong>Holding period = 250 Tage (banking book)</strong> <span class="tag ors">ÖRS choice</span>. Volatilities estimated from a 3-year market-rate history are scaled to 250 trading days by the square-root-of-time rule (Module 4). The trading book has <em>no</em> holding period — it is charged off the regulatory own-funds requirement instead.</li>
+        <li><strong>Relative (multiplicative) volatility</strong>. The shock is applied as a <em>factor</em> on the market level (rate · Vola), not an additive bp move — which is why negative rates become a problem (next section).</li>
+        <li><strong>Diversified vs undiversified</strong>. The figure set against the Deckungsmasse is the <em>diversified</em> VaR (correlation matrix); the undiversified sum is reported alongside as a prudent upper bound.</li>
+      </ul>
+    </div>
+    <div class="box reg">
+      <div class="box-title">⚖️ Trading book: own-funds charge MINUS the FX charge</div>
+      <p>The trading-book (Handelsbuch) market risk is taken as the <strong>regulatory own-funds requirement for position risk + FX risk + commodity risk, minus the FX own-funds charge</strong>. Why subtract the FX charge? Because the open foreign-currency position is already captured in full — across both books — by the separate <em>Währungsrisiko</em> sub-risk below. Leaving the FX charge inside the trading-book number would <strong>double-count</strong> the same open position. So: trading-book price risk = (position + FX + commodity charge) − (FX charge). The position-risk charge itself covers general + specific + option risk. <span class="tag reg">regulatory</span> charge, <span class="tag ors">ÖRS</span> de-duplication rule.</p>
+    </div>
+
+    <h2>3 · Derivation</h2>
+
+    <h3>3.1 IRRBB — the present-value-difference VaR</h3>
+    <p><em>Zinsrisiko Bankbuch</em> (interest-rate risk in the banking book) is built on the supervisory <strong>IRRBB / ITS gap report</strong>: net interest-rate gaps \(g_{b,c}\) per <em>Laufzeitband</em> (maturity band) \(b\) and currency \(c\). The risk per band is the difference between the present value at today's rate and the present value at a shocked rate:</p>
+    <div class="formula">
+      $$ \text{Risiko}_{b,c}\;=\;\underbrace{BW_{b,c}}_{\text{Barwert}}\;-\;\underbrace{BW^{\text{sim}}_{b,c}}_{\text{simulierter Barwert}} $$
+      $$ BW_{b,c}=\frac{g_{b,c}}{\big(1+r_{b,c}\big)^{t_b}},\qquad BW^{\text{sim}}_{b,c}=\frac{g_{b,c}}{\big(1+r_{b,c}\cdot(1+\sigma_{b,c}\,z_q)\big)^{t_b}} $$
+      <div class="where">\(g_{b,c}\) = net interest-rate gap in band \(b\), currency \(c\) (from the IRRBB/ITS gap report); \(r_{b,c}\) = spot market rate matched to band \(b\); \(t_b\) = the band's representative maturity in years; \(BW\) = <strong>Barwert</strong> (present value), discounting the gap at the spot rate; \(BW^{\text{sim}}\) = <strong>simulierter Barwert</strong>, discounting at the rate scaled by its volatility; \(\sigma_{b,c}\) = <strong>relative volatility</strong> of the maturity-matched market rate (3-year history); \(z_q=\Phi^{-1}(q)\) = the standard-normal quantile for the confidence \(q\) (1,6449 at 95%; 3,0902 at 99,9%), scaling the volatility from one standard deviation to the confidence level. The shock is multiplicative: <em>rate · Vola</em>.</div>
+    </div>
+    <p>Bands and currencies are then combined through a <strong>parametric VaR with a correlation matrix</strong> (not a simple sum) so that offsetting gaps and imperfectly-correlated rates net out. Gaps in <em>"Sonstige Währungen"</em> (other currencies, individually immaterial) are priced on the <strong>EUR curve</strong> as a simplification. Optionality enters via <strong>delta-equivalent</strong> off-balance gaps — i.e. an option is represented by its delta-weighted notional placed in the appropriate band.</p>
+
+    <h3>3.2 The +200 bp parallel shift — why negative rates break the log method</h3>
+    <p>The volatility \(\sigma_{b,c}\) is computed by the <em>stetige</em> (continuous / log-return) method: from a 3-year history of the rate \(r_t\), take log returns \(\ln(r_t/r_{t-1})\) and use their standard deviation. This is the natural choice because rate moves are multiplicative — but it is <strong>undefined when any rate level is \(\le 0\)</strong>: \(\ln\) of a non-positive number does not exist, and \(\ln(r_t/r_{t-1})\) breaks the moment either \(r_t\) or \(r_{t-1}\) is negative.</p>
+    <div class="formula">
+      $$ \sigma=\operatorname{sd}\!\Big[\ln\tfrac{r_t}{r_{t-1}}\Big]\quad\text{requires}\quad r_t>0\ \forall t. $$
+      <div class="where">For EUR (and other currencies) the 3-year history contains <strong>negative rates</strong> (the post-2014 ECB era), so \(\ln(r_t)\) is undefined and the log/relative-volatility method cannot run.</div>
+    </div>
+    <p>The Leitfaden's fix: for any currency whose history contains negative rates, apply a <strong>+200 bp</strong> <em>parallel shift</em> across the whole curve before computing volatility, so that every point becomes positive and the <em>stetige</em> method is defined again:</p>
+    <div class="formula">
+      $$ \tilde r_{t}\;=\;r_{t}+200\text{ bp},\qquad \sigma=\operatorname{sd}\!\Big[\ln\tfrac{\tilde r_t}{\tilde r_{t-1}}\Big]. $$
+      <div class="where">\(\tilde r_t\) = the shifted rate; +200 bp = +2,00 percentage points added uniformly to every tenor. The shift is applied <em>only</em> to make the log computation possible; the resulting <strong>relative</strong> volatility is then used in the VaR.</div>
+    </div>
+    <div class="box ors">
+      <div class="box-title">🟣 The +200 bp shift is a modelling workaround, not an economic scenario</div>
+      <p><span class="tag ors">ÖRS modelling workaround</span> The +200 bp parallel shift exists for <strong>one reason only</strong>: to lift all rate levels above zero so the log-return (stetige) volatility is mathematically defined. It is <em>not</em> a +200 bp stress scenario and must not be read as one. <strong>What it trades off:</strong> it distorts the absolute <em>level</em> of the curve (a rate near 0 looks like 2,0%, so its <em>relative</em> volatility is understated relative to its true tiny base), but it <strong>preserves the relative-volatility method</strong> the whole framework relies on — a deliberate accuracy-for-tractability swap. Note the +200 bp number coincides with the <strong>EBA/GL/2018/02</strong> standard parallel shock and the <em>Supervisory Outlier Test</em> (SOT) shift, but here it serves the volatility computation, not the outlier test. (The genuine outlier/SOT shocks live in the IRRBB outlier reporting, Module 19.)</p>
+    </div>
+
+    <h3>3.3 FX risk — per-currency VaR and the two-asset diversification formula</h3>
+    <p>For each open currency position the risk is a one-line parametric VaR:</p>
+    <div class="formula">
+      $$ \text{VaR}_c\;=\;|P_c|\cdot \sigma_c^{(250)}\cdot z_q,\qquad \sigma_c^{(250)}=\sigma_c^{\text{(3y)}}\cdot\!\sqrt{\tfrac{250}{T_{\text{base}}}} $$
+      <div class="where">\(P_c\) = the open position in currency \(c\) (in EUR); \(\sigma_c^{(250)}\) = FX volatility scaled to the 250-day banking-book holding period from the 3-year history; \(z_q=\Phi^{-1}(q)\) = percentile for the confidence (95% … 99,9%). The position enters in absolute value — direction is handled at aggregation.</div>
+    </div>
+    <p><strong>Undiversified</strong> aggregation is a <em>sign-neutral sum</em> — add the per-currency VaRs with no correlations, the most prudent reading:</p>
+    <div class="formula">$$ \text{VaR}_{\text{undiv}}=\sum_c \text{VaR}_c. $$</div>
+    <p><strong>Diversified</strong> aggregation — the figure actually set against the Deckungsmasse — applies the FX <strong>correlation matrix</strong>. For two currencies the closed form is:</p>
+    <div class="formula">
+      $$ \text{VaR}_{P}\;=\;\sqrt{\,\text{VaR}_A^{2}+\text{VaR}_B^{2}+2\,\rho_{AB}\,\text{VaR}_A\,\text{VaR}_B\,} $$
+      <div class="where">\(\rho_{AB}\) = correlation between the two FX rates. Generalised to \(n\) currencies, with VaR vector \(\mathbf{v}=(\text{VaR}_1,\dots,\text{VaR}_n)^\top\) and correlation matrix \(\mathbf{C}\): \(\;\text{VaR}_P=\sqrt{\mathbf{v}^\top \mathbf{C}\,\mathbf{v}}\). When all \(\rho=1\), this collapses back to the undiversified sum.</div>
+    </div>
+    <div class="box key">
+      <div class="box-title">Within-risk-type diversification is the exception, not the rule</div>
+      <p>This \(\rho<1\) benefit is allowed because it is <em>inside</em> a single risk type (FX). The same logic recurs in spread risk (between rating classes) and IRRBB (between bands/currencies). Across risk types the guide still adds with \(\rho=+1\). Cross-link: Module 4 / Module 12.</p>
+    </div>
+
+    <h3>3.4 Credit-Spread VaR — the PV2 − PV1 structure</h3>
+    <p><em>Spreadrisiko</em> measures the loss from credit-spread moves on securities — applied to the <em>"nur Wertpapiere"</em> (securities-only) and <em>"nur Covered Bonds"</em> books, sliced by <strong>Forderungsklasse × Ratingklasse</strong> (exposure class × rating class). The risk factor is the <strong>relative bond volatility per rating class</strong> (Markit Overall index, 3-year history) scaled to the 250-day holding period.</p>
+    <div class="formula">
+      $$ \text{Risiko}=PV_2-PV_1,\qquad PV_2=MV\cdot\frac{\big(1+s+CS_{\text{cur}}\big)^{D}}{\big(1+s+CS_{\text{str}}\big)^{D}} $$
+      <div class="where">\(PV_1\) = current present value (market value \(MV\)); \(PV_2\) = stressed present value; \(s\) = swap rate; \(CS_{\text{cur}}\) = current credit spread of the rating class; \(CS_{\text{str}}=CS_{\text{cur}}\cdot(1+\sigma_{\text{CS}}z_q)\) = stressed credit spread (relative spread volatility, scaled to confidence); \(D=\) <strong>Dlfzt</strong>, the capital-weighted average maturity per rating class (years). Intuition: widen the spread by its scaled volatility, discount over the average life, and the PV falls — that fall is the VaR.</div>
+    </div>
+    <p>Diversification across rating classes uses a correlation matrix on the PV-change vector:</p>
+    <div class="formula">
+      $$ \text{CS-VaR}_{\text{div}}=\sqrt{(PV_2-PV_1)^\top\,\mathbf{Corr}\,(PV_2-PV_1)} $$
+      <div class="where">\((PV_2-PV_1)\) = vector of PV changes per rating class; \(\mathbf{Corr}\) = correlation matrix between rating classes. Within market risk, the correlation between <strong>Zinsrisiko</strong> and <strong>Credit-Spread risk</strong> is also considered (per §7).</div>
+    </div>
+
+    <h2>4 · Worked example</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — FX VaR: one position, then a diversified pair</div>
+      <p><strong>Setup.</strong> An open long position of <strong>CHF 10.000.000</strong> ≈ €10,0 m (assume parity for clarity). Its 250-day-scaled FX volatility is \(\sigma_{\text{CHF}}^{(250)}=6{,}0\%\). Quantiles: \(\Phi^{-1}(0{,}95)=1{,}6449\) <span class="tag reg">regulatory</span> standard-normal, \(\Phi^{-1}(0{,}999)=3{,}0902\).</p>
+      <p><strong>Step 1 — single-currency VaR.</strong></p>
+      <div class="formula">$$ \text{VaR}^{95\%}_{\text{CHF}}=10{,}0\text{ m}\cdot0{,}06\cdot1{,}6449=\textbf{€0,987 m} $$
+      $$ \text{VaR}^{99{,}9\%}_{\text{CHF}}=10{,}0\text{ m}\cdot0{,}06\cdot3{,}0902=\textbf{€1,854 m} $$</div>
+      <p>The Extremfall VaR is \(3{,}0902/1{,}6449=1{,}879\times\) the Problemfall VaR — pure vertical quantile scaling (Module 4), nothing else changed.</p>
+      <hr style="margin:14px 0">
+      <p><strong>Step 2 — add a second currency and diversify.</strong> Add an open <strong>USD 8,0 m</strong> ≈ €8,0 m position with \(\sigma_{\text{USD}}^{(250)}=7{,}0\%\). At 95%:</p>
+      <div class="formula">$$ \text{VaR}^{95\%}_{\text{USD}}=8{,}0\text{ m}\cdot0{,}07\cdot1{,}6449=\textbf{€0,921 m}. $$</div>
+      <p><strong>Undiversified</strong> (sign-neutral sum):</p>
+      <div class="formula">$$ \text{VaR}_{\text{undiv}}=0{,}987+0{,}921=\textbf{€1,908 m}. $$</div>
+      <p><strong>Diversified</strong> with correlation \(\rho_{\text{CHF,USD}}=0{,}45\):</p>
+      <div class="formula">$$ \text{VaR}_P=\sqrt{0{,}987^2+0{,}921^2+2\cdot0{,}45\cdot0{,}987\cdot0{,}921}=\sqrt{0{,}974+0{,}848+0{,}818}=\sqrt{2{,}640}=\textbf{€1,625 m}. $$</div>
+      <p><strong>Diversification benefit</strong> = \(1{,}908-1{,}625=\)€0,283 m (≈15%). Only the <strong>diversified</strong> €1,625 m is set against the Deckungsmasse; the undiversified €1,908 m is reported alongside as the prudent bound. Had \(\rho=1\), the square-root formula would return exactly €1,908 m — the diversified and undiversified figures coincide only at perfect correlation.</p>
+    </div>
+
+    <h2>5 · In practice (the Leitfaden &amp; the data)</h2>
+
+    <h3>5.1 The four sub-risks and their data sources</h3>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Sub-risk</th><th>What it measures</th><th>Method / data</th><th>Holding period</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Zinsrisiko Bankbuch (IRRBB)</strong></td><td>Repricing gap PV change</td><td>Parametric VaR, \(BW-BW^{\text{sim}}\); IRRBB/ITS gap report; +200 bp shift where rates &lt; 0</td><td class="num">250 Tage</td></tr>
+        <tr><td><strong>Währungsrisiko</strong></td><td>Open Devisenposition</td><td>\(|P|\cdot\sigma\cdot z_q\); 3-yr FX history; undiv. sum vs div. matrix</td><td class="num">250 Tage</td></tr>
+        <tr><td><strong>Preisrisiko Handelsbuch</strong></td><td>Trading-book price risk</td><td>Own-funds charge (position+FX+commodity) − FX charge; ×0,71 / ×1,33</td><td class="num">— (own-funds)</td></tr>
+        <tr><td><strong>Preisrisiko Bankbuch</strong></td><td>Equities/funds in banking book</td><td>VaR on specific vola or via index (ATX); or → Beteiligungsrisiko</td><td class="num">250 Tage</td></tr>
+        <tr><td><strong>Spreadrisiko</strong></td><td>Credit-spread VaR on securities</td><td>\(PV_2-PV_1\) by Forderungs- × Ratingklasse; Markit Overall 3-yr</td><td class="num">250 Tage</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>5.2 Preisrisiko Handelsbuch — the ×0,71 / ×1,33 scaling</h3>
+    <p>The trading book is <strong>minor even for the Landesbanken</strong>, so the guide does not run a bespoke VaR on it. It takes the regulatory <em>position-risk own-funds charge</em> (general + specific + option risk), nets out the FX charge (§2, to avoid double-counting the open Devisenposition), and rescales the result — calibrated at the regulatory <strong>99%</strong> — to the scenario confidence:</p>
+    <div class="formula">
+      $$ \text{factor}_{\text{Problemfall}}=\frac{\Phi^{-1}(0{,}95)}{\Phi^{-1}(0{,}99)}=\frac{1{,}6449}{2{,}3263}=\mathbf{0{,}71},\qquad \text{factor}_{\text{Extremfall}}=\frac{\Phi^{-1}(0{,}999)}{\Phi^{-1}(0{,}99)}=\frac{3{,}0902}{2{,}3263}=\mathbf{1{,}33}. $$
+      <div class="where">These are the <em>identical</em> normal-quantile-ratio scalars as the CVA charge (Module 7): <span class="tag ors">ÖRS scaling choice</span> on a <span class="tag reg">regulatory</span> own-funds charge. They are pure vertical VaR consistency (Module 4) — converting a 99%-calibrated charge to 95% / 99,9%.</div>
+    </div>
+
+    <h3>5.3 Preisrisiko Bankbuch — where equities land</h3>
+    <p>Equities <em>held in the banking book</em> are treated like <strong>Beteiligungsrisiko</strong> (participation risk, Module 10) <em>if booked there</em>. Indirect or fund holdings get a VaR on their <strong>specific</strong> market volatility, or — simplified — via an <strong>index proxy</strong> (e.g. the <em>ATX</em>), scaled to 95% / 99,9%. Where an equity lands therefore depends on its booking, which is exactly the trap below.</p>
+
+    <h3>5.4 Spreadrisiko — no double-count with credit risk</h3>
+    <p>Spread risk and credit risk look adjacent but capture different things, so there is no double-count:</p>
+    <ul>
+      <li><strong>Credit risk</strong> (Module 5) captures <em>default</em> and <em>migration</em> driven by the borrower's rating. <strong>Spread risk</strong> captures the <em>market repricing</em> of credit: a spread can widen <strong>with the rating unchanged</strong> (a market re-pricing of risk), which credit risk does not see.</li>
+      <li>To keep the two clean, the credit-risk module sets <strong>M = 1 year</strong> for <em>"nur Wertpapiere"</em> (instead of the default M = 2,5y) — its downgrade/spread risk is moved <strong>here</strong>, into Credit-Spread VaR, rather than being charged twice. Cross-link: Module 5, §5.4.</li>
+      <li>Within market risk, the <strong>Zinsrisiko ↔ Credit-Spread correlation IS considered</strong> (per §7) — the bond PV moves with both the risk-free curve and the spread, and the guide recognises they are related.</li>
+    </ul>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — 250-day banking book vs NO holding period in the trading book</div>
+      <p>The banking-book sub-risks (IRRBB, FX, banking-book price, spread) all scale a volatility to a <strong>250-day</strong> holding period. The <strong>trading book has no holding period at all</strong> — it is taken from the regulatory own-funds charge and merely <em>rescaled</em> by quantile ratio (0,71 / 1,33). Mixing the two — e.g. trying to "scale the trading-book charge to 250 days" — is a category error: one is VaR-based, the other own-funds-based.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — the +200 bp shift is a computational device, not a stress scenario</div>
+      <p>The +200 bp parallel shift exists <strong>only</strong> to lift negative rates above zero so the <em>stetige</em> (log) volatility is computable. It is <em>not</em> a +200 bp economic shock and produces no risk number by itself. If an examiner says "the guide applies a 200 bp rate stress", correct them: it shifts the curve to enable the log method, then computes <em>relative</em> volatility on the shifted series. (The number coincides with the EBA/GL/2018/02 / SOT parallel shock, but the purpose here is different.)</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — undiversified (sum) vs diversified (matrix)</div>
+      <p>Two different numbers, two different roles. The <strong>undiversified</strong> figure is the sign-neutral <em>sum</em> of per-position VaRs (\(\rho=1\) implicitly) — the prudent bound. The <strong>diversified</strong> figure uses the correlation matrix (\(\sqrt{\mathbf{v}^\top\mathbf{C}\mathbf{v}}\)) and is the one <em>set against the Deckungsmasse</em>. Reporting the undiversified number as the RTFA charge over-states risk; reporting the diversified one as the "worst case" under-states it.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — equities live in either Beteiligungsrisiko or Marktrisiko</div>
+      <p>The <em>same</em> equity can be a participation (Beteiligungsrisiko, Module 10) or a banking-book price risk (Marktrisiko) depending purely on <strong>where it is booked</strong>. Never assume; check the booking. A holding moved between books moves between risk modules — and double-counting or a gap is the failure mode.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>Market risk = four sub-risks: <strong>Zinsrisiko Bankbuch (IRRBB)</strong>, <strong>Währungsrisiko</strong> (open Devisenposition), <strong>Preisrisiko</strong> (Handels- &amp; Bankbuch), <strong>Spreadrisiko</strong> (Credit-Spread VaR). Banking-book holding period <strong>250 Tage</strong>; trading book = own-funds charge for position/FX/commodity risk <em>minus</em> the FX charge.</li>
+      <li><strong>IRRBB</strong>: \(\text{Risiko}=BW-BW^{\text{sim}}\) per Laufzeitband &amp; currency; Barwert discounts the gap at the spot rate, simulierter Barwert at rate·Vola; relative 3-yr volatility scaled to confidence; bands/currencies combined via a correlation matrix; "Sonstige Währungen" on the EUR curve; options via delta-equivalent gaps.</li>
+      <li><strong>+200 bp shift</strong>: a pure computational device — negative rates make \(\ln(r_t)\) undefined, so add 200 bp to make all levels positive and enable the <em>stetige</em> (log) method. Distorts the level, preserves the relative-vol method. Coincides with EBA/GL/2018/02 / SOT but is not a stress scenario. <span class="tag ors">ÖRS workaround</span>.</li>
+      <li><strong>FX</strong>: \(\text{VaR}_c=|P_c|\,\sigma_c\,z_q\); undiversified = sign-neutral sum; diversified \(=\sqrt{\mathbf{v}^\top\mathbf{C}\mathbf{v}}\) (two-asset: \(\sqrt{\text{VaR}_A^2+\text{VaR}_B^2+2\rho_{AB}\text{VaR}_A\text{VaR}_B}\)) — one of the few places \(\rho<1\) is allowed.</li>
+      <li><strong>Trading book</strong>: own-funds charge − FX charge, ×0,71 (Problemfall) / ×1,33 (Extremfall) — same quantile-ratio scaling as CVA. <strong>Spread VaR</strong>: \(PV_2-PV_1\) by Forderungs- × Ratingklasse; no double-count with credit risk (spread moves with rating unchanged; "nur Wertpapiere" uses M = 1y in credit risk because its downgrade risk sits here).</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Das Marktrisiko umfasst vier Teilrisiken: <strong>Zinsrisiko Bankbuch (IRRBB)</strong>, <strong>Währungsrisiko</strong> (offene Devisenposition), <strong>Preisrisiko</strong> (Handels- und Bankbuch) und <strong>Spreadrisiko</strong> (Credit-Spread-VaR). Haltedauer im Bankbuch <strong>250 Tage</strong>; das Handelsbuch wird über das Eigenmittelerfordernis (Positions-/Fremdwährungs-/Warenrisiko) <em>abzüglich</em> des FX-Erfordernisses abgebildet.</li>
+        <li><strong>IRRBB</strong>: Risiko = <em>Barwert − simulierter Barwert</em> je Laufzeitband und Währung; relative Vola (3-Jahres-Historie, auf das Konfidenzniveau skaliert); Aggregation über eine Korrelationsmatrix.</li>
+        <li>Der <strong>+200-bp-Parallelshift</strong> ist ein reines Rechenhilfsmittel: bei negativen Zinsen ist \(\ln(r_t)\) nicht definiert, daher wird die Kurve um 200 bp verschoben, damit die <em>stetige</em> Methode rechenbar wird — kein Stressszenario. <span class="tag ors">ÖRS-Festlegung</span>.</li>
+        <li><strong>FX</strong>: undiversifiziert = vorzeichenneutrale Summe; diversifiziert über die Korrelationsmatrix \(\sqrt{\mathbf{v}^\top\mathbf{C}\mathbf{v}}\) — die diversifizierte Zahl wird der Deckungsmasse gegenübergestellt.</li>
+        <li><strong>Handelsbuch</strong>: Eigenmittelerfordernis × 0,71 (Problemfall) / × 1,33 (Extremfall). <strong>Spreadrisiko</strong>: \(PV_2-PV_1\) je Forderungs- × Ratingklasse, keine Doppelzählung mit dem Kreditrisiko (deshalb M = 1 Jahr für "nur Wertpapiere").</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, §5.5 (and §7 for the Zins↔Credit-Spread correlation); CRR (EU) 575/2013 — own-funds requirements for position risk (Title IV), foreign-exchange risk (Art. 351–354) and CVA (Title VI); EBA/GL/2018/02 (IRRBB) and the Supervisory Outlier Test. FX positions/volatilities/correlation in the worked example are illustrative.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m05.html"><div class="dir">← Previous</div><div class="ttl">M5 · Credit risk: the IRB formula</div></a>
+      <a class="next" href="m07.html"><div class="dir">Next →</div><div class="ttl">M7 · CVA risk</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Market risk", pass:0.7, questions:[
+  { q:"Why does the trading-book market-risk number subtract the FX own-funds charge from the position/FX/commodity charge?",
+    options:[
+      "Because FX risk is immaterial and can be ignored",
+      "Because the open foreign-currency position is already captured in full by the separate Währungsrisiko sub-risk, so leaving the FX charge in would double-count it",
+      "Because the CRR forbids charging FX risk in the trading book",
+      "Because the FX charge is always larger than the position charge"],
+    answer:1,
+    explain:"The open Devisenposition is measured across both books by the Währungsrisiko VaR. The trading-book charge therefore nets out the regulatory FX own-funds charge to avoid double-counting the same position; the residual covers general+specific+option (position) risk." },
+  { q:"What is the actual purpose of the +200 bp parallel shift in the IRRBB calculation?",
+    options:[
+      "It is the supervisory +200 bp rate stress scenario that produces the IRRBB risk number",
+      "It lifts negative rate levels above zero so the stetige (log-return) volatility ln(r_t/r_{t-1}) is mathematically defined",
+      "It converts the 95% confidence to 99,9%",
+      "It scales the volatility from one day to 250 days"],
+    answer:1,
+    explain:"Log-return volatility needs strictly positive rate levels; a 3-year history containing negative rates makes ln(r_t) undefined. Adding 200 bp makes every point positive so the relative-volatility (stetige) method runs. It is a computational device, NOT a stress scenario — though the number coincides with the EBA/GL/2018/02 / SOT parallel shock." },
+  { q:"Two FX positions have stand-alone VaRs of €0,99 m (CHF) and €0,92 m (USD) with correlation 0,45. Which statement is correct?",
+    options:[
+      "The undiversified VaR is √(0,99²+0,92²+2·0,45·0,99·0,92) and is the figure set against the Deckungsmasse",
+      "The diversified VaR (≈€1,63 m, via the matrix) is set against the Deckungsmasse; the undiversified sum (€1,91 m) is the prudent bound reported alongside",
+      "Undiversified and diversified are always equal",
+      "The diversified VaR is always the larger of the two"],
+    answer:1,
+    explain:"Undiversified = sign-neutral SUM (0,99+0,92=€1,91 m). Diversified = √(vᵀCv) ≈ €1,63 m and is the RTFA figure. They coincide only when ρ=1. Within-FX correlation <1 is one of the few diversification benefits the guide allows." },
+  { q:"Why is there no double-count between Credit-Spread risk and credit risk, and how is the boundary enforced?",
+    options:[
+      "Spread risk only covers defaults, which credit risk ignores",
+      "A credit spread can widen with the rating unchanged (market repricing), which credit risk does not capture; and 'nur Wertpapiere' uses M=1y in credit risk so its downgrade/spread risk sits in spread VaR instead",
+      "They are the same risk measured twice on purpose for prudence",
+      "Credit-spread risk is only applied to equities, credit risk only to loans"],
+    answer:1,
+    explain:"Credit risk captures default/migration via the rating; spread risk captures market repricing of credit, which can move with the rating fixed. To avoid overlap, securities ('nur Wertpapiere') are set to M=1y in the IRB credit formula (vs 2,5y default), moving their downgrade/spread component into the Credit-Spread VaR." },
+  { q:"The trading-book price charge is scaled ×0,71 (Problemfall) and ×1,33 (Extremfall). What are these factors?",
+    options:[
+      "Square-root-of-time holding-period adjustments to 250 days",
+      "Normal-quantile ratios Φ⁻¹(0,95)/Φ⁻¹(0,99)=0,71 and Φ⁻¹(0,999)/Φ⁻¹(0,99)=1,33 — the same vertical VaR scaling as CVA, converting a 99%-calibrated charge to 95%/99,9%",
+      "Regulatory CRR multipliers fixed in Art. 351",
+      "Diversification benefits from the correlation matrix"],
+    answer:1,
+    explain:"They are pure vertical VaR consistency: the regulatory charge is calibrated at 99%, and 1,6449/2,3263=0,71, 3,0902/2,3263=1,33 rescale it to the Problemfall/Extremfall confidence. Identical to the CVA scalars (Module 7) — an ÖRS scaling choice on a regulatory charge." },
+]};
+</script>
+</body>
+</html>

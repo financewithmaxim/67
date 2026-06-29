@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M14 · Data, reporting, frequency &amp; Kennziffern — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m14">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil III — Aggregation &amp; Deckungsmassen › Module 14</div>
+      <h1>Module 14 — Data, reporting, frequency &amp; Kennziffern (§8, §9)</h1>
+    </div>
+    <p class="lead">This is the plumbing module: every number you have computed across Modules 5–13 is fed by a concrete data source — and almost all of those sources are <em>recycled supervisory reporting</em> (COREP / FINREP / VERA) plus one credit-risk supplement (the R1). Understand which position feeds which formula, on what cadence, and you understand how the whole Früherkennung actually runs in production.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Explain the design principle — <em>reuse supervisory formats to minimise manual effort</em> — and why it makes COREP/FINREP data quality a first-order driver of RTFA quality.</li>
+        <li>Read the data-source → risk map: name the input that feeds each risk type and the Module it lands in.</li>
+        <li>Trace the credit-risk data flow (R1 / ÖRS Datenspezifikation), the 10-BAT-each-way timeline, and why the R1 superseded the Excel credit inputs.</li>
+        <li>Define the §9 Kennziffern — Loan/Deposit, CIR, Asset Encumbrance, NPE, and the IRRBB Supervisory Outlier Test — and say which are regulatory and which are ÖRS choices.</li>
+        <li>Trace one quarter of credit risk end-to-end, from R1 submission to the RTFA vs the Deckungsmasse.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP -->
+
+    <h2>1 · Motivation — why the plumbing matters</h2>
+    <p>A risk framework that requires hundreds of Raiffeisenbanken to hand-key inputs every quarter will fail on two fronts: it will be slow, and it will be wrong. The Früherkennung's central operational decision is therefore <strong>not</strong> a modelling one — it is a data-sourcing one: wherever a figure already exists in a <em>supervisory</em> report the bank is legally obliged to file, the Früherkennung <strong>reuses that exact format</strong> rather than asking for a fresh number. The catalogue of those formats is <em>aufsichtliches Meldewesen</em> (supervisory reporting): <strong>COREP</strong> (own funds), <strong>FINREP</strong> (financial reporting), <strong>VERA</strong> (the Austrian <em>Vermögens-, Erfolgs- und Risikoausweis</em> reporting suite), supplemented for credit risk by the <strong>R1</strong>.</p>
+    <div class="box motivation">
+      <div class="box-title">▶ The prize and its price</div>
+      <p>The prize: minimal manual effort, automatic alignment with what the supervisor already sees, and a quarterly cadence that piggybacks on the <em>OeNB-Meldekalender</em> (OeNB reporting calendar) deadlines. The price: the RTFA is only as good as the supervisory data feeding it. A FINREP misclassification or a COREP own-funds error propagates straight into the Deckungsmasse and the traffic light. <strong>Data quality of COREP/FINREP directly drives RTFA quality</strong> — that is the single most important sentence in this module.</p>
+    </div>
+
+    <h2>2 · Concept — the reuse principle and the reporting envelope</h2>
+    <p>The Früherkennung sits on a quarterly <em>Rhythmus</em> (rhythm). Each quarter, on the OeNB-Meldekalender deadline, the institution assembles its figures — overwhelmingly from formats it is filing anyway — and reports them to the ÖRS. The reporting envelope is fixed and worth memorising:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Reporting parameter</th><th>Value</th><th>Nature</th></tr></thead>
+      <tbody>
+        <tr><td>Cadence</td><td>Quarterly (<em>quartalsweise</em>), aligned to OeNB-Meldekalender</td><td><span class="tag ors">ÖRS choice</span></td></tr>
+        <tr><td>Scope</td><td>Unconsolidated (<em>unkonsolidiert</em>) AND, where applicable, consolidated (<em>konsolidiert</em>)</td><td><span class="tag reg">regulatory</span> scopes</td></tr>
+        <tr><td>Reporting address</td><td><code>srg-office@rbinternational.com</code></td><td><span class="tag ors">ÖRS choice</span></td></tr>
+        <tr><td>Currency</td><td>All amounts in EUR</td><td><span class="tag ors">ÖRS choice</span></td></tr>
+        <tr><td>Format</td><td>Excel templates (the "Leitfaden Früherkennung" workbook) + the R1 for credit risk</td><td><span class="tag ors">ÖRS choice</span></td></tr>
+        <tr><td>Underlying formats reused</td><td>COREP, FINREP, VERA (supplemented where needed, esp. credit risk)</td><td><span class="tag reg">regulatory</span> formats</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Two scopes matter because the RTFA is run at several consolidation levels (Module 12): the same bank shows a different <em>Auslastung</em> (utilisation) solo, as a §30-BWG <em>KI-Gruppe</em> (credit-institution group), and within the IPS. The data has to arrive at both the unconsolidated and the consolidated level to support all of those views.</p>
+
+    <div class="box key">
+      <div class="box-title">The R/SQL framing — what is actually new for you</div>
+      <p>You already pull COREP and R1 positions in SQL every day; this module does not teach you that. The value here is the <strong>mapping</strong>: each R1 / COREP / FINREP position is a column you can already query, but knowing <em>which position feeds which formula</em> — e.g. that COREP own-funds position 7810002 (CET1) lands in the Deckungsmasse, not the risk side — is what lets you trace a wrong traffic light back to its source column. Learn the dependency graph, not the query.</p>
+    </div>
+
+    <h2>3 · The credit-risk data flow (R1 / ÖRS Datenspezifikation)</h2>
+    <p>Credit risk is the exception to "just reuse a supervisory report": it needs more granularity than COREP carries (exposures by customer, internal collateral, FX flags, top GvK). So since <strong>30.6.2023</strong> it runs on a dedicated supplement, the <strong>R1</strong> format, defined by the <em>ÖRS Datenspezifikation</em> (data specification). The flow is a closed loop with a symmetric deadline:</p>
+    <div class="formula" style="text-align:left">
+      <strong>Step 1 — Submission (10 BAT).</strong> Quarter-ultimo data (<em>Quartalsultimo</em>) from the <em>Landesorganisationen</em> / RSG, in the R1 format, within <strong>10 BAT</strong> (<em>Bankarbeitstage</em>, banking business days) after quarter-end, reported <em>per Landesgruppen-Mitglied</em> (each KI-Gruppe).<br><br>
+      <strong>Step 2 — Central processing.</strong> The ÖRS runs <em>Qualitätssicherung</em> (quality assurance) and the central credit-risk calculation (EL, UL, FX add-on, HHI surcharge — Module 5).<br><br>
+      <strong>Step 3 — Results back (10 BAT).</strong> Results returned to the Landesorganisationen within <strong>10 BAT</strong>, both <em>aggregated</em> and <em>detailed</em>, at a granularity equal to the <em>input</em> granularity.
+    </div>
+    <div class="box ors">
+      <div class="box-title">🟣 The R1 superseded the Excel credit inputs</div>
+      <p>Per the September-2024 version history, the Excel "Leitfaden Früherkennung" workbook <strong>no longer needs the credit-risk inputs filled in</strong> — the R1 supersedes them. The reason is double-keying: the credit numbers already arrive in the richer R1, so re-entering them in the Excel template was redundant and a source of error. <span class="tag ors">ÖRS choice</span> Note this is a <em>process</em> decision, not a methodology change; the IRB formula behind it is unchanged.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — 10 BAT each way, both legs</div>
+      <p>The 10-BAT deadline applies to <em>both</em> legs: 10 BAT to submit the R1, then 10 BAT for the ÖRS to return results. People remember the submission deadline and forget the return leg. End-to-end, a quarter-ultimo credit number is in the banks' hands roughly 20 BAT after quarter-end — that latency is why the RTFA is a quarterly monitoring tool, not a real-time one.</p>
+    </div>
+
+    <h2>4 · The data-source → risk map (the centrepiece)</h2>
+    <p>This table is the heart of the module. Each row connects a concrete supervisory input (and, where the brief gives one, its <em>Positionsnummer</em>) to the risk it feeds and the Module where you computed it. Read it as the dependency graph of the whole framework.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Data source / position</th><th>Feeds risk</th><th>Module</th></tr></thead>
+      <tbody>
+        <tr><td>IRRBB gap report (ITS gaps per band &amp; currency)</td><td><em>Zinsrisiko</em> (interest-rate risk, banking book)</td><td>M6</td></tr>
+        <tr><td>FX positions (<em>offene Devisenposition</em>)</td><td><em>Währungsrisiko</em> (FX risk)</td><td>M6</td></tr>
+        <tr><td>"nur Wertpapiere" / Covered Bonds by Forderungsklasse × Ratingklasse + Markit volatilities</td><td><em>Spreadrisiko</em> (credit-spread VaR)</td><td>M6</td></tr>
+        <tr><td>CVA own-funds position <strong>7516000</strong></td><td>CVA risk (<em>Kreditbewertungsanpassung</em>)</td><td>M7</td></tr>
+        <tr><td><em>Betriebserträge</em> (operating income, FINREP)</td><td>Operationelles Risiko (op risk)</td><td>M6 … M8</td></tr>
+        <tr><td>Liquidity gaps (<em>Liquiditätsbericht</em>, non-cumulated, bands &gt;1y)</td><td>FLVaR (Funding-Liquidity-VaR)</td><td>M9</td></tr>
+        <tr><td>GvK customer structure (<em>Gruppe verbundener Kunden</em>)</td><td><em>Großkredite</em> / concentration</td><td>M11, M5</td></tr>
+        <tr><td>Participations / <em>Verkehrswerte</em> (fair values)</td><td><em>Beteiligungsrisiko</em> (participation risk)</td><td>M10</td></tr>
+        <tr><td>MMATRIX migration matrices (annual)</td><td>Migration risk</td><td>M5</td></tr>
+        <tr><td>PD / PDFX / LGD <em>Erhebung</em> (annual survey)</td><td>Credit parameters (PD, LGD, FX-elasticity)</td><td>M5, M15</td></tr>
+        <tr><td>Stille-Reserven <em>Meldung</em> (Beleg 12) + COREP 80/81 + FINREP</td><td>Deckungsmassen (coverage masses)</td><td>M13</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Three observations a reviewer will test you on. First, <strong>one source can feed several risks</strong> (FINREP feeds both op risk and the Deckungsmasse). Second, <strong>the cadence is mixed</strong>: most rows are quarterly, but MMATRIX and the PD/LGD <em>Erhebung</em> are <em>annual</em> (§5 below). Third, <strong>the Deckungsmasse rows are pure supervisory reuse</strong> — Beleg 12, COREP 80/81 and FINREP — which is exactly why the reuse principle makes COREP/FINREP quality drive the whole RTFA.</p>
+
+    <h2>5 · Kennziffern (§9) — the monitoring ratios</h2>
+    <p>Alongside the RTFA, §9 defines a set of <em>Kennziffern</em> (key ratios) that are monitored each quarter as early-warning signals. They are <em>indicators</em>, not capital charges. Five matter:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Kennzahl</th><th>What it measures</th><th>Source positions</th><th>Nature</th></tr></thead>
+      <tbody>
+        <tr><td>Loan/Deposit ratio (<em>Kredit-Einlagen-Quote</em>)</td><td>Funding self-sufficiency: loans relative to deposits</td><td>FINREP / VERA balance positions</td><td><span class="tag ors">ÖRS choice</span> of monitoring metric</td></tr>
+        <tr><td>Cost-Income-Ratio (CIR)</td><td>Operating efficiency: costs ÷ operating income</td><td>FINREP P&amp;L (incl. <em>Betriebserträge</em>)</td><td><span class="tag ors">ÖRS choice</span></td></tr>
+        <tr><td>Asset Encumbrance (<em>belastete Vermögenswerte</em>)</td><td>Share of assets pledged / unavailable to unsecured creditors</td><td>AU_F / AK_F positions (AE template)</td><td><span class="tag reg">regulatory</span> template, monitored as ratio</td></tr>
+        <tr><td>NPE ratio (<em>notleidende Forderungen</em>)</td><td>Non-performing exposures ÷ total exposures</td><td>FINUS / FINUD positions (FINREP)</td><td><span class="tag reg">regulatory</span> definition (EBA NPE)</td></tr>
+        <tr><td>IRRBB outlier test / Supervisory Outlier Test (SOT)</td><td>Whether the ΔEVE/ΔNII under prescribed rate shocks breaches the outlier threshold</td><td>IRRBB ITS positions</td><td><span class="tag reg">regulatory</span> (EBA/GL/2018/02; SOT RTS)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The <strong>SOT</strong> deserves emphasis. It comes from <em>EBA/GL/2018/02</em> (the IRRBB guidelines) and the <strong>SOT RTS</strong> (regulatory technical standards): a bank is flagged as an "outlier" if the change in economic value of equity (and, under the revised standards, net interest income) under prescribed interest-rate shock scenarios exceeds a regulatory threshold of capital. The §9 update <strong>aligned the position numbers with the IRRBB ITS</strong> so the SOT draws from the same gap data as the Zinsrisiko computation in M6.</p>
+    <div class="box reg">
+      <div class="box-title">🔵 The SOT is a TEST, not a capital charge</div>
+      <p>The Supervisory Outlier Test produces a <em>Kennzahl/limit</em> (a pass/fail against a threshold), not a number you add to the Deckungsmasse risk side. It answers "is this bank an interest-rate outlier the supervisor should look at?" — a Pillar-2 supervisory flag — whereas the Zinsrisiko VaR in M6 is the actual capital figure. Confusing the two (adding the SOT outcome to the RTFA) double-counts interest-rate risk and misreads the regulation. <span class="tag reg">regulatory</span></p>
+    </div>
+    <div class="box ors">
+      <div class="box-title">🟣 Removed: Kennziffern that double as Sanierungsindikatoren</div>
+      <p>The September-2024 version <strong>removed the Kennziffern that double as <em>Sanierungsplan-Sanierungsindikatoren</em></strong> (recovery-plan recovery indicators). The rationale is to avoid duplicate governance: those indicators are already monitored under the recovery-planning framework, so reporting them again in the Früherkennung added effort without information. <span class="tag ors">ÖRS choice</span></p>
+    </div>
+
+    <h2>6 · Frequency &amp; governance — who consumes the output</h2>
+    <p>The cadence is mostly quarterly but has an annual layer; both feed a fixed governance chain.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Item</th><th>Frequency</th><th>Feeds</th></tr></thead>
+      <tbody>
+        <tr><td>RTFA (Problemfall &amp; Extremfall)</td><td>Quarterly</td><td>Traffic light, Deckungsmasse comparison</td></tr>
+        <tr><td>MMATRIX migration matrices</td><td>Annual</td><td>Migration risk (M5)</td></tr>
+        <tr><td>PD / LGD estimation (<em>Erhebung</em>)</td><td>Annual</td><td>Credit parameters (M5, M15)</td></tr>
+        <tr><td>Materiality review of risk types (<em>Sektorrisiko</em> review)</td><td>Annual</td><td>Which risks are material enough to model</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The annual <em>Sektorrisiko</em> (sector-risk) review is the governance act that re-checks materiality — whether each risk type still warrants its place in the framework. The quarterly RTFA and the annual reviews flow up to three consumers: the <strong>SRK</strong> (<em>Sektorrisikokomitee</em>, sector-risk committee), the <strong>ÖRS Vorstand</strong> (management board) and the <strong>Aufsichtsrat</strong> (supervisory board). The whole data-and-reporting machinery exists to put a defensible quarterly traffic light in front of those three bodies.</p>
+
+    <h2>7 · Worked example — one quarter of credit risk, end-to-end</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — tracing Q-ultimo credit risk through the loop</div>
+      <p>Take a single Landesgruppen-Mitglied (one KI-Gruppe) at quarter-end. Follow the credit number from raw position to traffic light.</p>
+      <p><strong>t = 0 (quarter-end).</strong> Quartalsultimo book is struck. The R1 columns the learner already queries are populated: exposures, internal ratings (→ master-scale PD, M5), interne Sicherheiten (internal collateral), FX flags (→ FX exposure add-on), and the top-110 GvK positions (→ HHI surcharge).</p>
+      <p><strong>t ≤ 10 BAT — submission.</strong> The Landesorganisation / RSG submits the R1, per ÖRS Datenspezifikation, to the ÖRS. <em>(The Excel credit inputs are left blank — the R1 supersedes them.)</em></p>
+      <p><strong>t: ÖRS processing.</strong> Qualitätssicherung, then the central credit-risk calc: per customer, Risikoposition = Exposure − interne Sicherheiten; then EL = LGD·PD (→ <em>excess/shortfall</em> = EL − Vorsorgen, which goes to the <em>Deckungsmasse</em> side), UL via the IRB formula (Art. 153/154), the <strong>FX add-on</strong> on FX exposures, and the <strong>HHI surcharge</strong> on the corporate UL (top-110 GvK).</p>
+      <p><strong>t ≤ +10 BAT — results back.</strong> ÖRS returns aggregated + detailed results at input granularity. <strong>Net: ~20 BAT end-to-end.</strong></p>
+      <p><strong>Assembly into the RTFA.</strong> Risk side: UL (+FX +HHI). Deckungsmasse side: built from <em>supervisory</em> formats — COREP own funds (CET1 7810002, GESAMTRISIKOBETRAG 7980000), FINREP profit, Beleg 12 stille Reserven, COREP 80/81 — <em>plus</em> the excess/shortfall (EL vs Vorsorgen) from the same R1 run. Utilisation = risk ÷ Deckungsmasse → traffic light.</p>
+      <hr style="margin:14px 0">
+      <p><strong>Position-dependency summary.</strong> The risk side flows from the <strong>R1</strong> (granular, ÖRS-specific); the Deckungsmasse side flows from <strong>COREP/FINREP/Beleg 12</strong> (reused supervisory). The two meet only at the excess/shortfall, which the R1 run produces and the Deckungsmasse absorbs. That is why a single R1 quality issue can move <em>both</em> sides of the RTFA at once.</p>
+    </div>
+    <div class="formula" style="text-align:left">
+      <strong>Timeline.</strong> &nbsp; quarter-end &nbsp;→&nbsp; <em>≤10 BAT</em> &nbsp;[R1 submission]&nbsp; →&nbsp; ÖRS QA + credit calc &nbsp;→&nbsp; <em>≤10 BAT</em> &nbsp;[results back]&nbsp; →&nbsp; RTFA assembled (risk = R1 UL/FX/HHI; Deckungsmasse = COREP/FINREP/Beleg 12 ± excess/shortfall) &nbsp;→&nbsp; SRK / Vorstand / Aufsichtsrat.
+    </div>
+
+    <h2>8 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — both consolidation scopes, every quarter</div>
+      <p>The data must arrive <strong>unconsolidated AND (where applicable) consolidated</strong>. A common error is reporting only the solo figures and assuming the ÖRS will consolidate centrally. The RTFA's different Auslastung views (solo / §30-BWG KI-Gruppe / IPS, Module 12) each need their own data level; a missing consolidated submission leaves one view un-computable.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — reused supervisory formats means inherited data quality</div>
+      <p>Because the Deckungsmasse and several risk inputs are <em>recycled COREP/FINREP</em>, any defect there — a misclassified NPE in FINUS/FINUD, a wrong own-funds line in COREP — flows untouched into the RTFA. The reuse principle saves effort but transfers the data-quality burden onto the supervisory reporting team. <strong>COREP/FINREP data quality directly drives RTFA quality.</strong></p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — the SOT is a limit/Kennzahl, not a charge</div>
+      <p>Do not add the Supervisory Outlier Test result to the risk side of the RTFA. It is a pass/fail outlier flag (EBA/GL/2018/02; SOT RTS), separate from the Zinsrisiko VaR (M6) that is the actual capital figure. Treating the SOT as a capital charge double-counts interest-rate risk.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li><strong>Design principle:</strong> reuse supervisory formats (COREP / FINREP / VERA) to minimise manual effort; supplement only where needed (credit risk → R1). Quarterly, OeNB-Meldekalender deadlines, unconsolidated AND consolidated, EUR, Excel templates, to <code>srg-office@rbinternational.com</code>.</li>
+      <li><strong>Credit-risk flow (since 30.6.2023):</strong> R1 per ÖRS Datenspezifikation, submitted in <strong>10 BAT</strong>; ÖRS does QA + central calc; results back in <strong>10 BAT</strong> (~20 BAT round-trip). The R1 superseded the Excel credit inputs.</li>
+      <li><strong>Data → risk map:</strong> IRRBB gaps→Zinsrisiko (M6); FX→Währungsrisiko (M6); Wertpapiere×rating+Markit→Spreadrisiko (M6); 7516000→CVA (M7); Betriebserträge→op risk (M6–8); liquidity gaps→FLVaR (M9); GvK→Großkredite (M11/M5); Verkehrswerte→Beteiligungsrisiko (M10); MMATRIX→migration (M5); PD/LGD Erhebung→parameters (M5/M15); Beleg 12 + COREP 80/81 + FINREP→Deckungsmassen (M13).</li>
+      <li><strong>Kennziffern (§9):</strong> Loan/Deposit, CIR, Asset Encumbrance (AU_F/AK_F), NPE (FINUS/FINUD), and the IRRBB SOT (EBA/GL/2018/02; SOT RTS — a <em>test</em>, not a charge). §9 aligned positions to the IRRBB ITS and removed Kennziffern that double as Sanierungsindikatoren.</li>
+      <li><strong>Frequency/governance:</strong> quarterly RTFA; annual MMATRIX, PD/LGD estimation, Sektorrisiko materiality review. Consumers: SRK, ÖRS Vorstand, Aufsichtsrat.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Grundprinzip: zur Minimierung des manuellen Aufwands nutzt die Früherkennung <strong>aufsichtliche Meldeformate</strong> (COREP / FINREP / VERA) und ergänzt nur dort, wo nötig (Kreditrisiko → <strong>R1</strong>). Quartalsweise, OeNB-Meldekalender, unkonsolidiert UND konsolidiert, EUR, Excel.</li>
+        <li>Kreditrisiko-Datenfluss (seit 30.6.2023): R1 laut ÖRS-Datenspezifikation, Lieferung in <strong>10 BAT</strong>; ÖRS macht Qualitätssicherung + zentrale Berechnung; Ergebnisse zurück in <strong>10 BAT</strong>. Der R1 ersetzt die Kreditrisiko-Eingaben im Excel.</li>
+        <li>Daten-Risiko-Zuordnung verbindet jede Quelle (z.B. IRRBB-Gaps → Zinsrisiko, GvK → Großkredite, Beleg 12 + COREP 80/81 + FINREP → Deckungsmassen) mit dem jeweiligen Modul.</li>
+        <li>Kennziffern (§9): Kredit-Einlagen-Quote, CIR, Asset Encumbrance (AU_F/AK_F), NPE-Quote (FINUS/FINUD), IRRBB-Ausreißertest/SOT (EBA/GL/2018/02; SOT-RTS) — der SOT ist ein <strong>Test/Limit, kein Kapitalbedarf</strong>.</li>
+        <li>Frequenz/Governance: quartalsweise RTFA; jährlich MMATRIX, PD/LGD-Schätzung und Sektorrisiko-Wesentlichkeitsprüfung. Adressaten: SRK, ÖRS-Vorstand, Aufsichtsrat.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, §8–§9; ÖRS Datenspezifikation (R1, from 30.6.2023); EBA/GL/2018/02 and the SOT RTS for the IRRBB outlier test; COREP / FINREP / VERA supervisory reporting formats. Position numbers per the Leitfaden fact sheet.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m13.html"><div class="dir">← Previous</div><div class="ttl">M13 · Deckungsmassen</div></a>
+      <a class="next" href="m15.html"><div class="dir">Next →</div><div class="ttl">M15 · Default &amp; LGD</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Data &amp; reporting", pass:0.7, questions:[
+  { q:"What is the design principle behind the Früherkennung's data sourcing, and what is its main consequence?",
+    options:[
+      "Build a bespoke data warehouse so the framework is independent of supervisory reporting",
+      "Reuse supervisory formats (COREP/FINREP/VERA) to minimise manual effort — which makes COREP/FINREP data quality a direct driver of RTFA quality",
+      "Collect everything fresh each quarter to guarantee accuracy",
+      "Use only the R1 for all risk types to keep one source"],
+    answer:1,
+    explain:"The guide reuses supervisory formats it must file anyway, supplementing only where needed (credit risk → R1). The trade-off: the RTFA inherits the quality of those reports, so a FINREP/COREP defect propagates straight into the Deckungsmasse and traffic light." },
+  { q:"In the credit-risk data flow, what does the 10-BAT deadline apply to?",
+    options:[
+      "Only the submission of the R1 to the ÖRS",
+      "Only the return of results from the ÖRS",
+      "Both legs: 10 BAT to submit the R1 AND 10 BAT for the ÖRS to return results (~20 BAT round-trip)",
+      "The annual MMATRIX delivery"],
+    answer:2,
+    explain:"The deadline is symmetric: 10 Bankarbeitstage to submit the quarter-ultimo R1, then 10 BAT for the ÖRS to return aggregated + detailed results at input granularity. Forgetting the return leg is the classic trap; end-to-end latency is ~20 BAT, which is why the RTFA is a quarterly, not real-time, tool." },
+  { q:"Which statement about the R1 (ÖRS Datenspezifikation) is correct per the September-2024 version?",
+    options:[
+      "The R1 is filed annually alongside the MMATRIX matrices",
+      "The R1 supersedes the credit-risk inputs in the Excel 'Leitfaden Früherkennung' workbook, which no longer need to be filled",
+      "The R1 replaced COREP for own-funds reporting",
+      "The R1 is only required at the consolidated level"],
+    answer:1,
+    explain:"Since 30.6.2023 the granular R1 carries the credit inputs (exposures, ratings, internal collateral, FX flags, top-110 GvK). The version history records that the Excel credit-risk inputs are now redundant — the R1 supersedes them. It is a process change, not a methodology change." },
+  { q:"The IRRBB Supervisory Outlier Test (SOT) appears in §9. How should it be treated in the RTFA?",
+    options:[
+      "As an additional capital charge added to the risk side of the RTFA",
+      "As a pass/fail Kennzahl/limit (EBA/GL/2018/02; SOT RTS) — a supervisory flag, NOT a capital charge",
+      "As a replacement for the Zinsrisiko VaR computed in M6",
+      "As part of the Deckungsmasse"],
+    answer:1,
+    explain:"The SOT is an outlier TEST: it checks whether ΔEVE/ΔNII under prescribed shocks breaches a threshold of capital — a Pillar-2 flag. The actual interest-rate capital figure is the Zinsrisiko VaR (M6). Adding the SOT to the risk side double-counts interest-rate risk." },
+  { q:"In the data → risk map, which source feeds the Deckungsmassen (M13)?",
+    options:[
+      "The IRRBB gap report and FX positions",
+      "Stille-Reserven Meldung (Beleg 12) + COREP 80/81 + FINREP",
+      "The MMATRIX migration matrices",
+      "The CVA position 7516000"],
+    answer:1,
+    explain:"The Deckungsmasse side is pure supervisory reuse: Beleg 12 (stille Reserven), COREP 80/81 and FINREP. IRRBB gaps→Zinsrisiko, FX→Währungsrisiko, MMATRIX→migration, 7516000→CVA — those feed the risk side, not the coverage mass." },
+]};
+</script>
+</body>
+</html>

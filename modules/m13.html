@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M13 · Risikodeckungsmassen — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m13">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil III — Aggregation &amp; Deckungsmassen › Module 13</div>
+      <h1>Module 13 — Risikodeckungsmassen: the cover side of the RTFA, line by line (§6, §8.1)</h1>
+    </div>
+    <p class="lead">Module 12 finished the numerator of the Risikotragfähigkeitskalkül — the aggregated risk. This module builds the denominator: the <em>Risikodeckungsmasse</em> (risk-cover potential). You will see exactly what counts as loss-absorbing substance in the <strong>Problemfall</strong> versus the <strong>Extremfall</strong>, why the <em>Neubewertungsreserve</em> (revaluation reserve) is stripped in both, how the credit Expected Loss from Module 5 re-enters as the <em>excess/shortfall</em>, the RLB 60%-Verkehrswert option with its worked numbers, and the precise COREP/FINREP/VERA melder positions your R-script reads.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>State the four/five building blocks of the Deckungsmasse and write the Problemfall and Extremfall formulae side by side.</li>
+        <li>Apply the quarterly haircut 85/85/90/100% to the budgeted Jahresüberschuss and say <em>why</em> prudence motivates it.</li>
+        <li>Explain why an IFRS/CRR-Rechnungskreis melder does <em>not</em> add the period surplus after tax (it is already in equity — double-count avoidance).</li>
+        <li>Build Freies Kapital from the own-funds stack of Module 2, and know the €5m legal floor and its exception.</li>
+        <li>Compute stille Reserven, apply the RLB 60%-Verkehrswert option, and sign the excess/shortfall correctly.</li>
+        <li>Map every line to its VERA / COREP (Beleg 80/81) / FINREP-FINUS / Beleg-12 position.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP -->
+
+    <h2>1 · Motivation — what is actually allowed to absorb a loss?</h2>
+    <p>The RTFA inequality \(\text{Risiko}_q \le \text{Deckungsmasse}_q\) is only as honest as its right-hand side. If you let too much in, every bank looks solvent in stress; if too little, you over-capitalise a sector that already carries mutual safety nets. The Leitfaden therefore defines the Deckungsmasse <em>scenario-specifically</em>: the substance you may count in a <strong>Problemfall</strong> (a once-in-20-years bad year, you keep operating) is <em>not</em> the same substance you may count in a <strong>Extremfall</strong> (a Liquidationsfall, near-wind-down at 99,9%).</p>
+    <div class="box motivation">
+      <div class="box-title">▶ The governing intuition: "what could really pay for the loss, given the scenario?"</div>
+      <p>In a Problemfall the bank is a <em>going concern</em>: it can use this year's earnings and the capital it holds <em>above</em> the regulatory minimum, but it must keep the minimum intact and pay a Mindestausschüttung (minimum dividend). In an Extremfall it is a <em>gone concern</em>: you may reach into the <em>entire</em> own-funds stack (incl. subordinated debt) because the minimum no longer needs protecting — but you may <em>not</em> count next year's hoped-for profit after tax, and you must strip the Neubewertungsreserve (revaluation reserve) because it is volatile, scenario-correlated paper value, not hard loss-absorbing cash.</p>
+    </div>
+
+    <h2>2 · Concept — the four/five building blocks</h2>
+    <p>Both scenarios are sums of the same families of components; the scenario decides <em>which version</em> of each enters and with what sign. The blocks are:</p>
+    <ol>
+      <li><strong>Freier Jahres-/Konzernüberschuss</strong> (free annual / group surplus) — the earnings buffer.</li>
+      <li><strong>Freies Kapital</strong> (free capital) — own funds usable for loss absorption.</li>
+      <li><strong>Stille Reserven</strong> (hidden reserves) — market value over book value on securities &amp; participations.</li>
+      <li><strong>Excess/Shortfall</strong> — the Expected-Loss-vs-provisions delta (this is where credit-risk EL from Module 5 re-enters).</li>
+      <li><strong>− Neubewertungsreserve</strong> (revaluation reserve) — an explicit <em>subtraction</em> in the Extremfall; in the Problemfall it is simply excluded from Freies Kapital, so it never enters either way.</li>
+    </ol>
+
+    <h3>2.1 The two formulae, side by side</h3>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Building block</th><th>Problemfall (95%, going concern)</th><th>Extremfall (99,9%, Liquidationsfall)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Freier Jahres-/Konzern&shy;überschuss</strong></td><td>budgeted JÜ <em>after tax</em> + Gewinnvortrag − Mindestausschüttung, with quarterly haircut 85/85/90/100%</td><td>profit/(−)loss from <em>continuing operations</em> <strong>pre-tax</strong> + Gewinnvortrag (<em>no</em> after-tax surplus under IFRS — already in equity)</td></tr>
+        <tr><td><strong>+ Freies Kapital</strong></td><td>hard CET1 above the legal EM requirement (incl. P2R &amp; buffers per band) − Neubewertungsreserve</td><td>anrechenbare Eigenmittel − Neubewertungsreserve + nachrangiges Fremdkapital + Abzugsposten Beteiligungen</td></tr>
+        <tr><td><strong>+ Stille Reserven</strong></td><td>Marktwert − Buchwert on securities &amp; participations (reserves only)</td><td>Marktwert − Buchwert on securities &amp; participations (reserves <em>and</em> Lasten)</td></tr>
+        <tr><td><strong>− Neubewertungsreserve</strong></td><td>(already excluded from Freies Kapital — net effect zero entry)</td><td><strong>explicitly subtracted</strong></td></tr>
+        <tr><td><strong>± Excess/Shortfall</strong></td><td>Vorsorgen − EL over the whole portfolio (can be + or −)</td><td>Vorsorgen − EL over the whole portfolio (can be + or −)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="box key">
+      <div class="box-title">The two formulae in one line each</div>
+      <p><strong>Problemfall:</strong> Freier Überschuss + Freies Kapital + Stille Reserven + Excess/Shortfall.</p>
+      <p style="margin-top:6px"><strong>Extremfall:</strong> Freier Überschuss + Freies Kapital + Stille Reserven <strong>− Neubewertungsreserve</strong> + Excess/Shortfall.</p>
+      <p style="margin-top:6px">Same skeleton; the Extremfall opens up the full own-funds stack but closes off next-year after-tax profit and explicitly nets out the Neubewertungsreserve.</p>
+    </div>
+
+    <h2>3 · Each block, derived</h2>
+
+    <h3>3.1 Freier Jahres-/Konzernüberschuss — the earnings buffer</h3>
+    <p><strong>Problemfall, UGB-Rechnungskreis</strong> (Austrian commercial-code accounting circle). A going-concern bank can absorb a loss out of the profit it expects to earn this year, but only the part not already promised away:</p>
+    <div class="formula">
+      $$ \text{Freier Überschuss}_{\text{UGB}} = h_Q\cdot \text{budget JÜ} + \text{Gewinnvortrag} - \text{Mindestausschüttung} $$
+      <div class="where"><b>budget JÜ</b> = budgeted/expected Jahresüberschuss (annual surplus) after tax; <b>Gewinnvortrag</b> = retained-profit carried forward; <b>Mindestausschüttung</b> = minimum dividend the bank is committed to pay (so it cannot absorb losses); <b>\(h_Q\)</b> = the quarterly haircut.</div>
+    </div>
+    <p>The <strong>quarterly haircut \(h_Q\)</strong> is applied <em>only to the budgeted surplus</em> and ramps with how far into the year you are:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Reporting quarter</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr></thead>
+      <tbody>
+        <tr><td>Haircut \(h_Q\) on budget JÜ <span class="tag ors">ÖRS choice</span></td><td class="num">85%</td><td class="num">85%</td><td class="num">90%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><em>Why a ramp?</em> Prudence. Early in the year the budget is least certain — little of it has actually been earned, the macro picture can still turn — so the guide recognises only 85% of it. By Q4 most of the year is realised, so the full 100% counts. The haircut does <strong>not</strong> touch the Gewinnvortrag (already earned) or the Mindestausschüttung (a fixed deduction).</p>
+
+    <p><strong>Problemfall, IFRS / CRR-Rechnungskreis.</strong> An IFRS group melder uses the budgeted <em>Konzernüberschuss</em> (group surplus) <strong>after tax &amp; minorities</strong>, <em>plus</em> the expected risk costs (erwartete Risikokosten):</p>
+    <div class="formula">
+      $$ \text{Freier Überschuss}_{\text{IFRS}} = \text{budget Konzernüberschuss}_{\text{after tax, after minorities}} + \text{expected risk costs} $$
+      <div class="where">The <b>+ expected risk costs</b> add-back exists because under <strong>IFRS 9</strong> the Expected Loss is <em>already</em> deducted inside own funds (the loss allowance reduces equity). Adding the expected risk costs back to the surplus prevents charging EL twice — once in the surplus and again as the excess/shortfall. This is the IFRS analogue of Module 5's rule "capital carries UL only; EL lives in the Deckungsmasse."</div>
+    </div>
+
+    <p><strong>Extremfall.</strong> In a near-liquidation you may not count a hoped-for net profit you will never realise as a going concern. The guide therefore uses the profit/(−)loss from <strong>continuing operations, pre-tax</strong> + Gewinnvortrag. For an IFRS melder there is <strong>no</strong> period surplus after tax at all — it is already inside equity, which the Extremfall counts directly via anrechenbare Eigenmittel (avoiding the double count).</p>
+
+    <h3>3.2 Freies Kapital — own funds available to absorb losses</h3>
+    <p>This is where the own-funds stack of Module 2 (CET1 / AT1 / T2, the buffers, the deduction items) becomes a Deckungsmasse input.</p>
+    <p><strong>Problemfall.</strong> Freies Kapital is the <strong>hard CET1 the bank holds <em>above</em> its legal Eigenmittelerfordernis</strong> (including the P2R and the combined buffer requirement, read off the utilisation band), <em>minus</em> the Neubewertungsreserve, usable for loss absorption:</p>
+    <div class="formula">
+      $$ \text{Freies Kapital}_{\text{PF, UGB}} = \underbrace{\text{CET1} - \text{Neubewertungsreserve}}_{\text{hard, durable CET1}} - \underbrace{(\text{EM-Erfordernis} + \text{P2R} + \text{Puffer})}_{\text{must stay intact}} $$
+      <div class="where">Only the CET1 <em>excess</em> over the requirement (incl. P2R &amp; buffers per the utilisation band of Module 4) is free; the minimum itself is not loss-absorbing in a going concern because breaching it is itself the failure event. The Neubewertungsreserve is excluded here — the Problemfall mirror of the Extremfall's explicit subtraction.</div>
+    </div>
+    <ul>
+      <li><strong>€5m legal floor</strong> <span class="tag reg">regulatory</span> — applies even to small institutions; a bank cannot claim Freies Kapital that drops its CET1 below the absolute €5m minimum. An <em>exception</em> for a very small institution requires a binding sector-<em>Sicherungseinrichtung</em> backstop (the scheme commits to top it up), <strong>notified to the ÖRS</strong>.</li>
+      <li><strong>IFRS / CRR-Rechnungskreis addition:</strong> add the <em>AfS reserve</em> (available-for-sale fair-value reserve, which is <em>not</em> counted in own funds) <strong>minus the tax</strong> on it. The going-concern view recognises that realisable cushion the prudential own-funds figure leaves out.</li>
+    </ul>
+
+    <p><strong>Extremfall.</strong> A gone concern may use the <em>whole</em> capital stack. The UGB build is:</p>
+    <div class="formula">
+      $$ \text{Freies Kapital}_{\text{EF}} = \text{anrechenbare Eigenmittel} - \text{Neubewertungsreserve} + \text{nachrangiges FK} + \text{Abzugsposten Beteiligungen} $$
+      <div class="where"><b>anrechenbare Eigenmittel</b> = total eligible own funds; <b>nachrangiges FK</b> = subordinated liabilities (T2-eligible, since in liquidation they too absorb loss); <b>Abzugsposten Beteiligungen</b> = the participation deduction items are <em>added back</em> here because participation risk is captured separately as Beteiligungsrisiko (Module 11) — leaving them deducted would double-penalise.</div>
+    </div>
+    <p>For an <strong>IFRS bank</strong>, build Freies Kapital from book equity outward, connecting each line to a Module 2 own-funds concept:</p>
+    <div class="formula">
+      $$ \begin{aligned} \text{Freies Kapital}_{\text{EF, IFRS}} =\;&amp; \text{book equity incl. minorities} \\ &amp;+\ \text{subordinated liabilities} (&gt;15\text{ months}) \\ &amp;-\ \text{goodwill / intangibles} \\ &amp;-\ \text{prudent-valuation AVA (Art. 34 / 105 CRR)} \\ &amp;-\ \text{certain DTAs (Art. 36 / 38 CRR)} \\ &amp;+\ \text{Haftsummenzuschlag} \\ &amp;-\ \text{B-IPS Beitrag} \end{aligned} $$
+      <div class="where">Each maps to Module 2: subordinated liabilities (>15 months residual) are T2; goodwill/intangibles and certain DTAs are CET1 <strong>Abzugsposten</strong> (deductions, Art. 36/38); the <strong>AVA</strong> (Additional Valuation Adjustment, Art. 34 referencing Art. 105 prudent valuation) reduces fair-valued positions; the <strong>Haftsummenzuschlag</strong> (cooperative members' supplementary-liability add-on) is a Raiffeisen-specific own-funds plus; the <strong>B-IPS Beitrag</strong> (paid-in IPS contribution) is netted out. <strong>Own-credit</strong> gains/losses are filtered per <strong>Art. 33 CRR</strong> (DVA / own-credit-risk fair-value changes removed) so the bank does not book a "gain" from its own deteriorating credit.</div>
+    </div>
+
+    <h3>3.3 Stille Reserven — market value above book value</h3>
+    <div class="formula">
+      $$ \text{Stille Reserve} = \text{Marktwert / Verkehrswert} - \text{Buchwert} $$
+      <div class="where">on <strong>securities (Wertpapiere)</strong> and <strong>participations (Beteiligungen)</strong>. A positive difference is a <em>stille Reserve</em> (hidden reserve); a negative one is a <em>stille Last</em> (hidden charge).</div>
+    </div>
+    <p><strong>IFRS / CRR-Rechnungskreis treatment:</strong></p>
+    <ul>
+      <li><strong>HtC (Hold-to-Collect) securities → NO stille Reserven/Lasten.</strong> Under IFRS 9 they are measured at amortised cost and held to maturity, so the interim market-value gap is irrelevant to loss-absorption and is excluded both ways.</li>
+      <li><strong>Participations →</strong> stille Reserven in the <strong>Problemfall</strong>; stille Reserven <em>and</em> Lasten in the <strong>Extremfall</strong> (the gone-concern view recognises hidden charges too).</li>
+      <li><strong>Participations without a market value:</strong> apply a <strong>20% haircut</strong> on the "presumed" market value (per the <em>OeNB ICAAP-Leitfaden</em>) <span class="tag ors">ÖRS choice</span>; a resulting stille <strong>Last is not recognised</strong> (prudent asymmetry — you may not invent a hidden charge from a guessed value).</li>
+    </ul>
+
+    <div class="box ors">
+      <div class="box-title">🟣 The RLB 60%-Verkehrswert option — the sector's internal-value rule</div>
+      <p>A <em>Bundesland</em> (regional Raiffeisen organisation) <strong>over the yellow threshold</strong> may count the stille Reserven of its participation in the <em>Spitzeninstitut</em> (the apex/Landesbank, the RLB) up to <strong>60% of the Verkehrswert minus the book value</strong> — instead of the ordinary, more limited recognition. The condition (only when over yellow) and the 60% cap are an <span class="tag ors">ÖRS choice</span>.</p>
+    </div>
+    <div class="box example">
+      <div class="box-title">Worked example — the RLB 60% option, both numbers</div>
+      <p>Inputs: Verkehrswert of the RLB participation = <strong>€432m</strong>; Buchwert summed across the participating Raiffeisenbanken (RBn) = <strong>€104m</strong>.</p>
+      <p><strong>Full stille Reserve</strong> = \(432 - 104 = \textbf{€328m}\) (the total hidden reserve, not all recognisable).</p>
+      <p><strong>Ordinary recognition (previously allowed):</strong> \(432 \times 0{,}16 = \textbf{€69m}\) — i.e. only 16% of the Verkehrswert was creditable.</p>
+      <p><strong>60% option cap:</strong> \(0{,}60 \times 432 - 104 = 259{,}2 - 104 = \textbf{€155m}\) maximum.</p>
+      <p>So the option lifts the recognisable stille Reserve from €69m to up to €155m — still well short of the full €328m. <em>Policy rationale:</em> recognise genuine sector-internal value (the RLB participation really is worth far more than book in normal times) <strong>without over-recognising</strong> a volatile, scenario-correlated value that may not be realisable in the very stress you are testing. The 60% cap is the compromise between "ignore it" (€69m) and "count it all" (€328m).</p>
+    </div>
+
+    <h3>3.4 Excess/Shortfall — where credit-risk EL re-enters</h3>
+    <div class="formula">
+      $$ \text{Excess/Shortfall} = \underbrace{\text{Wertberichtigungen}}_{\text{provisions held}} - \underbrace{\text{Expected Loss}}_{EL=\sum PD\cdot LGD\cdot EAD} $$
+      <div class="where"><b>Wertberichtigungen</b> = the provisions actually booked across the whole portfolio: gebildete Vorsorgen incl. <em>Eventual-Rückstellungen</em> (contingent provisions), <em>Portfolio-/Pauschalwertberichtigungen</em> (portfolio / general value adjustments), the <em>§57(1) BWG Unterdeckung</em> (statutory under-provisioning reserve), and the relevant <em>passive Rechnungsabgrenzung</em> (accruals). <b>EL</b> is the Module 5 Expected Loss across the whole portfolio.</div>
+    </div>
+    <div class="box key">
+      <div class="box-title">Mind the sign — it can add OR subtract</div>
+      <p>If <strong>provisions exceed EL (an <em>excess</em>)</strong>, the bank has over-provided relative to its modelled expected loss, so the surplus provisions are extra cover → <strong>ADD</strong> to the Deckungsmasse. If <strong>EL exceeds provisions (a <em>shortfall</em>)</strong>, the bank is under-provided for its expected loss, so the gap must come out of the cover → <strong>SUBTRACT</strong>. This applies in <strong>both</strong> scenarios identically. It is the accounting counterpart of Module 5's rule: the IRB capital number carries UL only, while EL is netted against provisions here. Never also subtract EL from the risk side — that would double-count.</p>
+    </div>
+
+    <h2>4 · Worked example — a Problemfall Deckungsmasse end to end</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — building the cover (UGB Problemfall)</div>
+      <p>A Raiffeisenbank reports at <strong>Q3</strong>. Inputs (all €m):</p>
+      <p><strong>Block 1 — Freier Überschuss.</strong> Budgeted JÜ = 4,0. Q3 haircut = 90% ⇒ \(4{,}0 \times 0{,}90 = 3{,}6\). Less Mindestausschüttung 1,0, plus Gewinnvortrag 2,0:</p>
+      <div class="formula">$$ 3{,}6 - 1{,}0 + 2{,}0 = \textbf{€4,6m freier Überschuss}. $$</div>
+      <p><strong>Block 2 — Freies Kapital</strong> = €30,0m (CET1 above the EM requirement incl. P2R &amp; buffers, net of Neubewertungsreserve).</p>
+      <p><strong>Block 3 — Stille Reserven</strong> = €8,0m (Marktwert − Buchwert on securities &amp; participations).</p>
+      <p><strong>Block 4 — Excess/Shortfall:</strong> provisions 6,0 − EL 5,0 = <strong>+€1,0m</strong> (an excess → adds).</p>
+      <div class="formula">$$ \text{Deckungsmasse}_{\text{PF}} = 4{,}6 + 30{,}0 + 8{,}0 + 1{,}0 = \textbf{€43,6m}. $$</div>
+      <hr style="margin:14px 0">
+      <p><strong>Which lines change for the Extremfall?</strong></p>
+      <ul>
+        <li><strong>Block 1:</strong> drop the after-tax surplus; use profit from <em>continuing operations pre-tax</em> + Gewinnvortrag (the 90% haircut and Mindestausschüttung mechanics fall away).</li>
+        <li><strong>Block 2:</strong> Freies Kapital widens to the full stack — anrechenbare Eigenmittel − Neubewertungsreserve + nachrangiges FK + Abzugsposten Beteiligungen (typically <em>larger</em> than the €30m going-concern excess).</li>
+        <li><strong>Block 3:</strong> now includes stille <em>Lasten</em> on participations as well (could lower the figure).</li>
+        <li><strong>New line:</strong> <strong>− Neubewertungsreserve</strong> is explicitly subtracted.</li>
+        <li><strong>Block 4:</strong> excess/shortfall is computed identically (here still +€1,0m).</li>
+      </ul>
+    </div>
+
+    <h2>5 · In practice — the data mapping (VERA / COREP / FINREP / Beleg 12)</h2>
+    <p>Your quarterly R-script reads these blocks from the supervisory melder files. The accounting circle decides which set: <strong>UGB</strong> melders for the commercial-code circle, <strong>IFRS / CRR-Rechnungskreis</strong> melders for the consolidated group. The key source documents are <strong>VERA</strong> (Vermögens-, Erfolgs- und Risikoausweis), <strong>COREP</strong> (Beleg 80/81, own funds &amp; requirements), <strong>FINREP/FINUS</strong> (financial reporting), and the internal <strong>stille-Reserven melder Beleg 12</strong>.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Position / line</th><th>PosNr</th><th>Melder</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>Gesamtrisikobetrag (total risk exposure amount)</td><td class="num">7980000</td><td>COREP (Beleg 80/81)</td><td>EM-requirement base</td></tr>
+        <tr><td>Eigenmittel (own funds, total)</td><td class="num">7800000</td><td>COREP</td><td>Freies Kapital (EF)</td></tr>
+        <tr><td>Kernkapital (Tier 1)</td><td class="num">7810000</td><td>COREP</td><td>Freies Kapital</td></tr>
+        <tr><td>CET1 (hartes Kernkapital)</td><td class="num">7810002</td><td>COREP</td><td>Freies Kapital (PF)</td></tr>
+        <tr><td>Einbehaltene Gewinne (retained earnings)</td><td class="num">7812000</td><td>COREP</td><td>CET1 component</td></tr>
+        <tr><td>Kapitalerhaltungspuffer (CCB)</td><td class="num">8127010</td><td>COREP</td><td>buffer in EM-requirement</td></tr>
+        <tr><td>Antizyklischer Kapitalpuffer (CCyB)</td><td class="num">8127030</td><td>COREP</td><td>buffer in EM-requirement</td></tr>
+        <tr><td>Systemrisikopuffer (SyRB)</td><td class="num">8128000</td><td>COREP</td><td>buffer in EM-requirement</td></tr>
+        <tr><td>Neubewertungsreserve (revaluation reserve)</td><td class="num">290</td><td>VERA</td><td>stripped both scenarios</td></tr>
+        <tr><td>Mindestausschüttung (minimum dividend)</td><td class="num">9999999</td><td>VERA / planning</td><td>Freier Überschuss (PF)</td></tr>
+        <tr><td>Haftsummenzuschlag</td><td class="num">410</td><td>VERA</td><td>Freies Kapital (EF, IFRS)</td></tr>
+        <tr><td>IPS-Beitrag (B-IPS)</td><td class="num">420</td><td>VERA</td><td>Freies Kapital (EF, IFRS)</td></tr>
+        <tr><td>Stille Reserven sub-positions (split by <em>hievon</em> at Zentralinstitut etc.)</td><td class="num">3001xxx</td><td>Beleg 12 (internal)</td><td>Stille Reserven; RLB 60% option</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="box reg">
+      <div class="box-title">⚖️ Regulatory vs ÖRS in the mapping</div>
+      <p>The COREP own-funds and buffer positions (7800000/7810000/7810002/7812000/8127010/8127030/8128000) and the Gesamtrisikobetrag (7980000) are <span class="tag reg">regulatory</span> — defined by the CRR/EBA ITS and reported regardless of the Leitfaden. The <em>way</em> the guide recombines them into Freies Kapital, the quarterly haircut, the 20% participation haircut, the €5m floor exception, and the RLB 60% option are <span class="tag ors">ÖRS choices</span> layered on top. The <strong>3001xxx</strong> stille-Reserven sub-positions split by <em>hievon</em>-at-Zentralinstitut exist precisely to operationalise the RLB option (you need the at-Spitzeninstitut slice separately).</p>
+    </div>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ The quarterly haircut hits the BUDGET only</div>
+      <p>The 85/85/90/100% haircut applies to the <em>budgeted</em> Jahresüberschuss, not to the Gewinnvortrag and not to the Mindestausschüttung. Applying 90% to the whole €4,6m freier Überschuss instead of just the €4,0m budget JÜ is a classic mistake — recompute the worked example to see it: \(0{,}9\times4{,}6 = 4{,}14 \ne 4{,}6\).</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ The Neubewertungsreserve is stripped in BOTH scenarios — by different mechanics</div>
+      <p>In the Extremfall it is an <em>explicit</em> <strong>− Neubewertungsreserve</strong> line. In the Problemfall it never appears because it is <em>excluded from Freies Kapital</em> at the outset. Either way it is out. Do not "add it back" in the Problemfall thinking it was only removed in the Extremfall.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Excess/shortfall can be + OR −</div>
+      <p>It is not always additive. Provisions &gt; EL ⇒ <em>excess</em> (adds); EL &gt; provisions ⇒ <em>shortfall</em> (subtracts). A shortfall reduces the Deckungsmasse in both scenarios. Confusing the sign flips your utilisation the wrong way.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ The 60% option is conditional and capped</div>
+      <p>The RLB 60%-Verkehrswert recognition is only for a <em>Bundesland over the yellow threshold</em> — not a default rule, and not for the Problemfall of any green institution. And it is a <em>cap</em> (\(0{,}6\cdot VW - BW\)), not the full stille Reserve. In the example: €155m max, not €328m.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ IFRS HtC securities carry no stille Reserven — and never double-count next-year profit</div>
+      <p>Hold-to-Collect securities under IFRS 9 generate <em>no</em> stille Reserven/Lasten. And the cardinal IFRS double-count trap: the period surplus after tax is <strong>already in equity</strong>, so the Extremfall counts it through anrechenbare Eigenmittel and does <em>not</em> add it again as a separate "next-year profit". Likewise the IFRS Problemfall adds back expected risk costs precisely because EL is already inside own funds under IFRS 9.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>Deckungsmasse blocks: <strong>Freier Jahres-/Konzernüberschuss + Freies Kapital + Stille Reserven + Excess/Shortfall</strong>; the Extremfall additionally subtracts the <strong>Neubewertungsreserve</strong>.</li>
+      <li><strong>Freier Überschuss:</strong> Problemfall UGB = haircut·budget JÜ + Gewinnvortrag − Mindestausschüttung, haircut <strong>85/85/90/100%</strong> (Q1–Q4, prudence); IFRS = budgeted Konzernüberschuss after tax &amp; minorities + expected risk costs (EL already in own funds). Extremfall = continuing-ops pre-tax + Gewinnvortrag; IFRS adds <em>no</em> after-tax surplus.</li>
+      <li><strong>Freies Kapital:</strong> Problemfall = CET1 above the EM requirement (incl. P2R &amp; buffers) − Neubewertungsreserve, €5m floor; Extremfall = anrechenbare EM − Neubewertungsreserve + nachrangiges FK + Abzugsposten Beteiligungen (IFRS build via Art. 33/34/36/38/105 CRR + Haftsummenzuschlag − B-IPS).</li>
+      <li><strong>Stille Reserven</strong> = Marktwert − Buchwert; IFRS HtC securities → none; participations without market value → 20% haircut, no stille Last; <strong>RLB 60% option</strong>: €432m VW, €104m BW ⇒ stille Reserve €328m, cap \(0{,}6\cdot432-104=\)€155m (vs €69m ordinary).</li>
+      <li><strong>Excess/Shortfall</strong> = Vorsorgen − EL, sign + (excess, adds) or − (shortfall, subtracts), both scenarios — the re-entry point of Module 5's EL.</li>
+      <li>Worked Problemfall: 4,6 + 30,0 + 8,0 + 1,0 = <strong>€43,6m</strong>.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Die <strong>Risikodeckungsmasse</strong> setzt sich aus <strong>freiem Jahres-/Konzernüberschuss, freiem Kapital, stillen Reserven und Excess/Shortfall</strong> zusammen; im <strong>Extremfall</strong> wird zusätzlich die <strong>Neubewertungsreserve abgezogen</strong>.</li>
+        <li>Freier Überschuss (UGB, Problemfall): budgetierter Jahresüberschuss mit Quartalsabschlag <strong>85/85/90/100%</strong> (Vorsicht: nur auf den Budgetwert) + Gewinnvortrag − Mindestausschüttung. Im IFRS-/CRR-Rechnungskreis Konzernüberschuss nach Steuern und Minderheiten + erwartete Risikokosten (EL bereits in den Eigenmitteln).</li>
+        <li>Freies Kapital: Problemfall = CET1 über dem Eigenmittelerfordernis (inkl. P2R und Puffer) − Neubewertungsreserve, gesetzliche €5m-Untergrenze; Extremfall = anrechenbare Eigenmittel − Neubewertungsreserve + nachrangiges Fremdkapital + Abzugsposten Beteiligungen.</li>
+        <li>Stille Reserven = Markt-/Verkehrswert − Buchwert; IFRS-HtC-Wertpapiere: keine; Beteiligungen ohne Marktwert: 20%-Abschlag, keine stille Last. <strong>RLB-60%-Option</strong>: bei Verkehrswert €432m und Buchwert €104m beträgt die stille Reserve €328m, anrechenbar maximal \(0{,}6\cdot432-104=\)€155m (statt €69m).</li>
+        <li>Excess/Shortfall = Wertberichtigungen − Expected Loss; positiv (Excess → erhöht) oder negativ (Shortfall → vermindert) — in beiden Szenarien.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, Ch. 6 &amp; §8.1; CRR (EU) 575/2013 Art. 33 (own credit), 34/105 (prudent valuation / AVA), 36/38 (CET1 deductions / DTAs); §57(1) &amp; §63(3) BWG; OeNB <em>ICAAP-Leitfaden</em>. Position numbers per ÖRS Datenspezifikation / COREP-FINREP melder belege.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m12.html"><div class="dir">← Previous</div><div class="ttl">M12 · Risk aggregation</div></a>
+      <a class="next" href="m14.html"><div class="dir">Next →</div><div class="ttl">M14 · Data &amp; reporting</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Deckungsmassen", pass:0.7, questions:[
+  { q:"What is the ONLY structural difference between the Problemfall and Extremfall Deckungsmasse skeletons?",
+    options:[
+      "The Extremfall adds the Neubewertungsreserve; the Problemfall subtracts it",
+      "The Extremfall explicitly subtracts the Neubewertungsreserve (in the Problemfall it is simply excluded from Freies Kapital), and the Extremfall opens up the full own-funds stack while dropping next-year after-tax profit",
+      "The Problemfall has no excess/shortfall term",
+      "The Extremfall omits stille Reserven entirely"],
+    answer:1,
+    explain:"Both are Freier Überschuss + Freies Kapital + Stille Reserven + Excess/Shortfall. The Extremfall additionally has an explicit − Neubewertungsreserve line (the Problemfall achieves the same by excluding it from Freies Kapital), uses continuing-ops pre-tax instead of after-tax budget surplus, and widens Freies Kapital to anrechenbare EM + nachrangiges FK + Abzugsposten Beteiligungen. The excess/shortfall and stille Reserven appear in both." },
+  { q:"At Q3, budgeted Jahresüberschuss is €4m, Mindestausschüttung €1m, Gewinnvortrag €2m. What is the freier Überschuss (UGB Problemfall)?",
+    options:["€5,0m","€4,6m","€4,14m","€3,6m"],
+    answer:1,
+    explain:"The Q3 haircut 90% applies ONLY to the budget: 4,0×0,90 = 3,6. Then 3,6 − 1,0 (Mindestausschüttung) + 2,0 (Gewinnvortrag) = €4,6m. Applying 90% to the whole 4,6 (giving 4,14) is the classic trap — the haircut never touches the Gewinnvortrag or the Mindestausschüttung." },
+  { q:"For the RLB 60%-Verkehrswert option with Verkehrswert €432m and summed Buchwert €104m, what is the maximum recognisable stille Reserve, and how does it compare to the ordinary figure?",
+    options:[
+      "€328m, the full stille Reserve",
+      "€155m (= 0,6·432 − 104), versus €69m (= 432·0,16) under ordinary recognition",
+      "€69m, unchanged by the option",
+      "€259m (= 0,6·432), ignoring the book value"],
+    answer:1,
+    explain:"The cap is 0,6·Verkehrswert − Buchwert = 0,6·432 − 104 = 259,2 − 104 = €155m, available only to a Bundesland over the yellow threshold. The full stille Reserve is 432−104 = €328m; the ordinary recognition was 432·0,16 = €69m. The 60% cap recognises real sector-internal value without over-recognising a volatile, stress-correlated amount." },
+  { q:"Why does the IFRS/CRR-Rechnungskreis Freier Überschuss ADD back expected risk costs, and why does the Extremfall add NO after-tax surplus?",
+    options:[
+      "Because IFRS banks are riskier and need a bigger buffer",
+      "Because under IFRS 9 the Expected Loss is already deducted inside own funds, so adding risk costs back avoids charging EL twice; and the period surplus after tax is already in equity, so counting it again via anrechenbare Eigenmittel would double-count",
+      "Because IFRS forbids counting any surplus",
+      "Because the haircut already removed it"],
+    answer:1,
+    explain:"IFRS 9 puts the loss allowance (EL) inside equity/own funds. If you also netted EL via the excess/shortfall without adding the expected risk costs back to the surplus, you would charge EL twice. Likewise the after-tax period surplus is already in equity, which the Extremfall captures through anrechenbare Eigenmittel — adding it again as 'next-year profit' double-counts. Same double-count-avoidance logic as Module 5 (capital carries UL only)." },
+  { q:"Provisions across the portfolio are €5m and the modelled Expected Loss is €6m. How does the excess/shortfall affect the Deckungsmasse, and in which scenario(s)?",
+    options:[
+      "It adds €1m, Problemfall only",
+      "It subtracts €1m (a shortfall: EL > provisions), in BOTH scenarios",
+      "It adds €1m in both scenarios",
+      "It has no effect because EL is already in the risk side"],
+    answer:1,
+    explain:"Excess/Shortfall = Wertberichtigungen − EL = 5 − 6 = −1m. EL exceeds provisions ⇒ a shortfall ⇒ it SUBTRACTS €1m from the cover, identically in Problemfall and Extremfall. This is where Module 5's EL re-enters; the IRB capital number carries UL only. (If provisions exceeded EL it would be an excess and add.)" },
+]};
+</script>
+</body>
+</html>

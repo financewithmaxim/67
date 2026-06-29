@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M15 · Default (Art. 178) &amp; LGD estimation — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m15">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil IV — Ausfall &amp; Parameter › Module 15</div>
+      <h1>Module 15 — Default definition (CRR Art. 178) &amp; LGD estimation (§10.2–10.3)</h1>
+    </div>
+    <p class="lead">Every PD, every backtest, every IRB capital number you compute downstream rests on one binary flag: <em>is this exposure in default or not?</em> This module pins down the flag with the precision the supervisor demands — the two Art. 178 triggers, the two-part Erheblichkeitsschwelle (materiality threshold) with its exceptions, the cure (Gesundung) machinery — and then derives the LGD values that, together with the PDs from M5, drive both EL and the IRB unexpected loss.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>State the two CRR Art. 178 default triggers and map them to the ÖRS rating codes 5,0 / 5,1 / 5,2.</li>
+        <li>Apply the two-component Erheblichkeitsschwelle correctly — and name every default reason that bypasses it.</li>
+        <li>Run the cure / re-aging two-stage process and say who can be cured (facility vs whole customer) and who cannot cure by "paying again".</li>
+        <li>Reproduce the data-pool LGD estimates and the calibrated default-class LGDs, and connect them to the EL and IRB UL of M5.</li>
+        <li>Contrast the regulatory F-IRB LGD ladder with the ÖRS pooled estimates and explain the FX-on-LGD treatment.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP: Motivation → Concept → Derivation → Worked example → In practice → Traps → Quiz → Recap -->
+
+    <h2>1 · Motivation — why a precise default definition is load-bearing</h2>
+    <p>A rating system is only as good as the event it predicts. The <strong>Ausfalldefinition</strong> (default definition) is the dependent variable of the entire credit machinery: PDs are calibrated against observed default frequencies, <strong>Trennschärfe</strong> (discriminatory power — how well the model separates future defaulters from non-defaulters) is measured against the default flag, and backtesting (Validierung) compares predicted PD to realised default rate. If two banks in the R-IPS flag default differently — one counting a €120 retail overdue, another waiting for €600 — their PDs are not comparable, their pooled data-pool is corrupted, and the supervisor cannot trust any of it. The single anchor that prevents this is <strong>CRR Art. 178</strong> (Regulation (EU) 575/2013), operationalised identically across all 400-plus Raiffeisenbanken.</p>
+    <div class="box motivation">
+      <div class="box-title">▶ One flag, many consumers</div>
+      <p>The default flag feeds: (1) PD calibration; (2) LGD estimation (living vs defaulted customers are split on exactly this flag — §3 below); (3) EL = PD·LGD·EAD in the Deckungsmasse as excess/shortfall; (4) the IRB UL in M5; (5) NPE/forbearance reporting. A wrong flag propagates into <em>all five</em>. Precision here is not pedantry — it is the consistency that makes a pooled, multi-bank model defensible to the Aufsichtsrat (supervisory board).</p>
+    </div>
+
+    <h2>2 · Concept — the two Art. 178 triggers and the 5,x mapping</h2>
+    <p>CRR Art. 178(1) defines default by <strong>two alternative triggers</strong> — <em>either</em> suffices:</p>
+    <ul>
+      <li><strong>(a) Unlikeliness to Pay (UtP)</strong> — <em>Unwahrscheinlichkeit der vollständigen Rückzahlung</em>: the institution considers it <em>unlikely</em> that the obligor pays its credit obligations in full <em>without recourse</em> by the institution to actions such as realising collateral. This is the qualitative, forward-looking trigger (Art. 178(1)(a)).</li>
+      <li><strong>(b) &gt;90 days past due</strong> — the obligor is more than <strong>90 days</strong> past due on a <em>material</em> credit obligation (Art. 178(1)(b)). This is the quantitative, mechanical trigger — gated by the materiality threshold of §3.</li>
+    </ul>
+    <p>The ÖRS guide operationalises both triggers into three default rating codes on the master scale <span class="tag ors">ÖRS mapping</span>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Code</th><th>Meaning</th><th>Art. 178 trigger</th></tr></thead>
+      <tbody>
+        <tr><td><strong>5,0</strong></td><td>&gt;90 days overdue (90-Tage-Überfälligkeit)</td><td>(b) past-due</td></tr>
+        <tr><td><strong>5,1</strong></td><td>all other default reasons (sonstige Ausfallgründe)</td><td>(a) UtP</td></tr>
+        <tr><td><strong>5,2</strong></td><td>insolvency (Insolvenz) or write-off (Abschreibung)</td><td>(a) UtP, loss-bearing</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The split matters because the three codes carry <em>different LGDs</em> (§3.2): 5,0 inherits the class LGD, but 5,1 → 80% and 5,2 → 100% are <em>calibrated to reflect provisioning</em>, not empirical recovery.</p>
+
+    <h2>3 · Derivation — the materiality threshold, cure, and LGD</h2>
+
+    <h3>3.1 The Erheblichkeitsschwelle (materiality threshold) — BOTH parts required</h3>
+    <p>The &gt;90-days trigger only bites on a <strong>material</strong> obligation. Per <strong>Leitlinie (EU) 2020/978</strong> and <strong>CRR Art. 178(2)(d)</strong>, materiality has <strong>two components, and BOTH must be satisfied simultaneously</strong> — it is a conjunction, not a choice:</p>
+    <div class="formula">
+      $$ \text{material} \iff \underbrace{\big(\text{overdue} \ge T_{\text{abs}}\big)}_{\text{absolute}} \;\wedge\; \underbrace{\left(\frac{\text{overdue}}{\text{total on-balance exposure}} \ge 1\%\right)}_{\text{relative}} $$
+      <div class="where"><b>where</b> \(T_{\text{abs}}=\) <strong>€100</strong> for retail (Mengengeschäft) / <strong>€500</strong> for non-retail <span class="tag reg">regulatory</span>; the relative component is <strong>1%</strong> of total on-balance exposures <em>excluding equity positions</em> (Beteiligungen) <span class="tag reg">regulatory</span>. The 90-day clock only starts once the obligation is material; \(\wedge\) is logical AND.</div>
+    </div>
+    <p><strong>Worked threshold examples from the guide:</strong></p>
+    <ul>
+      <li>Two accounts each written off €300 → cumulative €600 &gt; €500 (non-retail absolute) → <em>material</em> → default. Amounts on the same obligor <strong>aggregate</strong>.</li>
+      <li>A €200 partial write-off in 2017 plus a €400 write-off in 2019 → 2019 cumulative €600 &gt; €500 → default in 2019. Write-offs accumulate over time on the obligor.</li>
+    </ul>
+    <div class="box reg">
+      <div class="box-title">⚖ Exceptions — default reasons with NO materiality threshold</div>
+      <p>Two reasons bypass the Erheblichkeitsschwelle entirely — <strong>≥ €1 suffices</strong>:</p>
+      <ul>
+        <li><strong>Insolvenz</strong> (insolvency / bankruptcy filing) — any balance, however small, triggers default (→ 5,2).</li>
+        <li><strong>Fälligstellung</strong> (acceleration / calling the loan due) with an <strong>expected economic loss</strong> (erwarteter wirtschaftlicher Verlust).</li>
+      </ul>
+      <p>These are UtP events (Art. 178(1)(a)), not past-due events, so the &gt;90-day materiality gate simply does not apply.</p>
+    </div>
+    <p>The full catalogue of default reasons and whether each carries a materiality threshold:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Default reason (Ausfallgrund)</th><th>Code</th><th>Materiality threshold?</th></tr></thead>
+      <tbody>
+        <tr><td>Insolvenz (insolvency)</td><td>5,2</td><td><span class="tl red">none — ≥ €1</span></td></tr>
+        <tr><td>Direktabschreibung (direct write-off)</td><td>5,2</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>EWB-Auflösung gegen Abschreibung (release of specific provision against write-off)</td><td>5,2</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>Fälligstellung + erwarteter Verlust (acceleration + expected loss)</td><td>5,1</td><td><span class="tl red">none — ≥ €1</span></td></tr>
+        <tr><td>Forderungsverzicht / Restrukturierung (debt waiver / distressed restructuring)</td><td>5,1</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>Zinsfreistellung (interest suspension)</td><td>5,1</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>Verlust bei Forderungsverkauf (loss on sale of the receivable)</td><td>5,1</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>90-Tage-Überfälligkeit (&gt;90 days past due)</td><td>5,0</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>Erwarteter wirtschaftlicher Verlust (expected economic loss)</td><td>5,1</td><td><span class="tl yellow">threshold applies</span></td></tr>
+        <tr><td>Lizenzentzug (licence withdrawal) — Financial Institutions only</td><td>5,1</td><td><span class="tl yellow">n/a, segment-specific</span></td></tr>
+        <tr><td>Moratorium — Sovereigns only</td><td>5,1</td><td><span class="tl yellow">n/a, segment-specific</span></td></tr>
+        <tr><td>Cross-Default (group units / verbundene Einheiten)</td><td>5,1</td><td><span class="tl yellow">via the defaulting unit</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>3.2 Ausfallende / Cure (Gesundung) — the re-aging two-stage process</h3>
+    <p>Default is not permanent. To <strong>cure</strong> (gesunden), the guide requires a <strong>sustainable improvement over at least 12 months</strong> (the general cure period / Mindestbeobachtungszeitraum) <em>and</em> that the customer is again fit for <strong>Normalbetreuung</strong> (standard servicing, not workout). For past-due defaults the mechanics are the <strong>"re-aging" two-stage process</strong>:</p>
+    <div class="box key">
+      <div class="box-title">The re-aging two checks</div>
+      <ul>
+        <li>A <strong>Wohlverhaltensperiode / probation</strong> of <strong>≥ 90 days</strong> (RZ 71, EBA/GL/2016/07) must elapse <em>between two checks</em>.</li>
+        <li>At the <strong>2nd check</strong> the overdue counter must be <strong>≤ 30 days</strong>.</li>
+        <li>If a <strong>new default criterion</strong> arises within the probation period, the whole process <strong>restarts</strong>.</li>
+      </ul>
+    </div>
+    <p>Scope of cure differs by segment:</p>
+    <ul>
+      <li><strong>Non-retail:</strong> you cure the <strong>whole customer</strong> — <em>all</em> accounts/facilities must satisfy the criteria together (the default attaches at obligor level).</li>
+      <li><strong>Retail (Mengengeschäft):</strong> you may cure a <strong>single facility</strong> (default can attach at facility level).</li>
+    </ul>
+    <div class="box trap">
+      <div class="box-title">⚠ Loss-bearing default reasons cannot cure by "paying again"</div>
+      <p>Where an economic loss has already crystallised — <strong>Direktabschreibung, EWB-Auflösung, Forderungsverzicht, Forderungsverkauf</strong> — the default <em>cannot</em> be ended simply because the customer resumes payments. The loss is realised; resumed payment does not reverse it. After any valid cure, a <strong>new (non-default) rating</strong> must be freshly assigned — you do not restore the pre-default grade.</p>
+    </div>
+
+    <h3>3.3 LGD estimation — the data-pool approach (§10.3)</h3>
+    <p>LGD is the share of exposure lost given default. The guide estimates it with a <strong>Daten-Pool-Ansatz</strong> (data-pool approach) on RLB (Raiffeisen-Landesbank) data, which separates <strong>living (lebende) customers</strong> from <strong>defaulted (ausgefallene) customers</strong> — the split made on exactly the default flag of §2. The <strong>reference point</strong> is the <em>time of default</em>; the estimate is an <strong>economic LGD</strong>:</p>
+    <div class="formula">
+      $$ \text{LGD}_{\text{economic}} \;=\; 1 - \frac{\displaystyle\sum_t \frac{\text{Recovery}_t - \text{WorkoutCost}_t}{(1+r)^{t-t_{\text{def}}}}}{\text{EAD}_{t_{\text{def}}}} $$
+      <div class="where"><b>where</b> all workout cash flows and cost components are <strong>discounted back to the time of default</strong> \(t_{\text{def}}\); \(r\) = discount rate; the numerator is the present value of net recoveries. "Economic" means costs of the workout are included, not just nominal recovery.</div>
+    </div>
+    <p>The pooled <strong>living-portfolio</strong> results (with a conservatism add-on / Konservativitätsaufschlag, applied to ratings 0,5–5,0 and NR for those classes) <span class="tag ors">ÖRS estimates</span>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Forderungsklasse</th><th class="num">Pooled LGD</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Corporate</td><td class="num">45,5%</td><td>data-pool, living</td></tr>
+        <tr><td>Retail selbständig (self-employed)</td><td class="num">54,4%</td><td>data-pool, living</td></tr>
+        <tr><td>Retail unselbständig (employed)</td><td class="num">55,8%</td><td>data-pool, living</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The <strong>default-class LGDs</strong> are not empirical recoveries but <em>calibrated values</em> so that provisioning is reflected calculatorily:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Class / code</th><th class="num">LGD</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td>Corporate / Retail, ratings 0,5–5,0 + NR</td><td class="num">45,5 / 54,4 / 55,8%</td><td><span class="tag ors">ÖRS estimates</span></td></tr>
+        <tr><td>Default code 5,1</td><td class="num">80%</td><td><span class="tag ors">ÖRS choice</span> (provisioning-calibrated)</td></tr>
+        <tr><td>Default code 5,2</td><td class="num">100%</td><td><span class="tag ors">ÖRS choice</span> (provisioning-calibrated)</td></tr>
+        <tr><td>Other classes FI / Sov / LRG / CIU (unsecured)</td><td class="num">45%</td><td><span class="tag reg">regulatory</span> (F-IRB)</td></tr>
+        <tr><td>Covered bonds</td><td class="num">12,5%</td><td><span class="tag reg">regulatory</span></td></tr>
+        <tr><td>FI / Sov / LRG / CIU codes 5,1 &amp; 5,2</td><td class="num">100%</td><td><span class="tag reg">regulatory</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="box key">
+      <div class="box-title">These LGDs feed M5 directly</div>
+      <p>Every LGD here enters the M5 machinery twice: in the <strong>expected loss</strong> \(EL = LGD\cdot PD\cdot EAD\) (which sits in the Deckungsmasse as excess/shortfall) and in the <strong>IRB unexpected loss</strong> \(K=[LGD\cdot PD_{\text{cond}}-LGD\cdot PD]\cdot(\text{maturity adj.})\). LGD scales both terms linearly — so the 45,5/54,4/55,8% pooled choices and the 80/100% default-class calibrations move capital directly.</p>
+    </div>
+
+    <h2>4 · Worked example</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — materiality of a retail past-due, both must hold</div>
+      <p>A <strong>retail (Mengengeschäft)</strong> customer has <strong>total on-balance exposure €40.000</strong> and is <strong>overdue €350 for 95 days</strong>. Test the two materiality components (retail \(T_{\text{abs}}=\)€100):</p>
+      <ul>
+        <li><strong>Absolute:</strong> €350 &gt; €100 ✓</li>
+        <li><strong>Relative:</strong> €350 / €40.000 = <strong>0,875%</strong> &lt; 1% ✗</li>
+      </ul>
+      <p>The relative component fails, and <em>both</em> are required (logical AND). Even though the customer is past 90 days, the obligation is <strong>not material</strong> → <strong>NOT a default.</strong></p>
+      <hr style="margin:14px 0">
+      <p>Now raise the overdue to <strong>€500</strong> (exposure unchanged at €40.000):</p>
+      <ul>
+        <li><strong>Absolute:</strong> €500 &gt; €100 ✓</li>
+        <li><strong>Relative:</strong> €500 / €40.000 = <strong>1,25%</strong> &gt; 1% ✓</li>
+      </ul>
+      <p>Both hold → material → with &gt;90 days past due → <strong>default, code 5,0.</strong></p>
+      <hr style="margin:14px 0">
+      <p><strong>Contrast — insolvency, no threshold.</strong> A customer files for <strong>Insolvenz</strong> on a balance of just <strong>€50</strong>. Insolvency carries <em>no</em> materiality threshold (≥ €1 suffices) → <strong>default regardless, code 5,2.</strong> The €50 would never satisfy the €100 absolute test, yet the past-due gate is irrelevant — this is a UtP trigger.</p>
+    </div>
+
+    <h2>5 · In practice — regulatory LGD ladder vs ÖRS pooled estimates</h2>
+    <p>The CRR F-IRB supervisory LGD ladder spans a wide range; the guide overrides it with pooled internal estimates for the classes where it has data, and keeps the regulatory values where it does not:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Item</th><th class="num">Regulatory (F-IRB)</th><th class="num">ÖRS pooled / applied</th></tr></thead>
+      <tbody>
+        <tr><td>Covered bonds</td><td class="num">12,5%</td><td class="num">12,5%</td></tr>
+        <tr><td>Unsecured senior</td><td class="num">45%</td><td class="num">Corp 45,5 / Ret 54,4 / 55,8%</td></tr>
+        <tr><td>Purchased receivables</td><td class="num">75%</td><td class="num">—</td></tr>
+        <tr><td>Default 5,1 / 5,2</td><td class="num">—</td><td class="num">80% / 100%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>So the ÖRS Corporate estimate (45,5%) sits essentially on top of the 45% regulatory unsecured anchor <span class="tag reg">regulatory</span>, while the two retail segments (54,4% / 55,8% <span class="tag ors">ÖRS estimates</span>) sit materially above it — the pooled data say retail recoveries are weaker than the flat 45% would suggest.</p>
+    <div class="box ors">
+      <div class="box-title">🟣 The FX-on-LGD effect is handled implicitly</div>
+      <p>Recall from M5 that an FX loan's euro exposure rises when the foreign currency appreciates, and the uplift is treated as <em>unsecured</em> (collateral value is fixed in domestic terms). The Leitfaden does <strong>not</strong> add a separate FX adjustment to LGD: the effect is absorbed two ways — (1) the <strong>long observation window</strong> of the data-pool already spans several FX swings, so realised FX-driven losses are in the pooled estimate; and (2) the <strong>unsecured-exposure uplift</strong> in the credit-risk add-on mechanically raises the blended LGD on the FX portion. This is an <span class="tag ors">ÖRS proportionality choice</span> — simpler than a parametric FX-LGD model, defensible because of the window length.</p>
+    </div>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ BOTH thresholds — not either/or</div>
+      <p>The single most common error: treating materiality as "absolute OR relative". It is <strong>absolute AND relative</strong>. A €350 retail overdue on €40.000 clears the €100 absolute test but fails the 1% relative test (0,875%) — so it is <em>not</em> a default. Miss the AND and you over-flag small balances on large exposures.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Insolvency &amp; Fälligstellung have NO threshold</div>
+      <p>These are UtP triggers (Art. 178(1)(a)), not past-due triggers, so the Erheblichkeitsschwelle does not gate them — €1 suffices. Applying the €100/€500 absolute test to an insolvency filing is a category error: a €50 insolvency is still a default (5,2).</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Cure: ≥12 months general, but ≥90 days via re-aging — and scope differs</div>
+      <p>The general sustainability period is <strong>≥12 months</strong>, but the past-due re-aging probation (Wohlverhaltensperiode) is <strong>≥90 days</strong> between two checks with the counter ≤30 days at the 2nd check; any new default criterion restarts it. <strong>Non-retail cures the whole customer</strong> (all accounts); retail can cure a single facility. And <strong>loss-bearing reasons</strong> (Direktabschreibung, EWB-Auflösung, Forderungsverzicht, Forderungsverkauf) cannot cure via "pays again". After cure, assign a <strong>new</strong> rating.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ 5,1 = 80% / 5,2 = 100% are provisioning-calibrated, not empirical</div>
+      <p>These default-class LGDs are set so that provisioning is reflected calculatorily — they are <em>not</em> measured recovery rates. Do not "validate" them against realised recoveries as if they were estimates; they are a calibration choice <span class="tag ors">ÖRS choice</span> ensuring EL on defaulted exposures aligns with booked provisions.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li><strong>CRR Art. 178</strong> default = (a) Unlikeliness to Pay (UtP) <em>or</em> (b) &gt;90 days past due on a material obligation — either suffices.</li>
+      <li>ÖRS mapping: <strong>5,0</strong> = &gt;90 days · <strong>5,1</strong> = other default reasons · <strong>5,2</strong> = insolvency / write-off.</li>
+      <li><strong>Erheblichkeitsschwelle</strong> (Leitlinie (EU) 2020/978): absolute €100 retail / €500 non-retail <strong>AND</strong> relative 1% of on-balance exposures — both required. Insolvenz &amp; Fälligstellung+Verlust have <strong>no</strong> threshold (≥€1).</li>
+      <li><strong>Cure:</strong> ≥12 months sustainable improvement; re-aging two-stage with ≥90-day probation, counter ≤30 days at 2nd check, restart on new criterion. Non-retail = whole customer; retail = single facility. Loss-bearing reasons can't cure by paying again; assign a new rating after cure.</li>
+      <li><strong>LGD</strong> (data-pool, living portfolio): Corporate 45,5% · Retail selbst. 54,4% · Retail unselbst. 55,8%; defaults 80% (5,1) / 100% (5,2); other classes 45% F-IRB, covered bonds 12,5%. These feed both EL and the IRB UL of M5.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Ausfall nach <strong>CRR Art. 178</strong>: (a) <strong>Unwahrscheinlichkeit der Rückzahlung</strong> oder (b) <strong>&gt;90 Tage Überfälligkeit</strong> einer erheblichen Verbindlichkeit — eines genügt. ÖRS-Mapping: 5,0 / 5,1 / 5,2.</li>
+        <li>Die <strong>Erheblichkeitsschwelle</strong> (Leitlinie (EU) 2020/978) hat zwei Komponenten, die <strong>beide</strong> erfüllt sein müssen: absolut €100 (Mengengeschäft) / €500 (Nicht-Mengengeschäft) <strong>UND</strong> relativ 1% der bilanziellen Forderungen. <strong>Insolvenz</strong> und <strong>Fälligstellung mit erwartetem Verlust</strong> kennen <strong>keine</strong> Schwelle (≥ €1).</li>
+        <li><strong>Gesundung:</strong> nachhaltige Verbesserung über ≥12 Monate; Re-Aging-Verfahren mit ≥90 Tagen Wohlverhaltensperiode, Zähler ≤30 Tage beim zweiten Check; Neustart bei neuem Ausfallkriterium. Nicht-Mengengeschäft: ganzer Kunde; Mengengeschäft: einzelne Fazilität. Verlustbehaftete Gründe können nicht durch erneutes Zahlen gesunden; danach <strong>neues Rating</strong>.</li>
+        <li><strong>LGD</strong> (Daten-Pool, lebendes Portfolio): Corporate 45,5%, Retail selbständig 54,4%, Retail unselbständig 55,8%; Ausfallklassen 80% (5,1) / 100% (5,2); übrige Klassen 45% (F-IRB), Covered Bonds 12,5%. Diese LGDs fließen in EL und in den unerwarteten Verlust (IRB, M5) ein.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, §10.2–10.3; CRR (EU) 575/2013 Art. 178; Leitlinie (EU) 2020/978; EBA/GL/2016/07 (RZ 71). Companion to Module 5 (IRB / Vasicek).</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m14.html"><div class="dir">← Previous</div><div class="ttl">M14 · Data &amp; reporting</div></a>
+      <a class="next" href="m16.html"><div class="dir">Next →</div><div class="ttl">M16 · Basel IV / CRR III</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Default & LGD", pass:0.7, questions:[
+  { q:"A retail customer has total on-balance exposure of €40.000 and is overdue €350 for 95 days. Is this a default?",
+    options:[
+      "Yes — €350 > €100 absolute, that is enough",
+      "Yes — past 90 days is enough on its own",
+      "No — the relative test is 0,875% < 1%, and BOTH the absolute AND relative components must hold",
+      "No — €350 is below the €500 non-retail threshold"],
+    answer:2,
+    explain:"Materiality (Leitlinie (EU) 2020/978) is a conjunction: absolute (€350>€100 ✓) AND relative (€350/€40.000 = 0,875% < 1% ✗). The relative component fails, so despite >90 days the obligation is not material → not a default. Raise the overdue to €500 (1,25% > 1%) and both hold → default 5,0. The €500 figure is the non-retail absolute threshold, irrelevant here." },
+  { q:"A customer files for insolvency on a balance of only €50. Default?",
+    options:[
+      "No — €50 is below the €100 retail absolute threshold",
+      "Yes — insolvency (Insolvenz) carries no materiality threshold; ≥€1 suffices → default 5,2",
+      "Only if it also exceeds 1% of exposure",
+      "No — insolvency only counts after 90 days"],
+    answer:1,
+    explain:"Insolvency is an Unlikeliness-to-Pay trigger (Art. 178(1)(a)), not a past-due trigger, so the Erheblichkeitsschwelle does not gate it — €1 is enough. Fälligstellung with an expected economic loss is the other no-threshold reason. Applying the €100/€500 absolute test to an insolvency is a category error." },
+  { q:"Which statement about cure (Gesundung) is correct?",
+    options:[
+      "Any default can be cured the moment the customer resumes paying",
+      "Non-retail cures a single facility; retail must cure the whole customer",
+      "Loss-bearing reasons (Direktabschreibung, EWB-Auflösung, Forderungsverzicht, Forderungsverkauf) cannot cure by 'paying again'; non-retail cures the whole customer; after cure a new rating is assigned",
+      "The probation period is 12 months and the re-aging probation is 30 days"],
+    answer:2,
+    explain:"Loss-bearing reasons have realised an economic loss that resumed payment cannot reverse. Non-retail cures the WHOLE customer (default attaches at obligor level); retail can cure a single facility. General sustainability is ≥12 months; the past-due re-aging probation is ≥90 days (RZ 71 EBA/GL/2016/07) with the counter ≤30 days at the 2nd check. After cure a NEW non-default rating is assigned." },
+  { q:"Why are the default-class LGDs 80% (5,1) and 100% (5,2) set the way they are?",
+    options:[
+      "They are the empirically measured recovery rates from the data pool",
+      "They are calibrated so that provisioning is reflected calculatorily — an ÖRS choice, not an empirical estimate",
+      "They are CRR-mandated regulatory minimums for defaulted exposures",
+      "They equal the pooled living-portfolio LGDs plus a conservatism add-on"],
+    answer:1,
+    explain:"5,1→80% and 5,2→100% are calibration choices ensuring EL on defaulted exposures aligns with booked provisions — they are not empirical recoveries and should not be validated as if they were. By contrast the living-portfolio LGDs (45,5 / 54,4 / 55,8%) are data-pool estimates with a conservatism add-on applied to ratings 0,5–5,0 and NR." },
+  { q:"How do the pooled LGD estimates relate to the M5 capital machinery?",
+    options:[
+      "They only affect expected loss, never the IRB unexpected loss",
+      "They enter both EL = LGD·PD·EAD and the IRB UL = [LGD·PD_cond − LGD·PD]·(maturity adj.), scaling both linearly",
+      "They replace the PD in the conditional-PD formula",
+      "They are used only for reporting, not for capital"],
+    answer:1,
+    explain:"LGD multiplies both the expected-loss term (which sits in the Deckungsmasse as excess/shortfall) and the IRB unexpected-loss term derived in M5. Because it scales both linearly, the choice between the 45% regulatory anchor and the pooled 45,5/54,4/55,8% estimates — and the 80/100% default calibrations — moves capital directly." },
+]};
+</script>
+</body>
+</html>

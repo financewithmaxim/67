@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M16 · Basel IV / CRR III &amp; CRD VI — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m16">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil V — Ausblick &amp; Einlagensicherung › Module 16</div>
+      <h1>Module 16 — Basel IV / CRR III &amp; CRD VI: what changes and what it means for the sector and this guide</h1>
+    </div>
+    <p class="lead">The <em>Leitfaden Früherkennung</em> (09/2024) scales <strong>regulatory own-funds charges</strong> — for op risk, CVA, and the trading book — and uses IRB inputs for credit risk. "Basel IV" (in the EU: <strong>CRR III + CRD VI</strong>) rewrites several of those very charges. This module explains what changes, why, and which numbers in the guide will have to move in the next update wave.</p>
+
+    <div class="box reg">
+      <div class="box-title">⚖️ Verify against current sources</div>
+      <p>This module covers regulation that <strong>post-dates the Leitfaden (Sept 2024)</strong> and the assistant's knowledge cutoff. <strong>Every CRR III / CRD VI timeline, the output-floor phase-in path, the FRTB deferral, and all buffer/floor rates below must be checked against current primary sources</strong> — <strong>EUR-Lex</strong> (Regulation (EU) 2024/1623 and the CRD VI directive), <strong>EBA</strong> (RTS/ITS and Q&amp;A), and the <strong>FMA / OeNB</strong> for Austrian transposition. Treat every specific date and rate marked <span class="tag reg">verify</span> as <em>"as adopted / as expected"</em>, not settled fact: Commission deferrals, level-2 measures, and transposition may have changed the picture since the cutoff.</p>
+    </div>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Frame "Basel IV" correctly as the 2017 finalisation of Basel III, implemented in the EU via <em>CRR III</em> (Regulation (EU) 2024/1623) and <em>CRD VI</em>.</li>
+        <li>Explain the <strong>Output Floor</strong> mechanism, compute its bite numerically, and say why it matters even to a sector of mostly standardised-approach (SA) banks.</li>
+        <li>List the revised credit-risk SA/IRB rules, FRTB, SA-CCR, revised CVA, and the new op-risk SMA — and connect each to the specific Leitfaden module it touches.</li>
+        <li>Map every Leitfaden component the change affects to the CRR III revision and the likely direction of travel.</li>
+        <li>State the implementation timeline at the level of confidence the evidence supports — and flag what must be verified.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP -->
+
+    <h2>1 · Motivation — why "Basel IV" exists</h2>
+    <p>After the 2008 crisis, supervisors discovered that two banks with <em>identical</em> portfolios could report very different risk-weighted assets (RWAs) — purely because their internal models (IRB for credit, IMA for market risk, AMA for op risk) calibrated differently. This <strong>unwarranted RWA variability</strong> corroded the credibility of capital ratios: a 14% CET1 ratio meant one thing at a conservative bank and another at an aggressive one. The Basel Committee's December 2017 package — informally <strong>"Basel IV"</strong>, formally the <em>finalisation of Basel III</em> — set out to <strong>restore comparability and trust in capital ratios</strong> by floored, more granular, and less model-dependent measurement.</p>
+    <div class="box motivation">
+      <div class="box-title">▶ One sentence to remember</div>
+      <p>Basel IV does not (mainly) raise required capital by changing buffer percentages — it changes <strong>how RWAs are measured</strong>, putting <em>floors</em> under model outputs so that internal models can no longer drift arbitrarily far below the standardised result. The headline instrument is the <strong>Output Floor</strong>.</p>
+    </div>
+
+    <h2>2 · Concept &amp; logic — the framing and the headline</h2>
+
+    <h3>2.1 What "Basel IV" is, in EU terms</h3>
+    <p>"Basel IV" is not a new accord — it is the <strong>2017 finalisation of Basel III</strong>. In the EU it is transposed by two instruments you must name correctly:</p>
+    <ul>
+      <li><strong>CRR III</strong> — <em>Capital Requirements Regulation</em>, <strong>Regulation (EU) 2024/1623</strong> <span class="tag reg">verify</span>. Directly applicable (a Regulation), it carries the <em>measurement</em> rules: revised SA/IRB credit risk, FRTB, SA-CCR, revised CVA, the new op-risk SMA, and the output floor.</li>
+      <li><strong>CRD VI</strong> — <em>Capital Requirements Directive</em> <span class="tag reg">verify</span>. A Directive (needs national transposition into BWG), it carries supervisory/governance items: buffers, fit-and-proper, ESG/third-country-branch rules, supervisory powers.</li>
+    </ul>
+    <p>Core motivation, restated: <strong>reduce unwarranted RWA variability from internal models and restore the comparability and credibility of capital ratios.</strong></p>
+
+    <h3>2.2 The Output Floor — the headline change</h3>
+    <p>The single most consequential rule. Aggregate RWAs computed under <strong>internal models</strong> must be at least <strong>72,5%</strong> <span class="tag reg">verify rate</span> of the RWAs that the <em>same exposures</em> would attract under the <strong>standardised approaches (SA)</strong>:</p>
+    <div class="formula">
+      $$ RWA_{\text{floored}} \;=\; \max\!\Big(\, RWA_{\text{internal models}},\;\; 0{,}725\times RWA_{\text{standardised}} \,\Big) $$
+      <div class="where">\(RWA_{\text{internal models}}\) = total RWA the bank gets from <em>all</em> its model-based approaches (IRB credit, IMA market, etc.); \(RWA_{\text{standardised}}\) = the RWA the <em>same</em> book would attract under the standardised approaches. The floor is <strong>aggregate</strong> (one number for the whole bank), not loan-by-loan. The factor phases in, rising annually to <strong>72,5% around 2030</strong> <span class="tag reg">verify timeline</span>.</div>
+    </div>
+    <div class="box key">
+      <div class="box-title">What the floor actually limits</div>
+      <p>It caps the <strong>benefit</strong> a bank may extract from internal models relative to the standardised result. If your models produce RWAs below 72,5% of the SA number, the difference is added back: your effective RWA becomes the floor. A model can still save you up to 27,5% of SA RWAs — no more.</p>
+    </div>
+    <p><strong>Why it matters even though most Raiffeisenbanken are SA banks.</strong> A local Raiffeisenbank that already uses the standardised approach is, in isolation, <em>not</em> bound by an output floor — for an SA bank the "internal" and "standardised" RWAs coincide, so the floor is non-binding at solo level. But the floor <strong>bites at the level of the IRB user in the group — RBI (Raiffeisen Bank International)</strong>, and through <strong>consolidation</strong> it tightens the <em>sector's consolidated capital</em>. Because the Früherkennung produces both unconsolidated and <strong>R-IPS-consolidated</strong> views (Module on aggregation/consolidation), a floor that lifts RBI's RWAs feeds straight into the consolidated Auslastung the sector monitors. <span class="tag reg">verify timeline</span></p>
+
+    <h2>3 · Structure — the components of CRR III</h2>
+    <p>CRR III rewrites measurement across risk types. Here is the structure, each item tagged where a date/rate is involved and linked to the Leitfaden module it touches.</p>
+
+    <h3>3.1 Revised credit-risk SA and IRB</h3>
+    <ul>
+      <li><strong>More granular standardised risk weights</strong>: real-estate exposures split into <strong>LTV (loan-to-value) buckets</strong>; finer treatment of <strong>unrated corporates</strong> and <strong>retail</strong>. <span class="tag reg">verify weights</span></li>
+      <li><strong>IRB input floors</strong>: regulatory minimum <strong>PD and LGD inputs</strong> so model inputs cannot be set implausibly low. <span class="tag reg">verify floors</span></li>
+      <li><strong>Scope limits</strong>: <strong>A-IRB (advanced IRB) no longer permitted for large corporates and financial institutions</strong> — those move to <strong>F-IRB (foundation IRB)</strong> or to <strong>SA</strong>. Equity exposures move off IRB. <span class="tag reg">verify scope</span></li>
+      <li><strong>Removal of the 1,06 IRB scaling factor.</strong></li>
+    </ul>
+    <div class="box ors">
+      <div class="box-title">🟣 Connect to Module 5 (the IRB formula)</div>
+      <p>The Vasicek/ASRF formula you derived in M5 — \(K=\big[LGD\cdot PD_{\text{cond}}(q)-LGD\cdot PD\big]\cdot\text{(maturity adj.)}\) — <strong>stays</strong>. What changes is two-fold: (1) its <strong>inputs get floors</strong> (PD and LGD can no longer be driven below regulatory minima), and (2) the <strong>output floor caps the whole IRB benefit</strong> at the portfolio level. So the formula the Leitfaden leans on is unchanged in shape but constrained at both ends — input floors below, output floor above.</p>
+    </div>
+
+    <h3>3.2 FRTB — Fundamental Review of the Trading Book</h3>
+    <p>A wholly new <strong>market-risk</strong> framework replacing the current own-funds market-risk charge. It comprises a <strong>revised standardised approach</strong> (a sensitivities-based method, SBM) and an <strong>internal models approach</strong> with <em>P&amp;L attribution tests</em> and explicit treatment of <strong>non-modellable risk factors (NMRF)</strong>.</p>
+    <div class="box trap">
+      <div class="box-title">⚠ FRTB sits under the Leitfaden's trading-book scalars (M6)</div>
+      <p>The Leitfaden's <em>Preisrisiko Handelsbuch</em> charge = own-funds market-risk charge (minus FX, to avoid double count), then scaled <strong>×0,71 (Problemfall) / ×1,33 (Extremfall)</strong>. FRTB <strong>changes the charge those scalars multiply</strong>. The scaling logic (quantile rescaling, M4) survives; the <em>base number under it</em> is replaced. In the EU, FRTB <strong>own-funds reporting/application was deferred</strong> (Commission delegated deferral) — so the timing of when this base actually moves is itself uncertain. <span class="tag reg">verify deferral</span></p>
+    </div>
+
+    <h3>3.3 SA-CCR — standardised counterparty credit risk</h3>
+    <p>The <strong>standardised approach for counterparty credit risk</strong> replaces the older Current Exposure Method (CEM) / standardised method for computing the <strong>exposure</strong> of derivatives. SA-CCR feeds downstream calculations — notably <strong>CVA</strong> and <strong>large exposures (Großkredite)</strong> — so it is upstream of several Leitfaden inputs even though it has no scalar of its own.</p>
+
+    <h3>3.4 Revised CVA — BA-CVA and SA-CVA</h3>
+    <p>The current CVA (credit valuation adjustment) framework is <strong>replaced</strong> by two new approaches: <strong>BA-CVA (basic)</strong> and <strong>SA-CVA (standardised, sensitivities-based)</strong>, the latter aligned with FRTB's sensitivities machinery.</p>
+    <div class="box trap">
+      <div class="box-title">⚠ This supersedes the base of the Leitfaden's CVA charge (M7)</div>
+      <p>The Leitfaden takes the regulatory <em>CVA Eigenmittelerfordernis</em> (own-funds requirement, PosNr 7516000, EM-weight 8%) and scales it <strong>×0,71 / ×1,33</strong>. CRR III <strong>revises the very own-funds charge being scaled</strong>: BA-CVA/SA-CVA produce a different — and more risk-sensitive — CVA number than today's framework. The Leitfaden's "8% · CVA-Position × 0,71/1,33" therefore sits on a charge CRR III replaces. Flag explicitly: the scalars stay, the base is superseded.</p>
+    </div>
+
+    <h3>3.5 New op-risk SMA — Standardised Measurement Approach</h3>
+    <p>CRR III replaces <strong>all three</strong> current op-risk approaches — BIA (Basisindikatoransatz), TSA (standardised), and AMA (advanced) — with a single <strong>Standardised Measurement Approach (SMA)</strong>:</p>
+    <div class="formula">
+      $$ \text{Op-risk capital} \;=\; \underbrace{BIC}_{\text{from Business Indicator}} \times \underbrace{ILM}_{\text{Internal Loss Multiplier}} $$
+      <div class="where"><strong>BI (Business Indicator)</strong> = a P&amp;L-based size proxy (interest, services, financial components); <strong>BIC (Business Indicator Component)</strong> = the BI passed through a progressive marginal-coefficient schedule (buckets); <strong>ILM</strong> = a multiplier built from the bank's own historical operational <em>losses</em>. In the <strong>EU, ILM is set to 1</strong> (a national/Union discretion), so the charge is essentially <strong>BIC-based</strong> and loss history does not (yet) scale it. <span class="tag reg">verify ILM discretion</span></div>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ This supersedes the Leitfaden's income-based op-risk (M8)</div>
+      <p>The Leitfaden anchors op risk on <strong>15% of Betriebserträge</strong> (Extremfall, ≈ Basisindikatoransatz) and derives <strong>5,0%</strong> for the Problemfall by rescaling 15% from 99,9% to 95% under a ⅓-normal/⅔-lognormal assumption. CRR III's SMA <strong>replaces the BIA-style 15% basis</strong> with the BIC schedule. The 15%/5% machinery is therefore built on a base CRR III supersedes — the Leitfaden's op-risk basis will need to be re-anchored on BIC. <span class="tag reg">verify</span></p>
+    </div>
+
+    <h2>4 · What it means for the sector &amp; the guide (the "in practice" / worked section)</h2>
+    <p>Pull the threads together. The Leitfaden is not a regulatory text — it is a <em>Früherkennung</em> (early-warning) overlay that <strong>scales regulatory charges</strong> to two confidence levels. When CRR III moves the regulatory charges, the scalars stay but ride on <strong>new numbers</strong>. The table maps each affected component to its CRR III change and the likely direction.</p>
+
+    <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Leitfaden component</th><th>Leitfaden basis (09/2024)</th><th>CRR III change</th><th>Likely direction</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Op risk</strong> (M8)</td>
+          <td>15% Betriebserträge (Extremfall); 5,0% (Problemfall) <span class="tag ors">ÖRS choice</span></td>
+          <td>SMA: <strong>BIC × ILM</strong>, ILM = 1 in EU <span class="tag reg">verify</span></td>
+          <td>Charge becomes <strong>BIC-based</strong> (more structured size proxy); re-anchoring of the 15%/5% basis required</td>
+        </tr>
+        <tr>
+          <td><strong>CVA</strong> (M7)</td>
+          <td>8% · CVA-Position × 0,71 / 1,33 <span class="tag ors">ÖRS scaling</span> on a <span class="tag reg">regulatory</span> charge</td>
+          <td><strong>BA-CVA / SA-CVA</strong> replace current framework</td>
+          <td><strong>More risk-sensitive</strong> CVA base; scalars unchanged, base superseded</td>
+        </tr>
+        <tr>
+          <td><strong>Trading book</strong> (M6)</td>
+          <td>Own-funds market charge − FX, × 0,71 / 1,33 <span class="tag ors">ÖRS scaling</span></td>
+          <td><strong>FRTB</strong> (SBM / IMA), EU own-funds reporting deferred <span class="tag reg">verify</span></td>
+          <td>New market-risk base under the scalars (timing deferred)</td>
+        </tr>
+        <tr>
+          <td><strong>IRB inputs</strong> (M5)</td>
+          <td>PD master scale; LGD 45% / pooled; M = 2,5y <span class="tag ors">ÖRS choice</span> on <span class="tag reg">CRR Art.153/154</span> form</td>
+          <td><strong>PD/LGD input floors</strong>; A-IRB scope limits; 1,06 factor removed; <strong>output floor</strong></td>
+          <td>Formula unchanged; inputs floored below, <strong>output floor caps total IRB benefit</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Consolidated capital</strong> (R-IPS)</td>
+          <td>Deckungsmasse on consolidated own funds</td>
+          <td><strong>Output floor</strong> at RBI/IRB level <span class="tag reg">verify timeline</span></td>
+          <td><strong>Tightens</strong> consolidated capital headroom via RBI's higher floored RWAs</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box key">
+      <div class="box-title">The bottom line for the ÖRS</div>
+      <p>The ÖRS will need to <strong>update the Früherkennung's op-risk and CVA bases</strong> — the two clearest supersessions — and watch the FRTB base and the output floor's consolidated effect. The Leitfaden's <strong>version history shows it updates regularly</strong> (recall the FX-elasticity revision flagged in M5); <strong>CRR III is the next update wave.</strong> The scaling architecture (quantile rescaling to 95% / 99,9%) is robust to all of this — it is the <em>underlying regulatory charges</em> that move.</p>
+    </div>
+
+    <h3>4.1 Worked example — the Output Floor, numerically</h3>
+    <div class="box example">
+      <div class="box-title">Worked example — an IRB bank hitting the floor</div>
+      <p>An IRB bank computes, for the <em>same</em> book, two RWA totals:</p>
+      <ul>
+        <li>RWA under the <strong>standardised approaches</strong>: \(RWA_{\text{SA}} = \) €1.000m</li>
+        <li>RWA under its <strong>internal models</strong>: \(RWA_{\text{IRB}} = \) €650m (models save 35% vs SA)</li>
+      </ul>
+      <p><strong>Step 1 — compute the floor</strong> at the fully phased-in 72,5%:</p>
+      <div class="formula">$$ 0{,}725 \times 1.000\text{m} \;=\; 725\text{m}. $$</div>
+      <p><strong>Step 2 — apply the floor</strong> (take the max of model RWA and the floor):</p>
+      <div class="formula">$$ RWA_{\text{floored}} = \max(650,\; 725) = \textbf{725m}. $$</div>
+      <p><strong>Step 3 — read the bite.</strong> The floor is <em>binding</em> (725 &gt; 650). RWAs rise from €650m to €725m, a</p>
+      <div class="formula">$$ \frac{725-650}{650} = \frac{75}{650} = \textbf{+11{,}5\%} \text{ RWA increase.} $$</div>
+      <p>For a fixed capital base, an +11,5% RWA increase <em>lowers</em> the bank's capital ratio by the same proportion — the floor "claws back" part of the model benefit. A bank whose models were <em>less</em> aggressive (say \(RWA_{\text{IRB}}=\)€800m &gt; €725m) would be <strong>unaffected</strong>: the floor only bites when models drop below 72,5% of SA.</p>
+    </div>
+
+    <h3>4.2 Implementation timeline</h3>
+    <p>EU application of <strong>most of CRR III from 1 January 2025</strong> <span class="tag reg">verify against EUR-Lex</span>, with two notable carve-outs: the <strong>FRTB own-funds requirement / reporting was deferred</strong> by the Commission <span class="tag reg">verify deferral</span>, and the <strong>output-floor factor phases in</strong>, rising annually to <strong>72,5% around 2030</strong> <span class="tag reg">verify phase-in</span>. CRD VI requires <strong>national transposition</strong> (into the BWG) on its own schedule. <strong>Confirm all of this against EUR-Lex, EBA, and FMA before relying on any specific date.</strong></p>
+
+    <h2>5 · Structure recap — the Leitfaden's place in the new world</h2>
+    <p>Keep the layering straight. The Leitfaden does <strong>three</strong> things to regulatory numbers, and CRR III touches the inputs to all three:</p>
+    <ul>
+      <li><strong>It computes</strong> credit-risk UL via the IRB formula → CRR III floors the <em>inputs</em> and caps the <em>output</em>.</li>
+      <li><strong>It scales</strong> own-funds charges (CVA, trading book) by 0,71 / 1,33 → CRR III replaces the <em>charges</em> being scaled (revised CVA, FRTB).</li>
+      <li><strong>It anchors</strong> op risk on income (15% / 5%) → CRR III replaces the <em>basis</em> with BIC.</li>
+    </ul>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ The output floor is on RWAs, not on capital directly</div>
+      <p>The floor sets \(RWA_{\text{floored}}=\max(RWA_{\text{IM}},\,0{,}725\,RWA_{\text{SA}})\). It does <em>not</em> directly add a capital requirement; it raises the RWA <em>denominator</em>, which lowers the capital <em>ratio</em> for a fixed numerator. Confusing "a floor on RWAs" with "a floor on capital" leads to wrong impact arithmetic.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ SA banks feel the floor mainly via consolidation at RBI</div>
+      <p>A standardised-approach Raiffeisenbank is not bound by the output floor solo (its IM and SA RWAs coincide). The floor's real bite is at the <strong>IRB user — RBI</strong> — and it reaches the sector through <strong>R-IPS consolidation</strong>. Don't conclude "we're SA, so the floor is irrelevant to us": the consolidated Früherkennung view inherits RBI's floored RWAs.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ CRR III revises the very bases the Leitfaden scales</div>
+      <p>The 0,71 / 1,33 trading-book and CVA scalars, and the 5% / 15% op-risk factors, will <strong>ride on new numbers</strong>: FRTB replaces the market-risk charge, BA-CVA/SA-CVA replace the CVA charge, and the SMA's BIC replaces the income basis. The Leitfaden's <em>scaling logic</em> is untouched; its <em>inputs</em> are superseded. Treating the old base as permanent is the core error this module guards against.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ ILM = 1 in the EU — op risk is BIC-based, not loss-scaled (for now)</div>
+      <p>The SMA's Internal Loss Multiplier is set to 1 under EU discretion, so historical operational losses do <em>not</em> currently scale the charge. Assuming the EU applies a loss-sensitive ILM today overstates how loss-driven the EU op-risk charge is. <span class="tag reg">verify discretion</span></p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Every date and rate here must be verified</div>
+      <p>72,5%, 1 January 2025, the ~2030 phase-in, the FRTB deferral, and the regulation number 2024/1623 are stated as <em>adopted/expected</em>. They post-date the cutoff and are subject to Commission deferrals, level-2 measures, and national transposition. Cite EUR-Lex / EBA / FMA, not this page, in any document for senior management or the Aufsichtsrat.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>"Basel IV" = the <strong>2017 finalisation of Basel III</strong>; in the EU it is <strong>CRR III</strong> (Regulation (EU) 2024/1623) <span class="tag reg">verify</span> <strong>+ CRD VI</strong>. Goal: cut unwarranted RWA variability and restore comparable, credible capital ratios.</li>
+      <li><strong>Output floor</strong>: model RWAs ≥ <strong>72,5%</strong> of standardised RWAs, phased in to ~2030 <span class="tag reg">verify</span>. Caps the IRB benefit; on RWAs, not capital. Bites at <strong>RBI</strong> and tightens the sector's <strong>consolidated</strong> capital even though most Raiffeisenbanken are SA.</li>
+      <li><strong>Credit</strong>: granular SA weights (LTV buckets, unrated corporates, retail), <strong>PD/LGD input floors</strong>, A-IRB scope limits (large corporates/FIs → F-IRB/SA), 1,06 factor removed. M5's formula stays; inputs floored, output capped.</li>
+      <li><strong>FRTB</strong> replaces market-risk own-funds charge (under M6's scalars; EU own-funds deferred); <strong>SA-CCR</strong> replaces CEM (feeds CVA, Großkredite); <strong>BA-CVA/SA-CVA</strong> replace CVA (under M7's scalars); <strong>SMA = BIC × ILM</strong>, ILM = 1 in EU, replaces BIA/TSA/AMA (under M8's 15%/5%).</li>
+      <li>Worked floor: SA €1.000m, IRB €650m → 0,725·1.000 = €725m &gt; €650m ⇒ floored RWA €725m, <strong>+11,5%</strong>.</li>
+      <li>The ÖRS must re-anchor op-risk and CVA bases; CRR III is the <strong>next update wave</strong>. <strong>Verify all dates/rates against EUR-Lex / EBA / FMA.</strong></li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li><strong>„Basel IV"</strong> ist die Finalisierung von Basel III (2017); in der EU umgesetzt durch <strong>CRR III</strong> (Verordnung (EU) 2024/1623) <span class="tag reg">verify</span> und <strong>CRD VI</strong>. Ziel: ungerechtfertigte RWA-Varianz aus internen Modellen reduzieren und die Vergleichbarkeit der Kapitalquoten wiederherstellen.</li>
+        <li>Der <strong>Output Floor</strong> verlangt, dass die RWAs aus internen Modellen mindestens <strong>72,5%</strong> der RWAs nach Standardansatz betragen (Einphasung bis ~2030 <span class="tag reg">verify</span>). Er begrenzt den IRB-Vorteil, wirkt vor allem auf <strong>RBI-Ebene</strong> und verschärft das <strong>konsolidierte</strong> Kapital des Sektors.</li>
+        <li>CRR III ersetzt zentrale Grundlagen des Leitfadens: <strong>FRTB</strong> (Marktrisiko, M6), <strong>BA-CVA/SA-CVA</strong> (CVA, M7) und den <strong>SMA</strong> (BIC × ILM, ILM = 1 in der EU) statt des Einkommensansatzes (15%/5%, M8). Die ÖRS-Skalierung (×0,71/×1,33) bleibt, die Basis wird neu.</li>
+        <li>Anwendung der meisten CRR-III-Regeln ab <strong>1. Jänner 2025</strong> <span class="tag reg">verify</span> (FRTB-Eigenmittelmeldung verschoben, Output-Floor-Einphasung). <strong>Alle Daten und Sätze gegen EUR-Lex / EBA / FMA prüfen.</strong></li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source framing: ÖRS <em>Leitfaden Früherkennung</em> 09/2024 (the components this module maps from); Basel Committee, <em>Basel III finalisation</em> (Dec 2017); EU <em>CRR III</em> Regulation (EU) 2024/1623 and <em>CRD VI</em>. This material post-dates the Leitfaden and the assistant's knowledge cutoff — all dates, rates, the output-floor phase-in, the FRTB deferral, and buffer specifics are presented as <em>adopted/expected</em> and must be verified against current <strong>EUR-Lex / EBA / FMA</strong> sources.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m15.html"><div class="dir">← Previous</div><div class="ttl">M15 · Default &amp; LGD</div></a>
+      <a class="next" href="m17.html"><div class="dir">Next →</div><div class="ttl">M17 · Deposit guarantee</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Basel IV / CRR III", pass:0.7, questions:[
+  { q:"What is the Output Floor, mechanically?",
+    options:[
+      "A minimum CET1 buffer rate of 72,5% that all banks must hold",
+      "A rule that RWAs under internal models must be at least 72,5% of the RWAs the same book attracts under the standardised approaches",
+      "A 72,5% cap on the risk weight of any single exposure",
+      "A requirement that 72,5% of the loan book use the standardised approach"],
+    answer:1,
+    explain:"The floor is RWA_floored = max(RWA_internal-models, 0,725·RWA_standardised). It caps the aggregate benefit of internal models relative to the standardised result — it is not a buffer on capital, not a per-exposure cap, and not a portfolio-share rule. It is on RWAs, phased in to ~72,5% around 2030 (verify timeline)." },
+  { q:"Why does the output floor matter to the Raiffeisen sector even though most local Raiffeisenbanken use the standardised approach?",
+    options:[
+      "Because the standardised approach is itself subject to the floor",
+      "It does not matter to them at all",
+      "Because for an SA bank the floor is non-binding solo, but it bites at the IRB user (RBI) and tightens the sector's consolidated capital via R-IPS consolidation",
+      "Because the floor converts all SA banks into IRB banks"],
+    answer:2,
+    explain:"For an SA bank the internal and standardised RWAs coincide, so the floor is non-binding at solo level. Its real bite is at RBI (the IRB user); through R-IPS consolidation, RBI's higher floored RWAs flow into the consolidated Früherkennung view the sector monitors." },
+  { q:"An IRB bank has SA RWAs of €1.000m and internal-model RWAs of €650m. With the floor at 72,5%, what is the floored RWA and the increase?",
+    options:[
+      "€650m, no increase — the floor is below the model number",
+      "€725m, a +11,5% increase over the €650m model RWA",
+      "€1.000m, a +53,8% increase",
+      "€470m, a −27,7% decrease"],
+    answer:1,
+    explain:"0,725·1.000 = €725m > €650m, so the floor binds: floored RWA = max(650,725) = €725m. The increase is (725−650)/650 = 75/650 = +11,5%. Had the model RWA exceeded €725m, the floor would not bind." },
+  { q:"The Leitfaden scales the regulatory CVA own-funds charge by ×0,71 (Problemfall) / ×1,33 (Extremfall). What does CRR III do to this?",
+    options:[
+      "It removes the scalars and forbids any CVA charge",
+      "It changes the scalars to ×0,5 / ×2,0",
+      "It replaces the underlying CVA own-funds charge with BA-CVA/SA-CVA, so the scalars stay but ride on a new, more risk-sensitive base",
+      "It leaves CVA entirely unchanged"],
+    answer:2,
+    explain:"CRR III replaces the current CVA framework with BA-CVA (basic) and SA-CVA (sensitivities-based, FRTB-aligned). The Leitfaden's quantile-rescaling scalars are untouched; the regulatory charge they multiply is superseded. The same pattern applies to FRTB under the trading-book scalars and the SMA's BIC under the op-risk 15%/5%." },
+  { q:"Under the new op-risk SMA in the EU, what is the practical form of the charge, and why?",
+    options:[
+      "AMA models scaled by a supervisory add-on",
+      "Essentially BIC-based, because the EU sets the Internal Loss Multiplier (ILM) = 1, so loss history does not currently scale the charge",
+      "15% of operating income, unchanged from the Basisindikatoransatz",
+      "Business Indicator multiplied by the bank's full loss experience with no floor"],
+    answer:1,
+    explain:"The SMA is BIC × ILM, replacing BIA/TSA/AMA. The EU exercises the discretion to set ILM = 1, so the charge is effectively BIC-based and historical losses do not (yet) scale it. This supersedes the Leitfaden's income-based 15%/5% basis, which the ÖRS will need to re-anchor (verify discretion)." },
+]};
+</script>
+</body>
+</html>

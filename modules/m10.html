@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M10 · Participation risk (Beteiligungsrisiko) — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m10">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil II — Risikotragfähigkeit › Module 10</div>
+      <h1>Module 10 — Beteiligungsrisiko (§5.4): the participation-risk framework</h1>
+    </div>
+    <p class="lead">The Raiffeisenbankengruppe (RBG) is an institution built <em>on</em> mutual participations — Primärbanken hold the Landeszentrale, Landeszentralen hold RBI. So Beteiligungsrisiko (participation / equity-investment risk) is not a footnote: it is structural. Because there is no market-priced, CRR-style formula for it, almost every number in this module is an <strong>ÖRS expert estimate</strong> expressed as a <em>band</em> — and your job is to know exactly which numbers are forced and which are modelled.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Name and define the <strong>six sub-risks</strong> of Beteiligungsrisiko in German and English, and place them on the value-ladder (Verkehrswert → Buchwert → stille Reserve).</li>
+        <li>Compute participation risk as <strong>Verkehrswert · Risikofaktor</strong>, building the Verkehrswert from on-balance, weighted off-balance and stille Reserven.</li>
+        <li>Read and apply the rating→Risikofaktor <strong>band tables</strong> for Bank/Industrie vs Immobilien, above and below the €10m threshold.</li>
+        <li>Explain the <strong>"3× rule"</strong>, the Ausübungswahrscheinlichkeiten (exercise probabilities), and why bands beat point values.</li>
+        <li>Separate the <span class="tag reg">regulatory</span> anchors from the heavy <span class="tag ors">ÖRS expert estimation</span>, and spot the IPS double-count that Module 12 removes.</li>
+      </ul>
+    </div>
+
+    <!-- §6 TEACHING LOOP -->
+
+    <h2>1 · Motivation — why participation risk needs its own method</h2>
+    <p>A loan has a contractual cash flow, a PD and an LGD; the IRB formula (Module 5) prices its unexpected loss. An <strong>equity participation</strong> (Beteiligung) has none of that machinery: no promised repayment, no default event, no LGD. Its loss distribution is the distribution of the <em>equity value itself</em>. For a listed name you could take an equity VaR off market data — but the RBG's participations are overwhelmingly <strong>unlisted, mutual, strategic holdings</strong> (a Primärbank's share in its Landeszentrale, an Industriebeteiligung, a property-holding subsidiary). There is no liquid price and no CRR formula. So the Leitfaden does the only honest thing: it builds a <strong>haircut model</strong> calibrated by expert judgement, and it is transparent that the numbers are estimates.</p>
+    <div class="box motivation">
+      <div class="box-title">▶ Why this matters more here than anywhere else</div>
+      <p>The sector's capital architecture <em>is</em> a chain of participations. A value fall in a Landeszentrale propagates up the holding chain and across the R-IPS. Getting Beteiligungsrisiko approximately right — and being able to defend the haircuts to the Aufsichtsrat — is a core competence for a Sector Risk Controller. The flip side: because Sektorbeteiligungen are <em>internal</em> to the group, the solo numbers <strong>double-count</strong> risk that the consolidated (IPS) view in Module 12 must eliminate.</p>
+    </div>
+
+    <h2>2 · Concept — the six sub-risks and the value ladder</h2>
+    <p>Beteiligungsrisiko decomposes into <strong>six</strong> sub-risks. Define each precisely — the German term carries the legal meaning:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Sub-risk (German)</th><th>English</th><th>What goes wrong</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dividendenausfallrisiko</strong></td><td>Dividend-default risk</td><td>The participation pays a smaller dividend than budgeted (or none). Hits the <em>income</em> side, not the carrying value — so it is treated apart from the other five.</td></tr>
+        <tr><td><strong>Teilwertabschreibungsrisiko</strong> (TWA)</td><td>Write-down risk</td><td>The fair value drops below book value (Buchwert) far enough to force a Wertberichtigung / Teilwertabschreibung in the accounts — a realised P&amp;L hit while still holding the stake.</td></tr>
+        <tr><td><strong>Veräußerungsverlustrisiko</strong></td><td>Disposal-loss risk</td><td>On sale, the proceeds fall short of the carrying value — a realised loss crystallised by exit.</td></tr>
+        <tr><td><strong>Risiko aus Nachschusspflichten</strong></td><td>Top-up (capital-call) risk</td><td>A <em>statutory or contractual</em> obligation to inject further capital (e.g. cooperative Nachschusspflicht, Genossenschaft) — cash out the door beyond the original stake.</td></tr>
+        <tr><td><strong>Risiko aus strategischer (moralischer) Sanierungsverantwortung</strong></td><td>Voluntary cooperative bail-out responsibility</td><td>A <em>voluntary</em> but quasi-binding obligation to recapitalise a troubled member to protect the group/brand. Applies <strong>only to strategic participations</strong> (the sector commitment, not a contract).</td></tr>
+        <tr><td><strong>Reduktion stiller Reserven</strong></td><td>Hidden-reserve reduction</td><td>The cushion between fair value and book value (the stille Reserve) shrinks. No P&amp;L hit yet, but the Deckungsmasse (risk-bearing capacity) loses cover.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box key">
+      <div class="box-title">The value ladder — how a value fall climbs the five</div>
+      <p>Picture a participation at \(t=0\) with three stacked quantities: <strong>Verkehrswert</strong> (fair value, top) &gt; <strong>Buchwert</strong> (book value, middle); the gap between them is the <strong>stille Reserve</strong> (hidden reserve). Now let value fall over \([t_0,t_1]\):</p>
+      <ol>
+        <li><strong>First it eats the stille Reserve</strong> — Verkehrswert drops toward Buchwert. That is <em>Reduktion stiller Reserven</em>: cover lost, no accounting loss yet.</li>
+        <li><strong>Then it breaches book value</strong> — Verkehrswert &lt; Buchwert forces a Wertberichtigung. That is <em>Teilwertabschreibungsrisiko</em>: a realised write-down.</li>
+        <li><strong>Then it forces an action</strong> — a sale below carrying value (<em>Veräußerungsverlustrisiko</em>) and/or a cash injection (<em>Nachschuss</em> / <em>Sanierungsverantwortung</em>).</li>
+      </ol>
+      <p>So the five "value" sub-risks are not independent stories — they are <strong>stages of one move down the ladder</strong>. Dividend risk is the odd one out: it lives on the income statement, not the ladder.</p>
+    </div>
+
+    <p>Except Dividendenausfallrisiko, all five value sub-risks are measured the same statistical way: the <strong>loss not exceeded with 95% probability (Problemfall)</strong> and with <strong>99,9% probability (Extremfall)</strong> <span class="tag ors">ÖRS choice</span> — the same VaR confidence levels as every other risk type (Module 4 vertical consistency). The difference is that here the loss distribution is not derived from a model; the percentile is <em>encoded directly</em> in the haircut bands.</p>
+
+    <h2>3 · Derivation — Risiko = Verkehrswert · Risikofaktor</h2>
+    <p>The whole framework collapses to one product:</p>
+    <div class="formula">
+      $$ \text{Beteiligungsrisiko} \;=\; \text{Verkehrswert} \,\cdot\, \text{Risikofaktor (Haircut)} $$
+      <div class="where">
+        <b>Verkehrswert</b> = fair value of the participation = <strong>Buchwert</strong> (on-balance carrying value + weighted off-balance) <strong>+ stille Reserven</strong>. &nbsp;
+        <b>Risikofaktor</b> = the percentile loss (95% or 99,9%) expressed as a fraction of fair value — read from the rating→segment band tables in §5.
+      </div>
+    </div>
+    <p>Build the Verkehrswert from its components:</p>
+    <div class="formula">
+      $$ \text{Verkehrswert} \;=\; \underbrace{B_{\text{on}}}_{\text{on-balance book}} \;+\; \underbrace{\sum_j w_j \cdot E_j}_{\text{weighted off-balance}} \;+\; \underbrace{R_{\text{still}}}_{\text{stille Reserven}} $$
+      <div class="where">
+        \(B_{\text{on}}\) = on-balance carrying value of the equity-financing instruments; \(E_j\) = nominal of off-balance exposure \(j\); \(w_j\) = its Ausübungswahrscheinlichkeit (exercise probability, §5.5); \(R_{\text{still}}\) = hidden reserves (fair value − book) on the holding.
+      </div>
+    </div>
+    <p><strong>Which financing instruments count?</strong> The Verkehrswert aggregates every form of equity and equity-near funding the bank has put into the participation:</p>
+    <ul>
+      <li><strong>Grund-/Stammkapital</strong> — ordinary share / nominal capital.</li>
+      <li><strong>Partizipationskapital</strong> — participation capital (Austrian quasi-equity).</li>
+      <li><strong>Eigenkapitalnahes Mezzanin — Sozietäre Genussrechte</strong> — equity-near mezzanine / participating profit-rights certificates.</li>
+      <li><strong>Off-balance Eventualverpflichtungen</strong> — contingent liabilities: Haftungen (guarantees) and Garantien, brought on via exercise probabilities (the off-balance term above).</li>
+    </ul>
+
+    <div class="box ors">
+      <div class="box-title">🟣 Why bands, not point values</div>
+      <p><span class="tag ors">ÖRS choice</span> Every Risikofaktor is an <strong>expert estimate given as a bandwidth</strong> (e.g. 10–15%), never a single number. Two deliberate reasons: (1) it avoids <strong>Scheingenauigkeit</strong> (false precision) — pretending you can pin an unlisted strategic stake's tail loss to one decimal is dishonest; (2) the band <strong>implicitly absorbs concentration and cyclicality</strong> that a single point could not — the assessor picks within the band according to how concentrated / cyclical the specific holding is. The model is <strong>backtested annually</strong> against actual company valuations and rating migrations, and recalibrated. There is essentially <em>no</em> CRR formula being approximated here — this is genuine internal modelling under proportionality.</p>
+    </div>
+
+    <h2>4 · Worked example — one industrial participation, both scenarios</h2>
+    <div class="box example">
+      <div class="box-title">Worked example — an Industriebeteiligung, rating 2,5</div>
+      <p><strong>Step 1 — build the Verkehrswert.</strong></p>
+      <ul>
+        <li>On-balance Buchwert \(B_{\text{on}}=\)€12,0m (Grund-/Stammkapital + a Sozietäres Genussrecht).</li>
+        <li>Off-balance: a Haftung (guarantee) of nominal €15,0m. The participation is rated <strong>2,5</strong>, so its Ausübungswahrscheinlichkeit (§5.5) is <strong>20%</strong> → weighted off-balance \(=0{,}20\cdot 15{,}0=\)€3,0m.</li>
+        <li>Stille Reserve \(R_{\text{still}}=\)€5,0m (fair value above book).</li>
+      </ul>
+      <div class="formula">$$ \text{Verkehrswert}=12{,}0+3{,}0+5{,}0=\textbf{€20,0m}. $$</div>
+      <p><strong>Step 2 — pick the Risikofaktor.</strong> Segment = Industrie, book value &gt; €10m ⇒ use the <em>general/bank band table</em> (§5.3). Rating 2,5 ⇒ Problemfall <strong>10–15%</strong>, Extremfall <strong>30–45%</strong>. There is no special concentration and the holding is mid-cyclical, so take the <strong>mid-band</strong>: 12,5% and 37,5%.</p>
+      <div class="formula">
+        $$ \text{Risiko}_{\text{Problemfall}}=20{,}0\cdot 12{,}5\%=\textbf{€2,5m}, \qquad \text{Risiko}_{\text{Extremfall}}=20{,}0\cdot 37{,}5\%=\textbf{€7,5m}. $$
+      </div>
+      <p><strong>Step 3 — sanity-check with the 3× rule.</strong> \(7{,}5 / 2{,}5 = 3{,}0\): the Extremfall is exactly 3× the Problemfall, as the rule of thumb predicts and the bands roughly obey (10–15% → 30–45%). &nbsp;<em>Band-choice reasoning:</em> had this been a single dominant, highly cyclical stake you would slide toward the top of the band (15% / 45%); a granular, defensive holding pulls toward the bottom (10% / 30%). The band <em>is</em> the concentration/cyclicality adjustment.</p>
+    </div>
+
+    <h2>5 · In practice — the tables, the segments, the thresholds</h2>
+
+    <h3>5.1 The rating → Risikofaktor band table (Bank / general / Industrie &gt; €10m)</h3>
+    <p>This is the master table. It applies to <strong>Bankbeteiligungen</strong>, the general case, and <strong>Industriebeteiligungen with book value &gt; €10m</strong> (same risk band as the bank table). All numbers <span class="tag ors">ÖRS expert estimate (band)</span>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Rating</th><th>Problemfall (95%)</th><th>Extremfall (99,9%)</th></tr></thead>
+      <tbody>
+        <tr><td>0,5</td><td class="num">1–5%</td><td class="num">1–5%</td></tr>
+        <tr><td>1,0 &amp; 1,5</td><td class="num">5–10%</td><td class="num">15–30%</td></tr>
+        <tr><td>2,0 &amp; 2,5</td><td class="num">10–15%</td><td class="num">30–45%</td></tr>
+        <tr><td>3,0</td><td class="num">15–20%</td><td class="num">45–60%</td></tr>
+        <tr><td>3,5</td><td class="num">20–25%</td><td class="num">60–75%</td></tr>
+        <tr><td>4,0</td><td class="num">25–30%</td><td class="num">75–90%</td></tr>
+        <tr><td>4,5</td><td class="num">30–50%</td><td class="num">90–100%</td></tr>
+        <tr><td>5,x</td><td class="num">50–100%</td><td class="num">100%</td></tr>
+        <tr><td>n.r. (no rating)</td><td class="num">15–20%</td><td class="num">45–60%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>RBI participation special case:</strong> the RBI holding is assessed directly from its external rating. <span class="tag ors">ÖRS choice</span> rating <strong>A2 (≙ 1,0)</strong> → <strong>10%</strong> Problemfall / <strong>30%</strong> Extremfall — note this sits at the <em>top</em> of the 1,0 band, a deliberately conservative pick for the group's central institution.</p>
+
+    <h3>5.2 The Immobilienbeteiligungen table (&gt; €10m)</h3>
+    <p>Property participations are <strong>lower-risk</strong>: real estate is less cyclical than operating businesses and rents are typically inflation-indexed, so the tail haircut is smaller. Separate band table <span class="tag ors">ÖRS expert estimate (band)</span>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Rating</th><th>Problemfall (95%)</th><th>Extremfall (99,9%)</th></tr></thead>
+      <tbody>
+        <tr><td>0,5</td><td class="num">1%</td><td class="num">1%</td></tr>
+        <tr><td>1,0</td><td class="num">1–5%</td><td class="num">1–15%</td></tr>
+        <tr><td>1,5 &amp; 2,0</td><td class="num">5–10%</td><td class="num">15–30%</td></tr>
+        <tr><td>2,5 &amp; 3,0</td><td class="num">10–15%</td><td class="num">30–45%</td></tr>
+        <tr><td>3,5 &amp; 4,0</td><td class="num">15–25%</td><td class="num">45–75%</td></tr>
+        <tr><td>4,5</td><td class="num">25–40%</td><td class="num">75–100%</td></tr>
+        <tr><td>5,x</td><td class="num">40–80%</td><td class="num">100%</td></tr>
+        <tr><td>n.r. (no rating)</td><td class="num">10–15%</td><td class="num">30–45%</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>5.3 Below the €10m materiality threshold — flat factors</h3>
+    <p>A <strong>single, individual assessment</strong> (with the band tables above) is required only for Industrie/Immobilien participations whose <strong>book value exceeds €10m</strong> <span class="tag ors">ÖRS choice</span>. Below the threshold, the effort is not warranted: <strong>flat per-rating-class factors</strong> apply (point values, deliberately conservative). Two small tables:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th colspan="3">Beteiligungen &lt; €10m (Industrie / general)</th></tr><tr><th>Rating class</th><th>Problemfall</th><th>Extremfall</th></tr></thead>
+      <tbody>
+        <tr><td>Sonstige (all other)</td><td class="num">10%</td><td class="num">30%</td></tr>
+        <tr><td>4,0</td><td class="num">25%</td><td class="num">75%</td></tr>
+        <tr><td>4,5</td><td class="num">30%</td><td class="num">90%</td></tr>
+        <tr><td>5,x</td><td class="num">50%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th colspan="3">Immobilien &lt; €10m</th></tr><tr><th>Rating class</th><th>Problemfall</th><th>Extremfall</th></tr></thead>
+      <tbody>
+        <tr><td>Sonstige (all other)</td><td class="num">10%</td><td class="num">30%</td></tr>
+        <tr><td>4,0</td><td class="num">15%</td><td class="num">45%</td></tr>
+        <tr><td>4,5</td><td class="num">25%</td><td class="num">75%</td></tr>
+        <tr><td>5,x</td><td class="num">50%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>5.4 The "3× rule"</h3>
+    <div class="box key">
+      <div class="box-title">Extremfall ≈ 3 × Problemfall</div>
+      <p>As a rule of thumb the <strong>Extremfall write-down risk is about three times the Problemfall</strong>. Verify against the bands: rating 2,0/2,5 reads <strong>10–15% → 30–45%</strong> (×3 exactly at both ends); 3,0 reads 15–20% → 45–60% (×3); 3,5 reads 20–25% → 60–75% (×3). The relation breaks down only where Extremfall saturates at 100% (4,5 and 5,x) — there the ratio compresses below 3 because the haircut cannot exceed total loss. So 3× is a <strong>rule of thumb the bands roughly obey</strong> by construction, not a derived law: it encodes the jump from a 1-in-20-year (95%) to a 1-in-1000-year (99,9%) equity loss for an unlisted stake.</p>
+    </div>
+
+    <h3>5.5 Off-balance Eventualverpflichtungen — Ausübungswahrscheinlichkeiten</h3>
+    <p>Contingent liabilities (Haftungen / Garantien given for the participation) are off-balance, so they are pulled into the Verkehrswert via <strong>Ausübungswahrscheinlichkeiten</strong> (exercise probabilities) — directly analogous to the regulatory <strong>Credit Conversion Factor</strong> (CCF) for credit risk, but rating-driven here <span class="tag ors">ÖRS choice</span>:</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Rating</th><th>Ausübungswahrscheinlichkeit</th></tr></thead>
+      <tbody>
+        <tr><td>0,5</td><td class="num">0%</td></tr>
+        <tr><td>1,0</td><td class="num">5%</td></tr>
+        <tr><td>1,5</td><td class="num">10%</td></tr>
+        <tr><td>2,0</td><td class="num">20%</td></tr>
+        <tr><td>2,5</td><td class="num">30%</td></tr>
+        <tr><td>3,0 &amp; 3,5</td><td class="num">50%</td></tr>
+        <tr><td>4,0 &amp; 4,5</td><td class="num">80%</td></tr>
+        <tr><td>5,x</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The worse the rating, the more likely the guarantee is called — at default (5,x) the full nominal is assumed drawn, exactly as a CCF of 100% would imply. <em>(Note: the §4 example used 20% because that stake was rated 2,0-band-equivalent; a 2,5 stake's own holding uses 30%. In the example the guarantee was on a 2,0-rated obligor → 20%.)</em></p>
+
+    <h3>5.6 Segments — Bank vs Industrie vs Immobilien</h3>
+    <ul>
+      <li><strong>Bankbeteiligungen</strong>: participations in <strong>Bundesgruppe &amp; R-IPS members and their subsidiaries</strong>, including bank-near service companies (bank-nahe Dienstleister). <strong>Sektorbeteiligungen</strong> = <em>all</em> bank participations within the RBG, whether inside or outside Austria. A Primärbank's Sektorbeteiligung is typically its stake in the <strong>Landeszentrale</strong>; the Landeszentrale's is its stake in <strong>RBI</strong>. These use the master band table.</li>
+      <li><strong>Industriebeteiligungen</strong>: operating-company holdings. &gt; €10m → master band table; ≤ €10m → flat factors. Most cyclical.</li>
+      <li><strong>Immobilienbeteiligungen</strong>: property-holding companies. Lower bands (§5.2) reflecting low cyclicality and indexed rents.</li>
+    </ul>
+
+    <h3>5.7 Eigengenutzte Immobilien (own-used property)</h3>
+    <p>Own-used real estate (eigengenutzte Immobilien) — on the bank's <em>own</em> balance sheet and inside subsidiaries — carries a flat haircut of <strong>5% Problemfall / 15% Extremfall</strong> <span class="tag ors">ÖRS choice</span> (again roughly 3×). The corresponding stille Reserven (Schätzwert − Buchwert, i.e. appraisal value minus book) are credited to the <strong>Deckungsmasse</strong>, capped at that difference: \( R_{\text{still}}^{\max}=\text{Schätzwert}-\text{Buchwert}\). So own-used property is both a small risk charge <em>and</em> a source of cover.</p>
+
+    <h3>5.8 Aggregation and the rating source</h3>
+    <p><strong>No diversification.</strong> Total Beteiligungsrisiko is the <strong>plain sum</strong> of the single-participation risks — correlation is set to +1, consistent with the rest of the RTFA (Module 4). There is no diversification credit across participations. Under proportionality, the <strong>Beteiligungsrating may default to the existing Kreditrating</strong> of the company where no dedicated participation rating exists; the expert haircut mapping is <strong>backtested annually</strong> against realised company valuations and rating migrations.</p>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap">
+      <div class="box-title">⚠ Bands are not point values — resist Scheingenauigkeit</div>
+      <p>10–15% is a <em>band</em>, not "12,5%". The assessor must justify the chosen point <em>inside</em> the band by the holding's concentration and cyclicality. Quoting a single mid-band number to senior management without that reasoning misrepresents an expert estimate as a measurement. The band is the honesty mechanism — use it.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ The €10m line is a single-assessment threshold, not a risk-free line</div>
+      <p>Below €10m you do <em>not</em> escape the charge — you switch from individual band assessment to <strong>flat per-rating-class factors</strong> (which are themselves conservative). The threshold controls <em>effort</em>, not <em>existence</em>. And it is per single participation (book value), not a portfolio aggregate.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Sektorbeteiligungen create the intra-IPS double-count (→ Module 12)</div>
+      <p>A Primärbank books participation risk on its Landeszentrale stake; the Landeszentrale books its own risk; the underlying assets are counted again as that bank's <em>own</em> risk. On a <strong>solo</strong> basis this is correct. On a <strong>consolidated R-IPS</strong> basis it <em>double-counts</em>: Module 12 (Aggregation &amp; consolidation, Ch.7) explicitly <strong>excludes participation risks within the consolidation circle</strong> (and intra-group credit exposures). Never report a solo Beteiligungsrisiko as if it were the group's.</p>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Banking-book equities: Beteiligungsrisiko OR Marktrisiko — not both</div>
+      <p>Equities held in the Bankbuch (banking book) may fall under <strong>Beteiligungsrisiko</strong> (strategic holdings) <em>or</em> under <strong>Preisrisiko Bankbuch / Marktrisiko</strong> (e.g. indirect or fund holdings, priced via a market-vola VaR or an index like the ATX — Module 6). The classification must be unambiguous per holding to avoid either a gap or a double count. Cross-link: <a href="m06.html">M6 · Market risk</a>.</p>
+    </div>
+    <div class="box reg">
+      <div class="box-title">⚓ What little here is regulatory</div>
+      <p><span class="tag reg">regulatory</span> The <em>concept</em> of holding capital against equity investments, the analogy to the CCF (CRR Part Three) and the use of Säule-2 confidence levels are regulatory anchors. <span class="tag ors">ÖRS choice</span> But essentially <strong>every number in this module</strong> — all the haircut bands, the exercise probabilities, the €10m threshold, the 5%/15% own-property factors, the 3× rule, the no-diversification stance — is ÖRS expert estimation under proportionality. That is the headline you defend to the Aufsichtsrat: a transparent, backtested expert model, not a market measurement.</p>
+    </div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li><strong>Six sub-risks</strong>: Dividendenausfall, Teilwertabschreibung (TWA), Veräußerungsverlust, Nachschusspflicht, strategische/moralische Sanierungsverantwortung (strategic holdings only), Reduktion stiller Reserven. Five sit on one <strong>value ladder</strong> (Verkehrswert → Buchwert → stille Reserve); dividend risk is income-side. All but dividend measured at 95% / 99,9%.</li>
+      <li><strong>Risiko = Verkehrswert · Risikofaktor</strong>; Verkehrswert = Buchwert (on-balance + weighted off-balance via Ausübungswahrscheinlichkeiten) + stille Reserven; instruments = Grund-/Stammkapital, Partizipationskapital, Sozietäre Genussrechte, Eventualverpflichtungen.</li>
+      <li>Haircuts are <strong>expert-estimated bands</strong> (anti-Scheingenauigkeit; bands absorb concentration/cyclicality). Bank/Industrie&gt;€10m share one table; Immobilien&gt;€10m lower; below €10m flat factors. RBI A2(1,0) → 10%/30%.</li>
+      <li><strong>3× rule</strong>: Extremfall ≈ 3× Problemfall, obeyed by the bands except where Extremfall saturates at 100%.</li>
+      <li><strong>No diversification</strong> (sum, corr = +1); rating may default to Kreditrating; backtested annually. Traps: the €10m line is effort not existence; Sektorbeteiligungen double-count solo→IPS (Module 12 removes it); banking-book equities are Beteiligungs- OR Marktrisiko (Module 6).</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Das Beteiligungsrisiko zerfällt in <strong>sechs Teilrisiken</strong> (Dividendenausfall-, Teilwertabschreibungs-, Veräußerungsverlust-, Nachschuss-, strategische/moralische Sanierungs- und Reduktion-stiller-Reserven-Risiko). Bis auf das Dividendenausfallrisiko ist jedes der mit 95% (Problemfall) bzw. 99,9% (Extremfall) nicht überschrittene Verlust.</li>
+        <li><strong>Risiko = Verkehrswert · Risikofaktor.</strong> Der Verkehrswert = Buchwert (on-balance + gewichtete off-balance über Ausübungswahrscheinlichkeiten) + stille Reserven; einbezogen werden Grund-/Stammkapital, Partizipationskapital, sozietäre Genussrechte und Eventualverpflichtungen.</li>
+        <li>Die Risikofaktoren sind <strong>Experteneinschätzungen in Bandbreiten</strong> (gegen Scheingenauigkeit; sie erfassen implizit Konzentration und Zyklizität). Bank/Industrie&gt;€10m teilen eine Tabelle, Immobilien&gt;€10m sind niedriger, unter €10m gelten Pauschalfaktoren.</li>
+        <li><strong>Faustregel:</strong> Extremfall ≈ 3× Problemfall (außer bei Sättigung auf 100%). <strong>Keine Diversifikation</strong> — das Gesamtrisiko ist die Summe der Einzelrisiken. Sektorbeteiligungen erzeugen die IPS-Doppelzählung, die Modul 12 eliminiert.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">Source: ÖRS <em>Leitfaden Früherkennung</em> 09/2024, §5.4; CRR (EU) 575/2013 (CCF analogy, Säule-2 confidence). Almost all parameters in this module are ÖRS expert estimates (bands), backtested annually against company valuations and rating migrations.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m09.html"><div class="dir">← Previous</div><div class="ttl">M9 · Liquidity risk</div></a>
+      <a class="next" href="m11.html"><div class="dir">Next →</div><div class="ttl">M11 · Other risks</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = { title:"Participation risk", pass:0.7, questions:[
+  { q:"On the value ladder, in what order does a falling participation value trigger the sub-risks?",
+    options:[
+      "First a Teilwertabschreibung, then it eats the stille Reserve, then disposal/top-up",
+      "First it eats the stille Reserve (Reduktion stiller Reserven), then breaches book value forcing a Wertberichtigung (TWA), then forces a disposal loss / Nachschuss",
+      "Dividend default first, then write-down, then hidden-reserve reduction",
+      "All six occur simultaneously and independently"],
+    answer:1,
+    explain:"Verkehrswert sits above Buchwert; the gap is the stille Reserve. A value fall first shrinks the stille Reserve (no P&L hit), then breaches book value forcing a Teilwertabschreibung, then forces an action (sale below carrying value and/or capital injection). The five value sub-risks are stages of one move down the ladder. Dividend risk is the exception — it hits the income statement, not the carrying value." },
+  { q:"A participation has on-balance book €12m, an off-balance Haftung of €15m, and stille Reserven €5m. It is rated 2,0 (Ausübungswahrscheinlichkeit 20%). What is its Verkehrswert?",
+    options:[
+      "€32m (12 + 15 + 5)",
+      "€17m (12 + 5)",
+      "€20m (12 + 0,20·15 + 5)",
+      "€15m (12 + 0,20·15)"],
+    answer:2,
+    explain:"Verkehrswert = on-balance Buchwert + weighted off-balance + stille Reserven = 12 + (0,20·15) + 5 = €20m. The off-balance Eventualverpflichtung is brought in via its rating-driven Ausübungswahrscheinlichkeit (the CCF analogue), not at full nominal — so you do NOT add the whole €15m." },
+  { q:"Why does the Leitfaden express the Risikofaktoren as bands (e.g. 10–15%) rather than single point values?",
+    options:[
+      "Because the CRR mandates banded equity haircuts",
+      "To avoid Scheingenauigkeit (false precision) and to let the band implicitly capture the holding's concentration and cyclicality, picked within the band",
+      "Because the data is missing and any number would do",
+      "To make the Extremfall exactly 3× the Problemfall"],
+    answer:1,
+    explain:"These are expert estimates, not measurements. A single decimal would be false precision (Scheingenauigkeit) for an unlisted strategic stake. The band lets the assessor slide toward the top for concentrated/cyclical holdings and toward the bottom for granular/defensive ones — so concentration and cyclicality are absorbed implicitly. The model is backtested annually." },
+  { q:"On a SOLO basis a Primärbank's risk on its Landeszentrale stake is correct, yet the consolidated R-IPS view (Module 12) removes it. Why?",
+    options:[
+      "Because Sektorbeteiligungen are tax-exempt",
+      "Because the participation is internal to the consolidation circle, so counting both the stake's risk and the underlying assets' own risk double-counts; Ch.7 excludes participation risks within the circle",
+      "Because the Extremfall already equals 100%",
+      "Because Immobilienbeteiligungen use a lower table"],
+    answer:1,
+    explain:"A Sektorbeteiligung is internal to the RBG. Solo, the Primärbank correctly charges the stake; but on consolidation the underlying assets are also counted as the group's own risk — double-counting. The consolidated/IPS view (Module 12, Ch.7) therefore excludes participation risks within the consolidation circle and intra-group credit exposures. Solo is right for solo; never report it as the group number." },
+  { q:"The 3× rule says Extremfall ≈ 3× Problemfall. Where does it break down, and why?",
+    options:[
+      "At rating 0,5, because both bands are 1–5%",
+      "At ratings 4,5 and 5,x, because the Extremfall haircut saturates at 100% and cannot exceed total loss, compressing the ratio below 3",
+      "It never breaks down — it is an exact regulatory identity",
+      "Only for Immobilienbeteiligungen"],
+    answer:1,
+    explain:"For ratings 2,0–3,5 the bands obey ×3 almost exactly (e.g. 10–15% → 30–45%). But the Extremfall caps at 100% (you cannot lose more than everything), so at 4,5 (90–100%) and 5,x (100%) the ratio compresses below 3. The 3× rule is a rule of thumb the bands roughly obey by construction, not a derived law." },
+]};
+</script>
+</body>
+</html>

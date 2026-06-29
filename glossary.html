@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary (DE/EN) — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+.glossary-search{width:100%;max-width:640px;padding:12px 16px;font-size:1rem;border:1px solid var(--line,#cbd5e1);border-radius:10px;margin:8px 0 26px;box-sizing:border-box}
+.gterm{padding:12px 14px;margin:8px 0;border:1px solid var(--line,#e2e8f0);border-left:3px solid var(--accent,#c8102e);border-radius:8px;background:var(--card,#fff)}
+.gterm .de{font-weight:700}
+.gterm .en{color:var(--ink-faint,#64748b);font-style:italic;margin-left:4px}
+.gterm .def{margin-top:6px;line-height:1.5}
+.gterm .ref{margin-top:6px;font-size:.85rem;color:var(--accent,#c8102e);font-weight:600}
+.gcount{font-size:.85rem;color:var(--ink-faint,#64748b);margin-bottom:18px}
+</style>
+</head>
+<body data-module="glossary">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <h1>Bilingual Glossary (DE / EN)</h1>
+    <p class="lead">Every technical term from the ÖRS <em>Leitfaden Früherkennung</em> (09/2024) reconstruction, glossed in English, with a precise definition and a Module / CRR / Leitfaden reference. German nouns are capitalised. Type below to filter live.</p>
+
+    <input class="glossary-search" id="gsearch" placeholder="Search terms, English, or definition…">
+    <div class="gcount" id="gcount"></div>
+
+    <h2>Architektur &amp; Aufsicht</h2>
+
+    <div class="gterm" data-term="ÖRS">
+      <span class="de">ÖRS</span> <span class="en">(Sector Risk Controlling Services / Österreichische Raiffeisen-Sektor risk service)</span>
+      <div class="def">The sector unit that authors and runs the <em>Leitfaden Früherkennung</em> and computes the quarterly RTFA centrally for all R-IPS members, ensuring one comparable methodology across the Raiffeisen sector.</div>
+      <div class="ref">→ Module 1; Leitfaden front matter</div>
+    </div>
+
+    <div class="gterm" data-term="R-IPS">
+      <span class="de">R-IPS (Raiffeisen Institutional Protection Scheme)</span> <span class="en">(institutional protection scheme)</span>
+      <div class="def">The mutual support scheme under <strong>CRR Art. 113(7)</strong> that keeps Raiffeisen members solvent; it is the consolidation perimeter for the RTFA and the reference for Großkredite (related to R-IPS CET1).</div>
+      <div class="ref">→ Module 1; CRR Art. 113(7); Leitfaden Ch.7/5.9</div>
+    </div>
+
+    <div class="gterm" data-term="Sektorrisikokomitee SRK">
+      <span class="de">Sektorrisikokomitee (SRK)</span> <span class="en">(sector risk committee)</span>
+      <div class="def">The governance body that reviews the early-warning results and decides on measures; recipient of the yellow/red escalation reporting.</div>
+      <div class="ref">→ Module 1/4; Leitfaden Ch.4 (Reporting)</div>
+    </div>
+
+    <div class="gterm" data-term="KI-Gruppe §30 BWG">
+      <span class="de">KI-Gruppe (§30 BWG)</span> <span class="en">(credit-institution group)</span>
+      <div class="def">The regulatory consolidation group of credit institutions under §30 BWG; stille Reserven for the solo view are computed on this §30-BWG basis. Same bank, different Auslastung than solo or IPS.</div>
+      <div class="ref">→ Module 1/14; §30 BWG; Leitfaden Ch.7</div>
+    </div>
+
+    <div class="gterm" data-term="Solo KI-Gruppe IPS-Sicht">
+      <span class="de">Solo- / KI-Gruppen- / IPS-Sicht</span> <span class="en">(solo / group / IPS perspectives)</span>
+      <div class="def">The three consolidation perspectives in which the same institution is assessed; each yields a different Auslastung because the Deckungsmasse and the risk perimeter differ.</div>
+      <div class="ref">→ Module 14; Leitfaden Ch.7</div>
+    </div>
+
+    <div class="gterm" data-term="ICAAP SREP">
+      <span class="de">ICAAP / SREP</span> <span class="en">(internal capital adequacy assessment / supervisory review)</span>
+      <div class="def">The Pillar-2 internal capital-adequacy process (ICAAP) and the supervisor's review (SREP); the Extremfall is the ÖRS analogue of the ICAAP economic-capital view.</div>
+      <div class="ref">→ Module 1/4; CRD; EBA SREP GL</div>
+    </div>
+
+    <div class="gterm" data-term="Aufsichtsrat">
+      <span class="de">Aufsichtsrat</span> <span class="en">(supervisory board)</span>
+      <div class="def">The board to which the RTFA methodology and results must be explained and defended; the course's pedagogical "defend to senior management" target audience.</div>
+      <div class="ref">→ Module 1; BWG governance</div>
+    </div>
+
+    <h2>Risikotragfähigkeit &amp; Szenarien</h2>
+
+    <div class="gterm" data-term="Risikotragfähigkeitsanalyse RTFA">
+      <span class="de">Risikotragfähigkeitsanalyse (RTFA)</span> <span class="en">(risk-bearing-capacity analysis)</span>
+      <div class="def">The quarterly analysis that compares quantified risks against available cover (Deckungsmasse) in two scenarios; the core deliverable of the Leitfaden.</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Risikotragfähigkeit">
+      <span class="de">Risikotragfähigkeit</span> <span class="en">(risk-bearing capacity)</span>
+      <div class="def">The institution's ability to absorb losses, i.e. whether the Deckungsmasse covers aggregated risk; the property the RTFA tests.</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Deckungsmasse Risikodeckungsmasse">
+      <span class="de">Deckungsmasse / Risikodeckungsmasse</span> <span class="en">(risk-coverage potential)</span>
+      <div class="def">The capital and earnings available to absorb losses in a scenario (free profit + free capital + stille Reserven ± excess/shortfall); the denominator of the Auslastung.</div>
+      <div class="ref">→ Module 8; Leitfaden Ch.6/8.1</div>
+    </div>
+
+    <div class="gterm" data-term="Problemfall 95%">
+      <span class="de">Problemfall (95 %)</span> <span class="en">(going-concern / problem case)</span>
+      <div class="def">The going-concern scenario at a <strong>95 %</strong> confidence interval; risk = unexpected loss. At 100 % utilisation a loss exceeding the Deckungsmasse is expected once every <strong>20 years</strong> (1/(1−0,95)).</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Extremfall 99,9%">
+      <span class="de">Extremfall (99,9 %)</span> <span class="en">(gone-concern / liquidation case)</span>
+      <div class="def">The liquidation scenario at <strong>99,9 %</strong> confidence over a 1-year horizon; equals economic capital, analogous to Pillar 2 / IRB. Classified as a Liquidationsfall per OeNB/FMA.</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Solvabilität">
+      <span class="de">Solvabilität</span> <span class="en">(solvency)</span>
+      <div class="def">The condition of holding enough own funds to remain a going concern; the Problemfall traffic lights are calibrated against CRR + P2R + buffers.</div>
+      <div class="ref">→ Module 4; CRR Part Two; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Stress-Szenario Stress-Szenario">
+      <span class="de">Stress-Szenario</span> <span class="en">(stress scenario)</span>
+      <div class="def">A severe but plausible state used to recompute risks; the Problemfall and Extremfall are the two governing stress views, and the makro-economic GDP shock is an additional layered stress.</div>
+      <div class="ref">→ Module 4/13; Leitfaden Ch.4/5.8</div>
+    </div>
+
+    <div class="gterm" data-term="Reverse-Stresstest">
+      <span class="de">Reverse-Stresstest</span> <span class="en">(reverse stress test)</span>
+      <div class="def">A test that starts from institutional failure and works back to the scenarios that would cause it; complements the forward Problemfall/Extremfall scenarios in the ICAAP context.</div>
+      <div class="ref">→ Module 4; EBA Stresstesting GL</div>
+    </div>
+
+    <div class="gterm" data-term="Risikoappetit">
+      <span class="de">Risikoappetit</span> <span class="en">(risk appetite)</span>
+      <div class="def">The level of risk the institution is willing to bear, expressed through the traffic-light thresholds on Auslastung (green/yellow/red).</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Auslastung">
+      <span class="de">Auslastung</span> <span class="en">(utilisation / capacity usage)</span>
+      <div class="def">Aggregated risk divided by Deckungsmasse, expressed as a percentage; the key RTFA ratio that drives the traffic-light colour. Same bank shows different Auslastung across solo / KI-Gruppe / IPS views.</div>
+      <div class="ref">→ Module 4/14; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Ampelung grün gelb rot">
+      <span class="de">Ampelung (grün / gelb / rot)</span> <span class="en">(traffic-light rating)</span>
+      <div class="def">The green/yellow/red classification of Auslastung. Problemfall: ≤90 % (CRR+P2R+buffers) green, &gt;90 % yellow, &gt;95 % (CRR+P2R) red. Extremfall: ≤90 % green, &gt;90 %–≤95 % yellow, &gt;95 % red.</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Redepflicht §63 BWG">
+      <span class="de">Redepflicht (§63(3) BWG)</span> <span class="en">(bank auditor's duty to report)</span>
+      <div class="def">The bank auditor's statutory duty to report adverse findings; reports go to bg-lg@raiffeisen-einlagensicherung.at. Legal basis §39/§39a BWG; in force 01 Jan 2024.</div>
+      <div class="ref">→ Module 4; §63(3), §39/§39a BWG</div>
+    </div>
+
+    <div class="gterm" data-term="Management Summary">
+      <span class="de">Management Summary</span> <span class="en">(management summary)</span>
+      <div class="def">The escalation report content on a yellow light: a management summary plus measures. A red light additionally requires a detailed summary with concrete steps and timing.</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4 (Reporting)</div>
+    </div>
+
+    <div class="gterm" data-term="Konfidenzintervall">
+      <span class="de">Konfidenzintervall</span> <span class="en">(confidence interval / level)</span>
+      <div class="def">The probability level at which the not-exceeded loss is measured: 95 % for the Problemfall, 99,9 % for the Extremfall. Drives the normal quantile used for scaling.</div>
+      <div class="ref">→ Module 4/5; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Value-at-Risk VaR">
+      <span class="de">Value-at-Risk (VaR)</span> <span class="en">(value at risk)</span>
+      <div class="def">The maximum loss not exceeded at a given confidence over a holding period; the common metric tying market, credit and liquidity risk together in the RTFA.</div>
+      <div class="ref">→ Module 4/6; Leitfaden Ch.5.5</div>
+    </div>
+
+    <div class="gterm" data-term="horizontale vertikale Konsistenz">
+      <span class="de">Horizontale / vertikale Konsistenz</span> <span class="en">(horizontal / vertical consistency)</span>
+      <div class="def">The requirement that confidence levels and horizons line up across risk types (horizontal) and across scenarios (vertical), e.g. market 10-day/95 % ↔ credit-equivalent 99 %/1yr.</div>
+      <div class="ref">→ Module 4; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Risikoaggregation Korrelation +1">
+      <span class="de">Risikoaggregation (Korrelation +1)</span> <span class="en">(risk aggregation by addition)</span>
+      <div class="def">Material single risks are aggregated by <strong>addition (correlation = +1)</strong>, a conservative choice; only within market risk is a correlation between Zinsrisiko and Credit-Spread risk considered.</div>
+      <div class="ref">→ Module 4/14; Leitfaden Ch.4/7</div>
+    </div>
+
+    <div class="gterm" data-term="diversifiziert vs undiversifiziert">
+      <span class="de">Diversifiziert vs. undiversifiziert</span> <span class="en">(diversified vs. undiversified)</span>
+      <div class="def">Undiversified = sign-neutral sum of single VaRs; diversified uses a correlation matrix, e.g. \(VaR_P=\sqrt{VaR_A^2+VaR_B^2+2\,\rho_{AB}VaR_A VaR_B}\). Used for FX, spread and liquidity risk.</div>
+      <div class="ref">→ Module 6/7; Leitfaden Ch.5.5/5.7</div>
+    </div>
+
+    <h2>Kreditrisiko &amp; IRB</h2>
+
+    <div class="gterm" data-term="erwarteter Verlust EL">
+      <span class="de">Erwarteter Verlust (EL)</span> <span class="en">(expected loss)</span>
+      <div class="def">\(EL=PD\cdot LGD\cdot EAD\); the loss expected on average. It is NOT capital — it sits in the Deckungsmasse as excess/shortfall (EL vs. Vorsorgen) in both scenarios.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="unerwarteter Verlust UL">
+      <span class="de">Unerwarteter Verlust (UL)</span> <span class="en">(unexpected loss)</span>
+      <div class="def">The loss above expectation at the scenario confidence, delivered by the IRB formula \(K=[LGD\cdot PD_{cond}-LGD\cdot PD]\). This is the reported credit risk.</div>
+      <div class="ref">→ Module 5; CRR Art. 153/154</div>
+    </div>
+
+    <div class="gterm" data-term="Excess Shortfall">
+      <span class="de">Excess / Shortfall</span> <span class="en">(excess / shortfall of provisions)</span>
+      <div class="def">The difference between portfolio EL and accounting Wertberichtigungen (Vorsorgen); a provisioning surplus adds to, a shortfall subtracts from, the Deckungsmasse.</div>
+      <div class="ref">→ Module 5/8; Leitfaden Ch.5.1/6</div>
+    </div>
+
+    <div class="gterm" data-term="IRB-Ansatz">
+      <span class="de">IRB-Ansatz</span> <span class="en">(internal-ratings-based approach)</span>
+      <div class="def">The Basel/CRR approach computing capital from internal PD/LGD/EAD via the Vasicek/ASRF formula; the engine for credit-risk UL in the RTFA.</div>
+      <div class="ref">→ Module 5; CRR Art. 142 ff.</div>
+    </div>
+
+    <div class="gterm" data-term="CRR Art. 153">
+      <span class="de">CRR Art. 153</span> <span class="en">(corporate IRB formula)</span>
+      <div class="def">The risk-weight formula for Corporates, FI, Sovereigns, LRG and CIU, with a PD-dependent asset correlation \(R(PD)\) and a maturity adjustment.</div>
+      <div class="ref">→ Module 5; CRR (EU) 575/2013 Art. 153</div>
+    </div>
+
+    <div class="gterm" data-term="CRR Art. 154">
+      <span class="de">CRR Art. 154</span> <span class="en">(retail IRB formula)</span>
+      <div class="def">The retail risk-weight formula (Retail selbständig/unselbständig): same conditional-PD core but with fixed correlations (0,03–0,16; QRRE 0,04; mortgages 0,15) and no maturity adjustment.</div>
+      <div class="ref">→ Module 5; CRR Art. 154</div>
+    </div>
+
+    <div class="gterm" data-term="PD Ausfallwahrscheinlichkeit">
+      <span class="de">PD (Ausfallwahrscheinlichkeit)</span> <span class="en">(probability of default)</span>
+      <div class="def">The probability a borrower defaults within one year, assigned by Ratingstufe via the master scale; a primary IRB input.</div>
+      <div class="ref">→ Module 5; CRR Art. 160; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="PD PiT vs TtC">
+      <span class="de">PD PiT vs. TtC</span> <span class="en">(point-in-time vs. through-the-cycle PD)</span>
+      <div class="def">TtC PD averages over the cycle (used as the base rating PD); PiT PD reflects current conditions and is what the FX-elasticity regression stresses.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="FX-Elastizität 1,9">
+      <span class="de">FX-Elastizität (1,9)</span> <span class="en">(FX elasticity of PD)</span>
+      <div class="def">The estimated elasticity of the PiT PD to local-currency depreciation: <strong>1,9 (190 %)</strong>, an ÖRS choice (RBI-Retail proxy). \(PD_{PiT}=PD_{TtC}(1+1{,}9\,\Delta_{fx})\). The Leitfaden's "273 %" worked example is an erratum.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="LGD">
+      <span class="de">LGD</span> <span class="en">(loss given default)</span>
+      <div class="def">Loss as a share of EAD given default. Regulatory unsecured <strong>45 %</strong>; ÖRS pooled estimates <strong>45,5 %</strong> Corporate, <strong>54,4 %</strong> Retail selbständig, <strong>55,8 %</strong> Retail unselbständig; covered bonds <strong>12,5 %</strong>; defaults 80 % (5,1) / 100 % (5,2).</div>
+      <div class="ref">→ Module 5/15; CRR Art. 161; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="EAD">
+      <span class="de">EAD</span> <span class="en">(exposure at default)</span>
+      <div class="def">The exposure expected to be outstanding at default; the multiplier turning the per-unit capital \(K\) into euro UL and RWA (\(RWA=K\cdot12{,}5\cdot EAD\)).</div>
+      <div class="ref">→ Module 5; CRR Art. 166</div>
+    </div>
+
+    <div class="gterm" data-term="M effektive Restlaufzeit 2,5">
+      <span class="de">M (effektive Restlaufzeit 2,5)</span> <span class="en">(effective maturity)</span>
+      <div class="def">Effective residual maturity in the maturity adjustment. Fixed at <strong>2,5 years</strong> for IRB-formula credits (so the adjustment = 1); <strong>1 year</strong> for "nur Wertpapiere" to avoid double-counting downgrade risk.</div>
+      <div class="ref">→ Module 5; CRR Art. 162; Leitfaden Ch.5.1 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="Asset-Korrelation R">
+      <span class="de">Asset-Korrelation (R)</span> <span class="en">(asset correlation)</span>
+      <div class="def">The share of a firm's variance driven by the systematic factor. Corporates: \(R=0{,}12\frac{1-e^{-50PD}}{1-e^{-50}}+0{,}24(1-\frac{1-e^{-50PD}}{1-e^{-50}})\), interpolating 0,24 (low PD) to 0,12 (high PD).</div>
+      <div class="ref">→ Module 5; CRR Art. 153</div>
+    </div>
+
+    <div class="gterm" data-term="Maturity Adjustment">
+      <span class="de">Maturity Adjustment</span> <span class="en">(maturity adjustment)</span>
+      <div class="def">The factor \(\frac{1+(M-2{,}5)b}{1-1{,}5b}\) with \(b(PD)=(0{,}11852-0{,}05478\ln PD)^2\); normalised to 1 at \(M=2{,}5\), which is why the fixed M makes it vanish for corporates.</div>
+      <div class="ref">→ Module 5; CRR Art. 153</div>
+    </div>
+
+    <div class="gterm" data-term="Vasicek ASRF">
+      <span class="de">Vasicek / ASRF</span> <span class="en">(asymptotic single-risk-factor model)</span>
+      <div class="def">Vasicek (2002) / Gordy (2003) one-factor portfolio limit that delivers portfolio invariance, letting credit risk be computed loan-by-loan and summed. The basis of the CRR formula.</div>
+      <div class="ref">→ Module 5; Vasicek (2002), Gordy (2003)</div>
+    </div>
+
+    <div class="gterm" data-term="Merton-Modell">
+      <span class="de">Merton-Modell</span> <span class="en">(Merton firm-value model)</span>
+      <div class="def">Merton (1974): a firm defaults when latent asset value falls below liabilities, \(PD=\Phi(c)\Rightarrow c=\Phi^{-1}(PD)\). The microfoundation of the IRB conditional PD.</div>
+      <div class="ref">→ Module 5; Merton (1974)</div>
+    </div>
+
+    <div class="gterm" data-term="Gaussian Copula">
+      <span class="de">Gaussian Copula</span> <span class="en">(Gaussian copula)</span>
+      <div class="def">The dependence structure linking borrowers' latent normals through one systematic factor: \(V_i=\sqrt{\rho}X+\sqrt{1-\rho}\varepsilon_i\). Its single factor is why the model cannot capture sector/regional concentration.</div>
+      <div class="ref">→ Module 5; Vasicek (2002)</div>
+    </div>
+
+    <div class="gterm" data-term="Risikoposition">
+      <span class="de">Risikoposition</span> <span class="en">(risk position)</span>
+      <div class="def">= Exposure − interne Sicherheiten per customer, floored at zero; the netted basis to which the credit-risk formula is applied.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Exposure">
+      <span class="de">Exposure</span> <span class="en">(exposure)</span>
+      <div class="def">Balance (book/market value) + weighted off-balance (Haftungswert: letters of credit, derivatives, repos) + weighted undrawn committed lines + weighted (≥20 %) undrawn internal lines. Netting/CSA cash reduces the Saldo; provisions are not deducted.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Forderungsklassen Corporates FI Sovereigns Retail LRG CIU">
+      <span class="de">Forderungsklassen</span> <span class="en">(exposure classes)</span>
+      <div class="def">Corporates, Financial Institutions, Sovereigns, Retail selbständig, Retail unselbständig, LRG (Local &amp; Regional Governments) and CIU (Collective Investment Undertakings / funds). They route to Art. 153 vs. 154.</div>
+      <div class="ref">→ Module 5; CRR Art. 147; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Fremdwährungskreditrisiko FX">
+      <span class="de">Fremdwährungskreditrisiko</span> <span class="en">(FX credit risk add-on)</span>
+      <div class="def">An add-on scaling FX-loan exposure up by the scenario-scaled annual FX volatility (3-yr history), treating the uplift as unsecured. FI and Sovereigns get no FX credit risk (materiality / consolidation).</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Konzentrationsrisiko">
+      <span class="de">Konzentrationsrisiko</span> <span class="en">(concentration risk)</span>
+      <div class="def">The extra risk from single-name lumpiness that the infinitely-granular IRB formula ignores; captured by the Granularitätsaufschlag.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Granularitätsaufschlag">
+      <span class="de">Granularitätsaufschlag</span> <span class="en">(granularity surcharge)</span>
+      <div class="def">The gap between real-portfolio UL and an infinitely granular portfolio's UL; surcharge = UL·HHI, new UL = UL·(1+HHI).</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="HHI Herfindahl">
+      <span class="de">HHI (Herfindahl-Hirschman-Index)</span> <span class="en">(Herfindahl-Hirschman index)</span>
+      <div class="def">\(HHI=hhi_{21}+hhi_{22}\), \(hhi_{21}=\sum s_i^2\) over the top Corporates (max <strong>110</strong> open positions, per GvK), \(hhi_{22}=s_m(1-S_m)\) tail correction; \(s_i\)= open single / total open corporate position. \(HHI\in[1/n,1]\).</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Masterskala Ratingstufe">
+      <span class="de">Masterskala</span> <span class="en">(master rating scale)</span>
+      <div class="def">The 10-step master scale mapping Ratingstufen to midpoint PDs (geometric mean of bounds): 0,5→0,0533 %, 1,0→0,12 %, 2,5→1,3669 %, 4,5→35,0315 %, 5,x→100 %, NR→35,0315 %. FI/Sov/LRG/CIU use RBI-group PDs.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Migrationsrisiko">
+      <span class="de">Migrationsrisiko</span> <span class="en">(migration risk)</span>
+      <div class="def">The risk of rating downgrades short of default, assessed via annual rating-model migration matrices (MMATRIX); for "nur Wertpapiere" it is carried in credit-spread/market risk instead.</div>
+      <div class="ref">→ Module 5/6; Leitfaden Ch.5.1</div>
+    </div>
+
+    <div class="gterm" data-term="Tilgungsträger">
+      <span class="de">Tilgungsträger</span> <span class="en">(repayment vehicle)</span>
+      <div class="def">An investment vehicle (e.g. life policy, fund) accumulating to repay a bullet FX loan; its shortfall risk compounds the FX credit risk on such loans.</div>
+      <div class="ref">→ Module 5; Leitfaden Ch.5.1</div>
+    </div>
+
+    <h2>Marktrisiko</h2>
+
+    <div class="gterm" data-term="Zinsrisiko Bankbuch IRRBB 200bp">
+      <span class="de">Zinsrisiko im Bankbuch (IRRBB)</span> <span class="en">(interest-rate risk in the banking book)</span>
+      <div class="def">Parametric VaR on gap present values per maturity band &amp; currency over a 250-day holding period; Risk = Barwert − simulierter Barwert, gaps discounted at spot vs. (rate·vola).</div>
+      <div class="ref">→ Module 6; Leitfaden Ch.5.5; EBA/GL/2018/02</div>
+    </div>
+
+    <div class="gterm" data-term="200bp-Shift Parallelverschiebung">
+      <span class="de">200-bp-Shift</span> <span class="en">(+200 bp parallel shift)</span>
+      <div class="def">A <strong>+200 bp</strong> parallel curve shift applied to currencies with negative rates so the log-volatility method yields positive logs; an ÖRS modelling fix.</div>
+      <div class="ref">→ Module 6; Leitfaden Ch.5.5 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="Währungsrisiko offene Devisenposition FX">
+      <span class="de">Währungsrisiko / offene Devisenposition</span> <span class="en">(FX risk / open currency position)</span>
+      <div class="def">Per currency, Risk = Position · Vola(holding period) · percentile(95–99,9 %). Undiversified = sign-neutral sum; diversified uses the correlation matrix.</div>
+      <div class="ref">→ Module 6; Leitfaden Ch.5.5</div>
+    </div>
+
+    <div class="gterm" data-term="Preisrisiko Handelsbuch Bankbuch">
+      <span class="de">Preisrisiko</span> <span class="en">(price risk)</span>
+      <div class="def">Trading-book price risk = own-funds charge (position/FX/commodity) minus FX charge, scaled ×0,71 (Problemfall) / ×1,33 (Extremfall); banking-book equities treated like Beteiligungsrisiko, fund/index holdings via VaR (e.g. ATX).</div>
+      <div class="ref">→ Module 6; Leitfaden Ch.5.5</div>
+    </div>
+
+    <div class="gterm" data-term="Spreadrisiko Credit-Spread-VaR">
+      <span class="de">Spreadrisiko (Credit-Spread-VaR)</span> <span class="en">(credit-spread risk)</span>
+      <div class="def">VaR on "nur Wertpapiere"/"nur Covered Bonds" by Forderungsklasse × Ratingklasse, using relative bond volatilities (Markit Overall, 3-yr) scaled to 250 days; Risk = PV2 − PV1, diversified via a rating-class correlation matrix.</div>
+      <div class="ref">→ Module 6; Leitfaden Ch.5.5</div>
+    </div>
+
+    <div class="gterm" data-term="Mischzinssatz">
+      <span class="de">Mischzinssatz</span> <span class="en">(blended discount rate)</span>
+      <div class="def">= (IRS+CDS)·(1−Primäreinlagenanteil) + SPI·Primäreinlagenanteil; the discount rate used in the FLVaR. Stressed by adding CDS- and SPI-volatility at 99,9 %.</div>
+      <div class="ref">→ Module 7; Leitfaden Ch.5.7</div>
+    </div>
+
+    <h2>CVA &amp; Liquidität</h2>
+
+    <div class="gterm" data-term="CVA-Risiko 0,71 1,33">
+      <span class="de">CVA-Risiko (0,71 / 1,33)</span> <span class="en">(credit-valuation-adjustment risk)</span>
+      <div class="def">The CVA own-funds requirement (PosNr 7516000, EM-weight 8 %) scaled by a normal-quantile ratio: <strong>Problemfall ×0,71</strong> = 1,6449/2,3263; <strong>Extremfall ×1,33</strong> = 3,0902/2,3263. ÖRS scaling on a regulatory charge.</div>
+      <div class="ref">→ Module 6; CRR Title VI; Leitfaden Ch.5.2 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="Liquiditätsrisiko">
+      <span class="de">Liquiditätsrisiko</span> <span class="en">(liquidity risk)</span>
+      <div class="def">Problemfall: measured per Leitfaden Liquidität with NO Deckungsmassen charge. Extremfall: structural/liquidity-price risk via FLVaR. A simplified factor approach exists for small institutions (full-deposit, 1 % indicator, 100 bp).</div>
+      <div class="ref">→ Module 7; Leitfaden Ch.5.7</div>
+    </div>
+
+    <div class="gterm" data-term="FLVaR Funding-Liquidity-VaR">
+      <span class="de">FLVaR (Funding-Liquidity-VaR)</span> <span class="en">(funding-liquidity VaR)</span>
+      <div class="def">Simplified variance-covariance VaR on open non-cumulative liquidity gaps &gt;1yr (bands &gt;5yr netted), confidence 99,9 %, holding 250 days; counts only when there is a funding need. Risk = PV2 − PV1, diversified via a CDS correlation matrix.</div>
+      <div class="ref">→ Module 7; Leitfaden Ch.5.7</div>
+    </div>
+
+    <div class="gterm" data-term="Primäreinlagen">
+      <span class="de">Primäreinlagen</span> <span class="en">(primary deposits)</span>
+      <div class="def">Customer deposits/savings/sight balances plus own retail/non-retail issues (excl. equity and liquidity reserve). Primäreinlagenanteil = Σ Primäreinlagen&gt;1yr / Σ Gesamtrefi&gt;1yr; interbank = total refi − Primäreinlagen.</div>
+      <div class="ref">→ Module 7; Leitfaden Ch.5.7</div>
+    </div>
+
+    <h2>Beteiligungs- &amp; sonstige Risiken</h2>
+
+    <div class="gterm" data-term="Beteiligungsrisiko">
+      <span class="de">Beteiligungsrisiko</span> <span class="en">(participation / equity-holding risk)</span>
+      <div class="def">Risk on equity participations: Exposure = Verkehrswert, Risk = Verkehrswert · Risikofaktor (by rating &amp; segment). Sub-risks: dividend default, write-down, disposal loss, top-up, hidden-reserve reduction. NO diversification — single risks are summed. "3× rule": Extremfall ≈ 3× Problemfall.</div>
+      <div class="ref">→ Module 12; Leitfaden Ch.5.4</div>
+    </div>
+
+    <div class="gterm" data-term="Teilwertabschreibung TWA">
+      <span class="de">Teilwertabschreibung (TWA)</span> <span class="en">(write-down to lower value)</span>
+      <div class="def">A write-down of a participation's carrying value to a lower fair value; the Teilwertabschreibungsrisiko is one sub-risk of Beteiligungsrisiko.</div>
+      <div class="ref">→ Module 12; Leitfaden Ch.5.4</div>
+    </div>
+
+    <div class="gterm" data-term="Veräußerungsverlustrisiko">
+      <span class="de">Veräußerungsverlustrisiko</span> <span class="en">(disposal-loss risk)</span>
+      <div class="def">The risk of realising a loss on selling a participation below its carrying value; a Beteiligungsrisiko sub-component set at 95 %/99,9 %.</div>
+      <div class="ref">→ Module 12; Leitfaden Ch.5.4</div>
+    </div>
+
+    <div class="gterm" data-term="Nachschusspflicht">
+      <span class="de">Nachschusspflicht</span> <span class="en">(top-up / additional contribution obligation)</span>
+      <div class="def">An obligation to inject further capital into a participation; the Nachschussverpflichtungsrisiko captures potential top-up calls.</div>
+      <div class="ref">→ Module 12; Leitfaden Ch.5.4</div>
+    </div>
+
+    <div class="gterm" data-term="stille Reserven Lasten">
+      <span class="de">Stille Reserven / Lasten</span> <span class="en">(hidden reserves / hidden charges)</span>
+      <div class="def">The difference between market/Verkehrswert and book value on securities and participations; positive (reserves) add to the Deckungsmasse, negative (Lasten) subtract. Reduction of hidden reserves is itself a Beteiligungs sub-risk.</div>
+      <div class="ref">→ Module 8/12; Leitfaden Ch.6/5.4</div>
+    </div>
+
+    <div class="gterm" data-term="Ausübungswahrscheinlichkeit">
+      <span class="de">Ausübungswahrscheinlichkeit</span> <span class="en">(exercise probability)</span>
+      <div class="def">A CCF-analogue probability adding off-balance Eventualverpflichtungen to participation exposure by rating: 0,5:0 %, 1,0:5 %, 1,5:10 %, 2,0:20 %, 2,5:30 %, 3,0/3,5:50 %, 4,0/4,5:80 %, 5,x:100 %.</div>
+      <div class="ref">→ Module 12; Leitfaden Ch.5.4</div>
+    </div>
+
+    <div class="gterm" data-term="Sektorbeteiligung">
+      <span class="de">Sektorbeteiligung</span> <span class="en">(sector / RBI participation)</span>
+      <div class="def">Holdings in sector entities; e.g. the RBI participation rated A2 (1,0) carries a 10 % Problemfall / 30 % Extremfall risk factor.</div>
+      <div class="ref">→ Module 12; Leitfaden Ch.5.4</div>
+    </div>
+
+    <div class="gterm" data-term="Länderrisiko">
+      <span class="de">Länderrisiko</span> <span class="en">(country / transfer risk)</span>
+      <div class="def">A cross-border add-on for transfer/convertibility risk not captured by rating ceilings; computed like credit risk on internal data before collateral, by sovereign-rating PD, UL only, excluding defaults (5,x).</div>
+      <div class="ref">→ Module 11; Leitfaden Ch.5.3</div>
+    </div>
+
+    <div class="gterm" data-term="makroökonomisches Risiko">
+      <span class="de">Makroökonomisches Risiko</span> <span class="en">(macroeconomic risk)</span>
+      <div class="def">Applied only to credit risk: a ~2 % GDP decline raises PDs ~25 % and LGDs ~5 %; macro risk = recomputed credit risk − original credit risk (both EL and UL).</div>
+      <div class="ref">→ Module 13; Leitfaden Ch.5.8 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="Risiko aus Großkrediten GvK">
+      <span class="de">Risiko aus Großkrediten (GvK)</span> <span class="en">(large-exposure risk)</span>
+      <div class="def">Assessed at Gruppe verbundener Kunden (GvK, OeNB customer structure); largest exposures related to <strong>R-IPS CET1</strong>, excluding R-IPS-member companies/banks/issues.</div>
+      <div class="ref">→ Module 11; CRR Part Four; Leitfaden Ch.5.9</div>
+    </div>
+
+    <div class="gterm" data-term="Gruppe verbundener Kunden GvK">
+      <span class="de">Gruppe verbundener Kunden (GvK)</span> <span class="en">(group of connected clients)</span>
+      <div class="def">A set of customers treated as a single risk because of control/economic interdependence (OeNB customer structure); the unit for large-exposure and HHI computations.</div>
+      <div class="ref">→ Module 5/11; CRR Art. 4(1)(39)</div>
+    </div>
+
+    <div class="gterm" data-term="Puffer sonstige Risiken 5%">
+      <span class="de">Puffer sonstige Risiken (5 %)</span> <span class="en">(other-risks buffer)</span>
+      <div class="def">A <strong>5 %</strong> add-on on the quantified risks in both scenarios, approximating strategic/reputational/business-model/systemic/model risk; partly justified because future operating income is not counted in the Extremfall Deckungsmasse.</div>
+      <div class="ref">→ Module 13; Leitfaden Ch.5.10 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="Fremdwährungs-Eigenmittelrisiko">
+      <span class="de">Fremdwährungs-Eigenmittelrisiko</span> <span class="en">(FX own-funds risk)</span>
+      <div class="def">Problemfall only: an FX rise raises the loan Saldo and thus the RWA base; the Risikoposition is scaled by FX vola (proxy 15 % Problemfall / 30 % Extremfall), and 8 % of that is taken as the own-funds risk. Not applied in the Extremfall.</div>
+      <div class="ref">→ Module 13; Leitfaden Ch.5.10 <span class="tag ors">ÖRS choice</span></div>
+    </div>
+
+    <div class="gterm" data-term="operationelles Risiko 5% 15%">
+      <span class="de">Operationelles Risiko (5 % / 15 %)</span> <span class="en">(operational risk)</span>
+      <div class="def">Extremfall = <strong>15 %</strong> of Betriebserträge (Basisindikatoransatz-anchored). Problemfall = <strong>5,0 %</strong>, derived by scaling 15 % from 99,9 % to 95 % under a ⅓ normal + ⅔ lognormal mix. Includes IKT and AML risk.</div>
+      <div class="ref">→ Module 9; Leitfaden Ch.5.6</div>
+    </div>
+
+    <div class="gterm" data-term="IKT-Risiko ICT">
+      <span class="de">IKT-Risiko</span> <span class="en">(ICT / IT risk)</span>
+      <div class="def">Information- and communication-technology risk, treated as part of operational risk in the RTFA (alongside AML/Geldwäsche).</div>
+      <div class="ref">→ Module 9; Leitfaden Ch.5.6; DORA context</div>
+    </div>
+
+    <h2>Deckungsmassen &amp; Eigenmittel</h2>
+
+    <div class="gterm" data-term="Eigenmittel CET1 AT1 T2">
+      <span class="de">Eigenmittel (CET1 / AT1 / T2)</span> <span class="en">(own funds: CET1, AT1, Tier 2)</span>
+      <div class="def">Regulatory capital tiers: Common Equity Tier 1, Additional Tier 1, Tier 2. CET1 above the legal requirement (incl. P2R) feeds Freies Kapital; anrechenbare Eigenmittel feed the Extremfall Deckungsmasse.</div>
+      <div class="ref">→ Module 1/8; CRR Part Two; Leitfaden Ch.6</div>
+    </div>
+
+    <div class="gterm" data-term="Freies Kapital">
+      <span class="de">Freies Kapital</span> <span class="en">(free capital)</span>
+      <div class="def">CET1 above the legal requirement (incl. P2R if set) minus Neubewertungsreserve, subject to a €5m legal floor; a Deckungsmasse component.</div>
+      <div class="ref">→ Module 8; Leitfaden Ch.6/8.1</div>
+    </div>
+
+    <div class="gterm" data-term="Freier Überschuss Mindestausschüttung">
+      <span class="de">Freier Jahresüberschuss / Mindestausschüttung</span> <span class="en">(free annual surplus / minimum distribution)</span>
+      <div class="def">Budgeted Jahresüberschuss + Gewinnvortrag − Mindestausschüttung (quarterly haircut 85/85/90/100 % Q1–Q4); the earnings part of the Problemfall Deckungsmasse.</div>
+      <div class="ref">→ Module 8; Leitfaden Ch.6/8.1</div>
+    </div>
+
+    <div class="gterm" data-term="Neubewertungsreserve">
+      <span class="de">Neubewertungsreserve</span> <span class="en">(revaluation reserve)</span>
+      <div class="def">A revaluation reserve deducted from Freies Kapital and subtracted again in the Extremfall Deckungsmasse to avoid double-counting unrealised value.</div>
+      <div class="ref">→ Module 8; Leitfaden Ch.6/8.1</div>
+    </div>
+
+    <div class="gterm" data-term="Haftsummenzuschlag">
+      <span class="de">Haftsummenzuschlag</span> <span class="en">(liability-sum surcharge)</span>
+      <div class="def">A cooperative members' supplementary-liability component that can be recognised as loss-absorbing capacity in the cooperative context.</div>
+      <div class="ref">→ Module 8; Leitfaden Ch.6</div>
+    </div>
+
+    <div class="gterm" data-term="Kapitalerhaltungspuffer">
+      <span class="de">Kapitalerhaltungspuffer</span> <span class="en">(capital conservation buffer)</span>
+      <div class="def">A CET1 buffer above minimum requirements (melder PosNr 8127010) included in the Problemfall traffic-light thresholds.</div>
+      <div class="ref">→ Module 1/8; CRD Art. 129; Leitfaden Ch.8.1</div>
+    </div>
+
+    <div class="gterm" data-term="antizyklischer Puffer">
+      <span class="de">Antizyklischer Puffer</span> <span class="en">(countercyclical buffer)</span>
+      <div class="def">A time-varying CET1 buffer (melder PosNr 8127030) raised in credit booms; part of the buffer stack in the Problemfall green threshold.</div>
+      <div class="ref">→ Module 1; CRD Art. 130; Leitfaden Ch.8.1</div>
+    </div>
+
+    <div class="gterm" data-term="Systemrisikopuffer SyRB">
+      <span class="de">Systemrisikopuffer (SyRB)</span> <span class="en">(systemic risk buffer)</span>
+      <div class="def">A CET1 buffer against systemic/macroprudential risk (melder PosNr 8128000); part of the buffer stack in the RTFA thresholds.</div>
+      <div class="ref">→ Module 1; CRD Art. 133; Leitfaden Ch.8.1</div>
+    </div>
+
+    <div class="gterm" data-term="Leverage Ratio">
+      <span class="de">Leverage Ratio</span> <span class="en">(leverage ratio)</span>
+      <div class="def">A non-risk-based ratio of Tier 1 to total exposure (≥3 %); a backstop to the risk-weighted requirements in the regulatory architecture.</div>
+      <div class="ref">→ Module 1; CRR Art. 429</div>
+    </div>
+
+    <div class="gterm" data-term="P2R P2G">
+      <span class="de">P2R / P2G</span> <span class="en">(Pillar 2 requirement / guidance)</span>
+      <div class="def">SREP-set additional own-funds: the binding Pillar-2 Requirement (P2R, included in the legal requirement for Freies Kapital) and the non-binding Pillar-2 Guidance (P2G).</div>
+      <div class="ref">→ Module 1/8; CRD Art. 104a/104b; Leitfaden Ch.4</div>
+    </div>
+
+    <div class="gterm" data-term="Gesamtrisikobetrag RWA">
+      <span class="de">Gesamtrisikobetrag</span> <span class="en">(total risk exposure amount / RWA)</span>
+      <div class="def">Total risk-weighted exposure (melder PosNr 7980000); the denominator of regulatory capital ratios used to set the RTFA thresholds.</div>
+      <div class="ref">→ Module 8; CRR Art. 92; Leitfaden Ch.8.1</div>
+    </div>
+
+    <h2>Ausfall &amp; Parameter</h2>
+
+    <div class="gterm" data-term="Ausfalldefinition Art. 178">
+      <span class="de">Ausfalldefinition (Art. 178)</span> <span class="en">(definition of default)</span>
+      <div class="def">Default triggers: (a) unlikely-to-pay; (b) &gt;90 days past due on a material obligation. Mapping: 5,0 = &gt;90 days overdue; 5,1 = other default reasons; 5,2 = insolvency or write-off.</div>
+      <div class="ref">→ Module 10; CRR Art. 178; Leitfaden Ch.10.2</div>
+    </div>
+
+    <div class="gterm" data-term="Erheblichkeitsschwelle 100 500 1%">
+      <span class="de">Erheblichkeitsschwelle (100 / 500 + 1 %)</span> <span class="en">(materiality threshold)</span>
+      <div class="def">Per Leitlinie (EU) 2020/978: absolute <strong>€100 retail / €500 non-retail</strong> AND relative <strong>1 %</strong> of total on-balance exposures (excl. equity). Insolvency and Fälligstellung have no threshold (≥€1).</div>
+      <div class="ref">→ Module 10; Leitlinie (EU) 2020/978; Leitfaden Ch.10.2</div>
+    </div>
+
+    <div class="gterm" data-term="Re-aging Wohlverhaltensperiode Cure Period">
+      <span class="de">Re-aging / Wohlverhaltensperiode (Cure Period)</span> <span class="en">(re-aging / probation / cure period)</span>
+      <div class="def">Cure requires ≥<strong>12 months</strong> sustained improvement; "re-aging" is a two-stage process with ≥<strong>90-day</strong> probation (RZ 71 EBA/GL/2016/07) and ≤30-day arrears at the 2nd check. Loss-bearing default reasons cannot end merely because the customer pays again.</div>
+      <div class="ref">→ Module 10; EBA/GL/2016/07; Leitfaden Ch.10.2</div>
+    </div>
+
+    <div class="gterm" data-term="Wertberichtigungen Vorsorgen">
+      <span class="de">Wertberichtigungen / Vorsorgen</span> <span class="en">(provisions / impairments)</span>
+      <div class="def">Accounting provisions against credit losses; compared with portfolio EL to form the excess/shortfall in the Deckungsmasse. They are not deducted from the Saldo.</div>
+      <div class="ref">→ Module 5/8; Leitfaden Ch.5.1/6</div>
+    </div>
+
+    <div class="gterm" data-term="Betriebserträge">
+      <span class="de">Betriebserträge</span> <span class="en">(operating income)</span>
+      <div class="def">The operating-income base for operational risk: 15 % (Extremfall) / 5 % (Problemfall) of Betriebserträge, anchored to the Basisindikatoransatz.</div>
+      <div class="ref">→ Module 9; Leitfaden Ch.5.6</div>
+    </div>
+
+    <h2>Daten, Reporting &amp; Aufsichtsrecht</h2>
+
+    <div class="gterm" data-term="COREP FINREP VERA">
+      <span class="de">COREP / FINREP / VERA</span> <span class="en">(supervisory reporting frameworks)</span>
+      <div class="def">The harmonised prudential (COREP) and financial (FINREP) reporting frameworks plus the Austrian VERA returns; source data for the Deckungsmasse (Belege 7, 12, 15, 80/81, FINREP/FINUS).</div>
+      <div class="ref">→ Module 8/16; Leitfaden Ch.6/8</div>
+    </div>
+
+    <div class="gterm" data-term="R1-Format Datenspezifikation">
+      <span class="de">R1-Format</span> <span class="en">(R1 data format)</span>
+      <div class="def">The delivery format per the "ÖRS Datenspezifikation" used to submit RTFA inputs each quarter, on both an unconsolidated and consolidated basis.</div>
+      <div class="ref">→ Module 16; Leitfaden Ch.8/9</div>
+    </div>
+
+    <div class="gterm" data-term="BAT Bankarbeitstage">
+      <span class="de">BAT (Bankarbeitstage)</span> <span class="en">(bank working days)</span>
+      <div class="def">The reporting deadline unit: results are due <strong>10 BAT</strong> after quarter-end, aligned to the OeNB Meldekalender; reporting address srg-office@rbinternational.com.</div>
+      <div class="ref">→ Module 16; Leitfaden Ch.8/9</div>
+    </div>
+
+    <div class="gterm" data-term="SOT Supervisory Outlier Test">
+      <span class="de">SOT (Supervisory Outlier Test)</span> <span class="en">(supervisory outlier test)</span>
+      <div class="def">The IRRBB outlier tests (EVE/NII) flagging banks whose interest-rate risk exceeds supervisory thresholds; reported as an RTFA Kennziffer.</div>
+      <div class="ref">→ Module 6/16; EBA/GL/2018/02; SOT RTS</div>
+    </div>
+
+    <div class="gterm" data-term="Kennziffern CIR Loan Deposit NPE Asset Encumbrance">
+      <span class="de">Kennziffern</span> <span class="en">(key ratios)</span>
+      <div class="def">RTFA monitoring ratios: Cost-Income-Ratio (CIR), Loan/Deposit, NPE ratio, Asset Encumbrance and the IRRBB outlier/SOT tests.</div>
+      <div class="ref">→ Module 16; Leitfaden Ch.8/9</div>
+    </div>
+
+    <div class="gterm" data-term="CIR Cost-Income-Ratio">
+      <span class="de">CIR (Cost-Income-Ratio)</span> <span class="en">(cost-income ratio)</span>
+      <div class="def">Operating expenses over operating income; an efficiency Kennziffer monitored alongside the RTFA.</div>
+      <div class="ref">→ Module 16; Leitfaden Ch.9</div>
+    </div>
+
+    <div class="gterm" data-term="NPE Non-Performing Exposure">
+      <span class="de">NPE-Quote</span> <span class="en">(non-performing exposure ratio)</span>
+      <div class="def">The share of non-performing exposures in total exposure; an asset-quality Kennziffer in the reporting pack.</div>
+      <div class="ref">→ Module 16; EBA NPE GL; Leitfaden Ch.9</div>
+    </div>
+
+    <div class="gterm" data-term="Asset Encumbrance">
+      <span class="de">Asset Encumbrance</span> <span class="en">(asset encumbrance)</span>
+      <div class="def">The share of assets pledged/encumbered (e.g. for covered bonds or repos); a liquidity/structural Kennziffer monitored in the RTFA.</div>
+      <div class="ref">→ Module 16; Leitfaden Ch.9</div>
+    </div>
+
+    <div class="gterm" data-term="Output Floor 72,5%">
+      <span class="de">Output Floor</span> <span class="en">(output floor)</span>
+      <div class="def">CRR III floor limiting modelled RWAs to <strong>72,5 %</strong> of the standardised RWAs (phased to 2030); supersedes parts of the Leitfaden's IRB-based view. Verify against current EUR-Lex/EBA.</div>
+      <div class="ref">→ Module 16; CRR III; <span class="tag reg">regulatory</span></div>
+    </div>
+
+    <div class="gterm" data-term="FRTB">
+      <span class="de">FRTB</span> <span class="en">(Fundamental Review of the Trading Book)</span>
+      <div class="def">The revised CRR III market-risk framework replacing the current trading-book own-funds charge the Leitfaden relies on; EU application from 1 Jan 2025 (FRTB own-funds reporting delayed).</div>
+      <div class="ref">→ Module 16; CRR III; <span class="tag reg">regulatory</span></div>
+    </div>
+
+    <div class="gterm" data-term="SMA Standardised Measurement Approach">
+      <span class="de">SMA</span> <span class="en">(Standardised Measurement Approach, op risk)</span>
+      <div class="def">The CRR III operational-risk method = Business Indicator Component × Internal Loss Multiplier, replacing BIA/TSA/AMA; supersedes the Leitfaden's BIA-style 15 %/5 % approach.</div>
+      <div class="ref">→ Module 16; CRR III; <span class="tag reg">regulatory</span></div>
+    </div>
+
+    <div class="gterm" data-term="DGSD ESAEG Einlagensicherung">
+      <span class="de">DGSD / ESAEG (Einlagensicherung)</span> <span class="en">(deposit guarantee schemes directive / Austrian act)</span>
+      <div class="def">EU DGSD 2014/49/EU and Austrian ESAEG: coverage <strong>€100.000</strong> per depositor per institution, target level <strong>0,8 %</strong> of covered deposits. A DGS pays out depositors, distinct from the R-IPS (Art. 113(7)) which keeps members solvent. Verify current Austrian arrangement.</div>
+      <div class="ref">→ Module 17; DGSD 2014/49/EU; ESAEG</div>
+    </div>
+
+    <div class="disclaimer">
+      Source: ÖRS <em>Leitfaden Früherkennung</em>, Version 09/2024; CRR (EU) 575/2013, CRD, Basel standards and EBA guidelines. CRR III / Basel IV (Output Floor, FRTB, SMA) and DGSD/ESAEG specifics post-date the Leitfaden and are flagged for verification against current EUR-Lex / EBA / FMA sources. Educational reconstruction, not an official ÖRS document.
+    </div>
+    <div class="footnote">Bilingual glossary · live filter on term, English gloss and definition · all definitions anchored to a Module / CRR article / Leitfaden section.</div>
+
+  </div></main>
+</div>
+<script src="js/app.js"></script>
+<script>
+/* live filter: lowercase-match query against each .gterm textContent; toggle display */
+(function () {
+  const input = document.getElementById("gsearch");
+  const terms = Array.prototype.slice.call(document.querySelectorAll(".gterm"));
+  const count = document.getElementById("gcount");
+  const total = terms.length;
+  function update() {
+    const q = (input.value || "").trim().toLowerCase();
+    let shown = 0;
+    terms.forEach(function (t) {
+      const hit = q === "" || t.textContent.toLowerCase().indexOf(q) !== -1;
+      t.style.display = hit ? "" : "none";
+      if (hit) shown++;
+    });
+    count.textContent = q === ""
+      ? total + " terms"
+      : shown + " of " + total + " terms match “" + input.value + "”";
+  }
+  input.addEventListener("input", update);
+  update();
+})();
+</script>
+</body>
+</html>
