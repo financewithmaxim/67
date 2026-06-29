@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problem Set 0.1 (graded) — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-page="c0u1-pset" data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › <a href="c0u1.html">Unit 0.1</a> › Problem Set 0.1</div>
+      <h1>Problem Set 0.1 — graded</h1>
+    </div>
+    <p class="lead">Eight problems across five formats. Decimal comma or point both accepted (enter <code>0,71</code> or <code>0.71</code>). Do every one by hand <em>and</em> in R before you check. Rate confidence first — the engine flags confident-but-wrong.</p>
+
+    <div id="pset"></div>
+
+    <nav class="modnav">
+      <a class="prev" href="c0u1-l4.html"><div class="dir">← Previous</div><div class="ttl">L4 · op-risk 5,0 % &amp; VaR coherence</div></a>
+      <a class="next" href="c0u1-viva.html"><div class="dir">Next →</div><div class="ttl">Viva 0.1 · adversarial defense</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+<script>
+const PSET = {
+  id: "c0u1", pass: 0.85, title: "Problem Set 0.1 — probability & the quantile machinery",
+  items: [
+    {
+      id:"p1", type:"numeric", points:10, topic:"VaR of a normal loss",
+      q:"A zero-mean normal one-year loss has standard deviation \\(\\sigma=\\text{€}4{,}0\\) m. Using \\(\\mathrm{VaR}_q=\\sigma\\,\\Phi^{-1}(q)\\), compute the VaR at the two scenario levels.",
+      inputs:[
+        {key:"a", label:"VaR at 95 %", unit:"€m", answer:6.5794, tol:0.05},
+        {key:"b", label:"VaR at 99,9 %", unit:"€m", answer:12.3609, tol:0.06}
+      ],
+      solution:"\\(\\mathrm{VaR}_{0,95}=4\\times\\Phi^{-1}(0,95)=4\\times1{,}6449=\\text{€}6{,}58\\) m; \\(\\;\\mathrm{VaR}_{0,999}=4\\times3{,}0902=\\text{€}12{,}36\\) m. In R: <code>4*qnorm(c(0.95,0.999))</code>. Note the higher confidence costs ~88 % more capital for the same book — the convexity of \\(\\Phi^{-1}\\) in the tail."
+    },
+    {
+      id:"p2", type:"numeric", points:10, topic:"CVA scalars",
+      q:"Reproduce the Leitfaden's CVA scalars (§5.2). The regulatory charge sits at the 99 % level. Give the Problemfall (95 %) and Extremfall (99,9 %) scalars.",
+      inputs:[
+        {key:"a", label:"Problemfall scalar", unit:"", answer:0.7070, tol:0.01},
+        {key:"b", label:"Extremfall scalar", unit:"", answer:1.3284, tol:0.01}
+      ],
+      solution:"\\(\\Phi^{-1}(0,95)/\\Phi^{-1}(0,99)=1{,}6449/2{,}3263=0{,}7070\\approx0{,}71\\); \\(\\;\\Phi^{-1}(0,999)/\\Phi^{-1}(0,99)=3{,}0902/2{,}3263=1{,}3284\\approx1{,}33\\). The same two scalars rescale the trading-book price risk (§5.5). <span class='tag ors'>ÖRS choice</span>: normality, zero mean, and the 99 % base."
+    },
+    {
+      id:"p3", type:"numeric", points:10, topic:"Expected loss",
+      q:"A Corporate exposure has \\(\\mathrm{EAD}=\\text{€}2{,}5\\) m, rating grade \\(3{,}0\\) (master-scale midpoint \\(\\mathrm{PD}=3{,}0755\\,\\%\\)), pooled Corporate \\(\\mathrm{LGD}=45{,}5\\,\\%\\). Compute the expected loss EL.",
+      inputs:[
+        {key:"a", label:"EL", unit:"€", answer:34983.81, tol:25}
+      ],
+      solution:"\\(\\mathrm{EL}=\\mathrm{EAD}\\cdot\\mathrm{PD}\\cdot\\mathrm{LGD}=2{,}500{,}000\\times0{,}030755\\times0{,}455=\\text{€}34{,}983{,}81\\). In R: <code>2.5e6*0.030755*0.455</code>. This is the EL parked in the Deckungsmasse as excess/shortfall; the guide reports the <em>unexpected</em> loss as 'the credit risk'."
+    },
+    {
+      id:"p4", type:"numeric", points:10, topic:"Lognormal quantile",
+      q:"Recover the guide's standard-lognormal (\\(\\mu=0,\\sigma=1\\)) quantiles from the Exkurs (§5.6): the 95 % and 99,9 % quantiles \\(x(p)=e^{\\Phi^{-1}(p)}\\). Use the guide's rounded normal quantiles 1,645 and 3,090.",
+      inputs:[
+        {key:"a", label:"95 % quantile", unit:"", answer:5.180, tol:0.05},
+        {key:"b", label:"99,9 % quantile", unit:"", answer:21.98, tol:0.15}
+      ],
+      solution:"\\(e^{1{,}645}=5{,}180\\); \\(e^{3{,}090}=21{,}982\\). In R: <code>exp(c(1.645,3.090))</code>. The ratio \\(5{,}180/21{,}982=0{,}236\\) is the fat-tailed rescaling factor used in the op-risk derivation (P8)."
+    },
+    {
+      id:"p5", type:"derive", points:20, topic:"VaR normal derivation",
+      placeholder:"Derive on paper; summarise your key steps here, then self-score against the rubric after revealing the model solution.",
+      q:"<b>Blank-page derivation.</b> Starting from the definition of the CDF, derive \\(\\mathrm{VaR}_q\\) for \\(L\\sim N(\\mu,\\sigma^2)\\). Then prove that for \\(\\mu=0\\) the ratio \\(\\mathrm{VaR}_{q_2}/\\mathrm{VaR}_{q_1}\\) reduces to \\(\\Phi^{-1}(q_2)/\\Phi^{-1}(q_1)\\). State every assumption.",
+      rubric:[
+        "Writes \\(F_L(x)=\\Phi((x-\\mu)/\\sigma)\\) and sets \\(=q\\), solving for the quantile. (5)",
+        "Concludes \\(\\mathrm{VaR}_q=F_L^{-1}(q)=\\mu+\\sigma\\Phi^{-1}(q)\\), justified by monotonicity of the location–scale map. (5)",
+        "Sets \\(\\mu=0\\) and shows \\(\\sigma\\) cancels: ratio \\(=\\Phi^{-1}(q_2)/\\Phi^{-1}(q_1)\\). (5)",
+        "Explicitly flags that \\(\\mu=0\\) is essential and states what the ratio becomes if \\(\\mu\\neq0\\). (5)"
+      ],
+      solution:"\\(F_L(x)=\\mathbb P(L\\le x)=\\Phi\\!\\big(\\tfrac{x-\\mu}{\\sigma}\\big)\\). Set \\(F_L(x)=q\\Rightarrow \\tfrac{x-\\mu}{\\sigma}=\\Phi^{-1}(q)\\Rightarrow x=\\mu+\\sigma\\Phi^{-1}(q)\\). Since \\(F_L\\) is continuous and strictly increasing, this \\(x\\) is \\(\\mathrm{VaR}_q=F_L^{-1}(q)\\). For \\(\\mu=0\\): \\(\\mathrm{VaR}_{q_2}/\\mathrm{VaR}_{q_1}=\\sigma\\Phi^{-1}(q_2)/(\\sigma\\Phi^{-1}(q_1))=\\Phi^{-1}(q_2)/\\Phi^{-1}(q_1)\\). If \\(\\mu\\neq0\\) the \\(\\mu\\) terms do not cancel: ratio \\(=(\\mu+\\sigma\\Phi^{-1}(q_2))/(\\mu+\\sigma\\Phi^{-1}(q_1))\\), and the clean quantile-ratio scaling fails — the assumption behind every CVA/market scalar in the guide."
+    },
+    {
+      id:"p6", type:"error", points:15, topic:"CVA scaling base",
+      placeholder:"State the error precisely, then give the corrected derivation and number.",
+      q:"<b>Find the error.</b> A colleague writes: <i>“The CVA Extremfall scalar is \\(\\Phi^{-1}(0{,}999)/\\Phi^{-1}(0{,}95)=3{,}0902/1{,}6449=1{,}88\\), scaling the 95 % charge up to 99,9 %.”</i> Locate the error, explain it, and give the correct scalar.",
+      rubric:[
+        "Identifies that the denominator must be the confidence level of the charge being rescaled — the regulatory CVA charge is read at 99 %, not 95 %. (6)",
+        "Gives the correct scalar \\(3{,}0902/2{,}3263=1{,}33\\). (5)",
+        "Explains the general rule: numerator = target level, denominator = base level of the input quantity; getting the base wrong rescales everything. (4)"
+      ],
+      solution:"The base is wrong. The guide's CVA Eigenmittelerfordernis corresponds to a <b>99 %</b> quantile, so the denominator must be \\(\\Phi^{-1}(0{,}99)=2{,}3263\\), not \\(\\Phi^{-1}(0{,}95)\\). Correct Extremfall scalar \\(=3{,}0902/2{,}3263=1{,}33\\) (the guide's value), not 1,88. General rule: a scalar \\(=\\Phi^{-1}(\\text{target})/\\Phi^{-1}(\\text{base})\\); the base is fixed by where the input charge sits on the confidence axis."
+    },
+    {
+      id:"p7", type:"numeric", points:10, topic:"Transfer: novel confidence level",
+      q:"<b>Transfer.</b> A new internal scenario is to be reported at the Solvency-II-style <b>99,5 %</b> level, rescaling the same 99 %-based charge. Derive the scalar. (\\(\\Phi^{-1}(0{,}995)=2{,}5758\\).)",
+      inputs:[
+        {key:"a", label:"99,5 % scalar", unit:"", answer:1.1072, tol:0.01}
+      ],
+      solution:"\\(\\Phi^{-1}(0{,}995)/\\Phi^{-1}(0{,}99)=2{,}5758/2{,}3263=1{,}1072\\). In R: <code>qnorm(0.995)/qnorm(0.99)</code>. It must lie between the 95 % scalar (0,71) and the 99,9 % scalar (1,33), and it does — a quick sanity check you should always state."
+    },
+    {
+      id:"p8", type:"teachback", points:15, topic:"Teach-back: op-risk 5 vs 8",
+      placeholder:"≤200 words, plain language, no derivation dump. Write it as you would say it to the CFO.",
+      q:"<b>Teach-back.</b> In ≤200 words, explain to a skeptical CFO why the op-risk Problemfall factor is <b>5 %</b> and not <b>8 %</b> of operating income. Correctness <em>and</em> clarity are graded.",
+      rubric:[
+        "States that op-losses are fat-tailed (a few huge events), so the 95 % loss is a much smaller fraction of the 99,9 % loss than a symmetric model implies. (5)",
+        "Gives the number intuition: a pure-normal rescaling gives ~8 % (\\(15\\%\\times0{,}53\\)); recognising the fat tail (⅔ lognormal) pulls it to ~5 % (\\(15\\%\\times0{,}33\\)). (5)",
+        "Clear, ≤200 words, honest that it is a deliberately conservative proxy, no unexplained jargon. (5)"
+      ],
+      solution:"<b>Model answer (~150 words).</b> “The 15 % figure is our once-in-a-millennium (99,9 %) operational-risk charge. The Problemfall asks a milder question — the once-in-20-years (95 %) loss — so the number must come down. <em>How much</em> it comes down depends on the shape of operational losses. If they were mild and symmetric, the 95 % loss would still be about 53 % of the extreme one, giving roughly 8 %. But operational losses aren't symmetric: most are small, and a handful — fraud, IT outage, litigation — are enormous. For such fat-tailed losses the 95 % point is a far smaller fraction of the 99,9 % point. We model two-thirds of the risk as fat-tailed (lognormal) and one-third as symmetric, which blends to about 33 %, so \\(15\\%\\times0{,}33\\approx5\\%\\). It is deliberately a simple, conservative proxy — we don't have the loss history for an internal model — and CRR III's new approach will replace it.”"
+    }
+  ]
+};
+</script>
+</body>
+</html>

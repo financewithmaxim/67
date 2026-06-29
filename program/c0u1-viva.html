@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viva 0.1 · adversarial defense — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-page="c0u1-viva" data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › <a href="c0u1.html">Unit 0.1</a> › Viva 0.1</div>
+      <h1>Viva 0.1 — defend the foundations</h1>
+    </div>
+    <p class="lead">This is how the real defense feels: a question, then a follow-up that goes straight at the weakest word in your answer. <strong>Answer each out loud or in writing first.</strong> Only then reveal the model answer and the probe. If the probe catches you, that topic goes in your error log — go remediate before the unit's spaced re-test.</p>
+
+    <div class="box reg">
+      <div class="box-title">Rules of engagement</div>
+      <p>I will not accept "because the guide says so", "it's standard", or a number without its assumption. Vagueness is met with a sharper question, not a pass. Aim to survive all six probes. Rate yourself honestly: a probe you couldn't have answered unprompted is a <em>gap</em>, not a win.</p>
+    </div>
+
+    <div class="viva">
+
+      <div class="viva-turn">
+        <div class="who"><span class="avatar">B</span> Your boss</div>
+        <div class="viva-q">Q1. You told the Aufsichtsrat the Problemfall covers a "1-in-20-year" loss. A board member asks: "So we're safe for 20 years?" Answer them.</div>
+        <div class="viva-hint">Hint: what kind of average is 20, and under what assumptions?</div>
+        <button class="btn secondary" data-reveal="ma1" style="margin-top:10px">Reveal model answer &amp; probe</button>
+        <div class="model-answer" id="ma1">
+          <div class="box-title">A strong answer</div>
+          <p>"No. Twenty years is the <em>mean</em> waiting time between breaches if utilisation stayed at 100 %, under the idealisation that years are independent and identically distributed. The waiting time is geometric, whose <em>mode is one year</em> — the single most likely breach year is next year. And we don't run at 100 %; we don't target above 90 % utilisation, so realised breaches are rarer than the headline. It's a calibration statement about the confidence level \\(q=95\\%\\) (\\(1/(1-q)=20\\)), not a guarantee."</p>
+          <div class="viva-turn probe" style="margin:10px 0 0">
+            <div class="who"><span class="avatar">B</span> Probe</div>
+            <div class="viva-q">"You said i.i.d. years. Name the single most realistic violation of that, and which direction it biases the 20-year figure."</div>
+            <p class="viva-hint" style="margin-top:6px"><b>Expected:</b> serial correlation — a multi-year recession clusters breaches, so conditional on a bad year the next is likelier; the i.i.d. number <em>understates</em> near-term clustering risk. Acceptable also: a drifting/growing portfolio changes \\(p\\) over time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="viva-turn">
+        <div class="who"><span class="avatar">A</span> Aufsichtsrat</div>
+        <div class="viva-q">Q2. Your CVA Problemfall number is the regulatory charge times 0,71. Justify the 0,71 from first principles — and tell me exactly what you assumed.</div>
+        <div class="viva-hint">Hint: a ratio of what, over what base, under which distributional assumption?</div>
+        <button class="btn secondary" data-reveal="ma2" style="margin-top:10px">Reveal model answer &amp; probe</button>
+        <div class="model-answer" id="ma2">
+          <div class="box-title">A strong answer</div>
+          <p>"For a zero-mean normal loss, \\(\\mathrm{VaR}_q=\\sigma\\Phi^{-1}(q)\\), so the VaR at two confidence levels relates by the ratio of standard-normal quantiles — \\(\\sigma\\) cancels. The regulatory CVA charge sits at the 99 % level; the Problemfall wants 95 %. So the scalar is \\(\\Phi^{-1}(0{,}95)/\\Phi^{-1}(0{,}99)=1{,}6449/2{,}3263=0{,}707\\approx0{,}71\\). Assumptions: the loss is <em>normal</em> and <em>zero-mean</em>, and the charge corresponds to a <em>99 %</em> quantile — the first two are ÖRS modelling choices, the charge itself is regulatory."</p>
+          <div class="viva-turn probe" style="margin:10px 0 0">
+            <div class="who"><span class="avatar">A</span> Probe</div>
+            <div class="viva-q">"Suppose the underlying loss has a non-zero mean. Show me what breaks in your one line, and whether 0,71 then over- or under-states the rescaled charge."</div>
+            <p class="viva-hint" style="margin-top:6px"><b>Expected:</b> with \\(\\mu\\neq0\\) the ratio is \\((\\mu+\\sigma\\Phi^{-1}(q_2))/(\\mu+\\sigma\\Phi^{-1}(q_1))\\); \\(\\mu\\) no longer cancels. For a loss with positive mean (\\(\\mu>0\\)) this ratio is <em>larger</em> than \\(\\Phi^{-1}(q_2)/\\Phi^{-1}(q_1)\\), so 0,71 <em>understates</em> the rescaled charge. Candidate must reason it through, not just assert.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="viva-turn">
+        <div class="who"><span class="avatar">B</span> Your boss</div>
+        <div class="viva-q">Q3. The op-risk Problemfall factor is 5 %. The internal auditor says "shouldn't a 95 % number be more than half of the 99,9 % one — so closer to 8 %?" Defend the 5 %.</div>
+        <button class="btn secondary" data-reveal="ma3" style="margin-top:10px">Reveal model answer &amp; probe</button>
+        <div class="model-answer" id="ma3">
+          <div class="box-title">A strong answer</div>
+          <p>"The auditor is implicitly assuming a <em>symmetric</em> loss, where the 95 % point is \\(1{,}645/3{,}090=53\\%\\) of the 99,9 % point — that does give \\(15\\%\\times0{,}53\\approx8\\%\\). But operational losses are fat-tailed: a few events dominate. For a lognormal severity the 95 % point is only \\(5{,}180/21{,}982=24\\%\\) of the 99,9 % point. We weight the risk ⅓ symmetric, ⅔ fat-tailed, blending to \\(0{,}33\\cdot0{,}53+0{,}67\\cdot0{,}24=0{,}33\\), so \\(15\\%\\times0{,}33=5\\%\\). The auditor's 8 % is the answer to a <em>thin-tailed</em> world we don't live in."</p>
+          <div class="viva-turn probe" style="margin:10px 0 0">
+            <div class="who"><span class="avatar">B</span> Probe</div>
+            <div class="viva-q">"Which single parameter in that blend would I attack to call your 5 % too low — and what's your defense?"</div>
+            <p class="viva-hint" style="margin-top:6px"><b>Expected:</b> the \\(\\sigma=1\\) of the lognormal (sets tail heaviness) <em>and/or</em> the ⅔ weight. A bigger \\(\\sigma\\) or weight makes the fat tail heavier and the factor <em>lower</em>; a critic wanting a higher charge would push \\(\\sigma\\) down / weight toward normal. Defense: the choice is deliberately conservative-and-simple given no internal loss data, is backtested at portfolio level, and is superseded by CRR III SMA anyway. Candidate must name \\(\\sigma\\)/weight, not just "the assumptions".</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="viva-turn">
+        <div class="who"><span class="avatar">A</span> Aufsichtsrat</div>
+        <div class="viva-q">Q4. You add all risks together "at correlation +1". That ignores diversification — surely that's wrong and overstates our capital. Defend the choice or concede it.</div>
+        <button class="btn secondary" data-reveal="ma4" style="margin-top:10px">Reveal model answer &amp; probe</button>
+        <div class="model-answer" id="ma4">
+          <div class="box-title">A strong answer</div>
+          <p>"It is conservative by design, and that conservatism is a feature. VaR is not generally sub-additive — for fat-tailed or skewed risks the VaR of a combined book can <em>exceed</em> the sum of the parts, so a model that booked a diversification benefit could understate risk in exactly the tail we care about. Adding at +1 is the <em>comonotonic</em> case, where VaR <em>is</em> provably additive; it is an upper bound that can never be accused of inventing diversification VaR cannot guarantee. The cost is overstated capital when risks are genuinely less than perfectly dependent — a price the guide pays knowingly, and which the sector Sicherungseinrichtungen further justify."</p>
+          <div class="viva-turn probe" style="margin:10px 0 0">
+            <div class="who"><span class="avatar">A</span> Probe</div>
+            <div class="viva-q">"You said VaR isn't always sub-additive. Give me the one-sentence condition under which your +1 addition is not conservative but <em>exactly</em> correct."</div>
+            <p class="viva-hint" style="margin-top:6px"><b>Expected:</b> comonotonicity — perfect positive dependence among the risks; then \\(\\mathrm{VaR}_q(L+L')=\\mathrm{VaR}_q(L)+\\mathrm{VaR}_q(L')\\) holds with equality. Anything short of that, the addition over-states.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="viva-turn">
+        <div class="who"><span class="avatar">B</span> Your boss</div>
+        <div class="viva-q">Q5. Quick one, no notes: you claim EL = PD·LGD·EAD is additive across the book. Is that because defaults are independent? Be precise.</div>
+        <button class="btn secondary" data-reveal="ma5" style="margin-top:10px">Reveal model answer &amp; probe</button>
+        <div class="model-answer" id="ma5">
+          <div class="box-title">A strong answer</div>
+          <p>"No — it's <em>linearity of expectation</em>, which needs no independence at all: \\(\\mathbb E[\\sum_i L_i]=\\sum_i\\mathbb E[L_i]\\) always holds. Independence matters for the <em>variance</em> and the tail — the unexpected loss — not for the mean. That's exactly why EL is the easy, dependence-free part the guide parks in the Deckungsmasse, while UL, which depends on the correlation structure, needs the whole Vasicek machinery."</p>
+          <div class="viva-turn probe" style="margin:10px 0 0">
+            <div class="who"><span class="avatar">B</span> Probe</div>
+            <div class="viva-q">"Then where, concretely, does dependence first enter the credit number you report?"</div>
+            <p class="viva-hint" style="margin-top:6px"><b>Expected:</b> in the <em>unexpected</em> loss — the high quantile of \\(L=\\sum_i L_i\\), via the single systematic factor / asset correlation \\(\\rho\\) in the ASRF / IRB formula (Course 3). EL is untouched by it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="viva-turn">
+        <div class="who"><span class="avatar">A</span> Aufsichtsrat</div>
+        <div class="viva-q">Q6 (synthesis). In one minute: of every number you reproduced today — 0,71, 1,33, 5,180, 21,982, 5 % — which is the <em>most</em> regulatory and which is the <em>most</em> ÖRS-discretionary, and why does that distinction matter to this board?</div>
+        <button class="btn secondary" data-reveal="ma6" style="margin-top:10px">Reveal model answer &amp; probe</button>
+        <div class="model-answer" id="ma6">
+          <div class="box-title">A strong answer</div>
+          <p>"Most regulatory: the inputs the scalars act on — the CVA and trading-book own-funds charges, and the 15 % op-risk base — are fixed by the CRR/Basel framework. Most discretionary: the <strong>op-risk 5 %</strong>, because it layers <em>three</em> ÖRS choices on top — the ⅓/⅔ mixture, the \\(\\sigma=1\\) lognormal, and the 95 % target — each of which I can move. The scalars 0,71/1,33 are in between: regulatory charge, ÖRS rescaling. It matters because the board's challenge should land on the discretionary parameters — that's where judgement, and therefore <em>defensibility</em>, lives; the regulatory inputs we take as given. Knowing which is which is how I tell the board where the real model risk is."</p>
+          <div class="viva-turn probe" style="margin:10px 0 0">
+            <div class="who"><span class="avatar">A</span> Probe</div>
+            <div class="viva-q">"Good. Then name the one parameter from today you would put first on a model-risk register, with the reason."</div>
+            <p class="viva-hint" style="margin-top:6px"><b>Acceptable:</b> the op-risk mixture (\\(\\sigma\\)/weights) — most assumptions stacked, least empirical support at primary-bank scale, and soon to be superseded by CRR III SMA. A defensible alternative with reasoning is fine; "I don't know" is not.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="box german">
+      <div class="box-title">🇦🇹 Abschluss / Selbstbewertung</div>
+      <p>Wenn Sie alle sechs Nachfragen <em>ohne</em> die Auflösung beantworten konnten: Einheit 0.1 verteidigt. Wo eine Nachfrage Sie erwischt hat, gehört das Thema in Ihr Fehlerprotokoll — die nächste Wiederholung (Spaced Repetition) bringt es zurück. Notieren Sie sich Ihre schwächste Antwort wörtlich; in der Capstone-Viva wird genau dort weitergebohrt — auf Deutsch.</p>
+    </div>
+
+    <nav class="modnav">
+      <a class="prev" href="c0u1-pset.html"><div class="dir">← Previous</div><div class="ttl">Problem Set 0.1</div></a>
+      <a class="next" href="../index.html"><div class="dir">Next →</div><div class="ttl">Dashboard · review &amp; set Unit 0.2</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+</body>
+</html>

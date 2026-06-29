@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L0.1.3 · Moments, transformations & the lognormal — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-lecture="c0u1-l3" data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › <a href="c0u1.html">Unit 0.1</a> › Lecture 3</div>
+      <h1>L3 — Moments, transformations &amp; the lognormal</h1>
+    </div>
+    <p class="lead">Operational losses are not symmetric — a few events are enormous. The guide models that with a lognormal, and prints two numbers, <code>5,180</code> and <code>21,982</code>, in an Exkurs. By the end you will have derived both, and know which assumption put them there.</p>
+
+    <div class="lecmeta">
+      <span class="chip">Lecture 3 of 4</span><span><b>≈</b> 2.5–3 h</span>
+      <span><b>Outcome:</b> lognormal quantile \(e^{\mu+\sigma\Phi^{-1}(p)}\); recover 5,180 / 21,982</span>
+    </div>
+
+    <h2>1 · Moments &amp; the MGF — reminders, used not taught</h2>
+    <p>For \(X\): mean \(\mu_X=\mathbb E[X]\), variance \(\sigma_X^2=\mathbb E[(X-\mu_X)^2]=\mathbb E[X^2]-\mu_X^2\). The <strong>moment-generating function</strong> \(M_X(t)=\mathbb E[e^{tX}]\) generates moments via \(M_X^{(k)}(0)=\mathbb E[X^k]\) and characterises the law where it exists. For the normal it is the one identity we need downstream:</p>
+    <div class="formula">$$ Y\sim N(\mu,\sigma^2)\ \Longrightarrow\ M_Y(t)=\mathbb E[e^{tY}]=\exp\!\Big(\mu t+\tfrac12\sigma^2 t^2\Big). $$
+      <div class="where"><b>proof sketch:</b> complete the square in the Gaussian integral \(\int e^{ty}\varphi_{\mu,\sigma}(y)\,dy\).</div>
+    </div>
+    <p>Setting \(t=1\) gives the lognormal mean immediately (§3.2 below). This same \(\tfrac12\sigma^2\) convexity term is the seed of the Itô correction you will meet in Unit 0.3 — note it now.</p>
+
+    <h2>2 · Transformations — the change-of-variables rule</h2>
+    <p>If \(X=g(Y)\) with \(g\) strictly increasing and differentiable, then because increasing maps preserve order, <em>quantiles transform directly</em>:</p>
+    <div class="formula">$$ F_X(x)=\mathbb P(g(Y)\le x)=\mathbb P\big(Y\le g^{-1}(x)\big)=F_Y\big(g^{-1}(x)\big),\qquad
+       F_X^{-1}(p)=g\big(F_Y^{-1}(p)\big). $$</div>
+    <p>Densities pick up a Jacobian, \(f_X(x)=f_Y(g^{-1}(x))\,\big|\tfrac{d}{dx}g^{-1}(x)\big|\), but for VaR we mostly need the clean quantile rule \(F_X^{-1}(p)=g(F_Y^{-1}(p))\). That single line is the whole machinery behind the lognormal quantile.</p>
+
+    <h2>3 · The lognormal — definition, mean, quantile</h2>
+    <p>Take \(g(\cdot)=\exp(\cdot)\), strictly increasing. If \(Y\sim N(\mu,\sigma^2)\) then \(X=e^{Y}\) is <strong>lognormal</strong>: \(X>0\), right-skewed, heavy upper tail — the canonical shape for severity of operational losses.</p>
+
+    <h3>3.1 Mean (from the MGF)</h3>
+    <div class="formula">$$ \mathbb E[X]=\mathbb E[e^{Y}]=M_Y(1)=\exp\!\Big(\mu+\tfrac12\sigma^2\Big). $$</div>
+    <p>Note the upward \(\tfrac12\sigma^2\) shift: the <em>mean</em> of a lognormal exceeds its <em>median</em> \(e^{\mu}\). That wedge between mean and median is precisely why a symmetric (normal) scaling understates a fat-tailed loss, and why the op-risk factor in L4 needs a lognormal component.</p>
+
+    <h3>3.2 Quantile — the derivation behind the Exkurs</h3>
+    <p>By the quantile rule with \(g=\exp\), \(g^{-1}=\ln\), and \(F_Y^{-1}(p)=\mu+\sigma\Phi^{-1}(p)\) (L2):</p>
+    <div class="formula">$$ \boxed{\,x(p)=F_X^{-1}(p)=\exp\!\big(\mu+\sigma\,\Phi^{-1}(p)\big)\,} $$
+      <div class="where"><b>exactly</b> the guide's "x(p) = Exp(μ + u(p)·σ), u(p) … p-Quantil der Standardnormalverteilung" (§5.6 Exkurs).</div>
+    </div>
+
+    <div class="reading">
+      <h4>Primary text · §5.6 Exkurs (operationelles Risiko)</h4>
+      <blockquote>"Ist \(Y\) normalverteilt mit \(\mu,\sigma^2\), dann ist \(X=\mathrm{Exp}(Y)\) Log-normalverteilt … Das \(p\)-Quantil ist \(x(p)=\mathrm{Exp}(\mu+u(p)\sigma)\). Quantile der Normalverteilung: 99,9 %: 3,090σ; 95 %: 1,645σ. Quantile der Log-Normalverteilung: 99,9 %: \(\mathrm{Exp}(3,090\sigma)=21{,}982\); 95 %: \(\mathrm{Exp}(1,645\sigma)=5{,}180\)."</blockquote>
+    </div>
+
+    <h2>4 · Worked example — recovering 5,180 and 21,982</h2>
+    <p>The guide evaluates \(x(p)=e^{\Phi^{-1}(p)\sigma}\) at \(\sigma=1\) and \(\mu=0\) (the standard lognormal). With \(\Phi^{-1}(0{,}95)=1{,}645\) and \(\Phi^{-1}(0{,}999)=3{,}090\):</p>
+    <div class="formula">
+      $$ x(0{,}95)=e^{1{,}645}=5{,}180,\qquad x(0{,}999)=e^{3{,}090}=21{,}982. $$
+    </div>
+    <p>Both recovered exactly. Note what this means: the guide is reading off the quantiles of the <strong>standard</strong> lognormal (\(\mu=0,\sigma=1\)). The <em>ratio</em> that L4 will need is</p>
+    <div class="formula">$$ \frac{x(0{,}95)}{x(0{,}999)}=\frac{e^{1{,}645}}{e^{3{,}090}}=e^{1{,}645-3{,}090}=e^{-1{,}445}=0{,}2357\;(=5{,}180/21{,}982). $$</div>
+
+    <div class="box ors">
+      <div class="box-title">Reg vs ÖRS — the \(\sigma=1\) choice is a modelling decision</div>
+      <p>There is nothing regulatory about \(\sigma=1\). It is an <span class="tag ors">ÖRS modelling choice</span>: a <em>standardised</em> lognormal severity used only to derive a <em>rescaling ratio</em> between confidence levels — not to model an actual loss size. Because L4 uses only the ratio \(e^{1{,}645}/e^{3{,}090}=e^{1{,}645-3{,}090}\), and \(\mu\) cancels in any such ratio, the choice of \(\mu\) is irrelevant; the choice of \(\sigma\) is <em>not</em> (it sets how heavy the tail is, hence how aggressively the factor shrinks from 99,9 % to 95 %). This is precisely the kind of buried assumption the Aufsichtsrat is entitled to ask about.</p>
+    </div>
+
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — normal vs lognormal scaling give very different shrinkage</div>
+      <p>From 99,9 % down to 95 %, the <em>normal</em> factor shrinks by \(1{,}645/3{,}090=0{,}532\); the <em>lognormal</em> factor by \(5{,}180/21{,}982=0{,}236\) — less than half as much survives. A symmetric model would roughly <em>double</em> the rescaled op-risk relative to the fat-tailed one. The whole reason L4's op-risk derivation mixes the two distributions is to land between these — keep this contrast in your pocket.</p>
+    </div>
+
+    <div class="rsnip">
+      <div class="rhead"><span class="lang">R</span> lognormal quantiles, the guide's two numbers, and the ratio <button class="copybtn">copy</button></div>
+<pre><span class="cmt"># standard lognormal (mu=0, sigma=1): quantile = exp(qnorm(p))</span>
+exp(qnorm(0.95 ))                  <span class="out"># 5.1807  -> 5.180</span>
+exp(qnorm(0.999))                  <span class="out"># 21.977  -> 21.982 (guide rounds the input quantile to 3.090)</span>
+
+<span class="cmt"># reproduce EXACTLY with the guide's rounded normal quantiles</span>
+exp(1.645); exp(3.090)             <span class="out"># 5.1807 ; 21.978</span>
+
+<span class="cmt"># the shrinkage ratios that L4 needs</span>
+norm_ratio &lt;- qnorm(0.95)/qnorm(0.999)        <span class="out"># 0.5323  (normal part)</span>
+logn_ratio &lt;- exp(qnorm(0.95))/exp(qnorm(0.999)) <span class="out"># 0.2357  (lognormal part)</span>
+<span class="cmt"># built-in cross-check: R's qlnorm is exp(qnorm) by definition</span>
+all.equal(qlnorm(0.95), exp(qnorm(0.95)))     <span class="out"># TRUE</span></pre>
+    </div>
+
+    <h2>5 · In practice</h2>
+    <p>You will not feed data into a lognormal in this unit — it appears here purely as the tool that produces the op-risk rescaling ratio in L4. But the shape matters operationally: when you later validate op-risk or model loss severities (Course 4), the lognormal (and its heavier cousins) is the default severity family, and the mean–median wedge \(e^{\mu}\) vs \(e^{\mu+\sigma^2/2}\) is what makes average loss a poor summary of a fat-tailed book.</p>
+
+    <div class="selfcheck">
+      <div class="scq">Self-check 3.1 — Show that for any lognormal the ratio of the \(p_2\)- and \(p_1\)-quantiles depends on \(\sigma\) but not \(\mu\).</div>
+      <details><summary>Show answer</summary><div class="ans">\(x(p_2)/x(p_1)=e^{\mu+\sigma\Phi^{-1}(p_2)}/e^{\mu+\sigma\Phi^{-1}(p_1)}=e^{\sigma(\Phi^{-1}(p_2)-\Phi^{-1}(p_1))}\). The \(\mu\)'s cancel; \(\sigma\) scales the exponent. Hence the op-risk ratio is invariant to \(\mu\) (justifying \(\mu=0\)) but sensitive to \(\sigma\) (so \(\sigma=1\) is the real assumption).</div></details>
+    </div>
+    <div class="selfcheck">
+      <div class="scq">Self-check 3.2 — Why is the lognormal mean larger than \(e^{\mu}\), and what does that say about using "average loss" for op-risk?</div>
+      <details><summary>Show answer</summary><div class="ans">\(\mathbb E[e^Y]=e^{\mu+\sigma^2/2}>e^{\mu}=\) median, by Jensen's inequality (\(\exp\) is convex). So the mean is pulled up by the heavy upper tail; "average loss" overstates the typical loss and understates the extreme one — which is why capital is set on a high quantile, not the mean.</div></details>
+    </div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>Increasing transforms move quantiles directly: \(F_{g(Y)}^{-1}(p)=g(F_Y^{-1}(p))\).</li>
+      <li><strong>Lognormal:</strong> \(X=e^Y\), mean \(e^{\mu+\sigma^2/2}\), quantile \(x(p)=e^{\mu+\sigma\Phi^{-1}(p)}\) — the guide's Exkurs formula.</li>
+      <li><strong>Recovered:</strong> \(e^{1{,}645}=5{,}180\), \(e^{3{,}090}=21{,}982\) at \(\mu=0,\sigma=1\). The \(\sigma=1\) standardisation is an <span class="tag ors">ÖRS choice</span>; only the <em>ratio</em> \(5{,}180/21{,}982=0{,}236\) is used in L4, and \(\mu\) cancels.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Streng monotone Transformationen übertragen Quantile direkt: \(F_{g(Y)}^{-1}(p)=g(F_Y^{-1}(p))\).</li>
+        <li><strong>Log-Normalverteilung:</strong> \(X=e^Y\), Erwartungswert \(e^{\mu+\sigma^2/2}\), Quantil \(x(p)=e^{\mu+\sigma\Phi^{-1}(p)}\) — die Exkurs-Formel des Leitfadens.</li>
+        <li><strong>Reproduziert:</strong> \(e^{1{,}645}=5{,}180\), \(e^{3{,}090}=21{,}982\) bei \(\mu=0,\sigma=1\). \(\sigma=1\) ist <span class="tag ors">ÖRS-Annahme</span>; in L4 wird nur das <em>Verhältnis</em> \(0{,}236\) benötigt, \(\mu\) kürzt sich.</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:18px"><button class="btn" id="mark-read">Mark this lecture as read</button></p>
+
+    <nav class="modnav">
+      <a class="prev" href="c0u1-l2.html"><div class="dir">← Previous</div><div class="ttl">L2 · Quantile function &amp; the normal</div></a>
+      <a class="next" href="c0u1-l4.html"><div class="dir">Next →</div><div class="ttl">L4 · VaR, confidence levels &amp; the op-risk 5,0 %</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+</body>
+</html>

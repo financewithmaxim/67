@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L0.1.4 · VaR, confidence levels & the op-risk 5,0% — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-lecture="c0u1-l4" data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › <a href="c0u1.html">Unit 0.1</a> › Lecture 4</div>
+      <h1>L4 — VaR, confidence levels &amp; reproducing the op-risk 5,0 %</h1>
+    </div>
+    <p class="lead">Everything from L1–L3 converges here. We reconstruct the guide's operational-risk Problemfall factor — <code>5,0 %</code> — from a two-distribution mixture, and then take the first hard look at what VaR <em>guarantees</em>, which is what licenses the guide's "Addition = Korrelation +1".</p>
+
+    <div class="lecmeta">
+      <span class="chip">Lecture 4 of 4</span><span><b>≈</b> 3–4 h</span>
+      <span><b>Outcome:</b> derive 5,0 %; state &amp; use VaR coherence</span>
+    </div>
+
+    <h2>1 · The op-risk scaling problem, stated cleanly</h2>
+    <div class="reading">
+      <h4>Primary text · §5.6 (operationelles Risiko)</h4>
+      <blockquote>"Unter der Annahme, dass das operationelle Risiko zu einem Drittel normalverteilt und zu zwei Drittel logarithmisch normalverteilt ist, wird der operationelle Risikofaktor für den Problemfall auf Basis des Extremfalls auf 95 % skaliert … Das operationelle Risiko wird im Problemfall somit mit 5 % der Betriebserträge … festgesetzt."</blockquote>
+      <p class="src">Extremfall: op-risk \(=15\,\%\) of Betriebserträge (operating income) at 99,9 %. Problemfall: rescale that to 95 % under a ⅓-normal / ⅔-lognormal mixture assumption.</p>
+    </div>
+    <p>The building blocks are all in hand:</p>
+    <ul>
+      <li>The <strong>Extremfall</strong> charge is \(15\,\% \times\) Betriebserträge — a <span class="tag reg">regulatory-anchored</span> figure: the Basisindikatoransatz uses 15 %, and the Standardansatz's business-line weights (12–18 %) average ≈15 % too (§5.6).</li>
+      <li>To move from 99,9 % to 95 % we rescale by a <em>quantile ratio</em> — but <em>which</em> distribution's ratio? A single charge has to stand in for many heterogeneous op-loss events: lots of small, near-symmetric losses, plus a few catastrophic, fat-tailed ones.</li>
+    </ul>
+
+    <h2>2 · Derivation — the mixture rescaling</h2>
+    <p>Model the op-loss as a mixture: with weight \(w_N=\tfrac13\) it behaves <em>normally</em> (the bulk of frequent, symmetric losses), and with weight \(w_L=\tfrac23\) <em>lognormally</em> (the heavy-tailed catastrophic part). Rescaling a charge from level \(q_1=99{,}9\,\%\) to \(q_2=95\,\%\) multiplies each component by its own quantile ratio (L2 for the normal, L3 for the lognormal, both with \(\mu=0,\sigma=1\)):</p>
+    <div class="formula">$$ s \;=\; w_N\,\frac{\Phi^{-1}(0{,}95)}{\Phi^{-1}(0{,}999)} \;+\; w_L\,\frac{e^{\Phi^{-1}(0{,}95)}}{e^{\Phi^{-1}(0{,}999)}}
+       \;=\; \tfrac13\cdot\frac{1{,}645}{3{,}090} \;+\; \tfrac23\cdot\frac{5{,}180}{21{,}982}. $$</div>
+    <p>Evaluate each piece:</p>
+    <div class="formula">
+      $$ \tfrac13\cdot\frac{1{,}645}{3{,}090}=0{,}33\cdot0{,}5324=0{,}17569,\qquad
+         \tfrac23\cdot\frac{5{,}180}{21{,}982}=0{,}67\cdot0{,}23565=0{,}15789, $$
+      $$ s=0{,}17569+0{,}15789=0{,}33358. $$
+    </div>
+    <p>Apply to the 15 % Extremfall charge:</p>
+    <div class="formula">$$ \boxed{\ \text{op-risk}_{\text{Problemfall}} = 15\,\% \times 0{,}33358 = 5{,}00\,\%\ \text{of Betriebserträge.}\ } $$</div>
+    <p>Reproduced to <code>5,0037 %</code> — the guide's <code>5,0 %</code>. The deep point: the heavy lognormal component (weight ⅔) shrinks far less aggressively than the normal would (0,236 vs 0,532, L3), so the blended factor stays well above the 0,532 a pure-normal model would give. The fat tail is doing real work in keeping the Problemfall charge from collapsing.</p>
+
+    <div class="box reg">
+      <div class="box-title">Reg vs ÖRS — line by line</div>
+      <ul style="margin-bottom:2px">
+        <li><span class="tag reg">regulatory-anchored</span> the <strong>15 %</strong> base (BIA / averaged Standardansatz).</li>
+        <li><span class="tag ors">ÖRS choice</span> the <strong>⅓ / ⅔ mixture</strong> weights; the <strong>\(\sigma=1\)</strong> standardisation of both components; the decision to rescale by quantile <em>ratios</em> at all (i.e. the normal/lognormal-VaR scaling assumption); and the <strong>95 % / 99,9 %</strong> scenario levels.</li>
+        <li><strong>What it trades off:</strong> a transparent, reproducible, conservative-but-crude proxy for a real op-loss distribution the bank cannot estimate at primary-bank scale. It deliberately avoids an AMA-style internal model (data-hungry) — and CRR III's SMA supersedes the whole BIA logic anyway (flagged for Course 6).</li>
+      </ul>
+    </div>
+
+    <div class="rsnip">
+      <div class="rhead"><span class="lang">R</span> the op-risk Problemfall factor, end to end <button class="copybtn">copy</button></div>
+<pre>wN &lt;- 1/3; wL &lt;- 2/3            <span class="cmt"># mixture weights (ÖRS choice)</span>
+qn &lt;- qnorm(c(0.95, 0.999))    <span class="cmt"># 1.6449 , 3.0902</span>
+
+norm_part &lt;- wN * qn[1]/qn[2]           <span class="out"># 0.17746  (using exact qnorm)</span>
+logn_part &lt;- wL * exp(qn[1])/exp(qn[2]) <span class="out"># 0.15715</span>
+s &lt;- norm_part + logn_part              <span class="out"># 0.33461</span>
+0.15 * s                                <span class="out"># 0.05019 -> 5.0%</span>
+
+<span class="cmt"># exactly the guide's print, with its rounded inputs 0.33/0.67, 1.645/3.090, 5.180/21.982</span>
+0.15 * (0.33*1.645/3.090 + 0.67*5.180/21.982)   <span class="out"># 0.050035 -> 5.0%</span></pre>
+    </div>
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — exact qnorm vs the guide's rounded constants</div>
+      <p>Using R's exact <code>qnorm</code> and weights \(\tfrac13,\tfrac23\) gives \(5{,}02\,\%\); using the guide's rounded \(1{,}645/3{,}090\), \(5{,}180/21{,}982\), \(0{,}33/0{,}67\) gives \(5{,}00\,\%\). Both round to 5,0 %. In a defense, show you can hit the number <em>their</em> way and note the rounding — don't let a reviewer catch a 0,02 pp "discrepancy" you didn't pre-empt.</p>
+    </div>
+
+    <h2>3 · Stepping back — VaR as a risk measure, and what it guarantees</h2>
+    <p>You have now used VaR as a quantile three times. Before Course 2 leans on it, fix what VaR <em>does</em> and <em>does not</em> promise. A risk measure \(\rho\) is <strong>coherent</strong> (Artzner et al.) if it satisfies, for losses \(L,L'\):</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Axiom</th><th>Statement</th><th>VaR?</th></tr></thead>
+      <tbody>
+        <tr><td>Monotonicity</td><td>\(L\le L'\Rightarrow \rho(L)\le\rho(L')\)</td><td><span class="tl green">yes</span></td></tr>
+        <tr><td>Translation inv.</td><td>\(\rho(L+c)=\rho(L)+c\)</td><td><span class="tl green">yes</span></td></tr>
+        <tr><td>Positive homog.</td><td>\(\rho(\lambda L)=\lambda\rho(L),\ \lambda\ge0\)</td><td><span class="tl green">yes</span></td></tr>
+        <tr><td>Sub-additivity</td><td>\(\rho(L+L')\le\rho(L)+\rho(L')\)</td><td><span class="tl red">not always</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>VaR can <strong>violate sub-additivity</strong>: occasionally the VaR of a merged portfolio <em>exceeds</em> the sum of the parts' VaRs (diversification appears to <em>increase</em> risk — a genuine defect, sharpest for fat-tailed or skewed losses). The full counterexample and the Expected-Shortfall fix are Course 2; here just hold the fact.</p>
+
+    <div class="box key">
+      <div class="box-title">Why this licenses the guide's "Addition = Korrelation +1" (§5/§7)</div>
+      <p>The Leitfaden aggregates all material single risks by <strong>simple addition</strong>, stating this "entspricht einer Korrelation von +1". Two things make that defensible, and you now have the language for both: (i) under <em>comonotonicity</em> (perfect positive dependence) VaR <em>is</em> additive — \(\mathrm{VaR}_q(L+L')=\mathrm{VaR}_q(L)+\mathrm{VaR}_q(L')\) — so addition is the comonotonic case, the most conservative dependence; (ii) because addition assumes no diversification benefit, it is an <em>upper bound</em> that side-steps VaR's sub-additivity defect entirely — you can never be accused of booking a diversification benefit that VaR cannot guarantee. The cost is conservatism (capital is overstated when risks are not in fact comonotonic). That trade — <span class="tag ors">ÖRS choice</span> conservatism over realism — is a central viva theme.</p>
+    </div>
+
+    <div class="selfcheck">
+      <div class="scq">Self-check 4.1 — Recompute the op-risk factor if op-loss were assumed <em>purely</em> normal (no lognormal part). Why does the guide not do this?</div>
+      <details><summary>Show answer</summary><div class="ans">Pure normal: \(15\,\%\times(1{,}645/3{,}090)=15\,\%\times0{,}532=7{,}99\,\%\approx8\,\%\). That is much larger than 5 % — a symmetric model rescales <em>less</em> aggressively because its tail is thin, so more of the 99,9 % charge "survives" down to 95 %. The guide's ⅔ lognormal weight pulls the factor down to 5 % by recognising that the bulk of op-risk severity is fat-tailed, where the 95 % quantile is a much smaller fraction of the 99,9 % quantile. (This is also the crisp answer to "why 5 % not 8 %?" — the teach-back task.)</div></details>
+    </div>
+    <div class="selfcheck">
+      <div class="scq">Self-check 4.2 — Is adding risks at correlation +1 conservative or anti-conservative? State the one condition under which it is exactly right.</div>
+      <details><summary>Show answer</summary><div class="ans">Conservative (it overstates risk) whenever the true dependence is less than comonotonic — i.e. almost always. It is <em>exactly right</em> only under comonotonicity (perfect positive dependence), where VaR is genuinely additive. So the guide trades realism for an unimpeachable upper bound.</div></details>
+    </div>
+
+    <h2>Recap — the unit in one breath</h2>
+    <ul>
+      <li>The op-risk Problemfall factor is <strong>derived</strong>, not assumed: \(15\,\%\times[\tfrac13\cdot\tfrac{1{,}645}{3{,}090}+\tfrac23\cdot\tfrac{5{,}180}{21{,}982}]=5{,}0\,\%\), blending a thin-tailed and a fat-tailed rescaling.</li>
+      <li>VaR is monotone, translation-invariant and homogeneous but <strong>not always sub-additive</strong>; under comonotonicity it is additive.</li>
+      <li>That is exactly why the guide's <strong>+1 correlation addition</strong> is a defensible, conservative upper bound — the headline aggregation choice of the whole RTFA, now grounded.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Der operationelle Risikofaktor im Problemfall ist <strong>hergeleitet</strong>: \(15\,\%\times[\tfrac13\cdot\tfrac{1{,}645}{3{,}090}+\tfrac23\cdot\tfrac{5{,}180}{21{,}982}]=5{,}0\,\%\) — eine Mischung aus dünn- und fettschwänziger Skalierung.</li>
+        <li>Der VaR ist monoton, translations­invariant und homogen, aber <strong>nicht stets sub-additiv</strong>; bei Komonotonie ist er additiv.</li>
+        <li>Deshalb ist die <strong>Addition mit Korrelation +1</strong> des Leitfadens eine zulässige, konservative obere Schranke — die zentrale Aggregationsentscheidung der RTFA.</li>
+      </ul>
+    </div>
+
+    <div class="box motivation" style="margin-top:22px">
+      <div class="box-title">▶ Now prove it</div>
+      <p>You have reproduced three real Leitfaden numbers from probability alone. Sit <a href="c0u1-pset.html"><strong>Problem Set 0.1</strong></a> (graded, 85 %) and then <a href="c0u1-viva.html"><strong>Viva 0.1</strong></a>, where I push on the weakest assumption in each derivation.</p>
+    </div>
+
+    <p style="margin-top:14px"><button class="btn" id="mark-read">Mark this lecture as read</button></p>
+
+    <nav class="modnav">
+      <a class="prev" href="c0u1-l3.html"><div class="dir">← Previous</div><div class="ttl">L3 · Moments &amp; the lognormal</div></a>
+      <a class="next" href="c0u1-pset.html"><div class="dir">Next →</div><div class="ttl">Problem Set 0.1 (graded)</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+</body>
+</html>

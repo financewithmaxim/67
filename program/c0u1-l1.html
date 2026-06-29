@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L0.1.1 · Probability spaces & the loss random variable — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-lecture="c0u1-l1" data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › <a href="c0u1.html">Unit 0.1</a> › Lecture 1</div>
+      <h1>L1 — Probability spaces &amp; the loss random variable</h1>
+    </div>
+    <p class="lead">The Leitfaden says, of the Problemfall, that at full utilisation a loss larger than the cover is expected "alle 20 Jahre" — once every twenty years. That sentence is a probability statement. This lecture builds the object that makes it precise.</p>
+
+    <div class="lecmeta">
+      <span class="chip">Lecture 1 of 4</span><span><b>≈</b> 2.5–3.5 h</span>
+      <span><b>Outcome:</b> define \(L\), \(\mathbb P(L>x)\), and the 1-in-\(1/(1-q)\) reading</span>
+    </div>
+
+    <h2>1 · Reading walkthrough — what the guide actually claims</h2>
+    <div class="reading">
+      <h4>Primary text · Leitfaden Früherkennung 09/2024, §4.1 (Problemfall)</h4>
+      <blockquote>"Das gewählte Konfidenzintervall unterstellt statistisch gesehen bei 100 %iger Risikoauslastung den Eintritt eines Schadensfalles größer der Deckungsmasse alle 20 Jahre."</blockquote>
+      <p class="src">"The chosen confidence interval implies, statistically, at 100 % risk utilisation, a loss event larger than the cover once every 20 years."</p>
+      <p>Two numbers are bound together here: the confidence level \(q=95\,\%\) and the frequency "once every 20 years". The link is \(1/(1-q)=1/0{,}05=20\). For the Extremfall (§4.2), \(q=99{,}9\,\%\) gives \(1/(1-q)=1000\). To <em>defend</em> that arithmetic you must be able to say precisely what "a loss larger than the cover" is as a measurable event, and why its probability is \(1-q\). That is the whole job of this lecture.</p>
+    </div>
+    <div class="box reg">
+      <div class="box-title">Reg vs ÖRS on this very sentence</div>
+      <p>The \(99{,}9\,\%\) / one-year frame of the <span class="tag reg">regulatory</span> Extremfall is inherited from the Basel IRB model (the guide cites the OeNB/FMA <em>Gesamtbankrisikosteuerung</em>: a "Liquidationsfall" at 99,9 %, one-year horizon — the same horizon and probability that underlie the IRB approach). The Problemfall's \(95\,\%\) is an <span class="tag ors">ÖRS choice</span>: a more frequent, management-action trigger ("once in 20 years"), justified in §4.1 as adequate <em>in combination with</em> the sector's Sicherungseinrichtungen. Keep that split in view — it returns in every later course.</p>
+    </div>
+
+    <h2>2 · Concept — the probability space \((\Omega,\mathcal F,\mathbb P)\)</h2>
+    <p>A reminder, at the precision we will actually need. A <strong>probability space</strong> is a triple:</p>
+    <ul>
+      <li>\(\Omega\) — the <em>sample space</em>, the set of all possible states of the world over the risk horizon (one year, here). A single \(\omega\in\Omega\) fixes <em>everything</em>: which obligors default, every rate and FX move, every operational event.</li>
+      <li>\(\mathcal F\) — a <strong>\(\sigma\)-algebra</strong> on \(\Omega\): a collection of subsets ("events") closed under complement and countable union, with \(\Omega\in\mathcal F\). It is the set of statements to which we are entitled to assign a probability.</li>
+      <li>\(\mathbb P:\mathcal F\to[0,1]\) — a <strong>probability measure</strong>: \(\mathbb P(\Omega)=1\) and <em>countable (\(\sigma\)-) additivity</em> — for disjoint \(A_1,A_2,\dots\in\mathcal F\), \(\;\mathbb P\!\big(\bigcup_i A_i\big)=\sum_i\mathbb P(A_i)\).</li>
+    </ul>
+    <div class="box key">
+      <div class="box-title">Why the σ-additivity matters here (not pedantry)</div>
+      <p>The "once every 20 years" reading is a statement about a <em>frequency</em> obtained from a one-year probability. Going from "\(\mathbb P(\text{breach in a year})=0{,}05\)" to "expected waiting time \(=20\) years" treats successive years as events and sums/limits over them. Countable additivity is exactly what licenses those infinite sums and the limiting arguments (laws of large numbers) we will lean on hard when we make the ASRF portfolio limit rigorous in Course 3. Drop it and the IRB asymptotics have no foundation.</p>
+    </div>
+
+    <h2>3 · The random variable &amp; its law</h2>
+    <p>A <strong>random variable</strong> is a measurable map \(X:\Omega\to\mathbb R\); "measurable" means \(\{ \omega: X(\omega)\le x\}\in\mathcal F\) for every \(x\) — i.e. "\(X\le x\)" is always a legitimate event. Its <strong>law</strong> (distribution) is the push-forward measure \(\mathbb P_X(B)=\mathbb P(X\in B)\), summarised by the <strong>cumulative distribution function</strong></p>
+    <div class="formula">$$ F_X(x)=\mathbb P(X\le x). $$
+      <div class="where"><b>where</b> \(F_X\) is non-decreasing, right-continuous, \(F_X(-\infty)=0\), \(F_X(+\infty)=1\).</div>
+    </div>
+    <p>Everything the Leitfaden computes is a functional of the law of one random variable: the <strong>portfolio loss over the horizon</strong>.</p>
+
+    <h3>3.1 Defining the loss \(L\)</h3>
+    <p>For a single credit exposure, define the one-year loss</p>
+    <div class="formula">$$ L_i \;=\; \mathrm{EAD}_i \cdot \mathrm{LGD}_i \cdot D_i ,\qquad D_i=\mathbf 1\{\text{obligor }i\text{ defaults within the year}\}. $$
+      <div class="where"><b>where</b> \(\mathrm{EAD}_i\) = exposure at default (the guide's <em>Risikoposition</em>), \(\mathrm{LGD}_i\in[0,1]\) = loss given default, \(D_i\) = the Bernoulli default indicator with \(\mathbb P(D_i=1)=\mathrm{PD}_i\).</div>
+    </div>
+    <p>The <strong>portfolio loss</strong> is \(L=\sum_{i=1}^{n} L_i\). This single object carries the whole RTFA: its <em>mean</em> is the expected loss (EL), the gap between a high quantile and the mean is the <em>unexpected loss</em> (UL) — and the guide reports UL as "the credit risk" while parking EL in the Deckungsmasse as excess/shortfall. We are building the language for that split now and will derive the split itself in Course 3.</p>
+
+    <h3>3.2 Expectation — and the first real number</h3>
+    <p>For a discrete/continuous \(X\), expectation is the Lebesgue integral \(\mathbb E[X]=\int_\Omega X\,d\mathbb P=\int x\,dF_X(x)\). Two properties do almost all the work:</p>
+    <ul>
+      <li><strong>Linearity</strong>: \(\mathbb E[aX+bY]=a\,\mathbb E[X]+b\,\mathbb E[Y]\), <em>with or without independence</em>.</li>
+      <li>For an indicator, \(\mathbb E[\mathbf 1_A]=\mathbb P(A)\). Hence \(\mathbb E[D_i]=\mathrm{PD}_i\).</li>
+    </ul>
+    <p>Assuming, for now, that \(\mathrm{EAD}_i,\mathrm{LGD}_i\) are constants and \(D_i\) the only random part:</p>
+    <div class="formula">$$ \mathrm{EL}_i=\mathbb E[L_i]=\mathrm{EAD}_i\cdot\mathrm{LGD}_i\cdot\mathbb E[D_i]=\mathrm{EAD}_i\cdot\mathrm{LGD}_i\cdot\mathrm{PD}_i. $$</div>
+    <p>That is the guide's "kalkulatorischer erwarteter Verlust = PD·LGD" (§5.1), now derived rather than asserted. By linearity, \(\mathrm{EL}=\sum_i \mathrm{EL}_i\) — <em>no independence assumption needed</em>, which is why EL is the easy part and UL (which depends on the dependence structure) is the hard part we postpone.</p>
+
+    <div class="box example">
+      <div class="box-title">Worked example — EL on a Leitfaden master-scale PD</div>
+      <p>Take a Corporate exposure: \(\mathrm{EAD}=\text{€}1{,}000{,}000\), rating grade \(2{,}5\) so (master scale, 10-step midpoint) \(\mathrm{PD}=1{,}3669\,\%\), and the ÖRS pooled Corporate \(\mathrm{LGD}=45{,}5\,\%\) <span class="tag ors">ÖRS choice</span>.</p>
+      <div class="formula">$$ \mathrm{EL}=1{,}000{,}000\times0{,}013669\times0{,}455=\text{€}\,6{,}219{,}40\ (\text{to the cent }6\,219{,}395). $$</div>
+      <p>Hold this number — you will recompute it in R below and meet it again when we separate EL from UL.</p>
+    </div>
+
+    <h2>4 · From a one-year probability to "once every 20 years"</h2>
+    <p>Define the breach event \(B=\{L>c\}\) where \(c\) is the Deckungsmasse. By construction of the confidence level (made precise in L2), at 100 % utilisation \(c=\mathrm{VaR}_q(L)\) and</p>
+    <div class="formula">$$ \mathbb P(B)=\mathbb P(L>\mathrm{VaR}_q(L))=1-q. $$</div>
+    <p>Now model successive years as independent Bernoulli trials with breach probability \(p=1-q\) (a modelling idealisation — see the trap). Let \(T\) be the number of years until the first breach. Then \(T\) is <strong>geometric</strong>: \(\mathbb P(T=k)=(1-p)^{k-1}p\), and</p>
+    <div class="formula">$$ \mathbb E[T]=\sum_{k\ge1}k(1-p)^{k-1}p=\frac1p=\frac1{1-q}. $$
+      <div class="where"><b>so</b> \(q=0{,}95\Rightarrow \mathbb E[T]=20\) years; \(\;q=0{,}999\Rightarrow \mathbb E[T]=1000\) years.</div>
+    </div>
+    <p>That reproduces the guide's "alle 20 Jahre" (Problemfall) and the implicit millennial frequency of the Extremfall. The derivation of \(\mathbb E[T]=1/p\) is a one-line use of \(\sum_{k\ge1}kx^{k-1}=1/(1-x)^2\) — make sure you can produce it on a blank page (Problem Set 0.1, P1).</p>
+
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — "once every 20 years" is a mean, under i.i.d. years</div>
+      <p>Three caveats you must volunteer before the Aufsichtsrat does: (i) \(20=\mathbb E[T]\) is a <em>mean</em> waiting time, not a guarantee — the geometric distribution has its <em>mode</em> at \(T=1\), so the single most likely year for a breach is the very next one. (ii) It assumes years are <em>independent and identically distributed</em>; serial correlation (a multi-year recession) or a drifting portfolio breaks it. (iii) It assumes <em>100 % utilisation held constant</em>; the guide explicitly does not target \(>90\,\%\) utilisation, so the realised frequency is rarer. Stating these is the difference between quoting the number and owning it.</p>
+    </div>
+
+    <h2>5 · In practice — where these inputs live</h2>
+    <div class="datamap box example">
+      <div class="box-title">Input → data source (you implement; we map)</div>
+      <ul>
+        <li>\(\mathrm{EAD}_i\) (<em>Risikoposition</em>): the ÖRS R1 credit-risk feed — balance (book/market value) + weighted off-balance + weighted undrawn lines, minus internal collateral, floored at 0 per customer (§5.1). SQL: the per-customer exposure aggregation you already run quarterly.</li>
+        <li>\(\mathrm{PD}_i\): assigned by <em>Ratingstufe</em> from the master scale (Anhang 10.1) — a join from the rating grade to the grade-PD table.</li>
+        <li>\(\mathrm{LGD}_i\): pooled estimate by Forderungsklasse (Anhang 10.3) — Corporate 45,5 %, Retail selbst. 54,4 %, unselbst. 55,8 %, else regulatory 45 %.</li>
+        <li>\(D_i\): not observed at calculation time — it is the <em>random</em> object whose distribution we model. The realised \(D_i\) feeds back later as the default-monitoring data (Art. 178; Anhang 10.2) used to validate the PDs.</li>
+      </ul>
+    </div>
+
+    <div class="rsnip">
+      <div class="rhead"><span class="lang">R</span> EL and a Monte-Carlo check of the breach frequency <button class="copybtn">copy</button></div>
+<pre><span class="cmt"># --- Expected loss on the worked example -------------------------------</span>
+EAD &lt;- 1e6; PD &lt;- 0.013669; LGD &lt;- 0.455
+EL  &lt;- EAD * PD * LGD
+EL                                <span class="out"># 6219.395  (€6,219.40)</span>
+
+<span class="cmt"># --- "Once every 1/(1-q) years": expected waiting time -----------------</span>
+waiting &lt;- function(q) 1/(1-q)
+waiting(0.95); waiting(0.999)      <span class="out"># 20 ; 1000</span>
+
+<span class="cmt"># --- Simulate i.i.d. years to SEE the geometric mean -------------------</span>
+set.seed(1)
+p &lt;- 1 - 0.95                      <span class="cmt"># breach prob per year at q=95%</span>
+first_breach &lt;- function() { t &lt;- 1; while (runif(1) &gt; p) t &lt;- t + 1; t }
+mean(replicate(2e5, first_breach()))   <span class="out"># ~20.0  (mean waiting time)</span>
+<span class="cmt"># NOTE the mode is 1: the single most likely breach year is next year.</span>
+mean(replicate(2e5, first_breach()) == 1)  <span class="out"># ~0.05 = p</span></pre>
+    </div>
+
+    <h2>6 · Nuances &amp; traps</h2>
+    <div class="box trap"><div class="box-title">⚠ EAD and LGD are not really constants</div>
+      <p>We froze \(\mathrm{EAD}_i\) and \(\mathrm{LGD}_i\) to isolate \(D_i\). In reality both are random (downgrade-driven drawdowns; recovery uncertainty), and the guide handles their FX-sensitivity explicitly (the FX exposure uplift, the PD–FX elasticity). For EL the freezing is harmless (linearity). For UL it is not, and we will reinstate the randomness in Course 3. Flag this whenever you quote EL = PD·LGD·EAD as if it were exact.</p>
+    </div>
+    <div class="box trap"><div class="box-title">⚠ "Loss" sign convention</div>
+      <p>We take \(L\ge0\) as a loss (bigger = worse), so risk lives in the <em>right</em> tail and \(\mathrm{VaR}_q=F_L^{-1}(q)\) for large \(q\). Much of the market-risk literature uses P&amp;L (bigger = better) and puts risk in the left tail. The guide mixes both pictures (e.g. the FLVaR's sign convention for funding need). Always state which you are using; a sign slip is the most common viva-killer.</p>
+    </div>
+
+    <div class="selfcheck">
+      <div class="scq">Self-check 1.1 — Without looking: starting from \(\mathbb P(L&gt;\mathrm{VaR}_q)=1-q\) and i.i.d. years, derive the expected number of years to the first breach, and evaluate it at \(q=99{,}9\,\%\).</div>
+      <details><summary>Show answer</summary><div class="ans">Years to first breach \(T\sim\text{Geometric}(p)\) with \(p=1-q\); \(\mathbb E[T]=\sum_{k\ge1}k(1-p)^{k-1}p\). Using \(\sum_{k\ge1}kx^{k-1}=(1-x)^{-2}\) with \(x=1-p\): \(\mathbb E[T]=p\cdot(1-(1-p))^{-2}=p/p^2=1/p=1/(1-q)\). At \(q=0{,}999\): \(\mathbb E[T]=1000\) years.</div></details>
+    </div>
+    <div class="selfcheck">
+      <div class="scq">Self-check 1.2 — A colleague says "EL is additive because defaults are independent." Correct or sharpen the statement.</div>
+      <details><summary>Show answer</summary><div class="ans">Sharpen: EL is additive by <em>linearity of expectation</em>, which needs <strong>no</strong> independence — \(\mathbb E[\sum_i L_i]=\sum_i\mathbb E[L_i]\) always. Independence matters for the <em>variance</em>/tail (the UL), not the mean. The colleague reaches the right conclusion for the wrong reason — exactly the kind of slip the viva probes.</div></details>
+    </div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li>A probability space \((\Omega,\mathcal F,\mathbb P)\) with <strong>σ-additivity</strong> is what makes "the loss not exceeded with probability \(q\)" and its frequency reading well-defined.</li>
+      <li>The portfolio <strong>loss \(L=\sum_i \mathrm{EAD}_i\,\mathrm{LGD}_i\,D_i\)</strong> is the one object the RTFA is built on; \(\mathrm{EL}=\sum_i \mathrm{PD}_i\mathrm{LGD}_i\mathrm{EAD}_i\) follows from linearity alone.</li>
+      <li>\(\mathbb P(L>\mathrm{VaR}_q)=1-q\) plus i.i.d. years gives the guide's <strong>\(1/(1-q)\)</strong> waiting time: 20 years at 95 %, 1000 at 99,9 % — a mean, under stated idealisations you must volunteer.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Der <strong>Wahrscheinlichkeitsraum</strong> \((\Omega,\mathcal F,\mathbb P)\) mit \(\sigma\)-Additivität macht das Konfidenzniveau als Quantil und dessen Häufigkeitsdeutung erst exakt.</li>
+        <li>Der <strong>Verlust</strong> \(L=\sum_i \mathrm{EAD}_i\,\mathrm{LGD}_i\,D_i\) ist das zentrale Objekt; der <strong>erwartete Verlust</strong> \(\mathrm{EL}=\mathrm{PD}\cdot\mathrm{LGD}\cdot\mathrm{EAD}\) folgt allein aus der Linearität des Erwartungswerts.</li>
+        <li>\(\mathbb P(L>\mathrm{VaR}_q)=1-q\) liefert die Wartezeit \(1/(1-q)\): „alle 20 Jahre" (95 %) bzw. alle 1000 Jahre (99,9 %) — ein <em>Mittelwert</em> unter i.i.d.-Annahmen.</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:18px"><button class="btn" id="mark-read">Mark this lecture as read</button></p>
+
+    <nav class="modnav">
+      <a class="prev" href="c0u1.html"><div class="dir">← Unit hub</div><div class="ttl">Unit 0.1 overview</div></a>
+      <a class="next" href="c0u1-l2.html"><div class="dir">Next →</div><div class="ttl">L2 · Quantile function &amp; the standard normal</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+</body>
+</html>

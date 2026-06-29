@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course 0 · Unit 1 — Probability & the quantile machinery — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Course 0 · Foundations › Unit 1</div>
+      <h1>Unit 0.1 — Probability, distributions &amp; the quantile machinery behind the confidence levels</h1>
+    </div>
+    <p class="lead">Before any risk model, one object: the <em>loss random variable</em> and the <em>quantile</em> you call a confidence level. Master it and the Leitfaden's <code>95 %</code> / <code>99,9 %</code>, its CVA scalars, and its op-risk factor stop being magic numbers.</p>
+
+    <div class="lecmeta">
+      <span class="chip">Course 0 · Foundations</span>
+      <span><b>Estimated:</b> 10–14 h</span>
+      <span><b>Lectures:</b> 4</span>
+      <span><b>Assessment:</b> Problem Set 0.1 + Viva 0.1</span>
+      <span><b>Mastery:</b> 85 % (soft gate)</span>
+    </div>
+
+    <div class="objectives">
+      <h4>By the end of this unit you can…</h4>
+      <ul>
+        <li>State the probability-space triple \((\Omega,\mathcal F,\mathbb P)\) and define a portfolio <em>loss</em> as a random variable, rigorously enough to justify the "once-in-\(1/(1-q)\)-years" reading the Leitfaden attaches to its confidence levels.</li>
+        <li>Define Value-at-Risk as a quantile \( \mathrm{VaR}_q(L)=F_L^{-1}(q)\), and prove that for a (zero-mean) normal loss the VaR <em>ratio</em> between two confidence levels is just the ratio of standard-normal quantiles.</li>
+        <li><strong>Reproduce the Leitfaden's CVA scalars</strong> \(0{,}71\) and \(1{,}33\) and the <strong>op-risk Problemfall factor \(5{,}0\,\%\)</strong> from first principles — and say exactly which inputs are regulatory and which are ÖRS modelling choices.</li>
+        <li>Derive the lognormal quantile from the normal, and recover the guide's own \(5{,}180\) and \(21{,}982\).</li>
+        <li>Implement every result in R and map each statistical input to where its data would come from.</li>
+      </ul>
+    </div>
+
+    <h2>Where this sits — prerequisites</h2>
+    <p>You are quant-strong, so this unit <em>uses</em> your background rather than teaching it; the measure-theoretic parts are reminders, pitched to the precision the later rigor (Vasicek/ASRF, VaR coherence) will demand.</p>
+    <div class="prereqmap">
+      <div class="node have">Calculus &amp; real analysis<small>integration, limits — assumed</small></div>
+      <div class="node have">Linear algebra<small>assumed (matters from Unit 0.2)</small></div>
+      <div class="node build">Measure-theoretic probability<small>built here, as reminders</small></div>
+      <div class="node build">The standard normal &amp; its inverse<small>built here — the engine of the guide</small></div>
+      <div class="node build">VaR as a quantile<small>built here</small></div>
+    </div>
+    <div class="box ors">
+      <div class="box-title">Why start here, not with the balance sheet?</div>
+      <p>Everything quantitative in the Leitfaden is a statement about a quantile of a loss distribution: the IRB unexpected loss (a \(99{,}9\,\%\) conditional-default quantile), the parametric market-risk VaR, the CVA and op-risk scalings, the FLVaR. If the notion of "the loss not exceeded with probability \(q\)" is not airtight, none of those numbers are defensible. We make it airtight first, then spend the rest of the program applying it. The balance sheet / Deckungsmassen track (Unit 0.5) builds the <em>other</em> side of the comparison.</p>
+    </div>
+
+    <h2>Lectures</h2>
+    <p>Work them in order — each ends with a self-check and feeds the next. Mark a lecture read when you can reproduce its key result on a blank page.</p>
+
+    <div class="partcard"><ul class="mod-list">
+      <li><span class="mnum">L1</span><span class="mtitle"><a href="c0u1-l1.html">Probability spaces &amp; the loss random variable</a><span class="desc"> · the \((\Omega,\mathcal F,\mathbb P)\) skeleton, the loss \(L\), and the "1-in-20-years" reading of 95 %</span></span><span data-modstatus="c0u1-l1" class="status todo">○</span></li>
+      <li><span class="mnum">L2</span><span class="mtitle"><a href="c0u1-l2.html">Distributions, the quantile function &amp; the standard normal</a><span class="desc"> · \(F^{-1}\), \(\Phi\), \(\Phi^{-1}\), and the CVA scalars 0,71 / 1,33</span></span><span data-modstatus="c0u1-l2" class="status todo">○</span></li>
+      <li><span class="mnum">L3</span><span class="mtitle"><a href="c0u1-l3.html">Moments, transformations &amp; the lognormal</a><span class="desc"> · \(X=e^Y\), the lognormal quantile, recovering 5,180 and 21,982</span></span><span data-modstatus="c0u1-l3" class="status todo">○</span></li>
+      <li><span class="mnum">L4</span><span class="mtitle"><a href="c0u1-l4.html">VaR, confidence levels &amp; reproducing the op-risk 5,0 %</a><span class="desc"> · the mixture rescaling that produces the guide's op-risk factor; a first look at coherence</span></span><span data-modstatus="c0u1-l4" class="status todo">○</span></li>
+    </ul></div>
+
+    <h2>Assessment — the gate</h2>
+    <p>You cannot pass this unit by recognition. Two instruments:</p>
+    <div class="partcard"><ul class="mod-list">
+      <li><span class="mnum">✎</span><span class="mtitle"><a href="c0u1-pset.html">Problem Set 0.1</a><span class="desc"> · numeric (hand + R, tolerance-checked), a blank-page derivation, a find-the-error, a transfer task to a novel confidence level, and a teach-back to a skeptical CFO. Calibrated and graded against 85 %.</span></span><span class="status todo">graded</span></li>
+      <li><span class="mnum">⚖</span><span class="mtitle"><a href="c0u1-viva.html">Viva 0.1</a><span class="desc"> · I play your boss / the Aufsichtsrat and push on the weakest point of your scalar derivations until you demonstrate mastery or expose a gap.</span></span><span class="status todo">oral</span></li>
+    </ul></div>
+
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Diese Einheit legt das <strong>wahrscheinlichkeitstheoretische Fundament</strong>: den <em>Verlust als Zufallsvariable</em> und das <em>Konfidenzniveau als Quantil</em>.</li>
+        <li>Wir leiten die <strong>Standardnormalverteilung</strong> \(\Phi\) und ihre Inverse \(\Phi^{-1}\) her — die Maschine hinter <code>95 %</code> und <code>99,9 %</code>.</li>
+        <li>Ziel: die <strong>CVA-Skalare 0,71 / 1,33</strong> und den <strong>operationellen Risikofaktor 5,0 %</strong> aus ersten Prinzipien <em>reproduzieren</em> und <strong>regulatorisch vs. ÖRS-Modellannahme</strong> sauber trennen.</li>
+        <li>Bestehensgrenze <strong>85 %</strong> (weiches Gate); die Verteidigung erfolgt in der Viva.</li>
+      </ul>
+    </div>
+
+    <nav class="modnav">
+      <a class="prev" href="../index.html"><div class="dir">← Home</div><div class="ttl">Program overview &amp; dashboard</div></a>
+      <a class="next" href="c0u1-l1.html"><div class="dir">Next →</div><div class="ttl">L1 · Probability spaces &amp; the loss variable</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+</body>
+</html>

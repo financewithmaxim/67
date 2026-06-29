@@ -1,0 +1,249 @@
+/* =========================================================================
+   Graduate Program — component layer
+   Extends the reference course design system (css/style.css) with the
+   assessment engine: problem sets, calibration, mastery dashboard, error log,
+   spaced repetition, viva. Reuses all variables and base components.
+   ========================================================================= */
+
+@import url('../../css/style.css');
+
+:root {
+  --prog:        #0e7c66;   /* program teal — distinguishes the graduate track */
+  --prog-bg:     #e6f4f0;
+  --prog-deep:   #0a5c4c;
+}
+
+/* ---------- Program identity tweaks ---------- */
+.sidebar .brand .accent { color: var(--accent); }
+.sidebar .prog-badge {
+  display:inline-block; background:var(--prog); color:#fff; font-size:10.5px;
+  font-weight:800; letter-spacing:.6px; padding:2px 7px; border-radius:5px; margin-top:6px;
+}
+.course-label {
+  text-transform: uppercase; font-size: 11px; letter-spacing: 1.2px;
+  color: #7fe3cd; margin: 18px 0 4px; font-weight: 700;
+}
+
+/* ---------- Lecture meta strip ---------- */
+.lecmeta {
+  display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center;
+  font-size:13.5px; color:var(--ink-faint); margin:6px 0 18px;
+  border-bottom:1px solid var(--line); padding-bottom:12px;
+}
+.lecmeta b { color:var(--ink-soft); }
+.lecmeta .chip {
+  background:var(--prog-bg); color:var(--prog-deep); border:1px solid #b6ddd4;
+  border-radius:20px; padding:2px 11px; font-weight:700; font-size:12px;
+}
+
+/* ---------- Prerequisite map ---------- */
+.prereqmap { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
+.prereqmap .node {
+  background:var(--bg-card); border:1px solid var(--line-strong);
+  border-radius:var(--radius-sm); padding:8px 13px; font-size:13.5px; position:relative;
+}
+.prereqmap .node.have { border-left:4px solid var(--green); }
+.prereqmap .node.build { border-left:4px solid var(--accent); }
+.prereqmap .node small { display:block; color:var(--ink-faint); font-size:11.5px; }
+
+/* ---------- Reading walkthrough ---------- */
+.reading {
+  background:#fcfbf7; border:1px solid #e8e0c0; border-radius:var(--radius);
+  padding:6px 20px 16px; margin:18px 0;
+}
+.reading h4 { color:var(--accent-deep); }
+.reading blockquote {
+  margin:10px 0; padding:8px 16px; border-left:3px solid var(--accent);
+  background:#fff; font-size:14.5px; color:#33414f; font-style:italic;
+}
+.reading .src { font-size:12.5px; color:var(--ink-faint); }
+
+/* ---------- R snippet ---------- */
+.rsnip { margin:16px 0; }
+.rsnip .rhead {
+  display:flex; align-items:center; justify-content:space-between;
+  background:#1e2a36; color:#cfe3dd; font-size:12px; font-weight:700; letter-spacing:.5px;
+  padding:6px 14px; border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+}
+.rsnip .rhead .lang { color:#7fe3cd; }
+.rsnip pre {
+  margin:0; background:#0f1822; color:#e7eef2; padding:14px 16px;
+  border-radius:0 0 var(--radius-sm) var(--radius-sm); overflow-x:auto;
+  font-family:var(--mono); font-size:13.5px; line-height:1.55;
+}
+.rsnip pre .cmt { color:#6f8a96; }
+.rsnip pre .out { color:#9fe0b0; }
+.copybtn {
+  background:transparent; border:1px solid #3b4d5c; color:#9fb6c2; font-size:11px;
+  border-radius:4px; padding:2px 8px; cursor:pointer;
+}
+.copybtn:hover { background:#283744; color:#fff; }
+
+/* ---------- SQL / data source map ---------- */
+.datamap { font-size:13.5px; }
+.datamap code { background:#eef1f5; }
+
+/* ---------- Self-check (inline mini) ---------- */
+.selfcheck {
+  background:#f4f8f7; border:1px solid #c4d6c9; border-left:4px solid var(--prog);
+  border-radius:var(--radius-sm); padding:10px 16px; margin:16px 0;
+}
+.selfcheck .scq { font-weight:600; }
+.selfcheck details { margin-top:6px; }
+.selfcheck summary { cursor:pointer; color:var(--prog-deep); font-weight:700; font-size:14px; }
+.selfcheck .ans { margin-top:6px; font-size:14.5px; }
+
+/* =========================================================================
+   PROBLEM-SET ENGINE
+   ========================================================================= */
+.pset { margin:24px 0; }
+.pset-intro {
+  background:var(--prog-bg); border:1px solid #b6ddd4; border-radius:var(--radius);
+  padding:12px 18px; margin:16px 0;
+}
+.pset-intro .box-title { color:var(--prog-deep); }
+
+.problem {
+  background:var(--bg-card); border:1px solid var(--line-strong);
+  border-radius:var(--radius); padding:18px 20px; margin:18px 0; box-shadow:var(--shadow);
+}
+.problem .ptag {
+  display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.6px;
+  text-transform:uppercase; padding:2px 9px; border-radius:20px; margin-bottom:6px;
+}
+.ptag.numeric   { background:#eef6ff; color:var(--brand-2); border:1px solid #b6d4f0; }
+.ptag.derive    { background:var(--ors-bg); color:var(--ors); border:1px solid #cdb8ef; }
+.ptag.error     { background:var(--red-bg); color:var(--red); border:1px solid #e8b3ab; }
+.ptag.transfer  { background:#fff4e0; color:var(--accent-deep); border:1px solid #ecd98a; }
+.ptag.teachback { background:var(--prog-bg); color:var(--prog-deep); border:1px solid #b6ddd4; }
+.ptag.viva      { background:#1f3a5f; color:#fff; }
+
+.problem .pnum { font-weight:800; color:var(--accent-deep); margin-right:8px; }
+.problem .pq { font-weight:600; margin:4px 0 10px; }
+.problem .points { float:right; font-size:12.5px; color:var(--ink-faint); font-weight:700; }
+
+.answer-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:10px 0; }
+.answer-row label { font-size:14px; color:var(--ink-soft); min-width:140px; }
+.answer-row input[type=text], .answer-row input[type=number] {
+  font-family:var(--mono); font-size:15px; padding:8px 11px;
+  border:1px solid var(--line-strong); border-radius:var(--radius-sm); width:160px;
+}
+.answer-row .unit { color:var(--ink-faint); font-size:13.5px; }
+textarea.freetext {
+  width:100%; min-height:120px; font-family:var(--font); font-size:15px; line-height:1.55;
+  padding:11px 13px; border:1px solid var(--line-strong); border-radius:var(--radius-sm);
+  resize:vertical;
+}
+
+/* calibration */
+.calib { margin:10px 0 2px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.calib .lbl { font-size:13px; color:var(--ink-faint); font-weight:700; }
+.calib-opts { display:flex; gap:6px; }
+.calib-opts button {
+  border:1px solid var(--line-strong); background:#fff; color:var(--ink-soft);
+  font-size:12.5px; padding:4px 10px; border-radius:20px; cursor:pointer;
+}
+.calib-opts button.sel { background:var(--brand); color:#fff; border-color:var(--brand); }
+
+/* solution reveal */
+.solution {
+  display:none; margin-top:12px; border-radius:var(--radius-sm);
+  background:#f7faf9; border:1px solid #c4d6c9; border-left:4px solid var(--prog); padding:12px 16px;
+}
+.solution.show { display:block; }
+.solution .box-title { color:var(--prog-deep); }
+.solution.miss { background:var(--red-bg); border-color:#e8b3ab; border-left-color:var(--red); }
+.solution.hit  { background:var(--green-bg); border-color:#a9d6bb; border-left-color:var(--green); }
+
+/* rubric self-score */
+.rubric { margin-top:10px; padding:10px 14px; background:#fbfbf6; border:1px dashed var(--line-strong); border-radius:var(--radius-sm); }
+.rubric ul { margin:6px 0; }
+.rubric .scoreline { display:flex; gap:10px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+.rubric .scoreline label { font-weight:700; font-size:13.5px; }
+.rubric select { padding:6px 10px; border:1px solid var(--line-strong); border-radius:var(--radius-sm); font-size:14px; }
+
+.feedback { margin-top:8px; font-size:14px; font-weight:600; display:none; }
+.feedback.show { display:block; }
+.feedback.ok { color:var(--green); }
+.feedback.partial { color:var(--yellow); }
+.feedback.no { color:var(--red); }
+
+/* pset result panel */
+.pset-result {
+  position:sticky; bottom:0; margin-top:26px; background:var(--bg-card);
+  border:2px solid var(--prog); border-radius:var(--radius); padding:16px 20px; box-shadow:var(--shadow);
+}
+.pset-result .scorebig { font-size:30px; font-weight:800; color:var(--prog-deep); font-variant-numeric:tabular-nums; }
+.pset-result .verdict { font-weight:700; font-size:16px; margin-top:4px; }
+.pset-result .verdict.pass { color:var(--green); }
+.pset-result .verdict.fail { color:var(--yellow); }
+.pset-result .calib-note { font-size:13.5px; color:var(--ink-faint); margin-top:8px; }
+.pset-result .breakdown { font-size:13.5px; margin-top:10px; }
+.pset-result .breakdown td { padding:3px 10px 3px 0; border:none; }
+.pset-result table { box-shadow:none; background:transparent; }
+.pset-result tbody tr:hover { background:transparent; }
+
+/* =========================================================================
+   MASTERY DASHBOARD
+   ========================================================================= */
+.dash { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:18px 0; }
+.dashcard {
+  background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:14px 18px; box-shadow:var(--shadow);
+}
+.dashcard .kpi { font-size:30px; font-weight:800; color:var(--brand); font-variant-numeric:tabular-nums; }
+.dashcard .kpi small { font-size:15px; color:var(--ink-faint); font-weight:600; }
+.dashcard .klabel { font-size:12.5px; text-transform:uppercase; letter-spacing:.7px; color:var(--ink-faint); font-weight:700; }
+.dashcard.good .kpi { color:var(--green); }
+.dashcard.warn .kpi { color:var(--yellow); }
+
+.masterbar { height:8px; background:#e6eaef; border-radius:5px; overflow:hidden; margin-top:8px; }
+.masterbar > div { height:100%; background:var(--prog); }
+
+table.unit-status td .pct { font-weight:800; font-variant-numeric:tabular-nums; }
+.pill-stat { font-size:11.5px; font-weight:800; padding:2px 9px; border-radius:20px; }
+.pill-stat.done { background:var(--green-bg); color:var(--green); }
+.pill-stat.prog { background:var(--yellow-bg); color:var(--yellow); }
+.pill-stat.todo { background:#eef1f5; color:var(--ink-faint); }
+
+/* error log + spaced repetition */
+.errlog .item, .srq .item {
+  display:flex; gap:12px; align-items:flex-start; padding:10px 12px;
+  border:1px solid var(--line); border-radius:var(--radius-sm); margin:8px 0; background:var(--bg-card);
+}
+.errlog .item .when, .srq .item .when { font-size:12px; color:var(--ink-faint); min-width:92px; }
+.errlog .item .topic, .srq .item .topic { font-weight:700; color:var(--brand); }
+.srq .item.due { border-left:4px solid var(--red); }
+.empty-note { color:var(--ink-faint); font-style:italic; font-size:14px; }
+
+/* =========================================================================
+   VIVA (adversarial defense simulation)
+   ========================================================================= */
+.viva { margin:20px 0; }
+.viva-turn {
+  background:var(--bg-card); border:1px solid var(--line-strong); border-radius:var(--radius);
+  padding:16px 20px; margin:14px 0; box-shadow:var(--shadow);
+}
+.viva-turn .who {
+  font-size:12px; font-weight:800; letter-spacing:.6px; text-transform:uppercase;
+  color:var(--brand); margin-bottom:6px; display:flex; align-items:center; gap:8px;
+}
+.viva-turn .who .avatar { width:24px; height:24px; border-radius:50%; background:var(--brand); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+.viva-turn.probe { border-left:4px solid var(--red); }
+.viva-turn.probe .who { color:var(--red); }
+.viva-turn.probe .who .avatar { background:var(--red); }
+.viva-q { font-weight:600; font-size:16px; }
+.viva-hint { font-size:13.5px; color:var(--ink-faint); margin-top:6px; }
+.model-answer { display:none; margin-top:12px; padding:12px 16px; background:#f0f4f8; border-left:3px solid var(--brand-2); border-radius:var(--radius-sm); }
+.model-answer.show { display:block; }
+.model-answer .box-title { color:var(--brand-2); }
+
+@media (max-width: 880px) {
+  .answer-row label { min-width:unset; }
+  .pset-result { position:static; }
+}
+
+@media print {
+  .copybtn, .calib, .pset-result, .rubric select, .answer-row input { display:none !important; }
+  .solution, .model-answer { display:block !important; }
+}

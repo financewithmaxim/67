@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L0.1.2 · Quantile function & the standard normal — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="css/program.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-lecture="c0u1-l2" data-unit="c0u1">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">Graduate program · Raiffeisen / ÖRS</div>
+    <span class="prog-badge">GRADUATE TRACK</span>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › <a href="c0u1.html">Unit 0.1</a> › Lecture 2</div>
+      <h1>L2 — Distributions, the quantile function &amp; the standard normal</h1>
+    </div>
+    <p class="lead">The confidence level is a quantile; the quantile of the normal is \(\Phi^{-1}\). Today we make both precise and cash them in: the Leitfaden's CVA scalars <code>0,71</code> and <code>1,33</code> fall straight out.</p>
+
+    <div class="lecmeta">
+      <span class="chip">Lecture 2 of 4</span><span><b>≈</b> 2.5–3.5 h</span>
+      <span><b>Outcome:</b> \(\mathrm{VaR}_q=\mu+\sigma\Phi^{-1}(q)\); reproduce 0,71 / 1,33</span>
+    </div>
+
+    <h2>1 · The quantile function — the right inverse of \(F\)</h2>
+    <p>A CDF \(F\) can be flat or jump, so it need not have an ordinary inverse. The object we need is the <strong>generalised inverse</strong> (quantile function):</p>
+    <div class="formula">$$ F^{-1}(q)\;=\;\inf\{x\in\mathbb R: F(x)\ge q\},\qquad q\in(0,1). $$
+      <div class="where"><b>read:</b> the smallest loss level whose probability of <em>not</em> being exceeded is at least \(q\).</div>
+    </div>
+    <p>When \(F\) is continuous and strictly increasing (our normal/lognormal cases), \(F^{-1}\) is the plain inverse and \(F(F^{-1}(q))=q\). The key identity we will use repeatedly:</p>
+    <div class="formula">$$ \mathbb P\big(X\le F^{-1}(q)\big)=q \quad\Longleftrightarrow\quad \mathbb P\big(X> F^{-1}(q)\big)=1-q. $$</div>
+    <p>Define <strong>Value-at-Risk</strong> at level \(q\) as exactly this quantile of the loss:</p>
+    <div class="formula">$$ \boxed{\;\mathrm{VaR}_q(L)=F_L^{-1}(q)\;} $$</div>
+    <p>This closes the loop with L1: \(\mathbb P(L>\mathrm{VaR}_q)=1-q\), which is what the "1-in-\(1/(1-q)\)" frequency rested on. (The deeper properties of VaR as a <em>risk measure</em> — monotonicity, translation, homogeneity, and the failure of sub-additivity — are L4 and Course 2.)</p>
+
+    <h2>2 · The standard normal \(\Phi\) and its inverse</h2>
+    <p>The standard normal has density and CDF</p>
+    <div class="formula">$$ \varphi(z)=\frac1{\sqrt{2\pi}}e^{-z^2/2},\qquad \Phi(z)=\int_{-\infty}^{z}\varphi(u)\,du. $$</div>
+    <p>\(\Phi\) is continuous and strictly increasing, so \(\Phi^{-1}\) (the "probit") exists outright. Two facts do all the lifting:</p>
+    <ul>
+      <li><strong>Symmetry:</strong> \(\varphi\) is even \(\Rightarrow \Phi(-z)=1-\Phi(z)\Rightarrow \Phi^{-1}(1-q)=-\Phi^{-1}(q)\). (This is why a 95 % upside quantile and a 5 % downside quantile are mirror images — it underlies the market-risk "percentile of the confidence interval" in §5.5.)</li>
+      <li><strong>Location–scale:</strong> if \(Z\sim N(0,1)\) then \(X=\mu+\sigma Z\sim N(\mu,\sigma^2)\), and since \(x\mapsto\mu+\sigma x\) is increasing for \(\sigma>0\), quantiles transform the same way.</li>
+    </ul>
+
+    <div class="box key">
+      <div class="box-title">The three quantiles that run the whole guide</div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Confidence \(q\)</th><th class="num">\(\Phi^{-1}(q)\)</th><th>Appears in</th></tr></thead>
+        <tbody>
+          <tr><td>95,0 %</td><td class="num">1,6449</td><td>Problemfall; CVA &amp; trading-book Problemfall scalar</td></tr>
+          <tr><td>99,0 %</td><td class="num">2,3263</td><td>the regulatory CVA charge's implied level (the scaling base)</td></tr>
+          <tr><td>99,9 %</td><td class="num">3,0902</td><td>Extremfall; IRB; CVA &amp; trading-book Extremfall scalar</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-bottom:2px">Memorise <code>1,6449 / 2,3263 / 3,0902</code>. Every scalar in §5.2 and §5.5 is a ratio of two of them.</p>
+    </div>
+
+    <h2>3 · Derivation — VaR of a normal loss, and the scaling identity</h2>
+    <p>Let \(L\sim N(\mu,\sigma^2)\). Using location–scale on the quantile:</p>
+    <div class="formula">$$ \mathrm{VaR}_q(L)=F_L^{-1}(q)=\mu+\sigma\,\Phi^{-1}(q). $$
+      <div class="where"><b>derivation:</b> \(F_L(x)=\Phi\!\big(\tfrac{x-\mu}{\sigma}\big)\); set \(=q\) and solve \(\Rightarrow x=\mu+\sigma\Phi^{-1}(q)\).</div>
+    </div>
+    <p>Now the crucial corollary. For a <strong>zero-mean</strong> normal loss (\(\mu=0\)), the VaR at two confidence levels relates by a pure quantile ratio, with \(\sigma\) cancelling:</p>
+    <div class="formula">$$ \frac{\mathrm{VaR}_{q_2}(L)}{\mathrm{VaR}_{q_1}(L)}=\frac{\sigma\,\Phi^{-1}(q_2)}{\sigma\,\Phi^{-1}(q_1)}=\frac{\Phi^{-1}(q_2)}{\Phi^{-1}(q_1)}. $$
+      <div class="where"><b>this is the engine</b> behind every "Skalierung des Eigenmittelerfordernisses unter Annahme des Normalverteilungsansatzes" in the guide.</div>
+    </div>
+
+    <div class="box reg">
+      <div class="box-title">What is regulatory, what is ÖRS, in this one identity</div>
+      <p><span class="tag reg">regulatory</span> The CVA own-funds charge itself (CRR Title VI; the guide's PosNr 7516000 at 8 % EM-weight) and the trading-book own-funds charge. <span class="tag ors">ÖRS choice</span> (i) the <em>assumption</em> that the underlying loss is normal and <em>zero-mean</em> so VaR scales linearly with \(\Phi^{-1}\); (ii) the reading that the regulatory charge corresponds to a <strong>99 %</strong> quantile (the scaling denominator); (iii) the target levels 95 % / 99,9 % for the two scenarios. The number you defend is regulatory <em>at its base</em> but ÖRS <em>in its rescaling</em> — say exactly that.</p>
+    </div>
+
+    <h2>4 · Worked example — reproducing the CVA scalars (§5.2)</h2>
+    <div class="reading">
+      <h4>Primary text · §5.2 (CVA Risiko)</h4>
+      <blockquote>"CVA Risiko im Problemfall = CVA Eigenmittelerfordernis · 0,71 … Der Faktor 0,71 ergibt sich durch das unterschiedliche Konfidenzintervall, d.h. 1,6449 (95,0 %) dividiert durch 2,3263 (99 %)."<br>
+      "CVA Risiko im Extremfall = CVA Eigenmittelerfordernis · 1,33 … 3,0902 (99,9 %) dividiert durch 2,3263 (99 %)."</blockquote>
+    </div>
+    <p>Apply the scaling identity with denominator \(q_1=99\,\%\):</p>
+    <div class="formula">
+      $$ \text{Problemfall: } \frac{\Phi^{-1}(0{,}95)}{\Phi^{-1}(0{,}99)}=\frac{1{,}6449}{2{,}3263}=0{,}7070\approx \mathbf{0{,}71}. $$
+      $$ \text{Extremfall: } \frac{\Phi^{-1}(0{,}999)}{\Phi^{-1}(0{,}99)}=\frac{3{,}0902}{2{,}3263}=1{,}3284\approx \mathbf{1{,}33}. $$
+    </div>
+    <p>Both reproduced. The same two scalars reappear verbatim for the <strong>trading-book price risk</strong> (§5.5: "Preisrisiko HB · 0,71" / "· 1,33") — identical logic, identical assumption. Find them once, defend them everywhere.</p>
+
+    <div class="box trap">
+      <div class="box-title">⚠ Trap — the scaling silently assumes \(\mu=0\)</div>
+      <p>If the loss has a non-zero mean, \(\mathrm{VaR}_{q_2}/\mathrm{VaR}_{q_1}=(\mu+\sigma\Phi^{-1}(q_2))/(\mu+\sigma\Phi^{-1}(q_1))\neq\Phi^{-1}(q_2)/\Phi^{-1}(q_1)\). For a one-year market/CVA charge the zero-mean (or mean-folded-into-the-charge) assumption is defensible; for anything with material drift it is not. The viva <em>will</em> ask "what if the mean isn't zero?" — have this ready.</p>
+    </div>
+
+    <div class="rsnip">
+      <div class="rhead"><span class="lang">R</span> the quantiles and the scalars <button class="copybtn">copy</button></div>
+<pre><span class="cmt"># the three governing quantiles</span>
+qnorm(c(0.95, 0.99, 0.999))        <span class="out"># 1.644854 2.326348 3.090232</span>
+
+<span class="cmt"># CVA / trading-book scalars = quantile ratios with 99% base</span>
+prob &lt;- qnorm(0.95 ) / qnorm(0.99) <span class="out"># 0.7070  -> 0.71</span>
+extr &lt;- qnorm(0.999) / qnorm(0.99) <span class="out"># 1.3284  -> 1.33</span>
+round(c(Problemfall = prob, Extremfall = extr), 4)
+
+<span class="cmt"># symmetry check: Phi^{-1}(1-q) = -Phi^{-1}(q)</span>
+all.equal(qnorm(0.05), -qnorm(0.95))   <span class="out"># TRUE</span></pre>
+    </div>
+
+    <h2>5 · In practice — the data path</h2>
+    <div class="datamap box example">
+      <div class="box-title">Input → source</div>
+      <ul>
+        <li>CVA Eigenmittelerfordernis: aufsichtsrechtliche Meldung, <em>Gesamtbetrag der Risikoposition für Anpassung der Kreditbewertung</em>, <code>PosNr 7516000</code>, times the 8 % EM-weight (§5.2, fn 24). You read the charge; you multiply by 0,71 / 1,33.</li>
+        <li>Trading-book price risk: own-funds charge for position/FX/commodity risk <em>minus</em> the FX own-funds charge (§5.5) — the subtraction avoids double-counting FX, which is captured separately in the offene Devisenposition.</li>
+        <li>The scalars themselves are constants — no data, but they are <em>derived</em> constants you must be able to regenerate, which is the point of this lecture.</li>
+      </ul>
+    </div>
+
+    <div class="selfcheck">
+      <div class="scq">Self-check 2.1 — Solvency II uses a 99,5 % one-year VaR. If you applied the guide's CVA logic to produce a "Solvency-II-consistent" scalar off the 99 % base, what would it be? (No calculator: estimate, then check.)</div>
+      <details><summary>Show answer</summary><div class="ans">\(\Phi^{-1}(0{,}995)=2{,}5758\); scalar \(=2{,}5758/2{,}3263=1{,}1073\approx1{,}11\). It sits between 0,71 and 1,33, as it must (99,5 % is between 95 % and 99,9 %). This is exactly the transfer task in Problem Set 0.1.</div></details>
+    </div>
+    <div class="selfcheck">
+      <div class="scq">Self-check 2.2 — Why is the denominator 99 % and not, say, 99,9 %?</div>
+      <details><summary>Show answer</summary><div class="ans">Because the <em>regulatory charge being rescaled</em> is taken to correspond to a 99 % quantile (an ÖRS reading of the regulatory CVA methodology). The denominator must be the confidence level of the quantity you start from; the numerator is the level you want. Change the base and every scalar changes.</div></details>
+    </div>
+
+    <h2>Recap</h2>
+    <ul>
+      <li><strong>VaR is a quantile:</strong> \(\mathrm{VaR}_q(L)=F_L^{-1}(q)\); for \(L\sim N(\mu,\sigma^2)\), \(\mathrm{VaR}_q=\mu+\sigma\Phi^{-1}(q)\).</li>
+      <li>For a <strong>zero-mean normal</strong>, VaR ratios are pure quantile ratios — \(\sigma\) cancels. This is the entire content of the guide's CVA / trading-book scalings.</li>
+      <li><strong>Reproduced:</strong> \(0{,}71=1{,}6449/2{,}3263\) and \(1{,}33=3{,}0902/2{,}3263\). Regulatory at the base (the charge), ÖRS in the normality + zero-mean + 99 %-base assumptions.</li>
+    </ul>
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li>Der <strong>Value-at-Risk</strong> ist ein Quantil: \(\mathrm{VaR}_q(L)=F_L^{-1}(q)\); für \(L\sim N(\mu,\sigma^2)\) gilt \(\mathrm{VaR}_q=\mu+\sigma\,\Phi^{-1}(q)\).</li>
+        <li>Bei <strong>Mittelwert null</strong> kürzt sich \(\sigma\): VaR-Verhältnisse sind reine Quantilsverhältnisse — genau die „Skalierung unter Normalverteilungsannahme" des Leitfadens.</li>
+        <li><strong>Reproduziert:</strong> \(0{,}71=1{,}6449/2{,}3263\), \(1{,}33=3{,}0902/2{,}3263\). Regulatorisch ist die Bemessungsgrundlage; <em>ÖRS-Annahme</em> sind Normalverteilung, Mittelwert null und 99 %-Basis.</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:18px"><button class="btn" id="mark-read">Mark this lecture as read</button></p>
+
+    <nav class="modnav">
+      <a class="prev" href="c0u1-l1.html"><div class="dir">← Previous</div><div class="ttl">L1 · Probability spaces &amp; the loss variable</div></a>
+      <a class="next" href="c0u1-l3.html"><div class="dir">Next →</div><div class="ttl">L3 · Moments &amp; the lognormal</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="js/program.js"></script>
+</body>
+</html>
