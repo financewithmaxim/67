@@ -251,6 +251,17 @@ small { color: var(--ink-faint); font-size: 13px; }
 .box.example { background: #faf9f6; border-color: var(--line-strong); border-left-color: var(--ink-faint); }
 .box.example .box-title { color: var(--ink-soft); }
 
+/* Verification markers — every live regulatory figure that post-dates or needs
+   checking against EUR-Lex / EBA / FMA is flagged inline, and each module
+   collects them into a "Figures to verify" box. */
+.verify {
+  border-bottom: 1.5px dotted var(--accent-deep);
+  cursor: help;
+}
+.verify::before { content: "⚑"; color: var(--accent-deep); font-size: .82em; margin-right: 2px; }
+.box.verify { background: #fdf7ea; border-color: #ecd9a6; border-left-color: var(--accent-deep); }
+.box.verify .box-title { color: var(--accent-deep); }
+
 /* Regulatory vs ÖRS split badge — the course's signature distinction */
 .tag {
   display: inline-block; font-family: var(--font); font-size: 11px; font-weight: 700;

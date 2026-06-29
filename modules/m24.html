@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M24 · Recovery, resolution, MREL/BRRD & deep deposit guarantee (DGSD/ESAEG) — Leitfaden Früherkennung</title>
+<link rel="stylesheet" href="../css/style.css">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body data-module="m24">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+  <main class="content"><div class="page">
+
+    <div class="modhead">
+      <div class="crumb"><a href="../index.html">Home</a> › Teil VII — Aufsicht, Stress, Liquidität & Abwicklung › Module 24</div>
+      <h1>Module 24 — Recovery, resolution, MREL/BRRD & deep deposit guarantee (DGSD/ESAEG)</h1>
+    </div>
+    <p class="lead">Going-concern capital (Modules 13–18) answers one question: can the bank absorb losses and keep trading? This module answers the next two — what happens when it cannot, and who pays the insured depositor in the meantime. We build the full <em>Krisenmanagement</em> (crisis-management) stack — recovery planning, early intervention, resolution, MREL and deposit guarantee — and then show why, for a typical Raiffeisen primary bank, the operative answer is none of the glamorous resolution tools but ordinary <em>Insolvenz</em> (insolvency) backstopped by a single sector deposit guarantee scheme, with the Austrian transposition (<em>BaSAG</em> and <em>ESAEG</em>) as the operative national law.</p>
+
+    <div class="objectives">
+      <h4>By the end of this module you can…</h4>
+      <ul>
+        <li>Distinguish <em>Sanierung</em> (recovery, a going-concern duty of the bank) from <em>frühzeitiges Eingreifen</em> (early intervention, a supervisory power) and from <em>Abwicklung</em> (resolution, a gone-concern power of the authority), and place all three relative to ordinary insolvency.</li>
+        <li>Name the Austrian transposition statutes — <em>BaSAG</em> for BRRD/BRRD2 and <em>ESAEG</em> for the DGSD — and locate the FMA's recovery, early-intervention and resolution powers in them.</li>
+        <li>Reconstruct the <strong>public-interest assessment</strong> (PIA) and explain why most Raiffeisen primary banks carry a <em>liquidation</em> strategy rather than a resolution strategy.</li>
+        <li>Derive the MREL calibration as loss-absorption + recapitalisation, compute it for a worked balance sheet, and run the M-MDA check as a CET1-specific test that does not double-count CET1.</li>
+        <li>State the core MREL eligibility conditions (CRR Art. 72b / BRRD Art. 45b), including the retail-sale restriction that bites in Raiffeisen distribution.</li>
+        <li>Reproduce the DGSD/ESAEG mechanics and the DGS's dual role — payout in liquidation and a capped contribution in resolution (BRRD Art. 109) — and defend which safety mechanism bites first in the sector.</li>
+      </ul>
+    </div>
+
+<h2>1 · Motivation — why this exists</h2>
+
+<p>Capital buffers (Module 13) are a <em>going-concern</em> (laufender Betrieb) device: they let a bank absorb losses while still meeting its authorisation conditions and serving customers. But a buffer is finite. Once it is exhausted — or once an idiosyncratic shock makes the bank unable to pay its obligations as they fall due — the question is no longer "how much loss can it absorb?" but "how do we wind this down without a disorderly run, a fire-sale, and a queue of depositors at the branch door?"</p>
+
+<p>Before 2014 the honest answer in most of Europe was: either a taxpayer-funded bailout, or a messy insolvency that froze deposits for months. The <em>Bank Recovery and Resolution Directive</em> (BRRD, Directive 2014/59/EU, recast and amended by BRRD2, Directive 2019/879) and the <em>Single Resolution Mechanism</em> (SRM, Regulation 806/2014) were the post-crisis answer. In Austria both are transposed by the <strong><em>Bundesgesetz über die Sanierung und Abwicklung von Banken</em> (BaSAG — the Sanierungs- und Abwicklungsgesetz)</strong>, which is the legal basis for the FMA's recovery, early-intervention and resolution powers and the statute a sector controller actually cites. Their organising principle is a single sentence worth memorising for the Aufsichtsrat: <strong>shareholders and creditors, not taxpayers, bear the cost of failure</strong> — and the machinery exists so that this can happen over a weekend rather than over a decade.</p>
+
+<div class="box motivation"><div class="box-title">▶ The layers, in one breath</div><p><strong>Recovery (Sanierung)</strong> is what the <em>bank</em> does to save itself while still alive. <strong>Early intervention (frühzeitiges Eingreifen)</strong> is what the <em>supervisor</em> may impose while the bank is still a going concern but deteriorating. <strong>Resolution (Abwicklung)</strong> is what the <em>resolution authority</em> does to wind it down in an orderly way once it is failing and saving it serves a public interest. <strong>Ordinary insolvency (Regelinsolvenz)</strong> plus the <strong>deposit guarantee scheme (Einlagensicherung)</strong> is what happens to everyone else — which, in the Raiffeisen sector, means almost everyone.</p></div>
+
+<p>This module sits downstream of the buffer cascade (Module 13), the MDA logic (Module 14), the ICAAP/ILAAP and SREP machinery (Modules 19–21), and the liquidity framework (Modules 22–23). It is the last line: what the cascade is protecting against, and the safety net underneath it.</p>
+
+<h2>2 · Concept & logic</h2>
+
+<h3>2.1 Recovery planning — BRRD Art. 5–9 / BaSAG</h3>
+
+<p>A <em>Sanierungsplan</em> (recovery plan) is a living document the bank itself writes and maintains under BRRD Art. 5 (transposed in BaSAG). It is emphatically <em>not</em> a resolution plan: it assumes the bank survives. Its skeleton is fixed:</p>
+
+<ul>
+<li><strong>Recovery indicators (Sanierungsindikatoren)</strong> — a calibrated set of capital, liquidity, profitability and market-based triggers (EBA guidelines EBA/GL/2015/02). Each indicator has a threshold that, when breached, forces management to consider — and the board to decide on — escalation. The classic four families: CET1 ratio, LCR/NSFR, return-on-assets, and a market/macro indicator (e.g. CDS spread or rating action proxy for unlisted banks).</li>
+<li><strong>Menu of recovery options (Handlungsoptionen)</strong> — a pre-analysed list: capital measures (rights issue, AT1 issuance, retained-earnings retention), liquidity measures (asset sales, central-bank-eligible collateral mobilisation, deposit campaigns), and business measures (disposal of portfolios or subsidiaries, cost cuts). Each option carries an estimated capital/liquidity impact, a time-to-effect, and an impediment analysis.</li>
+<li><strong>Scenarios</strong> — at least one idiosyncratic, one system-wide, and one combined stress, each severe enough to threaten viability, with the options tested against them.</li>
+<li><strong>Governance</strong> — who declares escalation, on what timeline, and how the indicators map to the bank's normal risk appetite framework.</li>
+</ul>
+
+<div class="box reg"><div class="box-title">▶ Group plans, IPS plans, and simplified obligations</div><p>BRRD Art. 7 lets a group submit a <em>group recovery plan</em> instead of solo plans. Art. 4 permits <strong>simplified obligations</strong> for institutions whose failure is unlikely to have a significant negative effect on financial markets — assessed on size, interconnectedness, substitutability and complexity. Crucially for the sector: where an <em>institutional protection scheme</em> (IPS, Module 12) exists, the EBA guidelines and national practice allow recovery planning to be partly performed <strong>at IPS level</strong>, because the IPS itself is a recovery mechanism — it can inject capital and liquidity into a member before that member ever reaches its own recovery triggers. The R-IPS (the Raiffeisen IPS) is thus the first, not the last, line of defence.</p></div>
+
+<h3>2.2 Early intervention — BRRD Art. 27–29</h3>
+
+<p>Between a recovery-indicator breach and the declaration that a bank is <em>failing or likely to fail</em> there is a deliberate intermediate rung: <strong>early intervention measures (frühzeitiges Eingreifen)</strong> under BRRD Art. 27–29 (transposed in BaSAG). These are <em>supervisory</em> powers — exercised by the FMA / the SSM — and they kick in when an institution infringes, or is likely in the near future to infringe, its prudential requirements (the trigger is typically expressed relative to the own-funds requirement plus a margin), but is not yet gone.</p>
+
+<ul>
+<li><strong>Art. 27</strong> — the supervisor may require management to implement the recovery plan, draw up an action programme with a timetable, convene the shareholders' meeting, require a debt-restructuring plan, demand changes to the business strategy or to legal/operational structures, and obtain the information needed to update the resolution plan.</li>
+<li><strong>Art. 28</strong> — power to <strong>remove and replace senior management or the management body</strong> where early intervention under Art. 27 is insufficient.</li>
+<li><strong>Art. 29</strong> — appointment of a <strong>temporary administrator (vorläufiger Verwalter)</strong>, either to work alongside or to replace the management body for a limited period.</li>
+</ul>
+
+<div class="box key"><div class="box-title">▶ Why the controller cares about the middle rung</div><p>The escalation ladder is <em>recovery-indicator breach → management escalation under the bank's own plan → supervisory early intervention (Art. 27–29) → FOLTF determination → resolution or liquidation</em>. Skipping the early-intervention rung in a board narrative makes failure look like a cliff. It is not: there is a supervised, going-concern corridor in which the FMA can force the recovery plan to be executed, change the management, or install a <em>vorläufiger Verwalter</em> before anyone reaches FOLTF. For a sector bank this corridor usually runs in parallel with — and is pre-empted by — R-IPS intervention (§6.1).</p></div>
+
+<h3>2.3 Resolution — the SRM, the SRB and the toolbox</h3>
+
+<p>If a bank is <em>failing or likely to fail</em> (FOLTF — "failing or likely to fail", BRRD Art. 32), supervisory and recovery options including early intervention are exhausted, and <strong>resolution is in the public interest</strong>, the resolution authority steps in. In the Banking Union the architecture is two-tier: the <em>Single Resolution Board</em> (SRB) in Brussels is directly responsible for significant institutions and cross-border groups; <strong>national resolution authorities</strong> handle the rest. In Austria the NRA is the <em>Finanzmarktaufsicht</em> (FMA), acting under BaSAG and executing through the SRM where applicable, funded by the <em>Single Resolution Fund</em> (SRF).</p>
+
+<p>BRRD Art. 37 gives the authority four <strong>resolution tools (Abwicklungsinstrumente)</strong>:</p>
+
+<div class="tablewrap"><table>
+<thead><tr><th>Tool</th><th>BRRD Art.</th><th>Mechanism</th><th>Typical use</th></tr></thead>
+<tbody>
+<tr><td><strong>Bail-in (Gläubigerbeteiligung)</strong></td><td>43–55</td><td>Write down / convert shareholders' and creditors' claims into equity to recapitalise the entity in place.</td><td>Open-bank resolution of a systemic institution; the reason MREL exists.</td></tr>
+<tr><td><strong>Sale of business (Unternehmensveräußerung)</strong></td><td>38–39</td><td>Sell all or part to a private purchaser, no shareholder consent needed.</td><td>A clean franchise with a willing buyer.</td></tr>
+<tr><td><strong>Bridge institution (Brückeninstitut)</strong></td><td>40–41</td><td>Transfer good assets/liabilities to a temporary publicly controlled entity; sell later.</td><td>No immediate buyer; preserve critical functions.</td></tr>
+<tr><td><strong>Asset separation (Ausgliederung von Vermögenswerten)</strong></td><td>42</td><td>Move bad assets to an asset-management vehicle ("bad bank"); only alongside another tool.</td><td>Clean up a balance sheet to make the rest saleable.</td></tr>
+</tbody>
+</table></div>
+
+<p>All four sit behind two guardrails. First, the <strong>NCWO principle</strong> — <em>no creditor worse off</em> (kein Gläubiger schlechter gestellt, BRRD Art. 34(1)(g) and 73–75): no creditor may end up worse than they would have been in ordinary insolvency, with an independent valuation and a compensation right if they are. Second, the <strong>bail-in before public funds</strong> rule: shareholders and creditors must absorb losses equal to at least <span class="verify" title="Verify against EUR-Lex/EBA/FMA">8%</span> of total liabilities and own funds before the SRF can contribute (BRRD Art. 44(5); Art. 37(10)).</p>
+
+<h3>2.4 The public-interest assessment — and why most Raiffeisen banks liquidate</h3>
+
+<p>The hinge of the whole framework is the <strong>public-interest assessment (PIA, öffentliches Interesse)</strong> under BRRD Art. 32(5)/SRMR Art. 18(5). Resolution is used <em>only if</em> winding the bank up under <strong>normal insolvency proceedings would not</strong> meet the resolution objectives — continuity of critical functions, avoiding contagion, protecting public funds, protecting covered depositors and client assets — <em>to the same extent</em>. If ordinary insolvency does the job, resolution is <em>not</em> in the public interest, and the bank gets a <strong>liquidation strategy (Liquidationsstrategie)</strong>.</p>
+
+<div class="box ors"><div class="box-title">▶ The sector reality</div><p>A single Raiffeisenbank in, say, Niederösterreich provides no <em>unique</em> critical function: its lending and payment services are substitutable by neighbouring sector banks; its covered deposits are protected by the DGS; its failure, isolated, does not threaten the system. The PIA therefore typically concludes <strong>negative</strong> — no public interest in resolution — and the planned strategy is <strong>liquidation under ordinary insolvency with DGS payout</strong>. The PIA outcome itself is a <span class="tag reg">regulatory value</span> driven by Art. 32(5); how the sector organises its mutual support around that outcome is the <span class="tag ors">ÖRS modelling decision</span>. The trade-off named explicitly: a liquidation strategy means <strong>much lower (often zero) external MREL</strong> for the primary bank — but it also means no orderly going-concern rescue by the State, so the burden of preventing failure shifts onto the <strong>R-IPS</strong> and the DGS. Cheaper in capital, heavier in mutual solidarity. Note that "no public interest" is <em>not</em> a function of size below an SRB significance threshold: a large bank can still fail the PIA if its functions are substitutable, and a small one can pass it if it is uniquely critical. The PIA, not the balance-sheet total, decides.</p></div>
+
+<h2>3 · Derivation — MREL calibration</h2>
+
+<p>The bail-in tool only works if there is something to bail in. A bank funded entirely by insured deposits and secured liabilities has no loss-absorbing layer that can be written down without triggering NCWO problems or hitting protected depositors. <strong>MREL</strong> — the <em>minimum requirement for own funds and eligible liabilities</em> (Mindestanforderung an Eigenmittel und berücksichtigungsfähige Verbindlichkeiten) — forces the bank to <em>pre-position</em> a stack of bail-inable liabilities. (For global systemically important institutions, G-SIIs, the internationally-agreed analogue is <strong>TLAC</strong>, total loss-absorbing capacity, hard-wired into CRR Art. 92a–92b; MREL is the broader EU requirement applying to all banks.)</p>
+
+<h3>3.1 The two-component logic</h3>
+
+<p>The calibration answers two questions in sequence. First, <em>how much loss must be absorbed</em> to bring the bank to the point of failure? Second, <em>how much capital must be rebuilt</em> so the resolved entity is viable and credible again? Hence:</p>
+
+<div class="formula">$$ \text{MREL} = \underbrace{\text{LAA}}_{\text{loss absorption}} + \underbrace{\text{RCA}}_{\text{recapitalisation}} $$
+<div class="where"><b>where</b> LAA = loss-absorption amount, the capital the bank must hold today; RCA = recapitalisation amount, the capital needed to restore viability after resolution.</div></div>
+
+<p>BRRD2 Art. 45c expresses both legs on <strong>two denominators simultaneously</strong> — risk-weighted (TREA) and leverage (TEM, total exposure measure) — and the binding requirement is the higher in money terms. Take the risk-weighted leg. Let:</p>
+
+<div class="formula">$$ \text{LAA}_{\text{RWA}} = P_1 + P_2\text{R} \qquad \text{RCA}_{\text{RWA}} = P_1 + P_2\text{R} + \text{MCC} $$
+<div class="where"><b>where</b> \(P_1\) = Pillar 1 own-funds requirement (<span class="verify" title="Verify against EUR-Lex/EBA/FMA">8%</span> of TREA, Module 13); \(P_2\text{R}\) = the bank-specific Pillar 2 requirement from SREP (Module 19); MCC = the <em>market confidence charge</em> (Marktvertrauenspuffer), the SRB's add-on so the post-resolution bank can re-enter funding markets. Under the SRB's published default the MCC is set at the <strong>combined buffer requirement minus <span class="verify" title="Verify against EUR-Lex/EBA/FMA">125 basis points</span></strong>, floored at zero and subject to case-by-case adjustment — <em>not</em> simply CBR minus the entire countercyclical buffer.</div></div>
+
+<p>Summing (using the SRB default MCC):</p>
+
+<div class="formula">$$ \text{MREL}_{\text{RWA}} = \underbrace{(P_1 + P_2\text{R})}_{\text{LAA}} + \underbrace{(P_1 + P_2\text{R} + \text{MCC})}_{\text{RCA}} = 2\,(P_1 + P_2\text{R}) + \text{MCC} $$</div>
+
+<p>The structure is intuitive: you need roughly <em>twice</em> your own-funds requirement (once to absorb the losses that killed you, once to rebuild), plus a confidence cushion. The combined buffer requirement (CBR) is then layered <em>on top</em> of MREL when expressed as a usable ratio — and that layering is exactly what creates the M-MDA constraint in §3.4. Note carefully: the buffer sits on top, it is not folded into the MREL stack — confusing the two is the double-counting error §4 is built to prevent.</p>
+
+<h3>3.2 The leverage leg</h3>
+
+<p>The same loss-absorption-plus-recapitalisation logic is expressed on the leverage denominator (TEM). Here the recapitalisation amount is calibrated to <strong>restore the leverage ratio requirement (LRR)</strong> — the baseline 3% Pillar 1 leverage requirement (Module 13), plus any leverage-ratio P2R or G-SII leverage buffer that applies. The leverage LAA+RCA does <em>not</em> mechanically equal twice the LRR; it is the LAA needed to reach the point of failure plus whatever RCA restores the binding leverage requirement, and the MCC is generally <em>not</em> added on the leverage leg. The binding MREL is then \(\max\) of the two legs in money terms. In a deposit-funded sector bank with a low risk-weight book the leverage leg can in principle bind, so the controller must always compute both and read off the higher — never assume the risk-weighted leg wins.</p>
+
+<h3>3.3 Subordination and MREL eligibility</h3>
+
+<p>Bail-in is credible only if the liabilities you intend to write down actually <em>can</em> be written down without breaching NCWO against <em>pari passu</em> senior creditors who were excluded. Hence MREL has a <strong>subordination (Nachrangigkeit)</strong> sub-requirement: a portion must be met with own funds and <em>subordinated</em> eligible liabilities ranking below ordinary senior debt. For resolution entities the floor is the higher of (i) <span class="verify" title="Verify against EUR-Lex/EBA/FMA">8%</span> of total liabilities and own funds (TLOF) and (ii) a "prudential formula" tied to \(P_1+P_2\text{R}\) and buffers — capped per BRRD2 Art. 45b. Both the precise prudential-formula calibration and the cap are live and contestable: <span class="verify" title="Verify against EUR-Lex/EBA/FMA">confirm the current Art. 45b calibration and cap</span>. The subordination requirement also has a <strong>leverage (TEM) expression</strong>, not only a TLOF/TREA one — the binding subordination floor is the higher of the risk-based and leverage-based formulations. The 8%-of-TLOF figure is the same threshold that unlocks the SRF: it is no coincidence that the minimum bail-in-before-fund and the minimum subordination are aligned.</p>
+
+<div class="box reg"><div class="box-title">▶ MREL eligibility — the conditions, not just "more capital"</div><p>An instrument counts toward MREL only if it satisfies the eligibility conditions of <strong>CRR Art. 72b / BRRD Art. 45b</strong>. The core gates: the instrument is <strong>issued and fully paid up</strong>; it is <strong>not funded directly or indirectly by the institution itself</strong>; the claim is <strong>not subject to set-off or netting</strong> that would undermine loss absorption; it has a <strong>residual maturity of at least one year</strong>; it is <strong>not redeemable, callable or repurchased before maturity without prior authority consent</strong>; and it is not subject to acceleration rights outside resolution. For <em>subordinated</em> eligible liabilities sold to retail, BRRD adds a distribution safeguard: institutions may sell them to a retail client only where that client's portfolio meets a size/suitability test — in practice a minimum initial investment of <span class="verify" title="Verify against EUR-Lex/EBA/FMA">EUR 10,000</span> or a portfolio threshold around <span class="verify" title="Verify against EUR-Lex/EBA/FMA">EUR 500,000</span> (verify the current BRRD Art. 44a transposition in BaSAG). This <strong>retail-sale restriction matters specifically in the Raiffeisen distribution model</strong>, where bail-inable instruments could otherwise be placed across a broad cooperative member base. <span class="tag reg">regulatory value</span></p></div>
+
+<div class="box reg"><div class="box-title">▶ Liquidation entities: MREL ≈ own funds (post-2024)</div><p>For a bank whose resolution strategy is <em>liquidation</em>, there is nothing to recapitalise — RCA = 0. Historically the SRB still set MREL equal to the LAA (i.e. ≈ own-funds requirement). Directive <span class="verify" title="Verify against EUR-Lex/EBA/FMA">2024/1174</span> and the SRB's <span class="verify" title="Verify against EUR-Lex/EBA/FMA">2024 MREL policy</span> changed this: <strong>no MREL above the LAA is set for liquidation entities</strong> unless specifically justified to protect financial stability, mitigate contagion, or fund deposit protection. Concretely: a typical Raiffeisen primary bank with a liquidation strategy carries <strong>no external MREL beyond its ordinary own-funds requirement</strong>. <span class="tag reg">regulatory value</span> The trade-off: this is proportionality in its purest form — no costly subordinated debt issuance for a small bank — paid for by the sector's collective willingness to absorb failures through the IPS and DGS rather than through market-funded bail-in.</p></div>
+
+<h3>3.4 The buffer interaction — M-MDA</h3>
+
+<p>Recall the MDA logic (Module 14): if a bank dips into its combined buffer requirement on the <em>own-funds</em> side, distributions are restricted. BRRD2 created a parallel constraint on the <em>MREL</em> side. The key mechanic is CET1-specific: <strong>CET1 used to meet MREL cannot simultaneously be counted towards the CBR.</strong> So you must first allocate CET1 to the MREL requirement (after exhausting any non-CET1 eligible instruments against MREL), and only the <em>residual</em> CET1 is available to satisfy the CBR stacked above. If that residual is short of the CBR, the bank breaches the <strong>M-MDA</strong> (the maximum distributable amount related to MREL, BRRD2 Art. 16a). The authority may restrict distributions, AT1 coupons and variable remuneration — generally after a <span class="verify" title="Verify against EUR-Lex/EBA/FMA">nine-month</span> grace window, after which restriction becomes mandatory. The mental model: <strong>CET1 is a scarce resource spent first on MREL; the buffer sits on top and must be covered by what is left — the same CET1 euro cannot be spent twice.</strong></p>
+
+<h2>4 · Worked example — MREL and the buffer stack</h2>
+
+<div class="box example"><div class="box-title">▶ A mid-sized regional bank with a resolution strategy</div>
+<p>Suppose — contrary to the sector norm, to make the arithmetic bite — a regional bank is assessed as a <em>resolution</em> entity. Inputs (all illustrative):</p>
+<ul>
+<li>TREA (risk-weighted exposure amount) = EUR 4,000m</li>
+<li>\(P_1\) = 8.0% of TREA · &nbsp; \(P_2\text{R}\) = 2.0% of TREA</li>
+<li>Combined buffer requirement (CBR) = 3.5% of TREA (2.5% conservation + 1.0% O-SII/systemic, CCyB = 0)</li>
+<li>Market confidence charge MCC = CBR − <span class="verify" title="Verify against EUR-Lex/EBA/FMA">125 bps</span> = 3.5% − 1.25% = 2.25% of TREA (SRB default, floored at zero)</li>
+<li>Total exposure measure (TEM, leverage denominator) = EUR 9,000m (illustrative)</li>
+</ul>
+</div>
+
+<p><strong>Step 1 — risk-weighted MREL.</strong> Apply §3.1 with the SRB-default MCC:</p>
+
+<div class="formula">$$ \text{MREL}_{\text{RWA}} = 2(P_1 + P_2\text{R}) + \text{MCC} = 2(8.0\% + 2.0\%) + 2.25\% = 22.25\%\ \text{of TREA} $$</div>
+
+<p>In money: \(22.25\% \times 4{,}000 = \textbf{EUR 890m}\). (If you instead used the cruder CBR − CCyB = 3.5% for the MCC, you would get 23.5% = EUR 940m — which is precisely the overstatement the MCC-rule correction in §3.1 warns against.)</p>
+
+<p><strong>Step 2 — leverage-based MREL.</strong> The leverage leg is calibrated off the leverage ratio requirement (§3.2), not by a mechanical doubling. With LRR = 3.0% of TEM and an illustrative RCA restoring that requirement, suppose the calibrated leverage MREL works out to <span class="verify" title="Verify against EUR-Lex/EBA/FMA">6.0%</span> of TEM — a figure used here purely to make the comparison concrete, not a derived rule:</p>
+
+<div class="formula">$$ \text{MREL}_{\text{LR}} = 6.0\% \times 9{,}000 = \textbf{EUR 540m}\ \text{(illustrative)} $$</div>
+
+<p><strong>Step 3 — binding requirement.</strong> Take the higher in euros: \(\max(890,\ 540) = \textbf{EUR 890m}\), i.e. on these illustrative numbers the risk-weighted leg binds. Because the leverage calibration is assumption-driven, the controller must recompute both legs from the actual SRB-set figures before concluding which leg binds — <span class="verify" title="Verify against EUR-Lex/EBA/FMA">do not treat the risk-weighted leg as automatically binding</span>.</p>
+
+<p><strong>Step 4 — the M-MDA check, done correctly (CET1-specific).</strong> The CBR must be met with CET1 <em>on top of</em> MREL, and CET1 used inside MREL cannot also count toward the CBR. Suppose the bank holds <strong>EUR 1,000m of eligible instruments</strong>: EUR 700m CET1 and EUR 300m subordinated (non-CET1) eligible debt. Walk the CET1 allocation explicitly:</p>
+
+<div class="formula">$$ \text{CET1 consumed by MREL} = \text{MREL} - \text{non-CET1 eligible} = 940 - 300 = \textbf{EUR 640m} $$
+<div class="where"><b>where</b> we use the headline MREL of EUR 940m the SRB actually set here (the bank's binding requirement in this scenario); EUR 300m of subordinated debt is applied first, leaving EUR 640m of MREL that <em>must</em> be met with CET1.</div></div>
+
+<div class="formula">$$ \text{Residual CET1 above MREL} = \text{CET1 held} - \text{CET1 consumed} = 700 - 640 = \textbf{EUR 60m} $$</div>
+
+<p>The CBR requires CET1 of \(3.5\% \times 4{,}000 = \textbf{EUR 140m}\). Only EUR 60m of CET1 is left after MREL is met. The shortfall is therefore:</p>
+
+<div class="formula">$$ \text{CBR requirement} - \text{residual CET1} = 140 - 60 = \textbf{EUR 80m} $$</div>
+
+<p>The EUR 80m shortfall sits in the buffer region → <strong>M-MDA bites</strong>: distributions, AT1 coupons and variable remuneration can be capped. Note that this is the <em>only</em> correct route to the number. The tempting wrong route — comparing total eligible instruments (EUR 1,000m) against a "stacked requirement" of MREL + CBR = (23.5% + 3.5%) × 4,000 = EUR 1,080m and reading off 1,080 − 1,000 = EUR 80m — gives the same answer here <em>by coincidence</em>, but it is methodologically wrong: it lets the EUR 300m of non-CET1 subordinated debt implicitly count toward the CBR, which is exactly the double-counting M-MDA forbids. The lesson for the controller: hitting the headline MREL ratio is necessary but not sufficient; the CBR-on-top test, run on CET1 only, is the one that actually gates the dividend.</p>
+
+<div class="box trap"><div class="box-title">⚠ Don't double-count the CET1</div><p>The single most common modelling error is counting one CET1 euro towards both MREL and the CBR — or, equivalently, comparing <em>total</em> eligible instruments against a <em>MREL + CBR</em> stacked figure, which silently credits non-CET1 subordinated debt against the CBR. The whole point of M-MDA is that the CBR can only be met with CET1 that is <em>not already</em> spent on MREL. When you build the sector's MREL monitoring in R/SQL, model CET1 as a <em>scarce resource: subordinated/eligible non-CET1 debt is applied to MREL first, then CET1 fills the rest of MREL, and only the residual CET1 is tested against the CBR</em> — never as two independent ratios checked in parallel.</p></div>
+
+<h2>5 · In practice — the sector</h2>
+
+<h3>5.1 What a Raiffeisen primary bank actually carries</h3>
+
+<p>Stack the pieces. The PIA for a single primary bank is almost always negative → <strong>liquidation strategy</strong> → under the 2024 policy, <strong>no external MREL beyond own funds</strong>. There is therefore typically <em>no</em> subordinated-debt programme, no bail-in stack to maintain, and no M-MDA monitoring at the primary level. The going-concern capital cascade (Modules 13–14) is the relevant constraint; the gone-concern machinery is dormant for that entity. The exception is the top of the sector: the central institution / the consolidated group may itself be a significant institution under SRB remit with a genuine resolution strategy and a real MREL — and there the §4 arithmetic is live, including the retail-sale restriction on any subordinated eligible liabilities placed through the cooperative base.</p>
+
+<h3>5.2 Deposit guarantee, deep — DGSD 2014/49 and the ESAEG</h3>
+
+<p>If a primary bank fails and is liquidated, the depositor is made whole not by resolution but by the <em>Einlagensicherung</em>. The EU frame is the <strong>Deposit Guarantee Schemes Directive (DGSD, Directive 2014/49/EU)</strong>; the Austrian transposition is the <strong>Einlagensicherungs- und Anlegerentschädigungsgesetz (ESAEG)</strong>, in force since <span class="verify" title="Verify against EUR-Lex/EBA/FMA">2015</span>. The parameters every controller must know cold:</p>
+
+<div class="tablewrap"><table>
+<thead><tr><th>Parameter</th><th>Value</th><th>Basis</th><th>Tag</th></tr></thead>
+<tbody>
+<tr><td>Coverage level (Deckungssumme)</td><td><span class="verify" title="Verify against EUR-Lex/EBA/FMA">EUR 100,000</span> per depositor per institution</td><td>DGSD Art. 6 / ESAEG</td><td><span class="tag reg">regulatory value</span></td></tr>
+<tr><td>Temporary high balances (e.g. property sale)</td><td>Higher cover for a limited period (≥ EUR 100k, time-limited)</td><td>DGSD Art. 6(2)</td><td><span class="tag reg">regulatory value</span></td></tr>
+<tr><td>Target level (Zielausstattung)</td><td><span class="verify" title="Verify against EUR-Lex/EBA/FMA">0.8%</span> of covered deposits, reached by <span class="verify" title="Verify against EUR-Lex/EBA/FMA">3 July 2024</span></td><td>DGSD Art. 10(2)</td><td><span class="tag reg">regulatory value</span></td></tr>
+<tr><td>Funding</td><td>Ex-ante, risk-based contributions</td><td>DGSD Art. 10, 13; EBA/GL/2015/10</td><td><span class="tag reg">regulatory value</span> (method has <span class="tag ors">ÖRS modelling decision</span> latitude)</td></tr>
+<tr><td>Payout deadline (Auszahlungsfrist)</td><td><span class="verify" title="Verify against EUR-Lex/EBA/FMA">7 working days</span> (phased down from 20; full 7-day deadline from <span class="verify" title="Verify against EUR-Lex/EBA/FMA">1 Jan 2024</span>)</td><td>DGSD Art. 8; ESAEG</td><td><span class="tag reg">regulatory value</span></td></tr>
+<tr><td>DGS in resolution (Beitrag in der Abwicklung)</td><td>DGS may be required to contribute, capped (NCWO counterfactual / ≤ <span class="verify" title="Verify against EUR-Lex/EBA/FMA">50%</span> of target level)</td><td>BRRD Art. 109</td><td><span class="tag reg">regulatory value</span></td></tr>
+<tr><td>Depositor preference (Einlegervorrang)</td><td>Covered deposits / DGS subrogated claim rank above ordinary senior creditors</td><td>BRRD Art. 108</td><td><span class="tag reg">regulatory value</span></td></tr>
+</tbody>
+</table></div>
+
+<h3>5.3 The DGS is not only a payout vehicle — Art. 109</h3>
+
+<p>It is tempting to file the DGS as "the thing that pays the depositor in a liquidation." That is half the story. Under <strong>BRRD Art. 109</strong>, where covered deposits are <em>within the scope of bail-in</em> and a resolution preserves access to them, the <strong>DGS can be required to contribute in the resolution</strong> — to the extent that covered depositors would otherwise have borne losses had the bank gone into ordinary insolvency. The contribution is <strong>capped twice</strong>: it can never exceed what the DGS would have paid out in a counterfactual liquidation (the NCWO bound), and it is subject to a ceiling of <span class="verify" title="Verify against EUR-Lex/EBA/FMA">50%</span> of the DGS's target level (the Member State may raise this). So the DGS is both a <em>payout-in-liquidation</em> vehicle and a <em>resolution-financing</em> participant — a distinction the controller must keep straight when modelling the fund's expected drawdown.</p>
+
+<h3>5.4 The target-level arithmetic</h3>
+
+<div class="box example"><div class="box-title">▶ Sizing the fund and a single bank's contribution</div>
+<p>Suppose the sector's covered deposits total EUR 50,000m. The target fund is:</p>
+<div class="formula">$$ 0.8\% \times 50{,}000 = \textbf{EUR 400m} $$</div>
+<p>This is the <em>available financial means</em> the DGS must accumulate ex ante. A single primary bank with EUR 500m of covered deposits and a risk-based contribution multiplier — say an aggregate risk weight (ARW) of 0.75 against a sector-average annual levy rate of, illustratively, 0.05% of covered deposits — would pay roughly:</p>
+<div class="formula">$$ 0.05\% \times 500 \times 0.75 = 0.1875\ \text{EUR m} \approx \textbf{EUR 187,500 / year} $$</div>
+<p>The risk-based weighting (DGSD Art. 13, EBA/GL/2015/10) means a riskier member pays more for the same deposit base — the scheme is actuarially fair-ish, not flat. The exact rate and ARW formula are <span class="tag ors">ÖRS modelling decision</span> within the EBA-prescribed envelope; the 0.8% target and the risk-based <em>principle</em> are <span class="tag reg">regulatory values</span>. Trade-off: more risk-sensitivity sharpens incentives but raises the contribution volatility a small bank must budget for.</p>
+</div>
+
+<h3>5.5 Depositor preference and NCWO — why the DGS is cheap to the system</h3>
+
+<p>The DGS pays the insured depositor, then by subrogation <strong>steps into the depositor's claim</strong> in the insolvency. Because BRRD Art. 108 gives covered deposits (and the subrogated DGS) a <em>super-senior</em> rank in the creditor hierarchy, the DGS recovers a large share from the estate. Its <em>net</em> cost is therefore far below the gross payout — which is precisely why a 0.8% fund is plausibly adequate for a sector whose individual failures are small and well-collateralised. This preference is also the mechanism that protects the NCWO counterfactual in any resolution: covered depositors are never bailed in, and the Art. 109 DGS contribution is bounded by exactly that counterfactual.</p>
+
+<h2>6 · Nuances & traps</h2>
+
+<h3>6.1 The three-way interplay: R-IPS vs DGS vs resolution</h3>
+
+<p>The sector runs three overlapping safety mechanisms, and the viva-ready skill is sequencing them:</p>
+
+<div class="tablewrap"><table>
+<thead><tr><th>Mechanism</th><th>Trigger</th><th>Function</th><th>Who pays</th><th>Concern</th></tr></thead>
+<tbody>
+<tr><td><strong>R-IPS</strong> (Module 12)</td><td><em>Before</em> failure — going concern</td><td>Prevention: liquidity/capital support to a wobbling member</td><td>The sector members, mutually</td><td>Keep the member alive</td></tr>
+<tr><td><strong>DGS</strong> (this module)</td><td><em>After</em> failure / unavailability of deposits — or as a capped contributor in resolution (Art. 109)</td><td>Payout of covered deposits (≤ 7 working days), or resolution contribution</td><td>The DGS fund (ex-ante levies)</td><td>Make the depositor whole</td></tr>
+<tr><td><strong>Resolution</strong> (SRB/FMA)</td><td>FOLTF + positive PIA</td><td>Orderly wind-down preserving critical functions</td><td>Shareholders & creditors (bail-in), then SRF</td><td>System stability</td></tr>
+</tbody>
+</table></div>
+
+<div class="box key"><div class="box-title">▶ Why this ordering matters to the Aufsichtsrat</div><p>In the Raiffeisen world the <strong>R-IPS bites first and hardest</strong>: a healthy IPS means a member rarely reaches FOLTF, so the DGS rarely pays and resolution essentially never happens. The IPS is both a recovery tool (it can recapitalise pre-failure) and, where recognised, can fold the DGS function into the same legal vehicle. The defensible board narrative: "We do not rely on the State's resolution tools because we have priced and pre-funded mutual support that stops failures upstream — before even supervisory early intervention is needed." That is the proportionality bargain — and it is why MREL is near-absent at the primary level (§3.3).</p></div>
+
+<div class="box trap"><div class="box-title">⚠ Recovery plan ≠ early intervention ≠ resolution plan</div><p>The <em>Sanierungsplan</em> is written by the bank, assumes survival, and is approved by the supervisor. <em>Early intervention</em> (Art. 27–29) is a supervisory power exercised while the bank is still a going concern but deteriorating — up to removing management or installing a <em>vorläufiger Verwalter</em>. The <em>Abwicklungsplan</em> (resolution plan) is written by the resolution authority, assumes failure, and the bank merely supplies data. Conflating them — or assuming a recovery indicator breach triggers resolution — is a classic exam error. A recovery-indicator breach triggers <em>management escalation</em>; deterioration may trigger <em>early intervention</em>; only FOLTF + PIA triggers resolution. Different documents, different authors, different worlds.</p></div>
+
+<div class="box trap"><div class="box-title">⚠ "MREL is just more capital" — no</div><p>MREL eligibility is <em>not</em> the same as own-funds eligibility, and it has its own gates (§3.3): not funded by the institution, not subject to set-off, residual maturity > 1 year, no early redemption without authority consent, plus the retail-sale restriction on subordinated eligible liabilities. An instrument can count as MREL without being CET1/AT1/T2 (e.g. certain senior non-preferred or eligible senior liabilities), and conversely the same CET1 cannot be double-counted against both MREL and the CBR (§3.4). Treat MREL as a distinct stack with its own eligibility, maturity and subordination rules — not as a relabelled total-capital ratio.</p></div>
+
+<div class="box trap"><div class="box-title">⚠ Don't hard-code the MCC, the leverage leg, or "RWA always binds"</div><p>Three calibration shortcuts to avoid. (1) The MCC is the SRB default of <em>CBR − 125bps</em> (floored at zero), <strong>not</strong> CBR − CCyB; the two coincide only when CCyB happens to equal 125bps. (2) The leverage-leg MREL is calibrated to restore the leverage ratio requirement, <strong>not</strong> a mechanical 2× the LRR. (3) Always compute both legs and take the higher — in a low-risk-weight, deposit-funded sector book the <em>leverage</em> leg can bind, so never assume the risk-weighted leg wins.</p></div>
+
+<div class="box trap"><div class="box-title">⚠ The PIA can flip</div><p>A negative PIA is not permanent — and it is not driven by size alone. Consolidation, growth, or a change in the substitutability of a bank's functions can move it from a liquidation strategy to a resolution strategy — at which point a real MREL appears and the §4 arithmetic, including subordinated-debt issuance and the retail-sale restriction, becomes a live funding obligation. The controller should track the PIA assumption as a model input, not a constant.</p></div>
+
+<div class="box german"><div class="box-title">▶ Merksatz</div><p>Sanierung rettet die Bank von innen; frühzeitiges Eingreifen lässt die Aufsicht im laufenden Betrieb durchgreifen; Abwicklung wickelt sie geordnet ab; die Regelinsolvenz plus Einlagensicherung fängt den Rest. Rechtsgrundlage in Österreich: BaSAG (BRRD) und ESAEG (DGSD). Für die meisten Raiffeisen-Primärbanken gilt: negative PIA → Liquidationsstrategie → faktisch kein externes MREL, dafür R-IPS und ESAEG als Sicherheitsnetz.</p></div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <h2>Recap</h2>
+    <ul>
+        <li>Austria transposes BRRD/BRRD2 in the <strong>BaSAG</strong> (the FMA's recovery, early-intervention and resolution powers) and the DGSD in the <strong>ESAEG</strong> — these are the operative national statutes a sector controller cites.</li>
+        <li>The escalation ladder has a middle rung: recovery-indicator breach → management escalation → <strong>supervisory early intervention</strong> (BRRD Art. 27–29: implement the recovery plan, replace management, appoint a temporary administrator) → FOLTF → resolution or liquidation.</li>
+        <li>Resolution applies only on FOLTF plus a positive public-interest assessment; the PIA, not size, decides — most Raiffeisen primary banks fail it (substitutable functions, DGS-protected deposits) and so carry a liquidation strategy with essentially no external MREL beyond own funds (post-Directive 2024/1174).</li>
+        <li>MREL = LAA (P1+P2R) + RCA (P1+P2R+MCC); the SRB-default MCC is <strong>CBR − 125bps</strong> (not CBR − CCyB), and the leverage leg is calibrated to restore the leverage ratio requirement (not a mechanical 2× LRR). Compute both legs and take the higher.</li>
+        <li>The M-MDA check is <strong>CET1-specific</strong>: apply non-CET1 eligible debt to MREL first, then CET1 fills the rest of MREL, and only the residual CET1 is tested against the CBR — never compare total instruments against a stacked MREL+CBR figure (that double-counts non-CET1 debt against the buffer).</li>
+        <li>MREL eligibility (CRR Art. 72b / BRRD Art. 45b): not self-funded, no set-off, residual maturity > 1 year, no early redemption without consent, plus the retail-sale restriction on subordinated eligible liabilities — relevant in Raiffeisen distribution.</li>
+        <li>DGSD/ESAEG: EUR 100,000 cover, 0.8%-of-covered-deposits target, ex-ante risk-based contributions, 7-working-day payout, depositor preference — and, under BRRD Art. 109, a <strong>capped DGS contribution in resolution</strong> (NCWO counterfactual / ≤ 50% of target level).</li>
+    </ul>
+
+    <div class="box german">
+      <div class="box-title">🇦🇹 Zusammenfassung (Deutsch)</div>
+      <ul>
+        <li><strong>Rechtsgrundlage in Österreich</strong>: <strong>BaSAG</strong> setzt BRRD/BRRD2 um (Sanierungs-, Frühinterventions- und Abwicklungsbefugnisse der FMA); <strong>ESAEG</strong> setzt die DGSD um.</li>
+        <li><strong>Eskalationsleiter</strong>: Indikatorverletzung → Management-Eskalation → <strong>frühzeitiges Eingreifen</strong> (BRRD Art. 27–29: Sanierungsplan umsetzen, Management ersetzen, vorläufiger Verwalter) → FOLTF → Abwicklung oder Liquidation.</li>
+        <li><strong>Abwicklung</strong> nur bei FOLTF + positivem öffentlichen Interesse (PIA); die PIA — nicht die Größe — entscheidet. Für die meisten Raiffeisen-Primärbanken: negative PIA → Liquidationsstrategie → praktisch kein externes MREL (seit RL 2024/1174).</li>
+        <li><strong>MREL = 2·(P1+P2R) + Marktvertrauenspuffer</strong>; der MCC ist nach SRB-Default <strong>CBR − 125 Bp</strong> (nicht CBR − CCyB); die Leverage-Seite stellt die Verschuldungsanforderung wieder her (kein mechanisches 2× LRR). Beide Seiten rechnen, die höhere bindet.</li>
+        <li><strong>M-MDA</strong> ist CET1-spezifisch: erst nicht-CET1-Instrumente auf MREL anrechnen, dann CET1 den Rest von MREL füllen, nur das verbleibende CET1 gegen den kombinierten Puffer (CBR) testen — niemals Gesamtinstrumente gegen MREL+CBR vergleichen (Doppelzählung).</li>
+        <li><strong>ESAEG/DGSD</strong>: EUR 100.000 Deckung, Zielausstattung 0,8% der gedeckten Einlagen, risikobasierte Ex-ante-Beiträge, Auszahlung in 7 Arbeitstagen, Einlegervorrang; nach BRRD Art. 109 zusätzlich ein gedeckelter <strong>Beitrag der Einlagensicherung in der Abwicklung</strong> (NCWO / ≤ 50% der Zielausstattung).</li>
+      </ul>
+    </div>
+
+    <div class="box verify">
+      <div class="box-title">⚑ Figures to verify against primary sources</div>
+      <ul>
+        <li>BaSAG (Sanierungs- und Abwicklungsgesetz) as the Austrian BRRD/BRRD2 transposition — confirm the current consolidated version and the article mapping to BRRD Arts. 5–9, 27–29, 32, 37–55.</li>
+        <li>Early intervention triggers and powers (BRRD Art. 27–29) and their precise BaSAG transposition — confirm the trigger threshold and the temporary-administrator provisions.</li>
+        <li>EUR 100,000 DGSD/ESAEG coverage level and the temporary-high-balance regime — confirm against DGSD Art. 6 and current ESAEG text.</li>
+        <li>0.8%-of-covered-deposits target level and the date by which it had to be reached (cited 3 July 2024) — confirm against DGSD Art. 10(2) and FMA/ESAEG.</li>
+        <li>7-working-day payout deadline and the phase-down from 20 days (full 7-day deadline cited from 1 Jan 2024) — confirm current ESAEG/DGSD Art. 8 status.</li>
+        <li>DGS contribution in resolution under BRRD Art. 109 — confirm the NCWO cap and the 50%-of-target-level ceiling (and any Member-State uplift).</li>
+        <li>8%-of-TLOF bail-in-before-fund threshold and the 8%-of-TLOF subordination floor, plus the Art. 45b prudential-formula calibration and cap (risk-based AND leverage expression) — confirm BRRD Art. 44(5)/45b.</li>
+        <li>SRB-default market confidence charge = CBR − 125bps (floored at zero) — confirm against the current SRB MREL policy; do NOT assume CBR − CCyB.</li>
+        <li>Leverage-leg MREL calibration (restores the leverage ratio requirement; MCC generally not added on the leverage leg) and whether the risk-weighted or leverage leg binds — confirm SRB current MREL policy; recompute both legs from actual SRB figures.</li>
+        <li>MREL eligibility conditions (CRR Art. 72b / BRRD Art. 45b: not self-funded, no set-off, residual maturity > 1 year, no early redemption without consent) and the retail-sale restriction (Art. 44a; minimum-investment / portfolio thresholds cited EUR 10,000 / EUR 500,000) — confirm BaSAG transposition.</li>
+        <li>The nine-month M-MDA grace window before mandatory distribution restriction — confirm BRRD2 Art. 16a.</li>
+        <li>Directive 2024/1174 changing MREL for liquidation entities (no MREL above LAA unless justified) and the SRB 2024 MREL policy — confirm scope and entry into force.</li>
+        <li>Year the ESAEG entered into force (cited 2015) and the current consolidated version.</li>
+        <li>Pillar 1 (8%) and leverage ratio (3%) reference values used in the worked example against current CRR/CRR III.</li>
+        <li>EBA/GL/2015/10 risk-based contribution methodology and the latitude national DGSs retain over the aggregate risk weight.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">BRRD — Directive 2014/59/EU (Arts. 5–9 recovery, 27–29 early intervention, 32 FOLTF/PIA, 37–42 tools, 43–55 bail-in, 73–75 NCWO, 108 depositor preference, 109 DGS in resolution); BRRD2 — Directive 2019/879/EU (MREL Arts. 45–45m; subordination Art. 45b; M-MDA Art. 16a; retail-sale restriction Art. 44a); BaSAG — Bundesgesetz über die Sanierung und Abwicklung von Banken (Austrian BRRD/BRRD2 transposition; legal basis for FMA recovery, early-intervention and resolution powers); Directive 2024/1174 amending the SRMR/BRRD (liquidation-entity MREL, daisy chains); SRM Regulation (EU) 806/2014; SRB MREL Policy 2024; CRR — Regulation 575/2013, Arts. 72b (eligible-liabilities criteria), 92a–92b (TLAC); DGSD — Directive 2014/49/EU (Arts. 6 coverage, 8 payout, 10 target/funding, 13 risk-based contributions); EBA/GL/2015/02 (recovery indicators); EBA/GL/2015/10 (risk-based DGS contributions); ESAEG — Einlagensicherungs- und Anlegerentschädigungsgesetz (Austrian DGSD transposition); FMA/OeNB guidance; ÖRS Leitfaden Früherkennung (09/2024). Educational reconstruction — verify all flagged figures against current EUR-Lex / EBA / FMA sources.</div>
+
+    <nav class="modnav">
+      <a class="prev" href="m23.html"><div class="dir">← Previous</div><div class="ttl">M23 · Liquidität: LCR, NSFR, ILAAP</div></a>
+      <a class="next" href="../capstone.html"><div class="dir">Next →</div><div class="ttl">★ Capstone: Mock-RTFA + Viva</div></a>
+    </nav>
+
+  </div></main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+const QUIZ = {"title":"Module 24 quiz — recovery, early intervention, resolution, MREL & deposit guarantee","pass":4,"questions":[{"q":"Why does a typical Raiffeisen primary bank carry a liquidation strategy rather than a resolution strategy?","options":["Because it is below the SRB significance threshold, and size alone determines the strategy","Because the public-interest assessment is negative — its functions are substitutable and covered deposits are DGS-protected, so ordinary insolvency meets the resolution objectives to the same extent","Because BRRD exempts cooperative banks from resolution entirely","Because, as a liquidation entity, it is legally barred from issuing any MREL-eligible instruments"],"answer":1,"explain":"Resolution applies only where winding up under normal insolvency would NOT meet the resolution objectives to the same extent (BRRD Art. 32(5)). The PIA — not the balance-sheet total — decides: a large bank can fail the PIA and a small one can pass it. For an isolated, substitutable primary bank with DGS-protected depositors the PIA is negative, hence a liquidation strategy."},{"q":"A bank breaches several recovery indicators and is deteriorating, but is not yet failing or likely to fail. Which power sits BETWEEN the bank's own recovery escalation and a FOLTF determination?","options":["The resolution authority opens resolution and applies the bail-in tool","Supervisory early intervention under BRRD Art. 27–29 — including requiring execution of the recovery plan, replacing management, or appointing a temporary administrator","The DGS makes a precautionary payout of covered deposits","The SRF contributes once 8% of TLOF has been bailed in"],"answer":1,"explain":"Early intervention (BRRD Art. 27–29, transposed in BaSAG) is a supervisory, going-concern power that fills the gap between an indicator breach and FOLTF: the supervisor can force the recovery plan to be implemented, remove and replace management (Art. 28), or appoint a vorläufiger Verwalter (Art. 29). Resolution, DGS payout and SRF access all come later."},{"q":"On the risk-weighted leg, the MREL calibration and the SRB-default market confidence charge (MCC) are:","options":["MREL = P1 only; MCC = the full combined buffer requirement","MREL ≈ 2·(P1 + P2R) + MCC, where the SRB-default MCC = combined buffer requirement minus 125 basis points (floored at zero)","MREL = 8% of TLOF always; MCC = the countercyclical buffer","MREL = P1 + P2R; the MCC equals the combined buffer requirement minus the entire countercyclical buffer"],"answer":1,"explain":"LAA = P1+P2R; RCA = P1+P2R+MCC; summed, MREL ≈ 2·(P1+P2R)+MCC. The SRB default MCC is CBR − 125bps (floored at zero, adjustable), NOT CBR − CCyB — the two coincide only when CCyB happens to equal 125bps. The 8%-of-TLOF figure is the bail-in/subordination floor, a different concept; the CBR is layered on TOP of MREL, not folded in."},{"q":"A resolution entity has a binding MREL of EUR 940m, holds EUR 700m CET1 and EUR 300m subordinated (non-CET1) eligible debt, and faces a CBR of EUR 140m. What is the M-MDA shortfall, computed correctly?","options":["EUR 0 — total instruments (1,000m) exceed MREL (940m), so there is no shortfall","EUR 80m — apply the EUR 300m non-CET1 debt to MREL first (leaving 640m of MREL to be met with CET1), so residual CET1 = 700 − 640 = 60m; the CBR needs 140m of CET1, shortfall = 140 − 60 = 80m","EUR 80m — total instruments (1,000m) fall short of the stacked MREL + CBR requirement of 1,080m, i.e. 1,080 − 1,000","EUR 140m — the entire CBR is unmet because all CET1 is consumed by MREL"],"answer":1,"explain":"The M-MDA test is CET1-specific. Non-CET1 eligible debt is applied to MREL first (300m), leaving 640m of MREL that must be met with CET1; residual CET1 = 700 − 640 = 60m; the CBR needs 140m of CET1; shortfall = 80m. Option 3 reaches the same number by the prohibited route — comparing total instruments against a stacked MREL+CBR figure, which silently credits the non-CET1 debt against the CBR (double-counting)."},{"q":"Which set of DGSD/ESAEG features is correct, including the DGS's role in resolution?","options":["EUR 50,000 cover; 1.5% target; ex-post contributions; no role in resolution","EUR 100,000 cover; 0.8%-of-covered-deposits target; ex-ante risk-based contributions; and under BRRD Art. 109 a capped DGS contribution in resolution (bounded by the NCWO counterfactual / ≤ 50% of target level)","Unlimited cover; no target fund; the DGS fully funds any resolution without cap","EUR 100,000 cover; 0.8% of total assets target; the DGS may only pay out in liquidation and never contributes to a resolution"],"answer":1,"explain":"DGSD 2014/49 / ESAEG: EUR 100,000 per depositor per bank, a fund target of 0.8% of COVERED deposits, ex-ante risk-based contributions. Critically, the DGS is not only a payout vehicle: under BRRD Art. 109 it can be required to contribute in a resolution, capped by the NCWO counterfactual and (by default) 50% of its target level. Verify the live figures against EUR-Lex/FMA."},{"q":"In the sector's three-way safety net, which mechanism is designed to act FIRST?","options":["Resolution by the SRB","The deposit guarantee scheme payout","The R-IPS, which can support a member pre-failure (going concern), upstream even of supervisory early intervention","The Single Resolution Fund"],"answer":2,"explain":"The R-IPS is a prevention/recovery mechanism: it can inject capital or liquidity before a member reaches FOLTF — often before supervisory early intervention is even needed. Because it bites upstream, the DGS rarely pays and resolution is essentially never needed for sector primary banks."}]};
+</script>
+</body>
+</html>

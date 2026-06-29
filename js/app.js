@@ -39,6 +39,19 @@ const COURSE = {
         ["m16", "Basel IV / CRR III & CRD VI"],
         ["m17", "Einlagensicherung: DGSD, ESAEG & IPS"],
       ]},
+    { label: "Teil VI — IRB-Parameter & Basel IV/CRR III", tag: "Advanced",
+      mods: [
+        ["m18", "IRB-Parameter: PD, Downturn-LGD, CCF & MoC"],
+        ["m19", "CRR III Kreditrisiko: SA, IRB & Output-Floor"],
+        ["m20", "CRR III: Op-Risk (SMA), CVA, FRTB & SA-CCR"],
+      ]},
+    { label: "Teil VII — Aufsicht, Stress, Liquidität & Abwicklung", tag: "Advanced",
+      mods: [
+        ["m21", "EBA/ECB: ICAAP, SREP, NPE & Großkredite"],
+        ["m22", "Stresstests & Reverse-Stresstests"],
+        ["m23", "Liquidität: LCR, NSFR & ILAAP"],
+        ["m24", "Sanierung, Abwicklung, MREL & Einlagensicherung"],
+      ]},
     { label: "Abschluss", tag: "Capstone",
       mods: [
         ["capstone", "Mock-RTFA + Viva"],
