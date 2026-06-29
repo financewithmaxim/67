@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EU Bank Capital Regulation & the ÖRS Leitfaden Früherkennung — Course</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-module="index">
+<button class="navtoggle" id="navtoggle">☰</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html"><div class="brand">Leitfaden <span class="accent">Früherkennung</span></div></a>
+    <div class="subtitle">EU Bank Capital Regulation &amp; Risk Management · Raiffeisen / ÖRS</div>
+    <div id="sidebar-nav"></div>
+  </aside>
+
+  <main class="content">
+  <div class="page">
+
+    <div class="hero">
+      <div class="eyebrow" style="color:var(--accent)">Graduate course · for the Junior Risk Controller, Sector Risk Controlling Services</div>
+      <h1>EU Bank Capital Regulation &amp; the <span class="accent">ÖRS Früherkennung</span></h1>
+      <p class="lead" style="color:#dce7f4">From the Basel single-risk-factor model to every number in the Raiffeisen <em>Risikotragfähigkeitsanalyse</em> (RTFA) — derived, worked, and defensible.</p>
+      <div class="progress-wrap" style="margin-top:18px;max-width:460px">
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-label" id="progress-label">0 / 18 modules complete</div>
+      </div>
+    </div>
+
+    <div class="box key">
+      <div class="box-title">📘 What this course is</div>
+      <p>A complete, self-paced reconstruction of the <strong>ÖRS <em>Leitfaden Früherkennung</em> (Version 09/2024)</strong> — the methodology your unit runs every quarter. Every risk figure is built from first principles, anchored in the <strong>CRR article</strong> it derives from, and contrasted with the <strong>pragmatic ÖRS modelling choices</strong> layered on top. Taught in English, with every technical term kept in German and glossed once.</p>
+    </div>
+
+    <div class="pill-row">
+      <span class="kpill">17 teaching modules + capstone</span>
+      <span class="kpill">Full derivations (Vasicek → Art. 153/154)</span>
+      <span class="kpill">Worked examples on Leitfaden parameters</span>
+      <span class="kpill">Interactive quizzes</span>
+      <span class="kpill">Bilingual DE/EN glossary</span>
+      <span class="kpill">German module recaps</span>
+    </div>
+
+    <div class="box reg">
+      <div class="box-title">⚖️ The one rule that runs through everything</div>
+      <p>For every fixed number you will meet — <code>M = 2,5</code>, <code>LGD = 45%</code>, the FX elasticity <code>1,9</code>, the CVA scalars <code>0,71 / 1,33</code>, the op-risk <code>5% / 15%</code>, the <code>5%</code> "sonstige Risiken" buffer — the course tells you whether it is a <span class="tag reg">regulatory value</span> the CRR forces, or an <span class="tag ors">ÖRS modelling decision</span> made for proportionality, and <em>what that choice trades off</em>. That distinction is what you will defend to the Aufsichtsrat.</p>
+    </div>
+
+    <h2>Curriculum</h2>
+    <p>Work top to bottom — each module gates on a short understanding-check that marks your progress (stored in your browser). You can also jump straight to a module.</p>
+
+    <div id="curriculum"></div>
+
+    <div class="box motivation" style="margin-top:30px">
+      <div class="box-title">▶ Start here</div>
+      <p>Begin with <a href="modules/m01.html"><strong>Module 1 — Why bank capital regulation exists</strong></a>. It builds just enough of the Basel→CRR→ICAAP→ÖRS architecture to make every later number intelligible, and shows exactly where the R-IPS, the ÖRS, and the deposit-guarantee scheme sit.</p>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Source &amp; accuracy.</strong> Primary text: ÖRS <em>Leitfaden Früherkennung</em>, Version 09/2024. Concepts are anchored to the CRR/CRD, Basel standards and EBA guidelines. Where the Leitfaden (Sept 2024) may lag current rules — notably <strong>CRR III / Basel IV</strong> for op-risk and CVA, and <strong>DGSD/ESAEG</strong> deposit-guarantee specifics — the course flags it explicitly for you to verify. This is an educational reconstruction, not an official ÖRS document.
+    </div>
+
+    <div class="footnote">Built as a study companion · all progress is stored locally in your browser · printable per module.</div>
+  </div>
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+/* render the curriculum grid from COURSE, with per-row status hooks */
+(function () {
+  const root = document.getElementById("curriculum");
+  let html = "";
+  COURSE.parts.forEach(pt => {
+    html += `<div class="partcard"><h3><span class="pill">${pt.tag}</span>${pt.label}</h3><ul class="mod-list">`;
+    pt.mods.forEach(m => {
+      const [id, title] = m;
+      const href = id === "glossary" ? "glossary.html" : id === "capstone" ? "capstone.html" : `modules/${id}.html`;
+      const num = id.startsWith("m") ? id.slice(1).replace(/^0/, "") : (id === "capstone" ? "★" : "📖");
+      const status = id === "glossary"
+        ? `<span class="status" style="color:var(--ink-faint)">ref</span>`
+        : `<span data-modstatus="${id}" class="status todo">○</span>`;
+      html += `<li><span class="mnum">${num}</span><span class="mtitle"><a href="${href}">${title}</a></span>${status}</li>`;
+    });
+    html += `</ul></div>`;
+  });
+  root.innerHTML = html;
+  renderIndexProgress();
+})();
+</script>
+</body>
+</html>
