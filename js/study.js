@@ -2,6 +2,7 @@ import { createStore } from './store.js';
 import { newSched, grade } from './srs.js';
 import { buildQueue } from './queue.js';
 import { gradeAnswer } from './grading.js';
+import { COURSE } from './course.js';
 
 const root = document.getElementById('trainer-root');
 const summary = document.getElementById('session-summary');
@@ -9,9 +10,26 @@ const store = createStore({ storage: window.localStorage });
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const typeset = () => { if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([root]).catch(() => {}); };
 
+function buildSidebar() {
+  const el = document.getElementById('sidebar-nav');
+  if (!el || !COURSE) return;
+  let html = '';
+  for (const pt of COURSE.parts) {
+    html += `<div class="part-label">${esc(pt.label)}</div><nav><ul>`;
+    for (const [id, title] of pt.mods) {
+      const rel = id === 'glossary' ? 'glossary.html' : id === 'capstone' ? 'capstone.html' : `modules/${id}.html`;
+      const num = id.startsWith('m') ? id.slice(1).replace(/^0/, '') : (id === 'capstone' ? '★' : '📖');
+      html += `<li><a href="${rel}"><span class="mnum">${num}</span><span>${esc(title)}</span></a></li>`;
+    }
+    html += `</ul></nav>`;
+  }
+  el.innerHTML = html;
+}
+
 let deck = [], byId = new Map(), session = [], pos = 0;
 
 async function boot() {
+  buildSidebar();
   await store.ready();
   try {
     const res = await fetch('data/cards/m05.json', { cache: 'no-cache' });
