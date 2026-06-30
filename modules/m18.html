@@ -36,7 +36,7 @@
       </ul>
     </div>
 
-<h2>1 · Motivation — why this exists</h2>
+<h2 id="m18-s1">1 · Motivation — why this exists</h2>
 
 <p>In the Standardansatz (standardised approach, Module 6) the risk weight is a lookup: a table maps an external rating, or a regulatory exposure class, to a fixed percentage. The bank contributes almost no information about its own borrowers. The internal-ratings-based approach — <em>auf internen Ratings basierender Ansatz</em>, IRB — replaces that lookup with a promise: <q>we know our portfolio better than a generic table does, and we will quantify that knowledge as parameters that feed the supervisory formula.</q></p>
 
@@ -49,9 +49,9 @@
 
 <div class="box motivation"><div class="box-title">▶ The one idea</div><p>IRB is not <q>build a model.</q> It is <q>estimate a handful of numbers from messy historical data, prove they are representative of what you will lend tomorrow, and add a disciplined amount of conservatism — in the right direction — wherever the data is weak.</q> The model is the easy part; the estimation discipline is the exam.</p></div>
 
-<h2>2 · Concept &amp; logic</h2>
+<h2 id="m18-s2">2 · Concept &amp; logic</h2>
 
-<h3>2.1 A rating system does two separate jobs</h3>
+<h3 id="m18-s2-1">2.1 A rating system does two separate jobs</h3>
 
 <p>A rating system (Ratingsystem) must be judged on two independent axes that beginners constantly conflate:</p>
 
@@ -67,7 +67,7 @@
 
 <div class="box key"><div class="box-title">▶ Why it matters</div><p>The Früherkennung (early-warning) logic of the ÖRS Leitfaden is fundamentally a <em>rank-ordering</em> instrument: it sorts exposures into watch / sub-standard buckets so attention flows to the right files. It is not, by itself, a calibrated PD model. Keep the two mentally separate or you will defend an early-warning trigger as if it were a regulatory PD, and the Aufsichtsrat will catch you.</p></div>
 
-<h3>2.2 Through-the-cycle versus point-in-time</h3>
+<h3 id="m18-s2-2">2.2 Through-the-cycle versus point-in-time</h3>
 
 <p>A PD can be measured two ways. A <em>point-in-time</em> (PIT) PD answers <q>what is this borrower's default probability over the next 12 months given today's macro conditions?</q> — it rises in recessions, falls in booms. A <em>through-the-cycle</em> (TTC) PD answers <q>what is this borrower's default probability averaged over a representative economic cycle?</q> — it is deliberately insensitive to the current state of the world.</p>
 
@@ -75,9 +75,9 @@
 
 <div class="box reg"><div class="box-title">▶ Regulatory anchor</div><p>The CRR requires PD estimates to reflect a <em>long-run average</em> of one-year default rates per grade (CRR <span class="verify" title="Verify against EUR-Lex/EBA/FMA">Art. 180</span>), which mechanically pushes the estimate toward TTC. The EBA's IRB repair programme (EBA/GL/2017/16, <em>PD &amp; LGD estimation</em>) operationalises this as calibration to a <em>central tendency</em> over a historical observation period of at least <span class="verify" title="Verify against EUR-Lex/EBA/FMA">five years</em> for retail and a longer minimum where data are available; the exact minima and any transitional windows are live values to confirm.</p></div>
 
-<h2>3 · Derivation</h2>
+<h2 id="m18-s3">3 · Derivation</h2>
 
-<h3>3.1 PD: from default flags to a calibrated grade PD</h3>
+<h3 id="m18-s3-1">3.1 PD: from default flags to a calibrated grade PD</h3>
 
 <p>Start with the raw object: a binary default flag. Borrower \(i\) in year \(t\) either defaults (\(d_{i,t}=1\)) within the 12-month outcome window or does not (\(d_{i,t}=0\)). Default is defined per CRR Art. 178 — 90 days past due <em>or</em> unlikely-to-pay (UTP), the definition you will have implemented in your data per Module 12.</p>
 
@@ -100,13 +100,13 @@
 
 <div class="box ors"><div class="box-title">▶ ÖRS modelling decision</div><p>Where do the PDs come from for a primary bank? Not, usually, from the primary itself — a single Raiffeisenbank has neither the default count nor the staff to calibrate a grade-level PD curve. They come from the <em>pooled sector rating</em> operated centrally (Sektorrating), which aggregates defaults across many primaries to obtain statistically stable long-run averages. This is a deliberate <span class="tag ors">ÖRS modelling decision</span> exploiting proportionality and pooling: the trade-off is <em>representativeness</em> — the pooled PD must genuinely fit each primary's local book, which is exactly what the representativeness analysis (Section 6) must prove. The alternative — each primary self-calibrating — fails on data volume.</p></div>
 
-<h3>3.2 The PD input floor — and which article applies</h3>
+<h3 id="m18-s3-2">3.2 The PD input floor — and which article applies</h3>
 
 <p>However good the data, the CRR refuses to let any PD fall below a hard floor, to prevent a near-zero PD from collapsing capital toward zero on supposedly riskless exposures. Crucially, the floor lives in <em>different articles for different exposure classes</em>, and getting the citation right is part of defending the number.</p>
 
 <div class="box reg"><div class="box-title">▶ Regulatory anchor — read the article carefully</div><p>The PD input floor of <span class="verify" title="Verify against EUR-Lex/EBA/FMA">0.03%</span> is set by CRR <span class="verify" title="Verify against EUR-Lex/EBA/FMA">Art. 163(1)</span> for <em>retail</em> exposures and by CRR <span class="verify" title="Verify against EUR-Lex/EBA/FMA">Art. 160(1)</span> for <em>corporate/institution</em> exposures. Because the primaries' Sektorrating PDs are <em>retail-pooled</em>, it is Art. 163 that floors a retail-grade PD — citing Art. 160 for a retail floor is a real error. Note also that CRR III (applicable from <span class="verify" title="Verify against EUR-Lex/EBA/FMA">2025</span>) revisited several IRB input floors; treat the <span class="verify" title="Verify against EUR-Lex/EBA/FMA">0.03%</span> value as a <em>live figure under the current regime</em> rather than a settled constant for an institution operating in 2026. The PD floor is a <span class="tag reg">regulatory value</span>: you do not get to argue your best grades are safer than the floor for capital purposes, even if your data says so. The trade-off is risk-sensitivity surrendered for a hard backstop against optimistic tails.</p></div>
 
-<h3>3.3 LGD: from a workout to a default-weighted realised loss rate</h3>
+<h3 id="m18-s3-3">3.3 LGD: from a workout to a default-weighted realised loss rate</h3>
 
 <p>LGD is \(1\) minus the recovery rate, measured in present-value terms at the moment of default. Consider a defaulted facility with exposure at default \(EAD\). During the workout (Abwicklung) the bank receives a stream of recoveries \(R_k\) at times \(t_k\) (collateral sale proceeds, partial repayments) and incurs workout costs \(C_k\) (legal fees, servicing — both <em>direct</em> and an allocation of <em>indirect</em> costs). The realised LGD on a single facility is:</p>
 
@@ -122,13 +122,13 @@
 <li><b>Incomplete workouts.</b> Facilities still in workout at the data cut-off have only partial recoveries observed. Ignoring them biases LGD — usually <em>downward</em> if early collateral recovery is banked but the slow drip of later loss is unseen. They must be handled with a methodology, not dropped.</li>
 </ul>
 
-<h3>3.4 Why downturn LGD exceeds the long-run average</h3>
+<h3 id="m18-s3-4">3.4 Why downturn LGD exceeds the long-run average</h3>
 
 <p>The Vasicek formula already stresses the PD to the 99.9th percentile of the systematic factor. It does <em>not</em> stress the LGD — \(\text{LGD}\) enters as a multiplicative constant. But empirically, LGD and PD are <em>positively</em> correlated through the cycle: in a downturn, more borrowers default <em>and</em> collateral values fall, so recoveries shrink exactly when defaults spike. A long-run-average LGD plugged into a downturn-PD formula therefore understates capital, because it assumes recoveries are as good in the crash as on average.</p>
 
 <div class="box key"><div class="box-title">▶ Why it matters</div><p>This is the conceptual heart of <em>downturn LGD</em> (Abschwung-LGD, EBA/GL/2019/03). The fix is to feed the formula an LGD calibrated to economic-downturn conditions — \(\text{LGD}_{\text{downturn}} \ge \overline{\text{LGD}}\) — so that the LGD term reflects the same bad state of the world the 99.9% PD already assumes. If no material downturn effect can be evidenced, the guideline prescribes an <em>add-on</em> as a fallback (a minimum margin over the long-run LGD).</p></div>
 
-<h3>3.5 CCF / EAD — the conversion applies to the UNDRAWN portion</h3>
+<h3 id="m18-s3-5">3.5 CCF / EAD — the conversion applies to the UNDRAWN portion</h3>
 
 <p>For a fully drawn term loan there is nothing to convert: the drawn balance <em>is</em> the EAD by definition. The credit conversion factor only enters when there is an <em>undrawn commitment</em> (offene Zusage) — an overdraft line, a revolving credit — because the obligor will typically draw <em>more</em> as it slides toward default. The CCF (Kreditumrechnungsfaktor) estimates how much of the currently <em>undrawn</em> limit converts to drawn exposure by default:</p>
 
@@ -137,7 +137,7 @@
 
 <div class="box trap"><div class="box-title">⚠ Trap — do not say the drawn balance "takes a CCF of 100%"</div><p>A drawn, on-balance-sheet exposure does not <q>take a 100% CCF</q>; it is simply already at EAD because it is already drawn. The CCF is a property of the <em>off-balance-sheet / undrawn</em> commitment only. For retail, EAD is estimated at the pool level alongside PD and LGD, and the estimated CCF is applied to the undrawn portion of off-balance-sheet items; Foundation-IRB and the Standardansatz instead use <em>prescribed regulatory CCFs</em> for those off-balance items. Conflating the drawn balance with a conversion factor is a conceptual error an inspector will flag immediately.</p></div>
 
-<h3>3.6 Maturity, the b-adjustment and asset correlation — the rest of the formula</h3>
+<h3 id="m18-s3-6">3.6 Maturity, the b-adjustment and asset correlation — the rest of the formula</h3>
 
 <p>PD, LGD and EAD are the estimated inputs, but the formula also needs the maturity term and \(\rho\), which are <em>prescribed functions</em>, not free estimates. For the non-retail classes the maturity adjustment is:</p>
 
@@ -159,7 +159,7 @@
 
 <p>For a residential-mortgage-heavy primary the fixed <span class="verify" title="Verify against EUR-Lex/EBA/FMA">0.15</span> correlation, not a PD-dependent curve, is what drives the capital number — which is why senior management's intuition that <q>safer mortgages should obviously cost little capital</q> is only partly right.</p>
 
-<h3>3.7 The Margin of Conservatism</h3>
+<h3 id="m18-s3-7">3.7 The Margin of Conservatism</h3>
 
 <p>Every estimate above is uncertain. EBA/GL/2017/16 forbids you to present a single best guess; it requires the final regulatory parameter to be the best estimate <em>plus</em> a quantified, categorised Margin of Conservatism:</p>
 
@@ -168,11 +168,11 @@
 
 <div class="box trap"><div class="box-title">⚠ Trap — Category C must not double-count A and B</div><p>The MoC is <em>not</em> a slush fund you tune until capital looks comfortable, and it is <em>not</em> a substitute for fixing the data or for the Art. 181(1)(b) appropriate adjustment. Each component must be traced to a specific identified deficiency (A), a specific change (B) or a specific quantified statistical error (C). The General Estimation Error (Category C) covers only the residual statistical uncertainty of the point estimate; it must <em>not</em> re-capture the data/methodology deficiencies already quantified in A or the change effects already in B. An undocumented, lumped-together MoC that double-counts adjustments is the fastest way to fail a TRIM-style on-site inspection.</p></div>
 
-<h2>4 · Worked example</h2>
+<h2 id="m18-s4">4 · Worked example</h2>
 
 <p>We run the three estimation tasks the syllabus demands: calibrate a PD to a central tendency, compute a default-weighted, properly discounted realised LGD, and add a MoC.</p>
 
-<h3>4.1 Calibrating a retail PD to the long-run central tendency</h3>
+<h3 id="m18-s4-1">4.1 Calibrating a retail PD to the long-run central tendency</h3>
 
 <p>A retail calibration segment has a scorecard producing raw PDs. Over a 5-year window the year-by-year observed default rates were:</p>
 
@@ -197,7 +197,7 @@
 
 <p>Every grade PD is multiplied by \(1.238\) (then floored). A grade whose raw PD was \(0.02\%\) becomes \(0.0248\%\) — below the retail PD floor of <span class="verify" title="Verify against EUR-Lex/EBA/FMA">0.03%</span> set by CRR <span class="verify" title="Verify against EUR-Lex/EBA/FMA">Art. 163(1)</span> (not Art. 160, which governs corporates), so it is lifted to \(0.03\%\). The calibration fixed the <em>level</em>; the floor caught the tail.</p>
 
-<h3>4.2 Discounted, default-weighted realised LGD</h3>
+<h3 id="m18-s4-2">4.2 Discounted, default-weighted realised LGD</h3>
 
 <p>Take one defaulted SME facility with \(EAD = €500{,}000\) as a single default event in the default-weighted sample. The workout discount rate is the prescribed <em>risk-free + 5%</em>; with a risk-free rate of 3% this gives \(r=8\%\) p.a. (this is <em>not</em> the facility's effective interest rate — the EBA prescribes risk-free plus the <span class="verify" title="Verify against EUR-Lex/EBA/FMA">5%</span> add-on). Cash flows, measured from the default date:</p>
 
@@ -218,7 +218,7 @@
 
 <p><b>Folding in the cure rate.</b> Across the <em>default-weighted</em> pool, suppose 30% of defaults cure (and stay cured beyond the cure period) with \(\text{LGD}_{\text{cure}}=5\%\), and the \(31.27\%\) above is representative of the loss case. The pool LGD is \( (1-0.30)\cdot 31.27\% + 0.30\cdot 5\% = 21.89\% + 1.50\% = 23.39\%\). This is the long-run-average, default-weighted pool LGD, \(\overline{\text{LGD}}=23.39\%\).</p>
 
-<h3>4.3 Adding the Margin of Conservatism</h3>
+<h3 id="m18-s4-3">4.3 Adding the Margin of Conservatism</h3>
 
 <p>Three deficiencies were identified for this LGD, each in its own category so nothing is double-counted:</p>
 
@@ -237,9 +237,9 @@
 
 <div class="box example"><div class="box-title">▶ Result</div><p>From a raw 23.0% (undiscounted, no cure, no MoC, no downturn) to a defensible regulatory LGD of about 26.9% before downturn loading — a swing large enough to change the capital outcome materially. Every step was a named, documented, default-weighted adjustment with the prescribed discount rate. That auditability <em>is</em> the deliverable.</p></div>
 
-<h2>5 · In practice (the sector)</h2>
+<h2 id="m18-s5">5 · In practice (the sector)</h2>
 
-<h3>5.1 Where the Raiffeisen primary actually sits</h3>
+<h3 id="m18-s5-1">5.1 Where the Raiffeisen primary actually sits</h3>
 
 <p>Most Raiffeisen primary banks do <em>not</em> run a full Advanced-IRB (A-IRB) stack with self-estimated LGD and CCF. They run either the Standardansatz or, where IRB is used, the <em>Foundation-IRB</em> (Basis-IRB, F-IRB). The distinction is the crux of this section:</p>
 
@@ -255,33 +255,33 @@
 
 <div class="box reg"><div class="box-title">▶ Regulatory anchor</div><p>In F-IRB the senior unsecured LGD is fixed by the CRR at <span class="verify" title="Verify against EUR-Lex/EBA/FMA">45%</span> (and <span class="verify" title="Verify against EUR-Lex/EBA/FMA">75%</span> for subordinated), with prescribed treatment of eligible collateral — and these values are themselves subject to CRR III change, so confirm them for the current regime. This is a <span class="tag reg">regulatory value</span>. The trade-off it buys is stark: the bank surrenders any capital benefit from genuinely strong collateral or recovery practices (it cannot prove its LGD is below the prescribed value), but in exchange it escapes the enormous data, validation and downturn-LGD burden of Section 3.3–3.4. For a small primary with too few defaults to estimate LGD credibly, that is a rational bargain — proportionality made concrete. (Note: the prescribed F-IRB LGD applies to the relevant <em>non-retail</em> classes; pure retail exposures under IRB are A-IRB by construction, which is why the sector's retail PD-only posture leans on the Standardansatz and the F-IRB constant rather than self-estimated retail LGD.)</p></div>
 
-<h3>5.2 Why the Leitfaden can use a fixed LGD constant</h3>
+<h3 id="m18-s5-2">5.2 Why the Leitfaden can use a fixed LGD constant</h3>
 
 <p>This is the question senior management will ask, so answer it cleanly. The Leitfaden's Früherkennung and its capital-style calculations operate in a world where the primary's IRB (or quasi-IRB internal) treatment already takes the senior-unsecured LGD as the regulatory <span class="verify" title="Verify against EUR-Lex/EBA/FMA">45%</span>. The Leitfaden therefore does <em>not</em> need to estimate LGD at all — it inherits the constant from the underlying capital regime. Its modelling energy goes entirely into the <em>PD</em> dimension: the sector rating and the early-warning overlay that moves an exposure's effective credit-quality bucket. Fixing LGD at the regulatory constant is, from the Leitfaden's standpoint, less an assumption than a <em>consequence</em> of the regime the primaries already inhabit.</p>
 
 <div class="box ors"><div class="box-title">▶ ÖRS modelling decision</div><p>Reusing the regulatory <span class="verify" title="Verify against EUR-Lex/EBA/FMA">45%</span> LGD inside the Leitfaden is a <span class="tag ors">ÖRS modelling decision</span> grounded in proportionality and in consistency with the underlying capital treatment. The trade-off: simplicity and regulatory alignment versus risk-sensitivity. A primary with a heavily secured mortgage book is genuinely over-capitalised at a 45% LGD — but capturing that benefit would require it to become A-IRB, with all the estimation machinery of this module. The sector judges that trade not worth it for most primaries. Cross-reference Module 6 (Standardansatz mechanics) and Module 14 (the Vasicek formula the LGD feeds).</p></div>
 
-<h3>5.3 Where the PD genuinely comes from</h3>
+<h3 id="m18-s5-3">5.3 Where the PD genuinely comes from</h3>
 
 <p>So if LGD is a constant and the off-balance CCF is regulatory, the <em>only</em> estimated parameter that drives the primary's capital is the PD — supplied by the central, pooled <em>Sektorrating</em> calibrated as in Section 3.1. The primary's local job is then (a) assign obligors to grades, (b) apply overrides and early-warning signals (the Leitfaden) and (c) trust the centrally calibrated, MoC-loaded, floor-respecting PD. This is why everything in this course about PD calibration matters to a primary, while almost nothing about downturn LGD does — until and unless the institution migrates to A-IRB.</p>
 
-<h2>6 · Nuances &amp; traps</h2>
+<h2 id="m18-s6">6 · Nuances &amp; traps</h2>
 
-<h3>6.1 Representativeness</h3>
+<h3 id="m18-s6-1">6.1 Representativeness</h3>
 
 <p>The single load-bearing assumption of pooled estimation: the data used to calibrate must be <em>representative</em> of the portfolio it will be applied to — in obligor mix, default definition, lending standards and economic conditions. EBA/GL/2017/16 makes representativeness a formal, evidenced requirement. A pooled sector PD applied to one primary's idiosyncratically agricultural or tourism-heavy book must be shown to fit, or a Category-A / Category-B MoC must compensate. <q>It's the sector number, it must be fine</q> is not an argument an inspector accepts.</p>
 
 <div class="box trap"><div class="box-title">⚠ Trap</div><p>Changing the <em>default definition</em> (Module 12) mid-history silently breaks representativeness: defaults counted under the old 90-days-past-due materiality threshold are not comparable to defaults under the new EBA materiality thresholds. Either restate the history or carry an explicit Category-A MoC. Auditors will reconcile your default counts to the definition in force at each date.</p></div>
 
-<h3>6.2 Human judgement and overrides</h3>
+<h3 id="m18-s6-2">6.2 Human judgement and overrides</h3>
 
 <p>Rating systems permit <em>overrides</em> (Überschreibungen) — an analyst moving an obligor off the model grade for reasons the model cannot see. Overrides are legitimate but must be (i) capped in frequency, (ii) documented with reasons and (iii) monitored: a high override rate, or a systematic <em>upward</em> bias (analysts always improving grades), signals either a broken model or grade inflation that will under-state PD and capital. The override rate is a standard validation metric in Module 19.</p>
 
-<h3>6.3 The MoC and appropriate adjustment are direction-sensitive</h3>
+<h3 id="m18-s6-3">6.3 The MoC and appropriate adjustment are direction-sensitive</h3>
 
 <p>A subtle trap: conservatism must be applied in the direction that <em>increases</em> the parameter for capital. For PD and LGD that means upward. But for a parameter like the <em>cure rate</em>, conservatism means assuming <em>fewer</em> cures (a lower cure rate raises LGD), so a positive add-on to the cure rate is <em>anti</em>-conservative. Mechanically adding a positive margin to every input without thinking about which direction is prudent can accidentally <em>reduce</em> capital. Always ask: does this adjustment move the final capital number up? If not, you have the sign wrong. The same direction-discipline applies to the Art. 181(1)(b) appropriate adjustment.</p>
 
-<h3>6.4 Floors interact</h3>
+<h3 id="m18-s6-4">6.4 Floors interact</h3>
 
 <p>The retail PD floor (Art. 163), the corporate PD floor (Art. 160), the LGD/CCF input floors (CRR III) and the aggregate <em>output floor</em> at <span class="verify" title="Verify against EUR-Lex/EBA/FMA">72.5%</span> of standardised RWA — phased in from <span class="verify" title="Verify against EUR-Lex/EBA/FMA">2025</span> and stepping up to the endpoint over the following years (see Module 17 for the exact schedule and dates) — all bind at different layers. A portfolio can satisfy every parameter floor and still be lifted by the output floor at the aggregate level. Do not assume that respecting the input floors exhausts your floor obligations.</p>
 

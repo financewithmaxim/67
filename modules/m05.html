@@ -37,14 +37,14 @@
       </ul>
     </div>
 
-    <h2>1 · Motivation — why a formula at all?</h2>
+    <h2 id="m05-s1">1 · Motivation — why a formula at all?</h2>
     <p>You have a portfolio of thousands of loans. You want one number: the capital that covers <em>unexpected</em> credit loss at 99,9% over a year. The honest way is a full Monte-Carlo simulation of correlated defaults. That is intractable to standardise, impossible to audit consistently across 400 Raiffeisenbanken, and opaque to a supervisor. Basel II's breakthrough was to find conditions under which the portfolio's 99,9% loss is just a <strong>sum of per-loan contributions</strong> — so each loan gets a risk weight that does <em>not</em> depend on the rest of the portfolio. That property is called <strong>portfolio invariance</strong>, and the model that delivers it is the <strong>Asymptotic Single-Risk-Factor (ASRF)</strong> model of Gordy (2003), built on Vasicek (2002), built on Merton (1974).</p>
     <div class="box motivation">
       <div class="box-title">▶ The prize and its price</div>
       <p>Portfolio invariance is what lets the Leitfaden compute credit risk loan-by-loan and simply add up. The <em>price</em> is two strong assumptions: (1) a <strong>single</strong> systematic factor drives all correlation, and (2) the portfolio is <strong>infinitely granular</strong> (no single name matters). Real portfolios violate (2) — which is exactly why the Leitfaden bolts on a <strong>concentration surcharge</strong> (§5). Understanding the assumption is understanding the fix.</p>
     </div>
 
-    <h2>2 · Concept — the Merton picture</h2>
+    <h2 id="m05-s2">2 · Concept — the Merton picture</h2>
     <p>Merton (1974): a firm defaults when the value of its assets \(A\) falls below its liabilities \(D\) at the horizon. Model the firm's standardised asset return \(V_i\) as a latent normal variable. The firm defaults when \(V_i\) drops below a threshold \(c_i\):</p>
     <div class="formula">
       $$ \text{default}_i \iff V_i < c_i, \qquad V_i\sim N(0,1), \qquad PD_i=\Pr(V_i<c_i)=\Phi(c_i)\;\Rightarrow\; c_i=\Phi^{-1}(PD_i). $$
@@ -56,9 +56,9 @@
       <div class="where">\(X\) = the single systematic risk factor (one number for the whole economy in a given year); \(\varepsilon_i\) = borrower-specific noise; \(\rho\) = the <strong>asset correlation</strong> — the share of a firm's variance driven by the common factor. By construction \(\operatorname{Var}(V_i)=\rho+(1-\rho)=1\), and \(\operatorname{Corr}(V_i,V_j)=\rho\). This is a <strong>Gaussian copula</strong> with one factor.</div>
     </div>
 
-    <h2>3 · Derivation — conditional PD, the ASRF limit, and the CRR formula</h2>
+    <h2 id="m05-s3">3 · Derivation — conditional PD, the ASRF limit, and the CRR formula</h2>
 
-    <h3>3.1 The conditional default probability</h3>
+    <h3 id="m05-s3-1">3.1 The conditional default probability</h3>
     <p>Condition on a <em>realised state of the economy</em> \(X=x\). Given \(x\), the borrowers default independently (their only link was \(X\)). Borrower \(i\) defaults iff \(V_i<\Phi^{-1}(PD_i)\), i.e.</p>
     <div class="formula">
       $$ \sqrt{\rho}\,x + \sqrt{1-\rho}\,\varepsilon_i < \Phi^{-1}(PD) \;\Longleftrightarrow\; \varepsilon_i < \frac{\Phi^{-1}(PD)-\sqrt{\rho}\,x}{\sqrt{1-\rho}}. $$
@@ -124,9 +124,9 @@
 
     <div id="irb-calc"></div>
 
-    <h2>5 · In practice — the Leitfaden's credit machinery</h2>
+    <h2 id="m05-s5">5 · In practice — the Leitfaden's credit machinery</h2>
 
-    <h3>5.1 Exposure and Risikoposition</h3>
+    <h3 id="m05-s5-1">5.1 Exposure and Risikoposition</h3>
     <p>The <strong>Risikoposition</strong> = Exposure − interne Sicherheiten per customer, floored at zero. Exposure (§5.1) sums: the balance (book or market value for securities), <strong>weighted off-balance</strong> items (Haftungswert incl. letters of credit, derivatives, repos), <strong>weighted undrawn committed lines</strong>, and weighted (≥<strong>20%</strong>) undrawn <em>internal</em> lines. Netting and CSA cash collateral reduce the Saldo; consortium shares are deducted; <em>provisions are not</em> deducted from the Saldo (they feed the excess/shortfall instead). The ≥20% on internal lines is an <span class="tag ors">ÖRS prudence choice</span> — legally internal lines are no exposure, but the guide reserves part anyway.</p>
 
     <h3 id="m05-s5-2">5.2 FX credit-risk add-on and the PD–FX elasticity</h3>
@@ -153,7 +153,7 @@
       <p>If the corporate UL is €500.000 and the computed \(HHI=0{,}04\), the granularity surcharge is \(0{,}04\cdot500.000=\)€20.000, giving a concentration-adjusted corporate UL of €520.000. A perfectly diversified book (\(HHI\to1/n\approx0\)) adds almost nothing; a book dominated by a few names adds a lot.</p>
     </div>
 
-    <h3>5.4 The other fixed inputs</h3>
+    <h3 id="m05-s5-4">5.4 The other fixed inputs</h3>
     <ul>
       <li><strong>PD</strong> by Ratingstufe from the master scale (geometric-mean midpoints): 0,5→0,0533% … 2,5→1,3669% … 4,5→35,03% … 5,x→100%; NR→35,03%. FI/Sov/LRG/CIU use RBI-group PDs.</li>
       <li><strong>LGD</strong>: <span class="tag reg">45% unsecured (regulatory F-IRB)</span>; <span class="tag ors">pooled 45,5% Corporate, 54,4% Retail selbständig, 55,8% Retail unselbständig</span> (Module 15); covered bonds 12,5%; defaults 80% (5,1) / 100% (5,2).</li>
@@ -161,7 +161,7 @@
       <li><strong>Migration risk</strong> assessed via rating-model migration matrices (MMATRIX, annual).</li>
     </ul>
 
-    <h2>6 · Nuances &amp; traps</h2>
+    <h2 id="m05-s6">6 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ Bad economy is the LOWER tail of X — mind the sign</div>
       <p>In \(p(x)\) the systematic term is \(-\sqrt\rho\,x\); a downturn is a <em>small/negative</em> \(x\). When you substitute the worst case you set \(x=-\Phi^{-1}(q)\), which flips the sign to \(+\sqrt\rho\,\Phi^{-1}(q)\) in the conditional-PD formula. Getting this sign wrong gives you the 0,1% <em>best</em> case instead of the worst — a classic derivation error.</p>

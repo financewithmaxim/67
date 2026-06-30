@@ -15,7 +15,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s2-4-min-ratios"
+        "anchor": "m02-s2-4"
       },
       "answer": {
         "value": 0.045,
@@ -38,7 +38,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s5-3-leverage"
+        "anchor": "m02-s5-3"
       },
       "answer": {
         "value": 0.03,
@@ -61,7 +61,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s2-2-at1"
+        "anchor": "m02-s2-2"
       },
       "answer": {
         "value": 0.05125,
@@ -84,7 +84,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s4-worked-example"
+        "anchor": "m02-s4"
       },
       "answer": {
         "value": 14000000,
@@ -108,7 +108,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s4-worked-example"
+        "anchor": "m02-s4"
       },
       "steps": [
         {
@@ -146,7 +146,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s2-4-min-ratios"
+        "anchor": "m02-s2-4"
       },
       "blanks": [
         {
@@ -196,7 +196,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s5-4-mapping"
+        "anchor": "m02-s5-4"
       },
       "blanks": [
         {
@@ -244,7 +244,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s5-6-ors-specialties"
+        "anchor": "m02-s5-6"
       },
       "blanks": [
         {
@@ -291,7 +291,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s5-1-buffers"
+        "anchor": "m02-s5-1"
       },
       "verdict": "mixed",
       "rubric": [
@@ -317,7 +317,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s6-traps"
+        "anchor": "m02-s6"
       },
       "verdict": "reg",
       "rubric": [
@@ -342,7 +342,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s5-5-freies-kapital"
+        "anchor": "m02-s5-5"
       },
       "verdict": "mixed",
       "rubric": [
@@ -368,7 +368,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s2-4-min-ratios"
+        "anchor": "m02-s2-4"
       },
       "rubric": [
         {
@@ -418,7 +418,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s5-2-mda"
+        "anchor": "m02-s5-2"
       },
       "rubric": [
         {
@@ -474,7 +474,7 @@
       "version": "Leitfaden-09/2024",
       "sourceRef": {
         "module": "m02",
-        "anchor": "m02-s3-2-deductions"
+        "anchor": "m02-s3-2"
       },
       "rubric": [
         {

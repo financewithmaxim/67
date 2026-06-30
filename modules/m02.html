@@ -38,7 +38,7 @@
 
     <!-- §6 TEACHING LOOP -->
 
-    <h2>1 · Motivation — why "capital" needs a quality grade</h2>
+    <h2 id="m02-s1">1 · Motivation — why "capital" needs a quality grade</h2>
 
     <p>Module 1 established that owners must keep enough <em>Eigenmittel</em> (own funds) in front of the risk that they, not depositors, absorb losses first. But not all "capital" is equally good at absorbing loss. A perpetual common share that pays a discretionary dividend can soak up losses indefinitely while the bank keeps trading. A dated subordinated bond that matures in three years and pays a fixed coupon cannot: it must be repaid, it ranks above equity, and stopping its coupon is a default event. Both sit on the liability side above senior creditors — but only one keeps a <em>living</em> bank alive.</p>
 
@@ -54,7 +54,7 @@
 
     <p>You will spend most of this course computing the <em>numerator-less</em> side of an inequality — the <em>risk</em>. This module is the <strong>other side</strong>: the <em>Deckungsmasse</em>. The Leitfaden's <em>freies Kapital</em> (free capital) and <em>anrechenbare Eigenmittel</em> (eligible own funds) are built <em>directly</em> from the CRR own-funds stack, line by line. If you cannot read that stack, you cannot read the cover fund — and M13 (the Deckungsmassen module) becomes a wall of position numbers with no meaning.</p>
 
-    <h2>2 · Concept &amp; logic — the own-funds hierarchy (CRR Part Two)</h2>
+    <h2 id="m02-s2">2 · Concept &amp; logic — the own-funds hierarchy (CRR Part Two)</h2>
 
     <p>The CRR (Regulation (EU) 575/2013), <strong>Part Two ("Eigenmittel")</strong>, defines the tiers. The architecture is a nested sum:</p>
 
@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <h3>2.1 CET1 — hartes Kernkapital (CRR Art. 26)</h3>
+    <h3 id="m02-s2-1">2.1 CET1 — hartes Kernkapital (CRR Art. 26)</h3>
     <p>The purest loss absorber. It is permanent, freely available, and the <em>last</em> to be repaid in any scenario. Its main constituents (Art. 26(1)):</p>
     <ul>
       <li><strong>Kapitalinstrumente</strong> — common shares / cooperative shares (<em>Geschäftsanteile</em> for a Raiffeisenbank), meeting the 14 eligibility criteria of Art. 28 (perpetual, most subordinated, fully discretionary distributions, loss absorbing first).</li>
@@ -75,7 +75,7 @@
       <li><strong>Kumuliertes sonstiges Ergebnis</strong> (accumulated other comprehensive income, AOCI) — e.g. OCI revaluation effects, <em>before</em> the prudential filters of §2.3 strip parts of it back out.</li>
     </ul>
 
-    <h3>2.2 AT1 — zusätzliches Kernkapital (CRR Art. 51–52)</h3>
+    <h3 id="m02-s2-2">2.2 AT1 — zusätzliches Kernkapital (CRR Art. 51–52)</h3>
     <p>Going-concern, but engineered from <em>perpetual subordinated debt</em> rather than equity. To qualify it must be:</p>
     <ul>
       <li><strong>Perpetual</strong> — no maturity date, no incentive to redeem (call only with supervisory permission, Art. 77/78);</li>
@@ -84,7 +84,7 @@
     </ul>
     <p>So AT1 is the "<em>middle</em>" tier: cheaper than equity for the issuer, but able to recapitalise a still-trading bank by switching off coupons and, in stress, converting to hard equity.</p>
 
-    <h3>2.3 T2 — Ergänzungskapital (CRR Art. 62–63)</h3>
+    <h3 id="m02-s2-3">2.3 T2 — Ergänzungskapital (CRR Art. 62–63)</h3>
     <p>Gone-concern capital: <strong>dated subordinated debt</strong> with an original maturity of <strong>at least 5 years</strong> <span class="tag reg">regulatory</span>, amortised in regulatory recognition over its final five years (Art. 64). It pays a fixed/contractual coupon (cancelling it <em>is</em> a default), so it cannot absorb loss in a living bank — only in liquidation/resolution, where it ranks below senior creditors and depositors but above T1.</p>
 
     <div class="box key">
@@ -92,7 +92,7 @@
       <p><strong>CET1 (write-down anytime) → AT1 (cancel coupon / convert at trigger) → T2 (subordination in wind-up).</strong> Going concern is CET1 + AT1; gone concern adds T2. This ladder is <em>why</em> the minimum ratios are tiered (next section) and <em>why</em> T2 can never be used to plug a CET1 or buffer shortfall — a gone-concern instrument cannot do a going-concern job.</p>
     </div>
 
-    <h3>2.4 The three minimum ratios (CRR Art. 92)</h3>
+    <h3 id="m02-s2-4">2.4 The three minimum ratios (CRR Art. 92)</h3>
     <p>Each ratio is "tier ÷ <em>Gesamtrisikobetrag</em>." The denominator is the <strong>Gesamtrisikobetrag</strong> (<em>total risk exposure amount</em>, TREA — the sum of RWA for credit, market, operational and CVA risk; <em>Deckungsmasse position 7980000</em>). The CRR sets <em>three</em> floors so that the bank holds not just <em>enough</em> capital but enough of the <em>right quality</em>:</p>
 
     <div class="formula">
@@ -105,7 +105,7 @@
       <p>A single 8% floor would let a bank meet it with 8% of <em>dated subordinated debt</em> — capital that does nothing for a living bank. The 2008 crisis showed exactly this failure: banks were "8% capitalised" but had almost no hard equity to absorb going-concern losses. Basel III's answer was to push the <em>quality</em> up by raising the CET1 sub-floor to 4,5% and the T1 sub-floor to 6%. So the three ratios encode a quality constraint, not just a quantity one — and the buffers (§5) sit <em>entirely</em> in CET1 to reinforce it.</p>
     </div>
 
-    <h2>3 · Structure — deductions, and how CET1 is actually computed</h2>
+    <h2 id="m02-s3">3 · Structure — deductions, and how CET1 is actually computed</h2>
 
     <p>Gross book equity overstates loss-absorbing substance. The CRR therefore <strong>deducts</strong> from CET1 anything that would not be there — or not be worth its book value — exactly when you needed it (in stress). The headline computation is:</p>
 
@@ -114,14 +114,14 @@
       <div class="where"><b>Prudential filters</b> adjust accounting equity for items the supervisor distrusts; <b>Abzugsposten</b> (deductions) remove assets with no reliable stress value. Both reduce CET1 directly. The position list that follows is — almost item-for-item — the Leitfaden's <em>Extremfall freies-Kapital</em> adjustments (§5).</div>
     </div>
 
-    <h3>3.1 Prudential filters (CRR Art. 32–35)</h3>
+    <h3 id="m02-s3-1">3.1 Prudential filters (CRR Art. 32–35)</h3>
     <ul>
       <li><strong>Eigenes Kreditrisiko</strong> (own-credit filter, <strong>Art. 33</strong>) — gains/losses on the bank's <em>own</em> liabilities driven by changes in its <em>own</em> credit spread are filtered out. (Otherwise a bank's CET1 would <em>rise</em> as its own creditworthiness deteriorates — perverse.) Art. 33 also removes <em>cash-flow-hedge reserves</em> (<em>Zahlungsstrom-Absicherungsrücklagen</em>) that do not reflect fair-valued assets.</li>
       <li><strong>Prudent valuation / AVA</strong> (<strong>Art. 34</strong>, applying <strong>Art. 105</strong>) — fair-valued positions get an <em>Additional Valuation Adjustment</em>: the difference between the accounting fair value and a prudent (conservative, exit-price) value is deducted from CET1. This is the <em>vorsichtige Bewertung</em> haircut.</li>
       <li><strong>Neubewertungsreserve</strong> (revaluation reserve) — its CET1 treatment depends on the item; under IFRS, fair-value/OCI revaluation reserves flow through AOCI and are subject to filters. <em>The Leitfaden strips the Neubewertungsreserve out of the Deckungsmasse in <strong>both</strong> scenarios</em> (§5) — a deliberately conservative choice, because a revaluation gain is fragile cover.</li>
     </ul>
 
-    <h3>3.2 The major CET1 deductions (CRR Art. 36)</h3>
+    <h3 id="m02-s3-2">3.2 The major CET1 deductions (CRR Art. 36)</h3>
     <div class="tablewrap">
     <table>
       <thead><tr><th>Deduction (Art. 36(1))</th><th>CRR ref.</th><th>Why deducted</th></tr></thead>
@@ -140,7 +140,7 @@
       <p>The Raiffeisen sector is a web of <strong>mutual participations</strong>: a Raiffeisenbank holds shares in its Raiffeisenlandesbank, which holds shares in RBI, and so on. Under Art. 36(1)(h)/(i), holdings in <em>other financial-sector entities</em> — including other Raiffeisen entities — are <strong>deducted from CET1</strong> precisely to stop the <em>same</em> euro of capital being counted at two banks at once. In an IPS full of internal participations, these deductions are not a footnote — they can be a large slice of the stack, and getting them wrong systematically <em>overstates</em> sector capital. This is the conceptual seed of the IPS <em>consolidation</em> adjustments in <strong>M12</strong> (eliminate intra-circle participations) and the double-counting problem in <strong>M13</strong>.</p>
     </div>
 
-    <h2>4 · Worked example — three ratios, the buffer test, and freies Kapital</h2>
+    <h2 id="m02-s4">4 · Worked example — three ratios, the buffer test, and freies Kapital</h2>
 
     <div class="box example">
       <div class="box-title">Worked example — a small Raiffeisenbank's capital position</div>
@@ -170,9 +170,9 @@
       <p><strong>Sensitivity — why T2 cannot rescue a buffer breach.</strong> Suppose CET1 fell to €38m (everything else unchanged). All three Pillar-1 ratios <em>still pass</em> (CET1 6,33% ≥ 4,5%; total 12,17% ≥ 8%). But the <em>buffered</em> CET1 requirement is €42m, so CET1 is <strong>€4m short of the combined-buffer line</strong> — even though there is €15m of spare T2. T2 is gone-concern; it <em>cannot</em> count toward the CET1 buffer. The bank is inside its buffer ⇒ <strong>MDA restriction bites</strong> (next section).</p>
     </div>
 
-    <h2>5 · In practice — the buffer stack, leverage, and the Deckungsmasse mapping</h2>
+    <h2 id="m02-s5">5 · In practice — the buffer stack, leverage, and the Deckungsmasse mapping</h2>
 
-    <h3>5.1 The combined buffer requirement (CRD, transposed in BWG / FMA)</h3>
+    <h3 id="m02-s5-1">5.1 The combined buffer requirement (CRD, transposed in BWG / FMA)</h3>
     <p>On top of the 8% Pillar-1 (and any Pillar-2 P2R), the CRD stacks <strong>buffers, all to be met in CET1</strong>:</p>
     <div class="tablewrap">
     <table>
@@ -190,21 +190,21 @@
       <p>The <strong>2,5% CCB is fixed in the CRD</strong> <span class="tag reg">regulatory</span>, but the <strong>CCyB, SyRB and O-SII rates are set by the national authority</strong> (in Austria the FMA, on FMSB advice) and <em>change over time</em>. Any rate you quote for those <strong>post-dates the 09/2024 Leitfaden</strong> — <strong>verify against the current FMA / FMSB list</strong> before using it in a live RTFA. Treat the buffer <em>rates</em> as time-varying inputs, the buffer <em>mechanics</em> as stable.</p>
     </div>
 
-    <h3>5.2 MDA / Ausschüttungssperre — why yellow includes buffers and red excludes them</h3>
+    <h3 id="m02-s5-2">5.2 MDA / Ausschüttungssperre — why yellow includes buffers and red excludes them</h3>
     <p>The buffers are not hard solvency floors; they are a <strong>distribution gate</strong>. Define the <strong>combined buffer requirement</strong> (CBR) = CCB + CCyB + max(SyRB, G/O-SII as applicable). If CET1 falls <em>into</em> the CBR (above the hard 4,5%+P2R line but below 4,5%+P2R+CBR), the bank is not insolvent — but it enters the <strong>Maximum Distributable Amount (MDA)</strong> regime (CRD Art. 141): dividends, AT1 coupons and bonuses are capped by a formula that tightens as the breach deepens. In German: the <strong>Ausschüttungssperre</strong> (distribution restriction).</p>
     <div class="box key">
       <div class="box-title">Cross-link M4 — this is exactly the traffic-light logic</div>
       <p>The Leitfaden's <strong>Problemfall</strong> traffic light tests utilisation against <strong>CRR + P2R + Puffer</strong> for the <em>yellow</em> line (&gt;90%) but against <strong>CRR + P2R only</strong> (buffers excluded) for the <em>red</em> line (&gt;95%). That is the MDA logic encoded: breaching the <em>buffer</em> stack is a serious-but-recoverable warning (yellow — you lose distribution freedom); breaching the <em>minimum</em> below the buffers is the true red line (you are below the regulatory floor). M4 turns this into the full traffic-light arithmetic; here just hold <em>why</em> the buffer belongs in the yellow test and not the red one.</p>
     </div>
 
-    <h3>5.3 Leverage ratio — the non-risk-based backstop (CRR Part Seven)</h3>
+    <h3 id="m02-s5-3">5.3 Leverage ratio — the non-risk-based backstop (CRR Part Seven)</h3>
     <p>Every ratio above divides by <em>risk-weighted</em> assets — so a bank that games its models can look strong. The <strong>Leverage Ratio</strong> (CRR Part Seven, Art. 429 ff.) is the deliberately model-free backstop:</p>
     <div class="formula">
       $$ \text{Leverage Ratio} = \frac{\text{T1 (Kernkapital)}}{\text{Gesamtrisikopositionsmessgröße (total exposure measure)}} \ge 3\% $$
       <div class="where">Numerator = <strong>T1</strong> (not total capital). Denominator = <em>unweighted</em> total exposure (on-balance + derivatives + SFTs + off-balance via CCFs) — <strong>no</strong> risk weights. The <strong>3%</strong> minimum is <span class="tag reg">regulatory</span> (CRR Art. 92(1)(d)). This is the guard against <strong>übermäßige Verschuldung</strong> (excessive leverage): the risk that a thin-but-RWA-flattering balance sheet is in fact dangerously geared. The Leitfaden lists the Leverage-Ratio positions (e.g. <em>LU/LK 5985064 / 5985066</em>).</div>
     </div>
 
-    <h3>5.4 THE KEY MAPPING — own-funds concept → Deckungsmasse §8.1 position</h3>
+    <h3 id="m02-s5-4">5.4 THE KEY MAPPING — own-funds concept → Deckungsmasse §8.1 position</h3>
     <p>Every concept above appears, by number, in the Leitfaden's <em>Deckungsmasse</em> position lists (§8.1). This is the table you will reach for constantly in M13:</p>
     <div class="tablewrap">
     <table>
@@ -226,7 +226,7 @@
     </table>
     </div>
 
-    <h3>5.5 From the stack to "freies Kapital" — preview of M13</h3>
+    <h3 id="m02-s5-5">5.5 From the stack to "freies Kapital" — preview of M13</h3>
     <p>The Leitfaden builds <em>freies Kapital</em> (free capital) <em>differently</em> in the two scenarios, but always from this own-funds stack:</p>
     <div class="formula">
       $$ \textbf{Problemfall:}\quad \text{freies Kapital} = \underbrace{\big(\text{CET1} - \text{CET1-Erfordernis inkl. P2R}\big)}_{\text{CET1 above the requirement}} \;-\; \text{Neubewertungsreserve} $$
@@ -237,14 +237,14 @@
       </div>
     </div>
 
-    <h3>5.6 ÖRS / Raiffeisen specialties</h3>
+    <h3 id="m02-s5-6">5.6 ÖRS / Raiffeisen specialties</h3>
     <ul>
       <li><strong>€5m freies-Kapital floor</strong> <span class="tag ors">ÖRS / legal</span> — a legal minimum free-capital amount each member must show; binds when a tiny bank's computed surplus is below it.</li>
       <li><strong>Haftsummenzuschlag</strong> (cooperative liability supplement) <span class="tag ors">ÖRS</span> — an Austrian Raiffeisen specialty: the additional liability that cooperative members owe (<em>Genossenschaft</em> uncalled liability), recognised as a sector-specific addition (Pos. 410). It reflects the mutual-liability nature of a <em>Genossenschaft</em> that a plain joint-stock bank does not have.</li>
       <li><strong>B-IPS / IPS-Beitrag deduction</strong> <span class="tag ors">ÖRS</span> — the contribution to the (B-)IPS support fund (Pos. 420) is treated as a deduction, recognising that committed IPS contributions are not freely available own funds.</li>
     </ul>
 
-    <h2>6 · Nuances &amp; traps</h2>
+    <h2 id="m02-s6">6 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ Trap 1 — T2 cannot do a CET1 or buffer job</div>
       <p>T2 (<em>Ergänzungskapital</em>) counts toward the <strong>8% total</strong> ratio and toward gone-concern cover — but it is <strong>useless</strong> for the 4,5% CET1 minimum, the 6% T1 minimum, and <strong>every buffer</strong> (all CET1). A bank can be flush with T2, pass all three Pillar-1 ratios, and still be <em>inside its combined buffer</em> with MDA distribution restrictions biting (see the §4 sensitivity). Surplus T2 never rescues a CET1 shortfall.</p>

@@ -38,14 +38,14 @@
 
     <!-- §6 TEACHING LOOP -->
 
-    <h2>1 · Motivation — what is actually allowed to absorb a loss?</h2>
+    <h2 id="m13-s1">1 · Motivation — what is actually allowed to absorb a loss?</h2>
     <p>The RTFA inequality \(\text{Risiko}_q \le \text{Deckungsmasse}_q\) is only as honest as its right-hand side. If you let too much in, every bank looks solvent in stress; if too little, you over-capitalise a sector that already carries mutual safety nets. The Leitfaden therefore defines the Deckungsmasse <em>scenario-specifically</em>: the substance you may count in a <strong>Problemfall</strong> (a once-in-20-years bad year, you keep operating) is <em>not</em> the same substance you may count in a <strong>Extremfall</strong> (a Liquidationsfall, near-wind-down at 99,9%).</p>
     <div class="box motivation">
       <div class="box-title">▶ The governing intuition: "what could really pay for the loss, given the scenario?"</div>
       <p>In a Problemfall the bank is a <em>going concern</em>: it can use this year's earnings and the capital it holds <em>above</em> the regulatory minimum, but it must keep the minimum intact and pay a Mindestausschüttung (minimum dividend). In an Extremfall it is a <em>gone concern</em>: you may reach into the <em>entire</em> own-funds stack (incl. subordinated debt) because the minimum no longer needs protecting — but you may <em>not</em> count next year's hoped-for profit after tax, and you must strip the Neubewertungsreserve (revaluation reserve) because it is volatile, scenario-correlated paper value, not hard loss-absorbing cash.</p>
     </div>
 
-    <h2>2 · Concept — the four/five building blocks</h2>
+    <h2 id="m13-s2">2 · Concept — the four/five building blocks</h2>
     <p>Both scenarios are sums of the same families of components; the scenario decides <em>which version</em> of each enters and with what sign. The blocks are:</p>
     <ol>
       <li><strong>Freier Jahres-/Konzernüberschuss</strong> (free annual / group surplus) — the earnings buffer.</li>
@@ -55,7 +55,7 @@
       <li><strong>− Neubewertungsreserve</strong> (revaluation reserve) — an explicit <em>subtraction</em> in the Extremfall; in the Problemfall it is simply excluded from Freies Kapital, so it never enters either way.</li>
     </ol>
 
-    <h3>2.1 The two formulae, side by side</h3>
+    <h3 id="m13-s2-1">2.1 The two formulae, side by side</h3>
     <div class="tablewrap">
     <table>
       <thead><tr><th>Building block</th><th>Problemfall (95%, going concern)</th><th>Extremfall (99,9%, Liquidationsfall)</th></tr></thead>
@@ -75,9 +75,9 @@
       <p style="margin-top:6px">Same skeleton; the Extremfall opens up the full own-funds stack but closes off next-year after-tax profit and explicitly nets out the Neubewertungsreserve.</p>
     </div>
 
-    <h2>3 · Each block, derived</h2>
+    <h2 id="m13-s3">3 · Each block, derived</h2>
 
-    <h3>3.1 Freier Jahres-/Konzernüberschuss — the earnings buffer</h3>
+    <h3 id="m13-s3-1">3.1 Freier Jahres-/Konzernüberschuss — the earnings buffer</h3>
     <p><strong>Problemfall, UGB-Rechnungskreis</strong> (Austrian commercial-code accounting circle). A going-concern bank can absorb a loss out of the profit it expects to earn this year, but only the part not already promised away:</p>
     <div class="formula">
       $$ \text{Freier Überschuss}_{\text{UGB}} = h_Q\cdot \text{budget JÜ} + \text{Gewinnvortrag} - \text{Mindestausschüttung} $$
@@ -102,7 +102,7 @@
 
     <p><strong>Extremfall.</strong> In a near-liquidation you may not count a hoped-for net profit you will never realise as a going concern. The guide therefore uses the profit/(−)loss from <strong>continuing operations, pre-tax</strong> + Gewinnvortrag. For an IFRS melder there is <strong>no</strong> period surplus after tax at all — it is already inside equity, which the Extremfall counts directly via anrechenbare Eigenmittel (avoiding the double count).</p>
 
-    <h3>3.2 Freies Kapital — own funds available to absorb losses</h3>
+    <h3 id="m13-s3-2">3.2 Freies Kapital — own funds available to absorb losses</h3>
     <p>This is where the own-funds stack of Module 2 (CET1 / AT1 / T2, the buffers, the deduction items) becomes a Deckungsmasse input.</p>
     <p><strong>Problemfall.</strong> Freies Kapital is the <strong>hard CET1 the bank holds <em>above</em> its legal Eigenmittelerfordernis</strong> (including the P2R and the combined buffer requirement, read off the utilisation band), <em>minus</em> the Neubewertungsreserve, usable for loss absorption:</p>
     <div class="formula">
@@ -125,7 +125,7 @@
       <div class="where">Each maps to Module 2: subordinated liabilities (>15 months residual) are T2; goodwill/intangibles and certain DTAs are CET1 <strong>Abzugsposten</strong> (deductions, Art. 36/38); the <strong>AVA</strong> (Additional Valuation Adjustment, Art. 34 referencing Art. 105 prudent valuation) reduces fair-valued positions; the <strong>Haftsummenzuschlag</strong> (cooperative members' supplementary-liability add-on) is a Raiffeisen-specific own-funds plus; the <strong>B-IPS Beitrag</strong> (paid-in IPS contribution) is netted out. <strong>Own-credit</strong> gains/losses are filtered per <strong>Art. 33 CRR</strong> (DVA / own-credit-risk fair-value changes removed) so the bank does not book a "gain" from its own deteriorating credit.</div>
     </div>
 
-    <h3>3.3 Stille Reserven — market value above book value</h3>
+    <h3 id="m13-s3-3">3.3 Stille Reserven — market value above book value</h3>
     <div class="formula">
       $$ \text{Stille Reserve} = \text{Marktwert / Verkehrswert} - \text{Buchwert} $$
       <div class="where">on <strong>securities (Wertpapiere)</strong> and <strong>participations (Beteiligungen)</strong>. A positive difference is a <em>stille Reserve</em> (hidden reserve); a negative one is a <em>stille Last</em> (hidden charge).</div>
@@ -150,7 +150,7 @@
       <p>So the option lifts the recognisable stille Reserve from €69m to up to €155m — still well short of the full €328m. <em>Policy rationale:</em> recognise genuine sector-internal value (the RLB participation really is worth far more than book in normal times) <strong>without over-recognising</strong> a volatile, scenario-correlated value that may not be realisable in the very stress you are testing. The 60% cap is the compromise between "ignore it" (€69m) and "count it all" (€328m).</p>
     </div>
 
-    <h3>3.4 Excess/Shortfall — where credit-risk EL re-enters</h3>
+    <h3 id="m13-s3-4">3.4 Excess/Shortfall — where credit-risk EL re-enters</h3>
     <div class="formula">
       $$ \text{Excess/Shortfall} = \underbrace{\text{Wertberichtigungen}}_{\text{provisions held}} - \underbrace{\text{Expected Loss}}_{EL=\sum PD\cdot LGD\cdot EAD} $$
       <div class="where"><b>Wertberichtigungen</b> = the provisions actually booked across the whole portfolio: gebildete Vorsorgen incl. <em>Eventual-Rückstellungen</em> (contingent provisions), <em>Portfolio-/Pauschalwertberichtigungen</em> (portfolio / general value adjustments), the <em>§57(1) BWG Unterdeckung</em> (statutory under-provisioning reserve), and the relevant <em>passive Rechnungsabgrenzung</em> (accruals). <b>EL</b> is the Module 5 Expected Loss across the whole portfolio.</div>
@@ -160,7 +160,7 @@
       <p>If <strong>provisions exceed EL (an <em>excess</em>)</strong>, the bank has over-provided relative to its modelled expected loss, so the surplus provisions are extra cover → <strong>ADD</strong> to the Deckungsmasse. If <strong>EL exceeds provisions (a <em>shortfall</em>)</strong>, the bank is under-provided for its expected loss, so the gap must come out of the cover → <strong>SUBTRACT</strong>. This applies in <strong>both</strong> scenarios identically. It is the accounting counterpart of Module 5's rule: the IRB capital number carries UL only, while EL is netted against provisions here. Never also subtract EL from the risk side — that would double-count.</p>
     </div>
 
-    <h2>4 · Worked example — a Problemfall Deckungsmasse end to end</h2>
+    <h2 id="m13-s4">4 · Worked example — a Problemfall Deckungsmasse end to end</h2>
     <div class="box example">
       <div class="box-title">Worked example — building the cover (UGB Problemfall)</div>
       <p>A Raiffeisenbank reports at <strong>Q3</strong>. Inputs (all €m):</p>
@@ -181,7 +181,7 @@
       </ul>
     </div>
 
-    <h2>5 · In practice — the data mapping (VERA / COREP / FINREP / Beleg 12)</h2>
+    <h2 id="m13-s5">5 · In practice — the data mapping (VERA / COREP / FINREP / Beleg 12)</h2>
     <p>Your quarterly R-script reads these blocks from the supervisory melder files. The accounting circle decides which set: <strong>UGB</strong> melders for the commercial-code circle, <strong>IFRS / CRR-Rechnungskreis</strong> melders for the consolidated group. The key source documents are <strong>VERA</strong> (Vermögens-, Erfolgs- und Risikoausweis), <strong>COREP</strong> (Beleg 80/81, own funds &amp; requirements), <strong>FINREP/FINUS</strong> (financial reporting), and the internal <strong>stille-Reserven melder Beleg 12</strong>.</p>
     <div class="tablewrap">
     <table>
@@ -208,7 +208,7 @@
       <p>The COREP own-funds and buffer positions (7800000/7810000/7810002/7812000/8127010/8127030/8128000) and the Gesamtrisikobetrag (7980000) are <span class="tag reg">regulatory</span> — defined by the CRR/EBA ITS and reported regardless of the Leitfaden. The <em>way</em> the guide recombines them into Freies Kapital, the quarterly haircut, the 20% participation haircut, the €5m floor exception, and the RLB 60% option are <span class="tag ors">ÖRS choices</span> layered on top. The <strong>3001xxx</strong> stille-Reserven sub-positions split by <em>hievon</em>-at-Zentralinstitut exist precisely to operationalise the RLB option (you need the at-Spitzeninstitut slice separately).</p>
     </div>
 
-    <h2>6 · Nuances &amp; traps</h2>
+    <h2 id="m13-s6">6 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ The quarterly haircut hits the BUDGET only</div>
       <p>The 85/85/90/100% haircut applies to the <em>budgeted</em> Jahresüberschuss, not to the Gewinnvortrag and not to the Mindestausschüttung. Applying 90% to the whole €4,6m freier Überschuss instead of just the €4,0m budget JÜ is a classic mistake — recompute the worked example to see it: \(0{,}9\times4{,}6 = 4{,}14 \ne 4{,}6\).</p>

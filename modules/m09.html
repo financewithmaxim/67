@@ -37,7 +37,7 @@
 
     <!-- §6 TEACHING LOOP: Motivation → Concept → Derivation → Worked example → In practice → Traps → Quiz → Recap -->
 
-    <h2>1 · Motivation — why liquidity needs two instruments, not one</h2>
+    <h2 id="m09-s1">1 · Motivation — why liquidity needs two instruments, not one</h2>
     <p>Imagine the bank survives the worst credit year intact: capital is fine. It can still <em>fail</em> for an entirely different reason — it cannot meet a payment on the day it is due (<em>Zahlungsunfähigkeit</em>, insolvency of payment), or it can only roll its long-dated funding gap at a punishing spread (<em>Liquiditätspreisrisiko</em>, liquidity-price risk). These are not the same hazard and they cannot be managed with one number.</p>
     <p>Short-term insolvency-of-payment is a <strong>flow</strong> problem on a horizon of days: do tomorrow's outflows have cash behind them? You manage it with <em>limits</em> and survival-period ratios, not by reserving capital — capital does not pay a counterparty on Friday. The structural funding-cost risk is a <strong>value</strong> problem on a horizon of years: if refinancing your long gap becomes more expensive, the present value of that future cost is a loss <em>today</em>. That one <em>is</em> economic capital. The Leitfaden therefore wires liquidity into the <em>Risikotragfähigkeit</em> (risk-bearing capacity) asymmetrically, and the whole module is about that asymmetry and the model that prices the second half.</p>
     <div class="box motivation">
@@ -45,7 +45,7 @@
       <p><strong>(i) Kurzfristige Zahlungsunfähigkeit</strong> — short-term insolvency of payment: not enough liquid means to settle due obligations. <strong>(ii) Strukturelles Liquiditäts-/Liquiditätspreisrisiko</strong> — higher own refinancing costs arising from the <em>Liquiditätsgap</em> (the structural funding gap). A third notion, <strong>market-liquidity risk</strong> (you cannot sell an asset without a price concession), is <em>not</em> a separate liquidity charge here — it is already captured through <strong>holding periods in market risk</strong> and through <strong>haircuts in the Liquiditätspuffer</strong> (liquidity buffer). So this module is about (i) and (ii) only.</p>
     </div>
 
-    <h2>2 · Concept &amp; logic — the Problemfall / Extremfall split</h2>
+    <h2 id="m09-s2">2 · Concept &amp; logic — the Problemfall / Extremfall split</h2>
     <p>The single most important fact in §5.7 is <em>which</em> liquidity risk enters the RTFA, and how:</p>
     <div class="tablewrap">
     <table>
@@ -66,9 +66,9 @@
       <p>The Pillar-1 liquidity ratios — <strong>LCR</strong> (Liquidity Coverage Ratio: HQLA vs 30-day stressed net outflows, ≥<span class="tag reg">100%</span>) and <strong>NSFR</strong> (Net Stable Funding Ratio: available vs required stable funding over 1 year, ≥<span class="tag reg">100%</span>) — are <em>regulatory minimum constraints</em> under CRR Part Six. They govern the <em>Problemfall</em>-style short-term and structural <em>adequacy</em>. The FLVaR is the <strong>economic structural complement</strong>: it does not replicate a ratio; it prices the funding-cost risk of the residual long gap in <em>value</em> terms. See §3.5 for the precise division of labour.</p>
     </div>
 
-    <h2>3 · Derivation — building the FLVaR</h2>
+    <h2 id="m09-s3">3 · Derivation — building the FLVaR</h2>
 
-    <h3>3.1 The object being modelled: the open liquidity gaps</h3>
+    <h3 id="m09-s3-1">3.1 The object being modelled: the open liquidity gaps</h3>
     <p>The FLVaR is a <strong>simplified variance–covariance (parametric) approach</strong> that measures the <em>present-value loss of closing the open gaps</em>. The basis is the set of open <strong>non-cumulative</strong> liquidity gaps of the <em>Normalfall</em> (the normal-case liquidity run-off) in maturity bands <strong>&gt; 1 year</strong>, with bands <strong>&gt; 5 years netted</strong> (<em>Saldiert</em>).</p>
     <div class="box ors">
       <div class="box-title">🟣 Why net everything beyond 5 years? (Saldierung)</div>
@@ -76,7 +76,7 @@
     </div>
     <p>Confidence is <strong>99,9%</strong> <span class="tag reg">regulatory-anchored</span> and the holding period is <strong>250 days</strong> <span class="tag ors">ÖRS choice (analogy to IRRBB)</span> — the same calibration as the interest-rate risk in the banking book (Module 6), so the liquidity number is VaR-consistent with the rest of the Extremfall.</p>
 
-    <h3>3.2 The discounting skeleton — PV1, PV2 and the per-band FLVaR</h3>
+    <h3 id="m09-s3-2">3.2 The discounting skeleton — PV1, PV2 and the per-band FLVaR</h3>
     <p>Each open gap is a future cash flow that, to be closed, must be refinanced. Discount it twice: once at today's mixed funding rate, once at the <em>stressed</em> mixed funding rate. The difference in present value is the loss.</p>
     <div class="formula">
       $$ PV1 \;=\; \sum_i lgap_i\cdot DF_i\big(\text{Mischzinssatz}\big), \qquad PV2 \;=\; \sum_i lgap_i\cdot DF_i\big(\text{gestresster Mischzinssatz}\big) $$
@@ -84,7 +84,7 @@
       <div class="where"><b>\(lgap_i\)</b> = open non-cumulative liquidity gap in maturity band \(i\) (\(i\) ranges over bands &gt; 1y, the &gt;5y bands netted into one); <b>\(DF_i(\cdot)\)</b> = the discount factor for band \(i\), i.e. \(DF_i=(1+r)^{-t_i}\) with \(t_i\) the band's mid-maturity in years and \(r\) the applicable rate; <b>Mischzinssatz</b> = the bank's mixed funding rate per band (derived in §3.4); <b>gestresster Mischzinssatz</b> = the same rate after a 99,9% adverse move over the 250-day holding period. The <strong>per-band difference</strong> \((lgap_i\,DF_i^{stress}-lgap_i\,DF_i^{base})\) is the FLVaR contribution of band \(i\); summing the bands gives the <strong>undiversified FLVaR</strong>.</div>
     </div>
 
-    <h3>3.3 The sign convention — only a funding NEED is a risk</h3>
+    <h3 id="m09-s3-3">3.3 The sign convention — only a funding NEED is a risk</h3>
     <p>This is the trap that catches everyone. A liquidity gap can point either way:</p>
     <ul>
       <li>A <strong>negative undiversified FLVaR</strong> means the bank has a structural <em>Refinanzierungsbedarf</em> (funding need): it is short of stable funding in the long bands and must refinance — when spreads widen, that hurts. <strong>This is the risk.</strong></li>
@@ -95,7 +95,7 @@
       <p>Concretely: compute the undiversified FLVaR; <strong>if it is negative (a funding need), it flows into the Extremfall Deckungsmassen charge; if it is positive (over-funding), it does not.</strong> You never let an over-funded position <em>generate</em> a capital benefit — that would be booking a windfall on cheaper future funding. Liquidity-price risk is asymmetric by design: you capitalise the cost of having to borrow, not the gain from having lent.</p>
     </div>
 
-    <h3>3.4 The Mischzinssatz — pricing the gaps at the actual funding mix</h3>
+    <h3 id="m09-s3-4">3.4 The Mischzinssatz — pricing the gaps at the actual funding mix</h3>
     <p>The discount rate is not a single market rate: it is the rate at which <em>this</em> bank actually refinances, which is a blend of cheap, sticky retail deposits and pricier wholesale/interbank money. The blend is the <strong>Mischzinssatz</strong>, and its weights come from the bank's own funding structure.</p>
     <p>First the weight. The <strong>Primäreinlagenanteil</strong> (primary-deposit share) is the share of stable customer funding in total long-term refinancing:</p>
     <div class="formula">
@@ -113,14 +113,14 @@
       <div class="where"><b>CDS-Vola(99,9%; Haltedauer)</b> = the 99,9%-percentile adverse move of the sovereign CDS spread over the 250-day holding period; <b>SPI-rel.Vola(99,9%; Haltedauer)</b> = the corresponding relative-volatility shock on the savings indicator. The IRS leg is treated as the common base; the <em>spread</em> components (CDS, SPI) carry the stress. <em>Economic story:</em> in a funding stress, both wholesale money (CDS spread blows out) and retail money (you must pay up to keep deposits) become more expensive at once — so the rate you refinance the &gt;1y gaps at jumps, and the PV of that gap-closing cost rises. The FLVaR is exactly that PV hit, \(PV2-PV1\).</div>
     </div>
 
-    <h3>3.5 The diversified FLVaR — the CDS correlation matrix</h3>
+    <h3 id="m09-s3-5">3.5 The diversified FLVaR — the CDS correlation matrix</h3>
     <p>The undiversified FLVaR sums the band contributions as if every band's spread moved in lock-step. In reality, spreads across maturities co-move imperfectly, so the Leitfaden allows a <strong>diversified</strong> figure via a CDS correlation matrix across the maturity bands:</p>
     <div class="formula">
       $$ \text{FLVaR}_{\text{div}} \;=\; \sqrt{\,(PV2-PV1)^{\mathsf T}\cdot CDS\text{-}Corr\cdot (PV2-PV1)\,} $$
       <div class="where"><b>\((PV2-PV1)\)</b> = the column vector of per-band FLVaR contributions; <b>\(CDS\text{-}Corr\)</b> = the symmetric correlation matrix of CDS-spread moves between maturity bands (diagonal 1). When all correlations are +1 this collapses to the absolute-summed undiversified figure; with correlations &lt; 1 it is smaller. <em>Like every diversified figure in the Leitfaden, it enters the Extremfall <strong>only when there is a funding need</strong></em> (i.e. when the undiversified FLVaR is negative). Cross-<em>risk</em> aggregation is still addition (correlation +1, Module 4); this correlation lives strictly <em>within</em> the liquidity risk, across its bands.</div>
     </div>
 
-    <h3>3.6 The simplified factor approach (small institutions)</h3>
+    <h3 id="m09-s3-6">3.6 The simplified factor approach (small institutions)</h3>
     <p>For small banks the full Mischzinssatz machinery is disproportionate, so the Leitfaden offers a closed-form factor approach — the liquidity analogue of the IRRBB <strong>200bp parallel shift</strong>. It assumes <strong>full primary-deposit funding</strong> (Primäreinlagenanteil = 1), a savings indicator of <strong>1%</strong>, and a <strong>100bp volatility</strong> scaled to 99,9% over 1 year:</p>
     <div class="formula">
       $$ \text{Liquiditätsrisiko} \;=\; \Big(\sum_i \big(Gap_i\cdot \text{Laufzeitband}_{i,\text{Jahre}}\big)\cdot \text{Preisabweichung}\Big)\cdot 75\%\cdot \text{Abzinsungsfaktor} $$
@@ -128,7 +128,7 @@
     </div>
     <p>This whole approach is marked <span class="tag ors">ÖRS simplification</span>: it replaces the bank-specific funding mix, the CDS/SPI curves and the correlation matrix with three fixed assumptions, in exchange for a one-line calculation a small bank can run without a curve library.</p>
 
-    <h2>4 · Worked example</h2>
+    <h2 id="m09-s4">4 · Worked example</h2>
     <div class="box example">
       <div class="box-title">Worked example A — the simplified factor approach (the Leitfaden's own numbers)</div>
       <p>A small bank reports these &gt;1y gaps (in € m), with the band maturities in years:</p>
@@ -174,7 +174,7 @@
       <p>The diversified figure <strong>2,42</strong> is below the undiversified magnitude <strong>2,7</strong> because the bands' spreads do not move in perfect lock-step (\(\rho=0{,}6<1\)). It enters the Extremfall only because the position is a funding need.</p>
     </div>
 
-    <h2>5 · In practice (the Leitfaden &amp; the data)</h2>
+    <h2 id="m09-s5">5 · In practice (the Leitfaden &amp; the data)</h2>
     <p>The inputs map to data you already touch as a controller:</p>
     <ul>
       <li><strong>The gaps</strong> come from the <em>Normalfall Liquiditätsablaufbilanz</em> (run-off balance sheet), non-cumulative, bands &gt;1y, &gt;5y netted — the same source feeding the <em>Leitfaden Liquidität</em> Kennziffern.</li>
@@ -182,7 +182,7 @@
       <li><strong>The curves</strong>: IRS (swap), the Austrian sovereign CDS curve, and the OeNB SPI savings indicator, plus their 99,9%/250-day volatilities for the stress leg.</li>
       <li><strong>The result</strong> enters the Extremfall Deckungsmassen charge only when the undiversified FLVaR is negative (funding need).</li>
     </ul>
-    <h3>5.1 FLVaR vs LCR vs NSFR — the division of labour</h3>
+    <h3 id="m09-s5-1">5.1 FLVaR vs LCR vs NSFR — the division of labour</h3>
     <div class="tablewrap">
     <table>
       <thead><tr><th>Measure</th><th>Horizon &amp; nature</th><th>Question answered</th><th>Status</th></tr></thead>
@@ -195,7 +195,7 @@
     </div>
     <p>LCR and NSFR are <em>adequacy ratios</em> — pass/fail constraints that sit alongside the RTFA. The FLVaR is the <strong>economic structural complement</strong>: it does not duplicate a ratio; it puts a 99,9% present-value price on the structural funding-cost risk that the ratios constrain but do not <em>value</em>. The short-term, payment-ability side (the LCR's home turf) is the Problemfall's limit-monitored domain per the <em>Leitfaden Liquidität</em> — and carries <strong>no capital charge</strong>.</p>
 
-    <h2>6 · Nuances &amp; traps</h2>
+    <h2 id="m09-s6">6 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ Trap — the Problemfall has NO liquidity capital charge</div>
       <p>Short-term liquidity is limit-managed and monitored via Kennziffern per the <em>Leitfaden Liquidität</em>; it does <strong>not</strong> consume Deckungsmasse. Only the Extremfall's structural funding-cost risk (the FLVaR) does. Capitalising "running out of cash next week" is a category error — capital does not produce liquidity on demand.</p>

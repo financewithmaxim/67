@@ -37,14 +37,14 @@
 
     <!-- §6 TEACHING LOOP: Motivation → Concept → Derivation → Worked example → In practice → Traps → Quiz → Recap -->
 
-    <h2>1 · Motivation — why op risk needs its own tail</h2>
+    <h2 id="m08-s1">1 · Motivation — why op risk needs its own tail</h2>
     <p>Credit and market risk have clean parametric stories: a latent normal factor (M5), a parametric VaR (M6). Operational risk does not. Its loss distribution is dominated by <strong>rare, very large events</strong> — a fraud, a failed IT migration, a money-laundering penalty, a legal judgment — sitting in a long right tail, while everyday small losses (processing errors, minor outages) cluster near zero. A normal distribution cannot represent that: it has thin, symmetric tails. So when the Leitfaden rescales the regulatory op-risk charge from the 99,9% Extremfall to the 95% Problemfall, it cannot just use the normal-quantile ratio it uses for CVA. It must respect the <strong>fat right tail</strong> — and that is the entire reason the Problemfall factor is 5,0% and not ~8%.</p>
     <div class="box motivation">
       <div class="box-title">▶ The one idea of this module</div>
       <p>The same machine you met in M4 — vertical VaR consistency, \(\text{VaR}_{q_2}=\text{VaR}_{q_1}\cdot \frac{\text{quantile}(q_2)}{\text{quantile}(q_1)}\) — is applied here to a distribution that is <em>partly lognormal</em>. Because the lognormal's tail grows much faster than the normal's, the 95%-to-99,9% quantile <em>ratio</em> is far smaller for the lognormal component, which drags the rescaled factor down from ~8% (normal-only) to 5,0% (the mixture). The fat tail makes the 95% loss a much smaller share of the 99,9% loss.</p>
     </div>
 
-    <h2>2 · Concept &amp; logic — what op risk is, and its indicator</h2>
+    <h2 id="m08-s2">2 · Concept &amp; logic — what op risk is, and its indicator</h2>
     <p><strong>Operationelles Risiko</strong> (operational risk) = the risk of loss resulting from inadequate or failed internal processes, people and systems, or from external events. By regulatory definition (CRR Art. 4(1)(52)) it <strong>includes Rechtsrisiko</strong> (legal risk) — losses from litigation, defective documentation, regulatory penalties. The Leitfaden treats two further families explicitly <em>inside</em> op risk:</p>
     <ul>
       <li><strong>IKT-/ICT-Risiko</strong> (information &amp; communication technology risk) — per the FMA <em>IKT-Leitfaden</em> and now DORA. Sub-types: <em>Verfügbarkeit/Kontinuität</em> (availability/continuity), <em>Sicherheit</em> (security), <em>Veränderung</em> (change management), <em>Datenintegrität</em> (data integrity), and <em>Auslagerung</em> (outsourcing/third-party).</li>
@@ -55,9 +55,9 @@
       <p>Op risk has no "exposure" you can read off the balance sheet. The regulatory proxy is <strong>Betriebserträge</strong> (operating income / gross income): the more business an institution does, the larger its op-risk <em>surface</em> — more transactions to misprocess, more systems to fail, more staff and counterparties, more legal and AML touchpoints. So the exposure measure is a <em>flow</em> (income), not a <em>stock</em> (assets). Sourced from <strong>FINREP/VERA</strong> reporting.</p>
     </div>
 
-    <h2>3 · Derivation — the 15% anchor and the 5,0% factor</h2>
+    <h2 id="m08-s3">3 · Derivation — the 15% anchor and the 5,0% factor</h2>
 
-    <h3>3.1 The Extremfall: 15% of Betriebserträge</h3>
+    <h3 id="m08-s3-1">3.1 The Extremfall: 15% of Betriebserträge</h3>
     <p>The Extremfall (99,9%) charge equals <strong>15% of the three-year average Betriebserträge</strong>. This is anchored directly in the CRR:</p>
     <div class="formula">
       $$ \text{OpRisk}_{\text{Extremfall}} \;=\; 15\% \cdot \overline{\text{Betriebserträge}}_{\,3\text{yr}} $$
@@ -68,7 +68,7 @@
       <p>The 15% \(\alpha\) of the Basisindikatoransatz is a fixed CRR coefficient — calibrated by the Basel Committee to a 99,9% / one-year op-risk capital standard, the same confidence as the IRB credit calibration (M4/M5). So the <strong>Extremfall = 15%·Betriebserträge</strong> is <span class="tag reg">regulatory</span>; what the Leitfaden chooses is to <em>use</em> the BIA-style simplification rather than a loss-distribution model — judged adequate (§5.6) "aufgrund der relativen Gewichte der Geschäftsfelder der RBG" (given the relative weights of the RBG's business lines, no single high-beta line dominates).</p>
     </div>
 
-    <h3>3.2 The Problemfall: rescale 15% from 99,9% to 95% — but the distribution is not normal</h3>
+    <h3 id="m08-s3-2">3.2 The Problemfall: rescale 15% from 99,9% to 95% — but the distribution is not normal</h3>
     <p>To get the Problemfall (95%) factor we rescale the 99,9% charge by the ratio of the 95% to 99,9% quantiles — exactly the vertical VaR consistency of M4. But op-risk loss is <strong>not</strong> normal. The Leitfaden assumes it is a probability-weighted mixture: <strong>⅓ normally distributed and ⅔ lognormally distributed</strong> <span class="tag ors">ÖRS modelling assumption</span>. The lognormal ⅔ captures the fat right tail (big, rare losses); the normal ⅓ the everyday operational noise. The rescaling factor is the weighted average of each component's own 95%/99,9% quantile ratio:</p>
     <div class="formula">
       $$ f_{\text{Problemfall}} \;=\; 15\% \cdot \Big( \underbrace{0{,}33 \cdot \tfrac{1{,}645}{3{,}090}}_{\text{normal }\tfrac13} \;+\; \underbrace{0{,}67 \cdot \tfrac{5{,}180}{21{,}982}}_{\text{lognormal }\tfrac23} \Big) \;=\; 5{,}0\% $$
@@ -84,7 +84,7 @@
       <p>The lognormal stretches the tail: moving from 95% to 99,9% multiplies the quantile by \(21{,}982/5{,}180\approx 4{,}24\), versus only \(3{,}090/1{,}645\approx 1{,}88\) for the normal. That asymmetry is the fat tail, and it is what pulls the Problemfall factor below the normal-only value.</p>
     </div>
 
-    <h3>3.3 The arithmetic, made explicit</h3>
+    <h3 id="m08-s3-3">3.3 The arithmetic, made explicit</h3>
     <p>Compute each component's 95%/99,9% quantile ratio, weight, and sum:</p>
     <div class="formula">
       $$ \text{normal component: } \frac{1{,}645}{3{,}090}=0{,}532, \qquad \text{lognormal component: } \frac{5{,}180}{21{,}982}=0{,}236. $$
@@ -97,7 +97,7 @@
       <p>In <strong>M7 (CVA)</strong> the Problemfall scalar was \(\Phi^{-1}(0{,}95)/\Phi^{-1}(0{,}99)=1{,}645/2{,}326=0{,}71\) — a <em>pure normal</em> ratio, because the CVA charge is treated as a normal VaR. Here the same vertical-consistency idea is applied to a <strong>mixture with a lognormal tail</strong>, so the scalar is the weighted ratio \(0{,}333\), not a single normal ratio. <strong>Same engine, different distribution.</strong> The ⅓/⅔ split and the lognormality are the <span class="tag ors">ÖRS modelling assumptions</span>; the engine (vertical VaR consistency) is the regulatory-style logic from M4.</p>
     </div>
 
-    <h2>4 · Worked example</h2>
+    <h2 id="m08-s4">4 · Worked example</h2>
     <div class="box example">
       <div class="box-title">Worked example — €20m Betriebserträge, both scenarios, and the trap factor</div>
       <p>Inputs: 3-year average <strong>Betriebserträge = €20m</strong> (from FINREP/VERA).</p>
@@ -109,7 +109,7 @@
       <p>That overstates the Problemfall charge by 60% (€1,6m vs €1,0m). The <strong>⅔ lognormal weight</strong>, whose 95%/99,9% ratio is only 0,236, drags the blended factor from 8,0% down to 5,0%. The fat tail means the 95% loss is a <em>much smaller</em> fraction of the 99,9% loss than a normal world would predict — so the Problemfall charge is correspondingly lighter.</p>
     </div>
 
-    <h2>5 · In practice (the Leitfaden &amp; the data)</h2>
+    <h2 id="m08-s5">5 · In practice (the Leitfaden &amp; the data)</h2>
     <ul>
       <li><strong>Data source:</strong> <em>Betriebserträge</em> is taken from <strong>FINREP/VERA</strong> as the three-year average operating income; the same series that feeds the BIA reporting.</li>
       <li><strong>The simplification's justification:</strong> the single 15%/5% factor approach is judged adequate "aufgrund der relativen Gewichte der Geschäftsfelder der RBG" — because the Raiffeisen Bankengruppe's business mix is dominated by lower-beta retail/commercial banking, so a business-line-weighted TSA would land near the BIA's 15% anyway.</li>
@@ -123,7 +123,7 @@
       <p>The <strong>BIC</strong> is a marginal-coefficient function of a Business Indicator (interest, services and financial components — a refined income measure), and the <strong>ILM</strong> scales it by the bank's own <em>loss history</em> (10-year average losses). So SMA adds <strong>loss-history sensitivity</strong> that the flat 15% BIA lacks: a bank with a clean loss record can have ILM &lt; 1; a loss-heavy one &gt; 1. The Leitfaden's 15%/5% (BIA-style) approach therefore <strong>post-dates the CRR III change and is superseded</strong>. <span class="tag reg">verify against CRR III / SMA</span></p>
     </div>
 
-    <h2>6 · Nuances &amp; traps</h2>
+    <h2 id="m08-s6">6 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ Trap — 5% is NOT a normal-only rescaling</div>
       <p>If you compute \(15\%\cdot\Phi^{-1}(0{,}95)/\Phi^{-1}(0{,}999)=15\%\cdot0{,}532\) you get <strong>8,0%</strong>, not 5,0%. The 5,0% only appears because <strong>⅔ of the distribution is lognormal</strong>, with a much smaller 95%/99,9% ratio (0,236). Reaching for the CVA-style single normal ratio is the classic error here — op risk is the one charge where the rescaling is <em>not</em> purely normal.</p>

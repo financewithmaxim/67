@@ -35,7 +35,7 @@
       </ul>
     </div>
 
-    <h2>1 · Motivation — why CVA risk exists at all</h2>
+    <h2 id="m07-s1">1 · Motivation — why CVA risk exists at all</h2>
     <p>When you hold a derivative with positive market value, that value is a <strong>receivable</strong> from your counterparty. Standard practice prices the derivative off the "risk-free" (swap/OIS) curve — so the headline mark-to-market (MTM) pretends the counterparty will always pay. It will not, with some probability. The <strong>CVA (Credit Valuation Adjustment)</strong> is exactly that correction: the value adjustment of derivative receivables for the counterparty's credit risk — the difference between the risk-free value and the value that accounts for possible default.</p>
     <p><strong>CVA risk</strong> is the <em>volatility</em> of that adjustment. Specifically, it is the potential MTM loss from a <strong>widening of the counterparty's credit spread</strong>. If the counterparty's spread blows out (its CDS gets more expensive, its perceived creditworthiness deteriorates) but it has <em>not</em> defaulted, the CVA you must book grows, and the net value of your position falls. If you closed the position early, that wider spread is a real cost. This is a spread-driven, mark-to-market loss — not a default event.</p>
     <div class="box motivation">
@@ -43,7 +43,7 @@
       <p>In 2007–2009 roughly <strong>two-thirds</strong> of counterparty-credit losses came not from outright defaults but from CVA <em>mark-to-market</em> swings as spreads widened. Basel III answered with a dedicated <strong>CVA capital charge</strong>, transposed into EU law as <strong>CRR Title VI (Art. 381–386)</strong>. The Leitfaden's CVA risk plugs straight into that regulatory charge — so understanding the charge <em>is</em> understanding the module.</p>
     </div>
 
-    <h2>2 · Concept &amp; logic — three things people confuse</h2>
+    <h2 id="m07-s2">2 · Concept &amp; logic — three things people confuse</h2>
     <p>The single most common error here is conflating three distinct risks. Keep them apart:</p>
     <div class="tablewrap">
     <table>
@@ -61,7 +61,7 @@
       <p><strong>CVA risk = potential mark-to-market loss on derivative receivables caused by a widening of the counterparty's credit spread, the position not having defaulted.</strong> It is a market-risk-flavoured charge on a credit-driven price.</p>
     </div>
 
-    <h2>3 · The Leitfaden's pragmatic approach — import the regulatory charge</h2>
+    <h2 id="m07-s3">3 · The Leitfaden's pragmatic approach — import the regulatory charge</h2>
     <p>Modelling CVA from first principles is hard: you need expected-exposure profiles per netting set, counterparty CDS spreads or proxies, and a full sensitivity (or simulation) engine. That is data-hungry and impossible to standardise across 400 Raiffeisenbanken. So the Leitfaden makes a deliberate proportionality call: it does <strong>not</strong> re-model CVA. Instead it <strong>takes the regulatory CVA own-funds requirement directly</strong> from the supervisory report.</p>
     <p>The basis is the COREP position <em>"Gesamtbetrag der Risikoposition für Anpassung der Kreditbewertung"</em> (total risk-exposure amount for credit valuation adjustment), <strong>PosNr 7516000</strong>, carrying the standard <strong>8% own-funds weight</strong> (Eigenmittelgewicht). The CVA capital requirement is therefore simply:</p>
     <div class="formula">
@@ -69,17 +69,17 @@
       <div class="where">The 8% is the universal CRR own-funds-to-RWA factor <span class="tag reg">regulatory</span>: the supervisory report already delivers a <em>risk-exposure amount</em> (an RWA-equivalent), and 8% of it is the capital charge. The risk-exposure amount itself is produced by the CRR Title VI standardised CVA method <span class="tag reg">regulatory</span>. The Leitfaden's <em>decision to reuse this number rather than build its own CVA model</em> is the proportionality choice <span class="tag ors">ÖRS choice</span>.</div>
     </div>
 
-    <h2>4 · Derivation — where 0,71 and 1,33 come from</h2>
+    <h2 id="m07-s4">4 · Derivation — where 0,71 and 1,33 come from</h2>
     <p>The CVA-Eigenmittelerfordernis is a capital number, but it is calibrated to one specific confidence. The standardised regulatory CVA charge is built to a <strong>99% confidence</strong> level. The Leitfaden's RTFA, however, needs the figure at <strong>95% (Problemfall)</strong> and <strong>99,9% (Extremfall)</strong>. To move between confidences it uses exactly the <strong>VaR vertical consistency</strong> rule derived in Module 4.</p>
 
-    <h3>4.1 The vertical-consistency engine (recap from M4)</h3>
+    <h3 id="m07-s4-1">4.1 The vertical-consistency engine (recap from M4)</h3>
     <p>Under a normal/parametric assumption a VaR is a <em>quantile multiple of a volatility</em>: \(\text{VaR}_q=\Phi^{-1}(q)\cdot\sigma\). The volatility \(\sigma\) is the same regardless of which confidence you read; only the quantile multiplier changes. So re-scaling confidence is a pure <strong>ratio of standard-normal quantiles</strong>:</p>
     <div class="formula">
       $$ \text{VaR}_{q_2} \;=\; \text{VaR}_{q_1}\cdot\frac{\Phi^{-1}(q_2)}{\Phi^{-1}(q_1)}. $$
       <div class="where">\(\Phi^{-1}\) = standard-normal inverse CDF. The \(\sigma\) cancels: \(\dfrac{\Phi^{-1}(q_2)\,\sigma}{\Phi^{-1}(q_1)\,\sigma}=\dfrac{\Phi^{-1}(q_2)}{\Phi^{-1}(q_1)}\). The quantiles you reuse constantly: \(\Phi^{-1}(0{,}95)=1{,}6449\); \(\Phi^{-1}(0{,}99)=2{,}3263\); \(\Phi^{-1}(0{,}999)=3{,}0902\).</div>
     </div>
 
-    <h3>4.2 Apply it: the regulatory CVA base is at 99%</h3>
+    <h3 id="m07-s4-2">4.2 Apply it: the regulatory CVA base is at 99%</h3>
     <p>Here the base confidence is \(q_1=99\%\) (the regulatory CVA calibration), and the two targets are \(q_2=95\%\) and \(q_2=99{,}9\%\). Substituting directly:</p>
     <div class="formula">
       $$ \underbrace{0{,}71}_{\text{Problemfall scalar}} \;=\; \frac{\Phi^{-1}(0{,}95)}{\Phi^{-1}(0{,}99)} \;=\; \frac{1{,}6449}{2{,}3263} \;=\; 0{,}7071 \;\longrightarrow\; 0{,}71. $$
@@ -95,7 +95,7 @@
       <p><span class="tag reg">regulatory</span> The <strong>CVA risk-exposure amount</strong> (PosNr 7516000), the <strong>8% weight</strong>, and the <strong>99% confidence</strong> at which the standardised CVA charge is calibrated are all CRR Title VI — fixed. &nbsp; <span class="tag ors">ÖRS choice</span> Two decisions belong to the Leitfaden: (1) <em>importing</em> the regulatory charge instead of modelling CVA, and (2) <em>re-scaling confidence by a normal-quantile ratio</em> (0,71 / 1,33). The normality is the simplification — see the trap below.</p>
     </div>
 
-    <h2>5 · Worked example</h2>
+    <h2 id="m07-s5">5 · Worked example</h2>
     <div class="box example">
       <div class="box-title">Worked example — from PosNr 7516000 to both scenarios</div>
       <p>Suppose the supervisory report shows a CVA risk-exposure amount (PosNr 7516000) of <strong>€50.000.000</strong>.</p>
@@ -108,12 +108,12 @@
       <p>That is the entire CVA computation in the RTFA: one COREP figure, one regulatory weight, and two quantile-ratio scalars. The Extremfall is <em>not</em> "3× the Problemfall" (that rule-of-thumb belongs to Beteiligungsrisiko) — here the ratio is fixed at \(1{,}33/0{,}71 = 3{,}0902/1{,}6449 = 1{,}88\), the 99,9%/95% quantile ratio.</p>
     </div>
 
-    <h2>6 · In practice — the data, the unifying pattern, and the CRR III flag</h2>
+    <h2 id="m07-s6">6 · In practice — the data, the unifying pattern, and the CRR III flag</h2>
 
-    <h3>6.1 Where the input comes from</h3>
+    <h3 id="m07-s6-1">6.1 Where the input comes from</h3>
     <p>PosNr 7516000 is a COREP line: the <em>Gesamtbetrag der Risikoposition für Anpassung der Kreditbewertung</em> reported under the CRR's own-funds requirements (C 25.00 in EBA COREP). You do not compute it — it is already produced by the bank's regulatory reporting engine. Your job in Risk Controlling is to pick up that single number, apply 8%, and apply the two scalars. No CDS curves, no exposure simulation, no proxy spreads enter the Leitfaden's version.</p>
 
-    <h3>6.2 The unifying pattern — one formula, three uses</h3>
+    <h3 id="m07-s6-2">6.2 The unifying pattern — one formula, three uses</h3>
     <p>The scalars 0,71 and 1,33 have <strong>nothing intrinsically to do with CVA</strong>. They are pure confidence-rescaling factors off a 99% base, and the <em>same</em> machinery appears elsewhere:</p>
     <ul>
       <li><strong>CVA (this module):</strong> 99% regulatory charge × 0,71 / 1,33.</li>
@@ -125,13 +125,13 @@
       <p>Once you see 0,71 and 1,33 as \(\Phi^{-1}(0{,}95)/\Phi^{-1}(0{,}99)\) and \(\Phi^{-1}(0{,}999)/\Phi^{-1}(0{,}99)\), they stop being "CVA constants" and become general vertical-consistency scalars. Memorise the formula, not the numbers — they are reused for the trading book verbatim.</p>
     </div>
 
-    <h3>6.3 CRR III / Basel IV flag</h3>
+    <h3 id="m07-s6-3">6.3 CRR III / Basel IV flag</h3>
     <div class="box reg">
       <div class="box-title">⚖️ The CVA framework is being revised — verify before quoting</div>
       <p>The current CRR Title VI standardised CVA method is <strong>replaced under Basel IV / CRR III</strong> by the new <strong>BA-CVA</strong> (Basic Approach) and <strong>SA-CVA</strong> (Standardised Approach), with EU application from <strong>1 Jan 2025</strong>. The Leitfaden (09/2024) therefore rests on the <em>pre-CRR III</em> "8% × risk-exposure amount" basis, which <strong>post-dates the guide and will change</strong>: the risk-exposure amount feeding PosNr 7516000 is recalibrated under the revised framework, even though the Leitfaden's <em>scaling</em> step (0,71 / 1,33) is unaffected because it is pure quantile arithmetic. <span class="tag reg">verify against CRR III</span></p>
     </div>
 
-    <h2>7 · Nuances &amp; traps</h2>
+    <h2 id="m07-s7">7 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ 0,71 and 1,33 are NOT about CVA</div>
       <p>They are pure confidence-rescaling factors off a 99% base and are reused verbatim for the trading-book Preisrisiko (M6). If an exam asks "what is special about 0,71 for CVA?", the answer is <em>nothing</em> — it is \(\Phi^{-1}(0{,}95)/\Phi^{-1}(0{,}99)\). Treating them as CVA-specific constants is the classic misread.</p>

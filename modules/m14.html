@@ -37,14 +37,14 @@
 
     <!-- §6 TEACHING LOOP -->
 
-    <h2>1 · Motivation — why the plumbing matters</h2>
+    <h2 id="m14-s1">1 · Motivation — why the plumbing matters</h2>
     <p>A risk framework that requires hundreds of Raiffeisenbanken to hand-key inputs every quarter will fail on two fronts: it will be slow, and it will be wrong. The Früherkennung's central operational decision is therefore <strong>not</strong> a modelling one — it is a data-sourcing one: wherever a figure already exists in a <em>supervisory</em> report the bank is legally obliged to file, the Früherkennung <strong>reuses that exact format</strong> rather than asking for a fresh number. The catalogue of those formats is <em>aufsichtliches Meldewesen</em> (supervisory reporting): <strong>COREP</strong> (own funds), <strong>FINREP</strong> (financial reporting), <strong>VERA</strong> (the Austrian <em>Vermögens-, Erfolgs- und Risikoausweis</em> reporting suite), supplemented for credit risk by the <strong>R1</strong>.</p>
     <div class="box motivation">
       <div class="box-title">▶ The prize and its price</div>
       <p>The prize: minimal manual effort, automatic alignment with what the supervisor already sees, and a quarterly cadence that piggybacks on the <em>OeNB-Meldekalender</em> (OeNB reporting calendar) deadlines. The price: the RTFA is only as good as the supervisory data feeding it. A FINREP misclassification or a COREP own-funds error propagates straight into the Deckungsmasse and the traffic light. <strong>Data quality of COREP/FINREP directly drives RTFA quality</strong> — that is the single most important sentence in this module.</p>
     </div>
 
-    <h2>2 · Concept — the reuse principle and the reporting envelope</h2>
+    <h2 id="m14-s2">2 · Concept — the reuse principle and the reporting envelope</h2>
     <p>The Früherkennung sits on a quarterly <em>Rhythmus</em> (rhythm). Each quarter, on the OeNB-Meldekalender deadline, the institution assembles its figures — overwhelmingly from formats it is filing anyway — and reports them to the ÖRS. The reporting envelope is fixed and worth memorising:</p>
     <div class="tablewrap">
     <table>
@@ -66,7 +66,7 @@
       <p>You already pull COREP and R1 positions in SQL every day; this module does not teach you that. The value here is the <strong>mapping</strong>: each R1 / COREP / FINREP position is a column you can already query, but knowing <em>which position feeds which formula</em> — e.g. that COREP own-funds position 7810002 (CET1) lands in the Deckungsmasse, not the risk side — is what lets you trace a wrong traffic light back to its source column. Learn the dependency graph, not the query.</p>
     </div>
 
-    <h2>3 · The credit-risk data flow (R1 / ÖRS Datenspezifikation)</h2>
+    <h2 id="m14-s3">3 · The credit-risk data flow (R1 / ÖRS Datenspezifikation)</h2>
     <p>Credit risk is the exception to "just reuse a supervisory report": it needs more granularity than COREP carries (exposures by customer, internal collateral, FX flags, top GvK). So since <strong>30.6.2023</strong> it runs on a dedicated supplement, the <strong>R1</strong> format, defined by the <em>ÖRS Datenspezifikation</em> (data specification). The flow is a closed loop with a symmetric deadline:</p>
     <div class="formula" style="text-align:left">
       <strong>Step 1 — Submission (10 BAT).</strong> Quarter-ultimo data (<em>Quartalsultimo</em>) from the <em>Landesorganisationen</em> / RSG, in the R1 format, within <strong>10 BAT</strong> (<em>Bankarbeitstage</em>, banking business days) after quarter-end, reported <em>per Landesgruppen-Mitglied</em> (each KI-Gruppe).<br><br>
@@ -82,7 +82,7 @@
       <p>The 10-BAT deadline applies to <em>both</em> legs: 10 BAT to submit the R1, then 10 BAT for the ÖRS to return results. People remember the submission deadline and forget the return leg. End-to-end, a quarter-ultimo credit number is in the banks' hands roughly 20 BAT after quarter-end — that latency is why the RTFA is a quarterly monitoring tool, not a real-time one.</p>
     </div>
 
-    <h2>4 · The data-source → risk map (the centrepiece)</h2>
+    <h2 id="m14-s4">4 · The data-source → risk map (the centrepiece)</h2>
     <p>This table is the heart of the module. Each row connects a concrete supervisory input (and, where the brief gives one, its <em>Positionsnummer</em>) to the risk it feeds and the Module where you computed it. Read it as the dependency graph of the whole framework.</p>
     <div class="tablewrap">
     <table>
@@ -104,7 +104,7 @@
     </div>
     <p>Three observations a reviewer will test you on. First, <strong>one source can feed several risks</strong> (FINREP feeds both op risk and the Deckungsmasse). Second, <strong>the cadence is mixed</strong>: most rows are quarterly, but MMATRIX and the PD/LGD <em>Erhebung</em> are <em>annual</em> (§5 below). Third, <strong>the Deckungsmasse rows are pure supervisory reuse</strong> — Beleg 12, COREP 80/81 and FINREP — which is exactly why the reuse principle makes COREP/FINREP quality drive the whole RTFA.</p>
 
-    <h2>5 · Kennziffern (§9) — the monitoring ratios</h2>
+    <h2 id="m14-s5">5 · Kennziffern (§9) — the monitoring ratios</h2>
     <p>Alongside the RTFA, §9 defines a set of <em>Kennziffern</em> (key ratios) that are monitored each quarter as early-warning signals. They are <em>indicators</em>, not capital charges. Five matter:</p>
     <div class="tablewrap">
     <table>
@@ -128,7 +128,7 @@
       <p>The September-2024 version <strong>removed the Kennziffern that double as <em>Sanierungsplan-Sanierungsindikatoren</em></strong> (recovery-plan recovery indicators). The rationale is to avoid duplicate governance: those indicators are already monitored under the recovery-planning framework, so reporting them again in the Früherkennung added effort without information. <span class="tag ors">ÖRS choice</span></p>
     </div>
 
-    <h2>6 · Frequency &amp; governance — who consumes the output</h2>
+    <h2 id="m14-s6">6 · Frequency &amp; governance — who consumes the output</h2>
     <p>The cadence is mostly quarterly but has an annual layer; both feed a fixed governance chain.</p>
     <div class="tablewrap">
     <table>
@@ -143,7 +143,7 @@
     </div>
     <p>The annual <em>Sektorrisiko</em> (sector-risk) review is the governance act that re-checks materiality — whether each risk type still warrants its place in the framework. The quarterly RTFA and the annual reviews flow up to three consumers: the <strong>SRK</strong> (<em>Sektorrisikokomitee</em>, sector-risk committee), the <strong>ÖRS Vorstand</strong> (management board) and the <strong>Aufsichtsrat</strong> (supervisory board). The whole data-and-reporting machinery exists to put a defensible quarterly traffic light in front of those three bodies.</p>
 
-    <h2>7 · Worked example — one quarter of credit risk, end-to-end</h2>
+    <h2 id="m14-s7">7 · Worked example — one quarter of credit risk, end-to-end</h2>
     <div class="box example">
       <div class="box-title">Worked example — tracing Q-ultimo credit risk through the loop</div>
       <p>Take a single Landesgruppen-Mitglied (one KI-Gruppe) at quarter-end. Follow the credit number from raw position to traffic light.</p>
@@ -159,7 +159,7 @@
       <strong>Timeline.</strong> &nbsp; quarter-end &nbsp;→&nbsp; <em>≤10 BAT</em> &nbsp;[R1 submission]&nbsp; →&nbsp; ÖRS QA + credit calc &nbsp;→&nbsp; <em>≤10 BAT</em> &nbsp;[results back]&nbsp; →&nbsp; RTFA assembled (risk = R1 UL/FX/HHI; Deckungsmasse = COREP/FINREP/Beleg 12 ± excess/shortfall) &nbsp;→&nbsp; SRK / Vorstand / Aufsichtsrat.
     </div>
 
-    <h2>8 · Nuances &amp; traps</h2>
+    <h2 id="m14-s8">8 · Nuances &amp; traps</h2>
     <div class="box trap">
       <div class="box-title">⚠ Trap — both consolidation scopes, every quarter</div>
       <p>The data must arrive <strong>unconsolidated AND (where applicable) consolidated</strong>. A common error is reporting only the solo figures and assuming the ÖRS will consolidate centrally. The RTFA's different Auslastung views (solo / §30-BWG KI-Gruppe / IPS, Module 12) each need their own data level; a missing consolidated submission leaves one view un-computable.</p>
