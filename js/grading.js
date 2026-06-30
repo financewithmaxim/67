@@ -23,11 +23,13 @@ export function gradeAnswer(card, response = {}) {
       return { objective: ok, suggestedGrade: ok ? 'good' : 'again' };
     }
     case 'discrimination': {
+      // Self-graded like viva: the verdict is machine-checkable but the tradeoff ticks are only
+      // available AFTER reveal, so objective stays null and study.js locks the grade on verdictOk.
       const verdictOk = response.verdict === card.verdict;
       const ticks = response.ticks || [];
       const allTradeoff = (card.rubric || []).every((_, i) => ticks.includes(i));
-      const ok = verdictOk && allTradeoff;
-      return { objective: ok, suggestedGrade: ok ? 'good' : 'again', verdictOk };
+      const pass = verdictOk && allTradeoff;
+      return { objective: null, suggestedGrade: pass ? 'good' : 'again', verdictOk };
     }
     case 'viva': {
       const ticks = response.ticks || [];

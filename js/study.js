@@ -100,7 +100,8 @@ function reveal(card, response, confidence) {
   if (card.type === 'deriveStep') html += (card.steps || []).map(s => `<p><strong>Step:</strong> ${esc(s.expected)} — <em>${esc(s.explain || '')}</em></p>`).join('');
   if (card.type === 'discrimination') html += `<p><strong>Verdict:</strong> ${esc(card.verdict)}. ${machine.verdictOk ? '' : '<span class="tag" style="background:var(--red);color:#fff">verdict miss → Again</span>'}</p>` + rubricTicks(card.rubric, 'tradeoff points you made');
   if (card.type === 'viva') { html += `<div class="box key"><div class="box-title">Model answer</div><p>${esc(card.modelAnswer)}</p></div>` + rubricTicks(card.rubric.map(r => r.text), 'points you hit'); if ((card.antiPoints || []).length) html += antiTicks(card.antiPoints); }
-  if (card.caveat) html += `<div class="box verify"><div class="box-title">⚑ Verify</div><p>${esc(card.caveat)}</p></div>`;
+  if (card.sourceStatus === 'erratum' && card.sourceNote) html += `<div class="box trap"><div class="box-title">⚑ Erratum in the source</div><p>${esc(card.sourceNote)}</p></div>`;
+  else if (card.caveat) html += `<div class="box verify"><div class="box-title">⚑ Verify</div><p>${esc(card.caveat)}</p></div>`;
 
   html += gradeButtons(card, machine);
   rv.innerHTML = html;
@@ -117,13 +118,15 @@ function antiTicks(items) {
     items.map((t, i) => `<label class="trainer-tick"><input type="checkbox" data-anti="${i}"> ${esc(t)}</label>`).join('');
 }
 function gradeButtons(card, machine) {
-  // Machine-graded miss is locked to Again; self-graded types let the learner pick after ticking.
-  if (machine.objective === false) return `<div class="trainer-grades"><button class="btn" data-grade="again">Again (machine-graded miss)</button></div>`;
+  // Machine-graded miss is locked to Again; a wrong discrimination verdict is also locked.
+  const onlyAgain = `<div class="trainer-grades"><button class="btn" data-grade="again">Again (machine-graded miss)</button></div>`;
+  if (machine.objective === false) return onlyAgain;
+  if (card.type === 'discrimination' && machine.verdictOk === false) return onlyAgain;
   if (machine.objective === true) return `<div class="trainer-grades">
     <button class="btn secondary" data-grade="hard">Hard</button>
     <button class="btn" data-grade="good">Good</button>
     <button class="btn" data-grade="easy">Easy</button></div>`;
-  // self-graded (viva): grade derived from ticks at finish; offer the honest set
+  // self-graded (viva, or discrimination with a correct verdict): grade derived from ticks at finish
   return `<div class="trainer-grades">
     <button class="btn secondary" data-grade="again">Again</button>
     <button class="btn secondary" data-grade="hard">Hard</button>
@@ -140,8 +143,14 @@ function finish(card, chosen, confidence, response, machine) {
     const self = gradeAnswer(card, { ...response, ticks, antiTicks: antiTicksArr });
     if (self.suggestedGrade === 'again') g = 'again';                 // missed required / anti-point / verdict
   }
+  const wasNew = !store.getState().sched[card.id];
   const prev = store.getState().sched[card.id] || newSched();
   store.putSched(card.id, grade(prev, g, Date.now()));
+  if (wasNew) {
+    const day = new Date(Date.now()).toISOString().slice(0, 10);
+    const n = (store.getState().newIntroduced || {})[day] || 0;
+    store.patch(['newIntroduced', day], n + 1);
+  }
   store.appendReview({ cardId: card.id, grade: g, confidence, objective: machine.objective, pointsHit: ticks.length });
   pos++;
   renderCard();

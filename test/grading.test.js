@@ -26,12 +26,12 @@ test('deriveStep: every step must match its expected value', () => {
   assert.equal(gradeAnswer(card, { steps: ['-', 'x = -\\Phi^{-1}(q)'] }).objective, false);
 });
 
-test('discrimination: verdict is objective; all tradeoff points must be ticked to pass', () => {
+test('discrimination: self-graded (objective null); pass needs correct verdict AND all tradeoff ticks; verdictOk reflects the verdict', () => {
   const card = { type: 'discrimination', verdict: 'ors', rubric: ['a', 'b'] };
   const ok = gradeAnswer(card, { verdict: 'ors', ticks: [0, 1] });
-  assert.equal(ok.objective, true); assert.equal(ok.suggestedGrade, 'good');
+  assert.equal(ok.objective, null); assert.equal(ok.suggestedGrade, 'good'); assert.equal(ok.verdictOk, true);
   const wrongVerdict = gradeAnswer(card, { verdict: 'reg', ticks: [0, 1] });
-  assert.equal(wrongVerdict.objective, false); assert.equal(wrongVerdict.suggestedGrade, 'again');
+  assert.equal(wrongVerdict.objective, null); assert.equal(wrongVerdict.suggestedGrade, 'again'); assert.equal(wrongVerdict.verdictOk, false);
   const missedTradeoff = gradeAnswer(card, { verdict: 'ors', ticks: [0] });
   assert.equal(missedTradeoff.suggestedGrade, 'again');
 });
