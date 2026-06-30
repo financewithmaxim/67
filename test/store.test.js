@@ -126,3 +126,35 @@ test('a throwing subscriber does not break the write', async () => {
   assert.equal(store.getState().sched.c1.reps, 1);
   assert.equal(JSON.parse(s.getItem('leitfaden_state_v2')).sched.c1.reps, 1);
 });
+
+test('exportState wraps the snapshot with metadata', async () => {
+  const store = createStore({ storage: fakeStorage(), now: () => 4242 });
+  await store.ready();
+  await store.putSched('c1', { reps: 1 });
+  const dump = store.exportState();
+  assert.equal(dump.schemaVersion, 2);
+  assert.equal(dump.exportedAt, 4242);
+  assert.ok(dump.state.sched.c1);
+});
+
+test('importState replace overwrites and writes a backup first', async () => {
+  const s = fakeStorage();
+  const store = createStore({ storage: s, now: () => 1 });
+  await store.ready();
+  await store.putSched('local', { reps: 1 });
+  const incoming = { schemaVersion: 2, deviceId: 'other', modules: {}, sched: { remote: { reps: 5, rev: 1, updatedAt: 1 } }, reviews: [], newIntroduced: {}, tombstones: {}, settings: {} };
+  await store.importState({ state: incoming }, 'replace');
+  assert.ok(store.getState().sched.remote);
+  assert.ok(!('local' in store.getState().sched));
+  assert.ok(s.getItem('leitfaden_state_v2.bak'), 'backup written before replace');
+});
+
+test('importState merge keeps local and adds remote (record-level)', async () => {
+  const store = createStore({ storage: fakeStorage(), now: () => 1 });
+  await store.ready();
+  await store.putSched('local', { reps: 1 });
+  const incoming = { schemaVersion: 2, deviceId: 'other', modules: {}, sched: { remote: { reps: 5, rev: 1, updatedAt: 1 } }, reviews: [], newIntroduced: {}, tombstones: {}, settings: {} };
+  await store.importState({ state: incoming }, 'merge');
+  assert.ok(store.getState().sched.local);
+  assert.ok(store.getState().sched.remote);
+});

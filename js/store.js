@@ -1,5 +1,6 @@
 import { STATE_KEY, LEGACY_KEY, DEVICE_KEY } from './state.js';
 import { migrate } from './migrate.js';
+import { mergeStates } from './merge.js';
 
 function genId() {
   if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') {
@@ -98,5 +99,17 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
   function subscribe(fn) { subs.add(fn); return () => subs.delete(fn); }
   async function sync() { /* no-op in P0; GistSyncStore overrides in P4 */ }
 
-  return { ready, getState, getDevice: () => device, putSched, appendReview, patch, saveState, subscribe, sync };
+  function exportState() {
+    return { schemaVersion: snapshot.schemaVersion, exportedAt: now(), deviceId: device.deviceId, state: snapshot };
+  }
+
+  async function importState(payload, mode = 'merge') {
+    storage.setItem(STATE_KEY + '.bak', JSON.stringify(snapshot)); // rolling backup before any destructive op
+    const incoming = migrate(payload && payload.state ? payload.state : payload, device.deviceId);
+    snapshot = (mode === 'replace') ? incoming : mergeStates(snapshot, incoming);
+    persist(); notify();
+    return snapshot;
+  }
+
+  return { ready, getState, getDevice: () => device, putSched, appendReview, patch, saveState, subscribe, sync, exportState, importState };
 }
