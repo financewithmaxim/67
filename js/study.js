@@ -29,7 +29,7 @@ function renderCard() {
   if (pos >= session.length) { summary.textContent = `Session complete — ${session.length} card(s) reviewed.`; root.innerHTML = '<div class="box key"><div class="box-title">Done</div><p>All queued cards reviewed. Spacing will resurface them when due.</p></div>'; return; }
   summary.textContent = `Card ${pos + 1} of ${session.length}`;
   const card = byId.get(session[pos]);
-  const spine = card.tags.spine;
+  const spine = card.tags?.spine;
   let body = `<div class="trainer-card"><div class="tag ${spine === 'ors' ? 'ors' : 'reg'}" style="margin-bottom:8px">${spine === 'ors' ? 'ÖRS choice' : spine === 'boundary' ? 'boundary' : 'regulatory'}</div>`;
   body += `<div class="trainer-front">${card.front}</div>`;
   body += inputFor(card);
@@ -47,7 +47,7 @@ function renderCard() {
 function inputFor(card) {
   switch (card.type) {
     case 'numeric': return `<input class="trainer-input" id="ans" placeholder="your answer (e.g. 67.400)">`;
-    case 'cloze': return (card.blanks || []).map(b => `<input class="trainer-input" data-blank="${b.id}" placeholder="${esc(b.id)}">`).join(' ');
+    case 'cloze': return (card.blanks || []).map(b => `<input class="trainer-input" data-blank="${esc(b.id)}" placeholder="${esc(b.id)}">`).join(' ');
     case 'deriveStep': return (card.steps || []).map((s, i) => `<div class="trainer-step"><div>${esc(s.prompt)}</div><input class="trainer-input" data-step="${i}"></div>`).join('');
     case 'discrimination': return `<div class="trainer-verdict">Verdict:
       <label><input type="radio" name="verdict" value="reg">regulatory</label>
@@ -73,8 +73,16 @@ function collect(card) {
 function commit(card) {
   const confidence = (root.querySelector('input[name="conf"]:checked') || {}).value || 'med';
   const response = collect(card);
-  const committedText = response.text || response.defense || JSON.stringify(response.blanks || response.steps || '');
-  if (!committedText || !committedText.trim()) { alert('Write something before revealing — recognition is not recall.'); return; }
+  const isEmpty = s => !s || !String(s).trim();
+  let committed;
+  switch (card.type) {
+    case 'numeric':         committed = response.text; break;
+    case 'cloze':           committed = Object.values(response.blanks || {}).join(''); break;
+    case 'deriveStep':      committed = (response.steps || []).join(''); break;
+    case 'discrimination':  committed = (response.verdict || '') + (response.defense || ''); break;
+    default:                committed = response.defense; // viva
+  }
+  if (isEmpty(committed)) { alert('Write something before revealing — recognition is not recall.'); return; }
   root.querySelectorAll('.trainer-input, input[name="verdict"], input[name="conf"]').forEach(el => el.setAttribute('disabled', 'true'));
   document.getElementById('commit').remove();
   reveal(card, response, confidence);
