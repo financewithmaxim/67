@@ -1,0 +1,57 @@
+{
+  "module": "m05",
+  "cards": [
+    { "id": "m05.num.ul-extremfall", "module": "m05", "type": "numeric", "format": "tex", "lang": "en",
+      "front": "Corporate exposure EAD = 1,000,000; PD = 1.3669%; LGD = 45.5%; M = 2.5; Extremfall (q = 99.9%). Compute the unexpected loss UL in EUR.",
+      "answer": { "value": 67400, "tol": 0.01, "unit": "EUR" },
+      "tags": { "spine": "reg", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s4" } },
+    { "id": "m05.num.ul-problemfall", "module": "m05", "type": "numeric", "format": "tex", "lang": "en",
+      "front": "Same exposure, Problemfall (q = 95%, \\(\\Phi^{-1}=1.6449\\)). Compute UL in EUR.",
+      "answer": { "value": 15520, "tol": 0.01, "unit": "EUR" },
+      "tags": { "spine": "ors", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s4" } },
+    { "id": "m05.cloze.signflip", "module": "m05", "type": "cloze", "format": "tex", "lang": "en",
+      "front": "Worst-case conditional PD: \\(\\Phi\\!\\left(\\frac{\\Phi^{-1}(PD){{c1}}\\sqrt{R}\\,\\Phi^{-1}(q)}{\\sqrt{1-R}}\\right)\\)",
+      "blanks": [ { "id": "c1", "accept": ["+"], "render": "operator" } ],
+      "tags": { "spine": "reg", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s3-2" } },
+    { "id": "m05.cloze.quantile-999", "module": "m05", "type": "cloze", "format": "tex", "lang": "en",
+      "front": "The Extremfall quantile \\(\\Phi^{-1}(0.999) = {{c1}}\\) (4 dp).",
+      "blanks": [ { "id": "c1", "accept": ["3.0902"], "render": "number" } ],
+      "tags": { "spine": "reg", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s3-2" } },
+    { "id": "m05.deriv.signflip", "module": "m05", "type": "deriveStep", "format": "tex", "lang": "en",
+      "front": "Derive the conditional PD from p(x): substitute the worst-case factor.",
+      "steps": [
+        { "prompt": "What value of the systematic factor x is the worst case at confidence q?", "kind": "pick", "expected": "x = -\\Phi^{-1}(q)", "explain": "A bad economy is the LOWER tail of X." },
+        { "prompt": "After substituting, what sign does the systematic term carry?", "kind": "pick", "expected": "+", "explain": "The minus flips to plus, giving +\\sqrt{R}\\,\\Phi^{-1}(q)." }
+      ],
+      "tags": { "spine": "reg", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s3-2" } },
+    { "id": "m05.disc.m-25", "module": "m05", "type": "discrimination", "format": "md", "lang": "en",
+      "front": "The fixed maturity M = 2.5 years used in the IRB formula: regulatory value or ÖRS choice — and what does it trade off?",
+      "verdict": "ors",
+      "rubric": [ "names it an ÖRS proportionality choice", "states it sets the maturity adjustment to 1", "names the tradeoff: comparability across banks vs maturity-risk precision" ],
+      "tags": { "spine": "ors", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s3-3" } },
+    { "id": "m05.disc.r-curve", "module": "m05", "type": "discrimination", "format": "md", "lang": "en",
+      "front": "The asset-correlation curve R(PD) interpolating 0.12–0.24: regulatory or ÖRS — and the tradeoff?",
+      "verdict": "reg",
+      "rubric": [ "names it a CRR Art. 153 regulatory value (not negotiable)", "explains high-PD names are less systematic, so lower correlation", "notes the bank cannot change it" ],
+      "tags": { "spine": "reg", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s3-3" } },
+    { "id": "m05.viva.problemfall", "module": "m05", "type": "viva", "format": "md", "lang": "mix",
+      "front": "Defend to the Aufsichtsrat in three sentences: why does the Problemfall use 95% rather than 99.9%, and what is the consequence for capital?",
+      "rubric": [
+        { "id": "r1", "text": "Problemfall is the ~1-in-20-year (95%) view; Extremfall is the ~1-in-1000-year (99.9%) economic-capital view", "weight": 1, "required": true },
+        { "id": "r2", "text": "Only the quantile Φ⁻¹(q) changes inside the conditional PD — nothing else", "weight": 1, "required": true },
+        { "id": "r3", "text": "The Problemfall UL is therefore far smaller (≈¼ here: 15,520 vs 67,400)", "weight": 1, "required": false }
+      ],
+      "antiPoints": [ "claims LGD or the 0.71/1.33 scalar changes between the scenarios", "double-counts EL in the capital figure" ],
+      "modelAnswer": "The Problemfall measures risk-bearing capacity at a 95% confidence (a loss exceeded about once in 20 years), reserved for the going-concern traffic-light view, whereas the Extremfall uses 99.9% as a liquidation/economic-capital lens. Mechanically only the quantile Φ⁻¹(q) is swapped (1.6449 vs 3.0902) inside the conditional-PD term — LGD, R(PD) and the maturity adjustment are unchanged. The result is a materially smaller unexpected loss (here roughly a quarter: €15,520 vs €67,400).",
+      "tags": { "spine": "ors", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s4" } },
+    { "id": "m05.viva.hhi", "module": "m05", "type": "viva", "format": "md", "lang": "mix",
+      "front": "An examiner asks: the IRB formula already covers credit risk — why does the Leitfaden add an HHI granularity surcharge?",
+      "rubric": [
+        { "id": "r1", "text": "ASRF assumes an infinitely granular portfolio, so single-name concentration is invisible to the formula", "weight": 1, "required": true },
+        { "id": "r2", "text": "Real corporate books are lumpy, so a surcharge UL·HHI captures the extra unexpected loss", "weight": 1, "required": true }
+      ],
+      "antiPoints": [ "claims the surcharge adds expected loss", "confuses it with the maturity adjustment" ],
+      "modelAnswer": "The ASRF model that underlies the IRB formula assumes an infinitely granular portfolio, so by construction it ignores single-name (and sector) concentration. Real corporate books are lumpy, so the Leitfaden bolts on a granularity surcharge UL·HHI to capture the unexpected loss the formula structurally cannot see; the new UL is UL·(1+HHI).",
+      "tags": { "spine": "ors", "risk": "credit", "crr": "CRR:Art153" }, "version": "Leitfaden-09/2024", "sourceRef": { "module": "m05", "anchor": "m05-s5-3" } }
+  ]
+}

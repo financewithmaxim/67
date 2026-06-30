@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Leitfaden Trainer card",
+  "type": "object",
+  "required": ["id", "module", "type", "front", "tags", "version", "sourceRef"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^m[0-9]{2}\\.[a-z]+\\.[a-z0-9-]+$" },
+    "module": { "type": "string", "pattern": "^m[0-9]{2}$" },
+    "type": { "enum": ["numeric", "cloze", "deriveStep", "discrimination", "viva", "freeRecall"] },
+    "format": { "enum": ["text", "md", "tex"] },
+    "lang": { "enum": ["en", "de", "mix"] },
+    "front": { "type": "string", "minLength": 1 },
+    "tags": {
+      "type": "object",
+      "required": ["spine"],
+      "properties": {
+        "spine": { "enum": ["reg", "ors", "boundary"] },
+        "risk": { "type": "string" },
+        "crr": { "type": "string" }
+      }
+    },
+    "version": { "type": "string" },
+    "sourceRef": { "type": "object", "required": ["module", "anchor"], "properties": { "module": {"type":"string"}, "anchor": {"type":"string"} } },
+    "answer": { "type": "object", "required": ["value"], "properties": { "value": {"type":"number"}, "tol": {"type":"number"}, "absTol": {"type":"number"}, "unit": {"type":"string"} } },
+    "blanks": { "type": "array" },
+    "steps": { "type": "array" },
+    "verdict": { "enum": ["reg", "ors", "mixed"] },
+    "rubric": { "type": "array" },
+    "modelAnswer": { "type": "string" }
+  }
+}
