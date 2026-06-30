@@ -43,6 +43,8 @@ export function conditionalPD(pd, R, q) {
 // Worked-example pipeline. ÖRS fixes M=2.5 AND sets the maturity adjustment to 1 (proportionality);
 // the literal CRR factor is returned alongside as the reg contrast.
 export function computeIRB({ EAD, PD, LGD, M = 2.5, q = 0.999 }) {
+  if (!(PD > 0 && PD < 1)) throw new RangeError('computeIRB: PD must be a fraction in (0,1)');
+  if (!(q > 0 && q < 1)) throw new RangeError('computeIRB: q must be a fraction in (0,1)');
   const R = assetCorrelation(PD);
   const condPD = conditionalPD(PD, R, q);
   const maturityAdjOrs = 1;                              // ÖRS convention (confirmed)

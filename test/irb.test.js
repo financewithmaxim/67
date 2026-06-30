@@ -40,3 +40,14 @@ test('computeIRB Problemfall (q=0.95) UL ~15,520', () => {
   const r = computeIRB({ EAD: 1_000_000, PD: 0.013669, LGD: 0.455, M: 2.5, q: 0.95 });
   near(r.UL, 15520, 15520 * 0.01);
 });
+
+test('computeIRB throws on out-of-domain PD or q (instead of returning NaN)', () => {
+  assert.throws(() => computeIRB({ EAD: 1e6, PD: 0, LGD: 0.45, q: 0.999 }), /PD/);
+  assert.throws(() => computeIRB({ EAD: 1e6, PD: 0.01, LGD: 0.45, q: 1 }), /q/);
+});
+
+test('K uses the OERS maturity adjustment (1), not the CRR contrast', () => {
+  const r = computeIRB({ EAD: 1_000_000, PD: 0.013669, LGD: 0.455, M: 2.5, q: 0.999 });
+  assert.notEqual(r.maturityAdjCRR, 1);                                  // the contrast is ~1.231
+  assert.ok(Math.abs(r.K - 0.455 * (r.condPD - 0.013669)) < 1e-9);       // K = LGD*(condPD-PD)*1
+});
