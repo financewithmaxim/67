@@ -40,7 +40,7 @@ test('lintDeck flags a deck missing the mandated type mix', () => {
   ];
   const deckErr = lintDeck(deck).find(r => r.id === '<deck>');
   assert.ok(deckErr, 'expected a <deck> entry');
-  assert.ok(deckErr.errors.some(e => /deriveStep/.test(e)) && deckErr.errors.some(e => /viva/.test(e)));
+  assert.ok(deckErr.errors.some(e => /discrimination/.test(e)) && deckErr.errors.some(e => /viva/.test(e)));
 });
 
 test('validateCard requires sourceRef.module, not just anchor', () => {

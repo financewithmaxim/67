@@ -29,7 +29,10 @@ export function validateCard(card) {
   return e;
 }
 
-const MIX = { numeric: 2, deriveStep: 1, cloze: 2, discrimination: 2, viva: 2 };
+// Universal per-deck requirements (every module has a reg/OERS spine + a board-defense angle).
+// numeric/cloze/deriveStep are encouraged where the module's content supports them, not mandated.
+const MIX = { discrimination: 2, viva: 2 };
+const MIN_TOTAL = 8;
 
 export function lintDeck(cards) {
   const out = [];
@@ -49,6 +52,7 @@ export function lintDeck(cards) {
   for (const [t, min] of Object.entries(MIX)) {
     if ((counts[t] || 0) < min) deckErrs.push(`deck needs >= ${min} ${t} cards (has ${counts[t] || 0})`);
   }
+  if (cards.length < MIN_TOTAL) deckErrs.push(`deck needs >= ${MIN_TOTAL} cards total (has ${cards.length})`);
   if (deckErrs.length) out.push({ id: '<deck>', errors: deckErrs });
   return out;
 }
