@@ -8,6 +8,7 @@ import { createGistSync } from './gistsync.js';
 import { createGistClient } from './gist-client.js';
 import { mergeDecks } from './deckindex.js';
 import { canonicalAnchor } from './anchors.js';
+import { mdInline } from './md.js';
 
 const root = document.getElementById('trainer-root');
 const summary = document.getElementById('session-summary');
@@ -58,7 +59,7 @@ function renderCard() {
   const card = byId.get(session[pos]);
   const spine = card.tags?.spine;
   let body = `<div class="trainer-card"><div class="tag ${spine === 'ors' ? 'ors' : 'reg'}" style="margin-bottom:8px">${spine === 'ors' ? 'ÖRS choice' : spine === 'boundary' ? 'boundary' : 'regulatory'}</div>`;
-  body += `<div class="trainer-front">${card.front}</div>`;
+  body += `<div class="trainer-front">${mdInline(card.front)}</div>`;
   body += inputFor(card);
   body += `<div class="trainer-confidence">Confidence before reveal:
     <label><input type="radio" name="conf" value="low">low</label>
@@ -174,9 +175,9 @@ function reveal(card, response, confidence) {
   if (card.type === 'cloze') html += `<p><strong>Blanks:</strong> ${(card.blanks || []).map(b => esc((b.accept || [])[0])).join(', ')}</p>`;
   if (card.type === 'deriveStep') html += (card.steps || []).map(s => `<p><strong>Step:</strong> ${esc(s.expected)} — <em>${esc(s.explain || '')}</em></p>`).join('');
   if (card.type === 'discrimination') html += `<p><strong>Verdict:</strong> ${esc(card.verdict)}. ${machine.verdictOk ? '' : '<span class="tag" style="background:var(--red);color:#fff">verdict miss → Again</span>'}</p>` + rubricTicks(card.rubric, 'tradeoff points you made');
-  if (card.type === 'viva') { html += `<div class="box key"><div class="box-title">Model answer</div><p>${esc(card.modelAnswer)}</p></div>` + rubricTicks(card.rubric.map(r => r.text), 'points you hit'); if ((card.antiPoints || []).length) html += antiTicks(card.antiPoints); }
-  if (card.sourceStatus === 'erratum' && card.sourceNote) html += `<div class="box trap"><div class="box-title">⚑ Erratum in the source</div><p>${esc(card.sourceNote)}</p></div>`;
-  else if (card.caveat) html += `<div class="box verify"><div class="box-title">⚑ Verify</div><p>${esc(card.caveat)}</p></div>`;
+  if (card.type === 'viva') { html += `<div class="box key"><div class="box-title">Model answer</div><p>${mdInline(card.modelAnswer)}</p></div>` + rubricTicks(card.rubric.map(r => r.text), 'points you hit'); if ((card.antiPoints || []).length) html += antiTicks(card.antiPoints); }
+  if (card.sourceStatus === 'erratum' && card.sourceNote) html += `<div class="box trap"><div class="box-title">⚑ Erratum in the source</div><p>${mdInline(card.sourceNote)}</p></div>`;
+  else if (card.caveat) html += `<div class="box verify"><div class="box-title">⚑ Verify</div><p>${mdInline(card.caveat)}</p></div>`;
 
   if (card.sourceRef && card.sourceRef.module && card.sourceRef.anchor) {
     const anchor = canonicalAnchor(card.sourceRef.anchor);
