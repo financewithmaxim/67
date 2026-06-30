@@ -62,3 +62,10 @@ test('dueNow and suspended come from sched state', () => {
   assert.equal(c.dueNow, 1);
   assert.equal(c.suspended, 1);
 });
+
+test('computeCalibration tolerates a null sched entry without throwing', () => {
+  const s = emptyState('A');
+  s.sched = { a: null, b: { state: 'review', due: NOW - DAY, interval: 5 } };
+  assert.doesNotThrow(() => computeCalibration(s, NOW));
+  assert.equal(computeCalibration(s, NOW).dueNow, 1);
+});

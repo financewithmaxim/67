@@ -17,6 +17,7 @@ export function computeCalibration(state, now) {
 
   let dueNow = 0, suspended = 0;
   for (const s of Object.values(sched)) {
+    if (!s) continue;
     if (s.state === 'suspended') suspended++;
     else if (s.due != null && s.due <= now) dueNow++;
   }

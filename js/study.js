@@ -28,7 +28,7 @@ function buildSidebar() {
 }
 
 let deck = [], byId = new Map(), session = [], pos = 0;
-let mode = 'review';
+let mode = '';
 
 async function boot() {
   buildSidebar();
@@ -67,8 +67,8 @@ function reviewIds() {
   const q = buildQueue({ snapshot: store.getState(), cards: deck, now: Date.now(), settings: store.getState().settings });
   return q.session;
 }
-function drillIds() { return deck.filter(c => c.type === 'discrimination').map(c => c.id); }
-function vivaIds() { return deck.filter(c => c.type === 'viva').map(c => c.id); }
+function drillIds() { const sched = store.getState().sched; return deck.filter(c => c.type === 'discrimination' && (!sched[c.id] || sched[c.id].state !== 'suspended')).map(c => c.id); }
+function vivaIds() { const sched = store.getState().sched; return deck.filter(c => c.type === 'viva' && (!sched[c.id] || sched[c.id].state !== 'suspended')).map(c => c.id); }
 
 function emptyMsg(m) {
   return m === 'drill' ? 'No discrimination cards in this deck yet.'
@@ -77,6 +77,7 @@ function emptyMsg(m) {
 }
 
 function setMode(m) {
+  if (m === mode && m !== 'calibration') return;
   mode = m;
   document.querySelectorAll('.trainer-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
   if (m === 'calibration') { renderCalibration(); return; }
@@ -206,15 +207,17 @@ function finish(card, chosen, confidence, response, machine) {
     const self = gradeAnswer(card, { ...response, ticks, antiTicks: antiTicksArr });
     if (self.suggestedGrade === 'again') g = 'again';                 // missed required / anti-point / verdict
   }
-  const wasNew = !store.getState().sched[card.id];
-  const prev = store.getState().sched[card.id] || newSched();
-  store.putSched(card.id, grade(prev, g, Date.now()));
-  if (wasNew) {
-    const day = new Date(Date.now()).toISOString().slice(0, 10);
-    const n = (store.getState().newIntroduced || {})[day] || 0;
-    store.patch(['newIntroduced', day], n + 1);
+  if (mode === 'review') {
+    const wasNew = !store.getState().sched[card.id];
+    const prev = store.getState().sched[card.id] || newSched();
+    store.putSched(card.id, grade(prev, g, Date.now()));
+    if (wasNew) {
+      const day = new Date(Date.now()).toISOString().slice(0, 10);
+      const n = (store.getState().newIntroduced || {})[day] || 0;
+      store.patch(['newIntroduced', day], n + 1);
+    }
   }
-  store.appendReview({ cardId: card.id, grade: g, confidence, objective: machine.objective, pointsHit: ticks.length });
+  store.appendReview({ cardId: card.id, grade: g, confidence, objective: machine.objective, pointsHit: ticks.length, mode });
   pos++;
   renderCard();
 }
