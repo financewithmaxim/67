@@ -31,7 +31,29 @@ test('learning when some introduced or some still in learning/relearn (none due)
   assert.equal(moduleReadiness(learning, { m01: ['m01.a', 'm01.b'] }, NOW).m01, 'learning');
 });
 
-test('suspended (leech) does not count as due', () => {
+test('suspended (leech) does not count as due, and a parked leech keeps the module in learning', () => {
   const sched = { 'm01.a': { state: 'suspended', due: NOW - DAY }, 'm01.b': { state: 'review', due: NOW + DAY } };
-  assert.notEqual(moduleReadiness(sched, { m01: ['m01.a', 'm01.b'] }, NOW).m01, 'due');
+  const r = moduleReadiness(sched, { m01: ['m01.a', 'm01.b'] }, NOW).m01;
+  assert.notEqual(r, 'due');
+  assert.equal(r, 'learning'); // intentional: one parked leech blocks "strong"
+});
+
+test('due takes priority over strong: all cards in review but one is due now', () => {
+  const sched = {
+    'm01.a': { state: 'review', due: NOW - DAY, interval: 9 }, // due
+    'm01.b': { state: 'review', due: NOW + 2 * DAY, interval: 9 }
+  };
+  assert.equal(moduleReadiness(sched, { m01: ['m01.a', 'm01.b'] }, NOW).m01, 'due');
+});
+
+test('due boundary is inclusive: a card due exactly now is due', () => {
+  const sched = { 'm01.a': { state: 'review', due: NOW, interval: 5 }, 'm01.b': { state: 'review', due: NOW + DAY } };
+  assert.equal(moduleReadiness(sched, { m01: ['m01.a', 'm01.b'] }, NOW).m01, 'due');
+});
+
+test('null/missing args are handled without throwing', () => {
+  assert.deepEqual(cardsByModule(null), {});
+  assert.deepEqual(cardsByModule(undefined), {});
+  assert.deepEqual(moduleReadiness(null, { m01: ['m01.a'] }, NOW), { m01: 'not-started' });
+  assert.deepEqual(moduleReadiness(undefined, undefined, NOW), {});
 });
