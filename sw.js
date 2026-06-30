@@ -18,11 +18,16 @@ self.addEventListener('fetch', e => {
     e.respondWith(fetch(e.request).then(r => { const cp = r.clone(); caches.open(SW_VERSION).then(c => c.put(e.request, cp)); return r; }).catch(() => caches.match(e.request)));
     return;
   }
-  // MathJax / fonts (cross-origin): runtime cache, cache-first
-  if (url.origin !== location.origin) {
+  // CDN assets only (MathJax/fonts): runtime cache-first. NEVER cache api.github.com (authenticated; must stay live,
+  // or a stale gist pull would overwrite the remote with a stale merge → cross-device data loss).
+  if (url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     e.respondWith(caches.match(e.request).then(hit => hit || fetch(e.request).then(r => { const cp = r.clone(); caches.open(SW_VERSION).then(c => c.put(e.request, cp)); return r; }).catch(() => hit)));
     return;
   }
-  // same-origin app shell: cache-first, fall back to network
-  e.respondWith(caches.match(e.request).then(hit => hit || fetch(e.request)));
+  if (url.origin !== location.origin) return; // any other cross-origin (incl. api.github.com): straight to network, never cached
+  // same-origin: stale-while-revalidate — serve cache fast, refresh in the background so updates land next load.
+  e.respondWith(caches.match(e.request).then(hit => {
+    const net = fetch(e.request).then(r => { const cp = r.clone(); caches.open(SW_VERSION).then(c => c.put(e.request, cp)); return r; }).catch(() => hit);
+    return hit || net;
+  }));
 });

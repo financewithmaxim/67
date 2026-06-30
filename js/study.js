@@ -35,12 +35,12 @@ let mode = '';
 async function boot() {
   buildSidebar();
   await store.ready();
+  document.querySelectorAll('.trainer-tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
   try {
     const res = await fetch('data/cards/m05.json', { cache: 'no-cache' });
     deck = (await res.json()).cards || [];
-  } catch { summary.textContent = 'Could not load the m05 deck.'; return; }
+  } catch { summary.textContent = 'Could not load the m05 deck.'; setMode('sync'); return; }
   byId = new Map(deck.map(c => [c.id, c]));
-  document.querySelectorAll('.trainer-tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
   setMode('review');
 }
 
