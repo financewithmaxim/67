@@ -33,6 +33,9 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
 
   function persist() { storage.setItem(STATE_KEY, JSON.stringify(snapshot)); }
 
+  const subs = new Set();
+  function notify() { for (const fn of subs) { try { fn(snapshot); } catch { /* a subscriber must not break a write */ } } }
+
   async function ready() {
     if (readyPromise) return readyPromise;
     readyPromise = (async () => {
@@ -57,5 +60,39 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
     return snapshot;
   }
 
-  return { ready, getState, getDevice: () => device };
+  async function putSched(cardId, partial) {
+    const prev = snapshot.sched[cardId] || { rev: 0 };
+    snapshot.sched[cardId] = {
+      ...prev, ...partial,
+      deviceId: device.deviceId,
+      updatedAt: now(),
+      rev: (prev.rev || 0) + 1,
+    };
+    persist(); notify();
+    return snapshot.sched[cardId];
+  }
+
+  async function appendReview(entry) {
+    const rec = { id: genId(), ts: now(), ...entry };
+    snapshot.reviews.push(rec);
+    persist(); notify();
+    return rec;
+  }
+
+  async function patch(path, value) {
+    let obj = snapshot;
+    for (let i = 0; i < path.length - 1; i++) {
+      const k = path[i];
+      if (obj[k] == null || typeof obj[k] !== 'object') obj[k] = {};
+      obj = obj[k];
+    }
+    obj[path[path.length - 1]] = value;
+    persist(); notify();
+  }
+
+  async function saveState(next) { snapshot = next; persist(); notify(); }
+  function subscribe(fn) { subs.add(fn); return () => subs.delete(fn); }
+  async function sync() { /* no-op in P0; GistSyncStore overrides in P4 */ }
+
+  return { ready, getState, getDevice: () => device, putSched, appendReview, patch, saveState, subscribe, sync };
 }

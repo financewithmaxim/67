@@ -52,3 +52,51 @@ test('ready() prefers an existing v2 state over the legacy key', async () => {
   assert.ok(snap.modules.m01);
   assert.ok(!('m05' in snap.modules), 'legacy ignored when v2 exists');
 });
+
+test('putSched stamps rev, updatedAt, deviceId and persists', async () => {
+  const s = fakeStorage();
+  let t = 500;
+  const store = createStore({ storage: s, now: () => t });
+  await store.ready();
+  const a = await store.putSched('c1', { interval: 1, reps: 1 });
+  assert.equal(a.rev, 1);
+  assert.equal(a.updatedAt, 500);
+  assert.ok(a.deviceId);
+  t = 600;
+  const b = await store.putSched('c1', { interval: 6, reps: 2 });
+  assert.equal(b.rev, 2);
+  assert.equal(b.updatedAt, 600);
+  const persisted = JSON.parse(s.getItem('leitfaden_state_v2'));
+  assert.equal(persisted.sched.c1.rev, 2);
+});
+
+test('appendReview stamps a unique id + ts and appends to the stream', async () => {
+  const store = createStore({ storage: fakeStorage(), now: () => 700 });
+  await store.ready();
+  const r = await store.appendReview({ cardId: 'c1', grade: 'good', confidence: 'high' });
+  assert.ok(r.id);
+  assert.equal(r.ts, 700);
+  assert.equal(store.getState().reviews.length, 1);
+});
+
+test('patch writes a nested path and persists', async () => {
+  const s = fakeStorage();
+  const store = createStore({ storage: s, now: () => 1 });
+  await store.ready();
+  await store.patch(['settings', 'newCardsPerDay'], 7);
+  assert.equal(store.getState().settings.newCardsPerDay, 7);
+  await store.patch(['modules', 'm05'], { readiness: 'review-soon' });
+  assert.equal(JSON.parse(s.getItem('leitfaden_state_v2')).modules.m05.readiness, 'review-soon');
+});
+
+test('subscribe fires after a mutation and unsubscribe stops it', async () => {
+  const store = createStore({ storage: fakeStorage(), now: () => 1 });
+  await store.ready();
+  let n = 0;
+  const off = store.subscribe(() => { n++; });
+  await store.putSched('c1', { reps: 1 });
+  assert.equal(n, 1);
+  off();
+  await store.putSched('c1', { reps: 2 });
+  assert.equal(n, 1);
+});
