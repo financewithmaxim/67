@@ -26,6 +26,7 @@
         <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
         <div class="progress-label" id="progress-label">0 / 25 modules complete</div>
       </div>
+      <div id="reviews-due-badge" style="margin-top:14px"></div>
     </div>
 
     <div class="box key">
@@ -88,6 +89,17 @@
   root.innerHTML = html;
   renderIndexProgress();
 })();
+</script>
+<script type="module">
+  import { createStore } from './js/store.js';
+  import { countDue } from './js/queue.js';
+  const store = createStore({ storage: window.localStorage });
+  await store.ready();
+  const n = countDue(store.getState(), Date.now());
+  const el = document.getElementById('reviews-due-badge');
+  if (el) el.innerHTML = n > 0
+    ? `<a class="btn" href="study.html">Review ${n} card${n === 1 ? '' : 's'} due →</a>`
+    : `<a class="btn secondary" href="study.html">Open the Trainer</a>`;
 </script>
 </body>
 </html>
