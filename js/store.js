@@ -100,7 +100,7 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
   async function sync() { /* no-op in P0; GistSyncStore overrides in P4 */ }
 
   function exportState() {
-    return { schemaVersion: snapshot.schemaVersion, exportedAt: now(), deviceId: device.deviceId, state: snapshot };
+    return { schemaVersion: snapshot.schemaVersion, exportedAt: now(), deviceId: device.deviceId, state: structuredClone(snapshot) };
   }
 
   async function importState(payload, mode = 'merge') {

@@ -119,10 +119,9 @@ function initToggle() {
 function renderQuiz(QUIZ, moduleId) {
   const root = document.getElementById("quiz");
   if (!root || !QUIZ) return;
-  const trainerHref = location.pathname.includes("/modules/") ? "../study.html" : "study.html";
-  let html = `<div class="disclaimer" style="border-left-color:var(--accent)"><strong>Warm-up only.</strong> This multiple-choice check tests recognition. Durable, board-defensible recall is built by spaced practice in the <a href="${trainerHref}">Trainer</a> — this no longer marks the module complete.</div>`;
+  let html = `<div class="disclaimer" style="border-left-color:var(--accent)"><strong>Warm-up only.</strong> This multiple-choice check tests recognition; it no longer marks the module complete. Durable, board-defensible recall comes from spaced practice in the Trainer (coming soon).</div>`;
   html += `<h3>✓ Verständnis-Check${QUIZ.title ? " — " + QUIZ.title : ""}</h3>`;
-  html += `<p style="color:var(--ink-faint);font-size:14.5px">Answer all questions, then submit. You must score ${Math.round((QUIZ.pass||0.7)*100)}% to mark the module complete. Explanations appear after grading.</p>`;
+  html += `<p style="color:var(--ink-faint);font-size:14.5px">Answer all questions, then submit. You must score ${Math.round((QUIZ.pass||0.7)*100)}% to clear this warm-up. Explanations appear after grading.</p>`;
   QUIZ.questions.forEach((item, qi) => {
     html += `<div class="q" data-answer="${item.answer}"><div class="qtext"><span class="qn">Q${qi+1}.</span>${item.q}</div>`;
     item.options.forEach((opt, oi) => {
@@ -169,7 +168,7 @@ function gradeQuiz(QUIZ, moduleId) {
   }
   if (pct >= passMark) {
     res.style.color = "var(--green)";
-    res.innerHTML = `✓ ${correct}/${total} correct — warm-up cleared. Lock it in with spaced practice in the <a href="${location.pathname.includes("/modules/") ? "../study.html" : "study.html"}">Trainer</a>.`;
+    res.innerHTML = `✓ ${correct}/${total} correct — warm-up cleared (recognition check passed). Spaced practice in the Trainer is coming soon.`;
   } else {
     res.style.color = "var(--yellow)";
     res.innerHTML = `${correct}/${total} correct — review the explanations and retry to pass (need ${Math.round(passMark*100)}%).`;
