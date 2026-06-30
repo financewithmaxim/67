@@ -106,7 +106,7 @@
     </div>
     <div class="box key">
       <div class="box-title">Within-risk-type diversification is the exception, not the rule</div>
-      <p>This \(\rho<1\) benefit is allowed because it is <em>inside</em> a single risk type (FX). The same logic recurs in spread risk (between rating classes) and IRRBB (between bands/currencies). Across risk types the guide still adds with \(\rho=+1\). Cross-link: Module 4 / Module 12.</p>
+      <p>This \(\rho&lt;1\) benefit is allowed because it is <em>inside</em> a single risk type (FX). The same logic recurs in spread risk (between rating classes) and IRRBB (between bands/currencies). Across risk types the guide still adds with \(\rho=+1\). Cross-link: Module 4 / Module 12.</p>
     </div>
 
     <h3 id="m06-s3-4">3.4 Credit-Spread VaR — the PV2 − PV1 structure</h3>
@@ -198,7 +198,7 @@
       <li>Market risk = four sub-risks: <strong>Zinsrisiko Bankbuch (IRRBB)</strong>, <strong>Währungsrisiko</strong> (open Devisenposition), <strong>Preisrisiko</strong> (Handels- &amp; Bankbuch), <strong>Spreadrisiko</strong> (Credit-Spread VaR). Banking-book holding period <strong>250 Tage</strong>; trading book = own-funds charge for position/FX/commodity risk <em>minus</em> the FX charge.</li>
       <li><strong>IRRBB</strong>: \(\text{Risiko}=BW-BW^{\text{sim}}\) per Laufzeitband &amp; currency; Barwert discounts the gap at the spot rate, simulierter Barwert at rate·Vola; relative 3-yr volatility scaled to confidence; bands/currencies combined via a correlation matrix; "Sonstige Währungen" on the EUR curve; options via delta-equivalent gaps.</li>
       <li><strong>+200 bp shift</strong>: a pure computational device — negative rates make \(\ln(r_t)\) undefined, so add 200 bp to make all levels positive and enable the <em>stetige</em> (log) method. Distorts the level, preserves the relative-vol method. Coincides with EBA/GL/2018/02 / SOT but is not a stress scenario. <span class="tag ors">ÖRS workaround</span>.</li>
-      <li><strong>FX</strong>: \(\text{VaR}_c=|P_c|\,\sigma_c\,z_q\); undiversified = sign-neutral sum; diversified \(=\sqrt{\mathbf{v}^\top\mathbf{C}\mathbf{v}}\) (two-asset: \(\sqrt{\text{VaR}_A^2+\text{VaR}_B^2+2\rho_{AB}\text{VaR}_A\text{VaR}_B}\)) — one of the few places \(\rho<1\) is allowed.</li>
+      <li><strong>FX</strong>: \(\text{VaR}_c=|P_c|\,\sigma_c\,z_q\); undiversified = sign-neutral sum; diversified \(=\sqrt{\mathbf{v}^\top\mathbf{C}\mathbf{v}}\) (two-asset: \(\sqrt{\text{VaR}_A^2+\text{VaR}_B^2+2\rho_{AB}\text{VaR}_A\text{VaR}_B}\)) — one of the few places \(\rho&lt;1\) is allowed.</li>
       <li><strong>Trading book</strong>: own-funds charge − FX charge, ×0,71 (Problemfall) / ×1,33 (Extremfall) — same quantile-ratio scaling as CVA. <strong>Spread VaR</strong>: \(PV_2-PV_1\) by Forderungs- × Ratingklasse; no double-count with credit risk (spread moves with rating unchanged; "nur Wertpapiere" uses M = 1y in credit risk because its downgrade risk sits here).</li>
     </ul>
     <div class="box german">

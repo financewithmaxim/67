@@ -47,7 +47,7 @@
     <h2 id="m05-s2">2 · Concept — the Merton picture</h2>
     <p>Merton (1974): a firm defaults when the value of its assets \(A\) falls below its liabilities \(D\) at the horizon. Model the firm's standardised asset return \(V_i\) as a latent normal variable. The firm defaults when \(V_i\) drops below a threshold \(c_i\):</p>
     <div class="formula">
-      $$ \text{default}_i \iff V_i < c_i, \qquad V_i\sim N(0,1), \qquad PD_i=\Pr(V_i<c_i)=\Phi(c_i)\;\Rightarrow\; c_i=\Phi^{-1}(PD_i). $$
+      $$ \text{default}_i \iff V_i &lt; c_i, \qquad V_i\sim N(0,1), \qquad PD_i=\Pr(V_i&lt;c_i)=\Phi(c_i)\;\Rightarrow\; c_i=\Phi^{-1}(PD_i). $$
       <div class="where">\(V_i\) = standardised asset value (the "creditworthiness index") of borrower \(i\); \(c_i\) = default threshold; \(\Phi\) = standard-normal CDF; \(PD_i\) = unconditional (through-the-cycle) probability of default. The threshold is just the PD's quantile.</div>
     </div>
     <p>Now make defaults <em>correlated</em> through a single common factor. Decompose each firm's asset return into a <strong>systematic</strong> part \(X\) (the economy) and an <strong>idiosyncratic</strong> part \(\varepsilon_i\) (the firm), with a loading \(\sqrt{\rho}\):</p>
@@ -59,9 +59,9 @@
     <h2 id="m05-s3">3 · Derivation — conditional PD, the ASRF limit, and the CRR formula</h2>
 
     <h3 id="m05-s3-1">3.1 The conditional default probability</h3>
-    <p>Condition on a <em>realised state of the economy</em> \(X=x\). Given \(x\), the borrowers default independently (their only link was \(X\)). Borrower \(i\) defaults iff \(V_i<\Phi^{-1}(PD_i)\), i.e.</p>
+    <p>Condition on a <em>realised state of the economy</em> \(X=x\). Given \(x\), the borrowers default independently (their only link was \(X\)). Borrower \(i\) defaults iff \(V_i&lt;\Phi^{-1}(PD_i)\), i.e.</p>
     <div class="formula">
-      $$ \sqrt{\rho}\,x + \sqrt{1-\rho}\,\varepsilon_i < \Phi^{-1}(PD) \;\Longleftrightarrow\; \varepsilon_i < \frac{\Phi^{-1}(PD)-\sqrt{\rho}\,x}{\sqrt{1-\rho}}. $$
+      $$ \sqrt{\rho}\,x + \sqrt{1-\rho}\,\varepsilon_i &lt; \Phi^{-1}(PD) \;\Longleftrightarrow\; \varepsilon_i &lt; \frac{\Phi^{-1}(PD)-\sqrt{\rho}\,x}{\sqrt{1-\rho}}. $$
       Taking the probability over \(\varepsilon_i\sim N(0,1)\):
       $$ \boxed{\,p(x)\;=\;\Pr(\text{default}\mid X=x)\;=\;\Phi\!\left(\frac{\Phi^{-1}(PD)-\sqrt{\rho}\,x}{\sqrt{1-\rho}}\right).} $$
       <div class="where">\(p(x)\) = the default rate <em>in economic state \(x\)</em>. A <em>bad</em> economy is a <em>low</em> \(x\) (assets fall). As \(x\downarrow\), the numerator rises, so \(p(x)\uparrow\): defaults spike together in downturns. That co-movement is the whole point.</div>
@@ -179,7 +179,7 @@
 
     <h2>Recap</h2>
     <ul>
-      <li>Merton: default when latent asset value \(V_i<\Phi^{-1}(PD)\); one factor: \(V_i=\sqrt\rho X+\sqrt{1-\rho}\,\varepsilon_i\).</li>
+      <li>Merton: default when latent asset value \(V_i&lt;\Phi^{-1}(PD)\); one factor: \(V_i=\sqrt\rho X+\sqrt{1-\rho}\,\varepsilon_i\).</li>
       <li>Conditional PD \(=\Phi\big(\frac{\Phi^{-1}(PD)+\sqrt\rho\,\Phi^{-1}(q)}{\sqrt{1-\rho}}\big)\); ASRF + granularity ⇒ portfolio loss is a function of \(X\) alone ⇒ a <strong>per-loan formula</strong>.</li>
       <li>\(K=[LGD\cdot PD_{\text{cond}}-LGD\cdot PD]\cdot\)(maturity adj.); CRR Art. 153 (corporate, \(R(PD)\), maturity adj.) vs Art. 154 (retail, fixed \(R\), none).</li>
       <li><strong>Problemfall = swap \(\Phi^{-1}(0{,}999)=3{,}0902\) for \(\Phi^{-1}(0{,}95)=1{,}6449\)</strong> — nothing else.</li>

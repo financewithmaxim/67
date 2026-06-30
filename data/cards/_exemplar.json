@@ -1,4 +1,5 @@
 {
+  "_note": "Template/reference deck only — NOT in manifest.json, never loaded, and NOT covered by the anchor codemod or resolution test. Do not copy its raw sourceRef.anchor slugs; run scripts/inject-anchors.mjs conventions instead.",
   "module": "m05",
   "cards": [
     { "id": "m05.num.ul-extremfall", "module": "m05", "type": "numeric", "format": "tex", "lang": "en",
