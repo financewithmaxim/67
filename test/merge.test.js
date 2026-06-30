@@ -45,3 +45,32 @@ test('does not mutate its inputs', () => {
   mergeStates(local, remote);
   assert.equal(local.sched.c1.rev, 1);
 });
+
+test('deviceId breaks a rev+updatedAt tie (higher deviceId wins)', () => {
+  const local  = withSched('A', 'c1', { rev: 1, updatedAt: 100, deviceId: 'A' });
+  const remote = withSched('B', 'c1', { rev: 1, updatedAt: 100, deviceId: 'B' });
+  assert.equal(mergeStates(local, remote).sched.c1.deviceId, 'B');
+});
+
+test('a sched entry newer than its tombstone survives', () => {
+  const local  = withSched('A', 'c1', { rev: 2, updatedAt: 300, deviceId: 'A' });
+  const remote = emptyState('B'); remote.tombstones = { c1: 200 };
+  assert.ok('c1' in mergeStates(local, remote).sched);
+});
+
+test('tombstone union keeps the latest deletedAt', () => {
+  const local = emptyState('A');  local.tombstones  = { c1: 100 };
+  const remote = emptyState('B'); remote.tombstones = { c1: 250 };
+  assert.equal(mergeStates(local, remote).tombstones.c1, 250);
+});
+
+test('modules union: local-only and remote-only both kept; later completedAt wins', () => {
+  const local = emptyState('A');
+  local.modules = { m01: { readiness: 'review-soon', completedAt: 100 }, m05: { readiness: 'review-soon', completedAt: 100 } };
+  const remote = emptyState('B');
+  remote.modules = { m05: { readiness: 'review-soon', completedAt: 500 }, m09: { readiness: 'review-soon', completedAt: 0 } };
+  const m = mergeStates(local, remote);
+  assert.ok(m.modules.m01);
+  assert.ok(m.modules.m09);
+  assert.equal(m.modules.m05.completedAt, 500);
+});
