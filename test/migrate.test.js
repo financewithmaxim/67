@@ -11,7 +11,7 @@ test('null/undefined → empty v2', () => {
 test('legacy boolean map → modules; skips glossary; ignores false; no sched', () => {
   const s = migrate({ m05: true, capstone: true, glossary: true, m01: false }, 'd');
   assert.deepEqual(s.modules.m05, { readiness: 'review-soon', completedAt: null });
-  assert.ok(s.modules.capstone);
+  assert.deepEqual(s.modules.capstone, { readiness: 'review-soon', completedAt: null });
   assert.ok(!('glossary' in s.modules));
   assert.ok(!('m01' in s.modules));
   assert.deepEqual(s.sched, {});

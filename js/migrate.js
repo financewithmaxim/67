@@ -12,7 +12,7 @@ export function migrate(raw, deviceId = 'unknown') {
   if (raw == null) return emptyState(deviceId);
 
   if (typeof raw === 'object' && raw.schemaVersion === STATE_SCHEMA_VERSION) {
-    return raw; // already current — idempotent
+    return structuredClone(raw); // already current — idempotent (copy so callers can't alias the input)
   }
   if (typeof raw === 'object' && typeof raw.schemaVersion === 'number' && raw.schemaVersion > STATE_SCHEMA_VERSION) {
     throw new Error(`Refusing to downgrade state from v${raw.schemaVersion} to v${STATE_SCHEMA_VERSION}`);
