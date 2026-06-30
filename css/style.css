@@ -576,3 +576,6 @@ textarea.trainer-input { max-width: 100%; }
   a { color: #000; text-decoration: none; }
   .hero { background: #1d3a5c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+.trainer-source { font-family: var(--font); font-size: 13.5px; margin-top: 10px; }
+.trainer-source a { color: var(--brand-2); }

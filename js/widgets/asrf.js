@@ -59,7 +59,9 @@ export function mountAsrf(el) {
     const lock = el.querySelector('#asrf-lock').checked;
     const pd = (+el.querySelector('#asrf-pd').value) / 100;
     let rho = +el.querySelector('#asrf-rho').value;
-    if (lock) { rho = assetCorrelation(pd); el.querySelector('#asrf-rho').value = rho.toFixed(3); }
+    const rhoEl = el.querySelector('#asrf-rho');
+    rhoEl.disabled = lock;
+    if (lock) { rho = assetCorrelation(pd); rhoEl.value = rho.toFixed(3); }
     const q = +el.querySelector('#asrf-q').value;
     el.querySelector('#asrf-pd-r').textContent = (pd * 100).toFixed(2) + '%';
     el.querySelector('#asrf-rho-r').textContent = rho.toFixed(3) + (lock ? ' (CRR)' : '');
