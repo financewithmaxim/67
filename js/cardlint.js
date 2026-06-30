@@ -33,16 +33,18 @@ const MIX = { numeric: 2, deriveStep: 1, cloze: 2, discrimination: 2, viva: 2 };
 
 export function lintDeck(cards) {
   const out = [];
+  if (!Array.isArray(cards)) return [{ id: '<deck>', errors: ['deck must be an array of cards'] }];
   const seen = new Set();
   for (const c of cards) {
     const errs = validateCard(c);
-    if (seen.has(c.id)) errs.push(`duplicate id "${c.id}"`);
-    seen.add(c.id);
-    if (errs.length) out.push({ id: c.id, errors: errs });
+    const id = (c && c.id) || '<invalid>';
+    if (c && seen.has(c.id)) errs.push(`duplicate id "${c.id}"`);
+    if (c) seen.add(c.id);
+    if (errs.length) out.push({ id, errors: errs });
   }
   // deck-level mandated type mix
   const counts = {};
-  for (const c of cards) counts[c.type] = (counts[c.type] || 0) + 1;
+  for (const c of cards) if (c) counts[c.type] = (counts[c.type] || 0) + 1;
   const deckErrs = [];
   for (const [t, min] of Object.entries(MIX)) {
     if ((counts[t] || 0) < min) deckErrs.push(`deck needs >= ${min} ${t} cards (has ${counts[t] || 0})`);

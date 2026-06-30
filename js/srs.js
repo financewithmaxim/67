@@ -30,7 +30,7 @@ function graduate(sched, intervalDays, now) {
   return { ...sched, state: 'review', interval: intervalDays, reps: sched.reps + 1, due: now + intervalDays * DAY_MS };
 }
 
-export function grade(sched, g, now) {
+function gradeImpl(sched, g, now) {
   const out = { ...sched, lastGrade: g };
 
   if (sched.state === 'new' || sched.state === 'learning') {
@@ -40,7 +40,7 @@ export function grade(sched, g, now) {
     return { ...out, state: 'learning', due: now + LEARN_STEP_MS };
   }
 
-  if (sched.state === 'suspended') return out; // manual unsuspend is out of scope
+  if (sched.state === 'suspended') return sched; // suspended is immutable; manual unsuspend is out of scope
 
   if (sched.state === 'relearn') {
     if (g === 'good' || g === 'easy') {
@@ -69,4 +69,15 @@ export function grade(sched, g, now) {
   const overdueDays = Math.max(0, (now - sched.due) / DAY_MS);
   const interval = capDays((sched.interval + overdueDays) * sched.ease);
   return { ...out, interval, reps: sched.reps + 1, due: now + interval * DAY_MS };
+}
+
+const SCHED_FIELDS = ['state', 'due', 'interval', 'ease', 'reps', 'lapses', 'lastGrade', 'pending'];
+// grade() returns ONLY scheduling fields. IMPORTANT: persist its result via the store's putSched
+// (which stamps rev/updatedAt/deviceId). NEVER persist it via saveState/patch — those do not bump
+// rev, so a stale rev would lose a real edit on cross-device merge.
+export function grade(sched, g, now) {
+  const next = gradeImpl(sched, g, now);
+  const out = {};
+  for (const k of SCHED_FIELDS) if (k in next) out[k] = next[k];
+  return out;
 }

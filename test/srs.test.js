@@ -116,3 +116,10 @@ test('applyFuzz spreads a >=4-day interval within +/-25%, deterministically per 
   assert.equal(applyFuzz(100, () => 1.0), 125);  // rng 1 -> +25%
   assert.equal(applyFuzz(100, () => 0.5), 100);  // rng 0.5 -> center
 });
+
+test('grade() returns only scheduling fields (drops rev/updatedAt/deviceId/seenVersion)', () => {
+  const stored = { state: 'review', interval: 10, ease: 2.5, reps: 3, lapses: 0, lastGrade: 'good', pending: 0, due: T0, rev: 7, updatedAt: 999, deviceId: 'X', seenVersion: 2 };
+  const s = grade(stored, 'good', T0);
+  assert.ok(!('rev' in s) && !('updatedAt' in s) && !('deviceId' in s) && !('seenVersion' in s));
+  assert.equal(s.interval, 25); // scheduling math still applied (10 * 2.5)
+});

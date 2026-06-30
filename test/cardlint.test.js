@@ -52,3 +52,8 @@ test('validateCard requires the id to be namespaced to its module', () => {
   const card = { id: 'm06.num.x', module: 'm05', type: 'numeric', front: 'x', tags: { spine: 'reg' }, version: 'v', sourceRef: { module: 'm05', anchor: 'a' }, answer: { value: 1 } };
   assert.ok(validateCard(card).some(e => /namespaced/.test(e)));
 });
+
+test('lintDeck reports a null entry instead of throwing', () => {
+  assert.doesNotThrow(() => lintDeck([null]));
+  assert.ok(lintDeck([null]).length > 0);
+});
