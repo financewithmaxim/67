@@ -590,3 +590,13 @@ textarea.trainer-input { max-width: 100%; }
 .status.readiness-learning { color: var(--yellow); }
 .status.readiness-due { color: var(--brand-2); font-weight: 700; }
 .status.readiness-strong { color: var(--green); font-weight: 700; }
+
+/* ---------- Reading micro-path ---------- */
+.micropath { background: var(--bg-sunk); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 14px; margin: 0 0 24px; font-family: var(--font); }
+.micropath-title { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--ink-faint); font-weight: 700; margin-bottom: 6px; }
+.micropath-step { display: block; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; padding: 3px 0; }
+.micropath-step:hover { color: var(--brand-2); }
+.micropath-step.done { color: var(--green); }
+.micropath-dot { display: inline-block; width: 1.2em; color: inherit; }
+.micropath-checkpoint { background: #fdfaf0; border: 1px solid #ecdfb8; border-left: 3px solid var(--accent); border-radius: var(--radius-sm); padding: 11px 16px; margin: 18px 0; font-size: 14.5px; color: var(--ink-soft); }
+.micropath-checkpoint .btn { margin-left: 10px; }
