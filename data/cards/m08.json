@@ -1,0 +1,528 @@
+{
+  "cards": [
+    {
+      "id": "m08.num.extremfall-faktor",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Operational risk, Extremfall (99,9%): what fraction of the 3-year average Betriebserträge is the own-funds charge (the CRR Basisindikatoransatz \\(\\alpha\\)-factor)? Give the fraction.",
+      "answer": {
+        "value": 0.15,
+        "tol": 0.005
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "op",
+        "crr": "CRR:Art315-316"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.1"
+      }
+    },
+    {
+      "id": "m08.num.problemfall-faktor",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Operational risk, Problemfall (95%): give the derived factor (as a fraction) obtained by rescaling 15% from 99,9% to 95% under the ⅓-normal / ⅔-lognormal mixture, i.e. \\(15\\%\\cdot(0{,}33\\cdot\\tfrac{1{,}645}{3{,}090}+0{,}67\\cdot\\tfrac{5{,}180}{21{,}982})\\).",
+      "answer": {
+        "value": 0.05,
+        "tol": 0.003
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.2"
+      }
+    },
+    {
+      "id": "m08.num.lognormal-quantil-999",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "EXKURS: with \\(\\mu=0,\\ \\sigma=1\\) the lognormal 99,9% quantile factor is \\(e^{u(0{,}999)}\\) where \\(u(0{,}999)=3{,}090\\). Compute \\(e^{3{,}090}\\).",
+      "answer": {
+        "value": 21.982,
+        "tol": 0.05
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.2"
+      }
+    },
+    {
+      "id": "m08.num.lognormal-ratio",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "The lognormal component's 95%/99,9% VaR ratio: compute \\(\\tfrac{5{,}180}{21{,}982}\\) (the factor that drags the blended op-risk rescaling below the normal-only value).",
+      "answer": {
+        "value": 0.236,
+        "tol": 0.005
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.3"
+      }
+    },
+    {
+      "id": "m08.num.weighted-ratio",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Probability-weighted 95%/99,9% rescaling ratio for the op-risk mixture: \\(0{,}33\\cdot\\tfrac{1{,}645}{3{,}090}+0{,}67\\cdot\\tfrac{5{,}180}{21{,}982}\\). Give the value (it should land near ⅓).",
+      "answer": {
+        "value": 0.333,
+        "tol": 0.005
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.3"
+      }
+    },
+    {
+      "id": "m08.num.problemfall-charge-20m",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Worked example: 3-year average Betriebserträge = €20m (from FINREP/VERA). Using the derived Problemfall factor of 5,0%, what is the Problemfall (95%) op-risk charge, in euros?",
+      "answer": {
+        "value": 1000000,
+        "tol": 1,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s4"
+      }
+    },
+    {
+      "id": "m08.num.normal-only-trap",
+      "module": "m08",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "TRAP: if op-risk loss were treated as purely normal (like CVA), the Problemfall factor would be \\(15\\%\\cdot\\tfrac{1{,}645}{3{,}090}\\). Give this (incorrect) normal-only factor as a fraction — the value the lognormal tail corrects away from.",
+      "answer": {
+        "value": 0.08,
+        "tol": 0.003
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s6"
+      }
+    },
+    {
+      "id": "m08.cloze.mixture-weights",
+      "module": "m08",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "To rescale the op-risk charge from 99,9% to 95%, the Leitfaden assumes the loss is a probability-weighted mixture: {{c1}} normally distributed (everyday operational noise) and {{c2}} lognormally distributed (the fat right tail of rare, large losses). This ⅓/⅔ split is an {{c3}} modelling assumption, not a CRR requirement.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "1/3",
+            "⅓",
+            "0,33",
+            "0.33",
+            "one third"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "2/3",
+            "⅔",
+            "0,67",
+            "0.67",
+            "two thirds"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "ÖRS",
+            "OERS",
+            "ORS"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.2"
+      }
+    },
+    {
+      "id": "m08.cloze.lognormal-quantil",
+      "module": "m08",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "EXKURS: if \\(Y\\sim N(\\mu,\\sigma^2)\\) then \\(X=\\exp(Y)\\) is lognormal, and because \\(\\exp(\\cdot)\\) is strictly increasing its \\(p\\)-quantile is \\(Q_X(p)=\\) {{c1}}. With \\(\\mu=0,\\sigma=1\\) the multiplicative tail factor is \\(e^{u(p)}\\), giving \\(e^{1{,}645}=\\) {{c2}} and \\(e^{3{,}090}=\\) {{c3}}.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "\\exp(\\mu+u(p)\\sigma)",
+            "exp(mu+u(p)sigma)",
+            "e^{\\mu+u(p)\\sigma}"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "5,180",
+            "5.180",
+            "5,18"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "21,982",
+            "21.982",
+            "21,98"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.2"
+      }
+    },
+    {
+      "id": "m08.cloze.indikator-betriebsertraege",
+      "module": "m08",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Op risk has no balance-sheet exposure, so its regulatory proxy is {{c1}} — a {{c2}} (income), not a stock (assets) — sourced from {{c3}} reporting. By CRR Art. 4(1)(52) operational risk also explicitly includes {{c4}} (legal risk).",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Betriebserträge",
+            "operating income",
+            "gross income"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "flow",
+            "Fluss"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "FINREP/VERA",
+            "FINREP",
+            "VERA"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "Rechtsrisiko",
+            "legal risk"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "op",
+        "crr": "CRR:Art4(1)(52)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s2"
+      }
+    },
+    {
+      "id": "m08.deriv.problemfall-5pct",
+      "module": "m08",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Derive the 5,0% Problemfall factor from the 15% Extremfall anchor under the ⅓-normal / ⅔-lognormal mixture (vertical VaR consistency, M4).",
+      "steps": [
+        {
+          "prompt": "Normal-third 95%/99,9% quantile ratio = ?",
+          "kind": "pick",
+          "expected": "1,645/3,090 = 0,532",
+          "explain": "Standard-normal quantiles u(0,95)=1,645 and u(0,999)=3,090."
+        },
+        {
+          "prompt": "Lognormal-two-thirds 95%/99,9% ratio, using e^1,645 and e^3,090 = ?",
+          "kind": "pick",
+          "expected": "5,180/21,982 = 0,236",
+          "explain": "The lognormal stretches the tail (factor ~4,24 from 95% to 99,9% vs ~1,88 for normal), so its ratio is tiny."
+        },
+        {
+          "prompt": "Probability-weighted ratio (weights ⅓ and ⅔) = ?",
+          "kind": "pick",
+          "expected": "0,33·0,532 + 0,67·0,236 = 0,176 + 0,158 = 0,333",
+          "explain": "Even though the lognormal carries the larger weight, its 0,236 ratio drags the blend down to ≈⅓."
+        },
+        {
+          "prompt": "Multiply by the 15% Extremfall anchor = ?",
+          "kind": "pick",
+          "expected": "15%·0,333 = 5,0%",
+          "explain": "Same M4 engine as CVA, but applied to a non-normal mixture, so the scalar is 0,333 not a single normal ratio."
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.3"
+      }
+    },
+    {
+      "id": "m08.disc.reg-vs-ors-spine",
+      "module": "m08",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Claim: 'Both the 15% Extremfall factor and the 5,0% Problemfall factor for op risk are CRR-mandated regulatory values.' Classify the spine of each number and produce the tradeoff that distinguishes them.",
+      "verdict": "mixed",
+      "rubric": [
+        "Splits the claim: the 15% Extremfall factor is REGULATORY (the fixed CRR Basisindikatoransatz α on 3-yr average gross income, Art. 315–316; TSA betas 12–18% average ~15%).",
+        "The 5,0% Problemfall factor is an ÖRS CHOICE: a rescaling under the self-chosen ⅓-normal/⅔-lognormal mixture, not a CRR coefficient.",
+        "Names the tradeoff: CRR fixes the 99,9% anchor (comparability/Basel calibration), but the RTFA needs a 95% number, so the ÖRS supplies a proportionality model — adequacy justified by the RBG's low-beta retail/commercial business mix.",
+        "Rejects calling 5% 'regulatory' (it has no CRR coefficient) and rejects calling 15% an 'ÖRS invention' (it is the fixed Basel α)."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "op",
+        "crr": "CRR:Art315-316"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.1"
+      }
+    },
+    {
+      "id": "m08.disc.5pct-vs-8pct",
+      "module": "m08",
+      "type": "discrimination",
+      "format": "tex",
+      "lang": "en",
+      "front": "An analyst rescales the 15% op-risk charge to 95% using \\(15\\%\\cdot\\tfrac{1{,}645}{3{,}090}=8{,}0\\%\\), arguing 'the vertical VaR consistency from M4 gives a single quantile ratio.' Is 8,0% or 5,0% correct, and produce the tradeoff that decides it.",
+      "verdict": "ors",
+      "rubric": [
+        "Verdict: 5,0% is correct; 8,0% is the wrong normal-only rescaling.",
+        "Identifies the error: 8,0% treats op-risk loss as purely normal (like CVA), but op risk has a fat right tail and is modelled ⅔ lognormal.",
+        "Produces the tradeoff: the lognormal 95%/99,9% ratio is only 0,236 vs 0,532 for the normal, so the blended ratio 0,333 (not 0,532) applies — the fat tail makes the 95% loss a much smaller share of the 99,9% loss.",
+        "Quantifies the consequence: on €20m, 8% gives €1,6m vs the correct €1,0m — an overstatement of ~60%."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s6"
+      }
+    },
+    {
+      "id": "m08.viva.why-5-not-8",
+      "module": "m08",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board viva: 'Walk us through why the Problemfall operational-risk factor is 5,0% and not the ~8,0% a normal rescaling of 15% would give. How does this relate to the CVA factor 0,71 from M7?'",
+      "rubric": [
+        {
+          "id": "engine",
+          "text": "Names the engine: vertical VaR consistency (M4) — rescale by the 95%/99,9% quantile ratio.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "mixture",
+          "text": "States the op-risk distribution is a ⅓-normal / ⅔-lognormal mixture, with the lognormal capturing the fat right tail.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "ratios",
+          "text": "Gives the component ratios: normal 1,645/3,090=0,532, lognormal 5,180/21,982=0,236; blended 0,33·0,532+0,67·0,236=0,333.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "result",
+          "text": "Concludes 15%·0,333=5,0%; a normal-only ratio would wrongly give 15%·0,532=8,0%.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "cva",
+          "text": "Contrasts with CVA: same M4 engine, but CVA is a pure normal VaR so its scalar is a single ratio 1,645/2,326=0,71, whereas op risk needs a mixture scalar.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming 8,0% is correct / that op risk is rescaled as a pure normal VaR.",
+        "Attributing the difference to a holding-period change (250 days) or a different confidence level (99% vs 95%).",
+        "Saying the lognormal weight raises the factor — it lowers it, because its 95%/99,9% ratio is small."
+      ],
+      "modelAnswer": "Op risk uses the same M4 vertical VaR consistency as CVA — rescale the 99,9% charge by the 95%/99,9% quantile ratio — but op-risk loss is not normal: the Leitfaden models it as ⅓ normal plus ⅔ lognormal to respect the fat right tail of rare large losses. The normal third has ratio 1,645/3,090=0,532, but the lognormal two-thirds has ratio only 5,180/21,982=0,236, so the probability-weighted blend is 0,33·0,532+0,67·0,236=0,333, giving 15%·0,333=5,0%. A normal-only rescaling would wrongly yield 15%·0,532=8,0%, overstating the charge because the fat tail makes the 95% loss a far smaller share of the 99,9% loss. CVA differs only in distribution: it is treated as a pure normal VaR, so its scalar is the single ratio 1,645/2,326=0,71 — same engine, different tail.",
+      "tags": {
+        "spine": "ors",
+        "risk": "op"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s3.3"
+      }
+    },
+    {
+      "id": "m08.viva.crr3-sma",
+      "module": "m08",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board viva: 'Is the Leitfaden's 15%/5% (BIA-style) op-risk approach still current? What does CRR III change, and why does that matter?'",
+      "rubric": [
+        {
+          "id": "superseded",
+          "text": "States the 15%/5% BIA-style approach post-dates and is superseded: CRR III (EU application from 1 Jan 2025) replaces BIA, TSA and AMA with a single Standardised Measurement Approach (SMA).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "formula",
+          "text": "Gives SMA = BIC (Business Indicator Component) × ILM (Internal Loss Multiplier).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "loss-history",
+          "text": "Explains the key economic change: the ILM adds loss-history sensitivity (10-year average losses) — a clean record can give ILM<1, a loss-heavy bank ILM>1 — which the flat 15% BIA lacks.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "flag",
+          "text": "Flags this as a post-source item to verify against current CRR III / EBA, not a settled Leitfaden value.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming CRR III leaves BIA/TSA unchanged or keeps the flat 15% factor.",
+        "Saying the SMA is loss-insensitive / identical to the BIA.",
+        "Confusing the BIC (a refined income/Business Indicator measure) with the old gross-income α only."
+      ],
+      "modelAnswer": "No — the Leitfaden's flat 15%/5% factor is BIA-style and post-dates the regime change, so it is superseded. Under CRR III (EU application from 1 January 2025) the Basisindikatoransatz, Standardansatz and Advanced Measurement Approach are all replaced by a single Standardised Measurement Approach: op-risk capital = BIC × ILM, where the Business Indicator Component is a marginal-coefficient function of a refined Business Indicator (interest, services and financial components) and the Internal Loss Multiplier scales it by the bank's own 10-year loss history. The economic upgrade is loss-history sensitivity — a bank with a clean record can earn ILM<1 while a loss-heavy one gets ILM>1 — which the flat 15% BIA cannot capture. This should be flagged as a post-source item and verified against current CRR III / EBA texts.",
+      "sourceStatus": "post-source",
+      "sourceNote": "Module §5.6 uses the BIA-style 15%/5% factor; CRR III (EU 2024/1623) op-risk SMA = BIC×ILM supersedes BIA/TSA/AMA from 2025. Card encodes the supersession as flagged in the module's CRR III box.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op",
+        "crr": "CRR-III:SMA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s5"
+      }
+    },
+    {
+      "id": "m08.disc.aml-ikt-placement",
+      "module": "m08",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "An RTFA draft lists 'AML risk' and 'IT/IKT risk' as separate aggregated risk types alongside operational risk, and sizes op risk off total assets. Identify what is wrong and produce the structural tradeoff.",
+      "verdict": "reg",
+      "rubric": [
+        "Both Geldwäsche/Terrorismusfinanzierung (AML/CFT) and IKT/ICT risk are COMPONENTS of operational risk, not standalone RTFA lines — op risk by CRR Art. 4(1)(52) also includes Rechtsrisiko.",
+        "Listing them separately double-counts and breaks the §5.6 structure; their losses (fines, remediation, legal, outages) fall under the same 15%/5% op-risk factor.",
+        "The indicator is wrong too: op-risk exposure scales with Betriebserträge (a flow / income), not with assets or RWA (a stock) — a bank can shrink assets yet keep the same op-risk surface.",
+        "Produces the tradeoff: the regulatory definition (CRR) fixes the perimeter (legal+IKT+AML inside op risk) and the income indicator, so deviating either double-counts capital or mis-sizes the charge."
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "op",
+        "crr": "CRR:Art4(1)(52)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m08",
+        "anchor": "m08-s2"
+      }
+    }
+  ],
+  "module": "m08"
+}

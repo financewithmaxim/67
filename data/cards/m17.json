@@ -1,0 +1,517 @@
+{
+  "cards": [
+    {
+      "id": "m17.num.coverage-100k",
+      "module": "m17",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "DGSD (2014/49/EU): what is the harmonised deposit-guarantee coverage ceiling, per depositor per institution (in euros)?",
+      "tags": {
+        "spine": "reg",
+        "risk": "deposit-guarantee coverage"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s2"
+      },
+      "answer": {
+        "value": 100000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "sourceStatus": "matches",
+      "sourceNote": "DGSD ceiling, per depositor PER institution (not per account). Module flags 'verify current status' against EUR-Lex/FMA."
+    },
+    {
+      "id": "m17.num.target-level",
+      "module": "m17",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "DGSD target level (Zielausstattung) of the scheme's available financial means, as a fraction of covered deposits. Give it in base units (fraction, not %).",
+      "tags": {
+        "spine": "reg",
+        "risk": "fund adequacy / target level"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s2"
+      },
+      "answer": {
+        "value": 0.008,
+        "tol": 0.0001,
+        "unit": "fraction of covered deposits"
+      },
+      "sourceStatus": "matches",
+      "sourceNote": "0,8% of COVERED deposits, reached by ex-ante risk-based contributions."
+    },
+    {
+      "id": "m17.num.anleger-20k",
+      "module": "m17",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "ESAEG Anlegerentschädigung (investor compensation, for claims from investment services): what is the cap in euros — the separate, lower cap distinct from the €100.000 deposit cover?",
+      "tags": {
+        "spine": "reg",
+        "risk": "investor-compensation cap"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s2"
+      },
+      "answer": {
+        "value": 20000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "sourceStatus": "matches",
+      "sourceNote": "Anlegerentschädigung €20.000 under ESAEG — a separate, lower cap from the €100.000 deposit cover."
+    },
+    {
+      "id": "m17.num.ips-risk-weight",
+      "module": "m17",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "An Art. 113(7) CRR IPS lets members assign which risk weight to intra-IPS exposures? Give it in base units (fraction).",
+      "tags": {
+        "spine": "reg",
+        "risk": "IPS prudential benefit",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s3"
+      },
+      "answer": {
+        "value": 0,
+        "tol": 0,
+        "unit": "risk weight (fraction)"
+      },
+      "sourceStatus": "matches",
+      "sourceNote": "0% intra-IPS risk weight + waiver of large-exposure (Großkredit) limits, in exchange for joint monitoring (the regulatory home of the Früherkennung)."
+    },
+    {
+      "id": "m17.cloze.dgsd-params",
+      "module": "m17",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "DGSD core parameters: coverage is {{c1}} per depositor per institution; the fund's target level is 0,8% of {{c2}} deposits; the payout deadline is being shortened toward {{c3}} working days.",
+      "tags": {
+        "spine": "reg",
+        "risk": "DGSD parameters"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "€100.000",
+            "100000",
+            "100.000",
+            "€100000"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "covered",
+            "gedeckte",
+            "covered deposits"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "7",
+            "seven"
+          ],
+          "render": "number"
+        }
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "The phase-in to 7 working days post-dates the original directive; module marks payout deadlines/targets 'verify current status'."
+    },
+    {
+      "id": "m17.cloze.ips-vs-dgs-basis",
+      "module": "m17",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Legal bases: the R-IPS rests on {{c1}}, while the DGS rests on the {{c2}} Directive, transposed in Austria by the {{c3}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "legal basis IPS vs DGS",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Art. 113(7) CRR",
+            "Article 113(7) CRR",
+            "Art 113(7) CRR"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "DGSD",
+            "DGSD 2014/49/EU",
+            "2014/49/EU"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "ESAEG"
+          ],
+          "render": "pick"
+        }
+      ],
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.cloze.creditor-hierarchy",
+      "module": "m17",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the insolvency/resolution Haftungskaskade, covered deposits are {{c1}} — ranking above ordinary unsecured claims; having paid depositors, the DGS inherits that rank by {{c2}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "creditor hierarchy / recovery"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s5"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "super-preferred",
+            "super-bevorrechtigt",
+            "superpreferred",
+            "super preferred"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "subrogation",
+            "Subrogation"
+          ],
+          "render": "pick"
+        }
+      ],
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.deriv.red-to-ips",
+      "module": "m17",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "A sector member crosses into RED in the Extremfall RTFA. Walk the early-intervention pipeline that keeps the DGS payout from ever triggering.",
+      "tags": {
+        "spine": "reg",
+        "risk": "early-intervention pipeline"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s5"
+      },
+      "steps": [
+        {
+          "prompt": "RED in the Extremfall (>95% utilisation): which scheme is meant to act FIRST — the IPS (prevention) or the DGS (payout)?",
+          "kind": "pick",
+          "expected": "IPS (prevention)",
+          "explain": "RED is the START of the IPS's preventive intervention, not the end. Prevention before failure precedes any compensation."
+        },
+        {
+          "prompt": "Which body consumes the RTFA/Ampelung signal and the RED report and decides whether/how to deploy support?",
+          "kind": "pick",
+          "expected": "ÖRS / Sektorrisikokomitee (SRK)",
+          "explain": "The SRK acts on the early-warning output and decides on IPS support."
+        },
+        {
+          "prompt": "If the scheme is an IPS that is also recognised as a DGS, what test must preventive ('alternative') measures pass to use DGS funds?",
+          "kind": "pick",
+          "expected": "cheaper-than-payout (least-cost) test",
+          "explain": "DGS funds may finance alternative failure-prevention measures only if cheaper than a payout and the conditions are met."
+        },
+        {
+          "prompt": "If prevention succeeds, is a DGS payout triggered?",
+          "kind": "pick",
+          "expected": "No — no Feststellung der Nichtverfügbarkeit is made, depositor loss = €0",
+          "explain": "The bank does not fail, deposits never become unavailable, and the payout (the expensive fallback) is never reached."
+        }
+      ],
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.disc.prevention-vs-compensation",
+      "module": "m17",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A member bank receives a capital/liquidity injection to restore solvency BEFORE any deposit becomes unavailable. Is this an IPS measure or a DGS measure — and what forces the classification?",
+      "tags": {
+        "spine": "reg",
+        "risk": "IPS vs DGS classification",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s3"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Names it an IPS (prevention) measure: support to the MEMBER INSTITUTION before failure, legal base Art. 113(7) CRR.",
+        "Contrasts the DGS: compensation to the DEPOSITOR after failure, legal base DGSD/ESAEG.",
+        "Produces the trigger tradeoff: IPS fires on monitoring signals (Ampelung/RTFA); the DGS fires only on a Feststellung der Nichtverfügbarkeit or resolution.",
+        "Notes the exception that blurs them: an IPS recognised as a DGS may spend DGS funds on alternative (prevention) measures only if cheaper than payout."
+      ],
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.disc.target-denominator",
+      "module": "m17",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Two candidate readings of the 0,8% target: (A) 0,8% of COVERED deposits, (B) 0,8% of TOTAL deposits. Which is correct, and why does the denominator matter?",
+      "tags": {
+        "spine": "reg",
+        "risk": "target-level denominator"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s2"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Picks (A): 0,8% of COVERED deposits — the protected subset within scope and within the €100k ceiling.",
+        "Rejects total deposits, total liabilities and RWAs as the base.",
+        "Produces the tradeoff: the denominator ties the fund's size to exactly the insured exposure; using total deposits would overstate (and using a wrong base mis-sizes) the required fund."
+      ],
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.disc.per-institution",
+      "module": "m17",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "A depositor holds ten accounts at one bank and one account at a second bank. Is the €100.000 cover 'per account', 'per depositor per institution', or 'per depositor across all banks'? Resolve it.",
+      "tags": {
+        "spine": "reg",
+        "risk": "coverage scope trap"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s6"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Picks 'per depositor PER institution' and rejects 'per account' (the classic trap).",
+        "Produces the consequence: the ten accounts at the first bank are aggregated and capped at €100.000 there in total.",
+        "Produces the other side: at the second, different bank the depositor is covered a further €100.000 — 'per institution' is what enables that."
+      ],
+      "sourceStatus": "matches",
+      "sourceNote": "Joint accounts and certain categories aside; module flags 'verify current status'."
+    },
+    {
+      "id": "m17.viva.ips-vs-dgs",
+      "module": "m17",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board question: distinguish the R-IPS from the DGS — legal basis, function, timing and trigger — and explain why conflating them is dangerous.",
+      "tags": {
+        "spine": "reg",
+        "risk": "IPS vs DGS distinction",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Legal bases: R-IPS on Art. 113(7) CRR; DGS on DGSD 2014/49/EU transposed by ESAEG.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Function: IPS = PREVENTION (keep the member solvent/liquid); DGS = COMPENSATION (pay depositors).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Timing: IPS acts BEFORE failure; DGS acts AFTER failure.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Trigger: IPS on monitoring signals (the Früherkennung — Ampelung/RTFA); DGS on a Feststellung der Nichtverfügbarkeit or resolution.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r5",
+          "text": "IPS prudential benefit: 0% intra-IPS risk weight + large-exposure waiver, in exchange for joint monitoring.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says they are the same body under two names / the distinction is only historical.",
+        "Says the IPS pays depositors €100.000, or that the DGS supports member banks before failure.",
+        "Mixes the legal bases (e.g. puts the DGS on Art. 113(7) CRR)."
+      ],
+      "modelAnswer": "The R-IPS rests on Art. 113(7) CRR and is a preventive mutual-support scheme: it acts BEFORE failure to keep a member solvent and liquid, triggered by the sector's own monitoring (the Früherkennung's Ampelung/RTFA), and its benefit is a 0% intra-IPS risk weight plus a large-exposure waiver in return for joint monitoring. The DGS rests on the DGSD (2014/49/EU), transposed in Austria by the ESAEG, and is a compensation scheme: it pays depositors up to €100.000 per depositor per institution AFTER deposits are declared unavailable or the bank is resolved. They are two different machines with different legal bases, functions, timings and beneficiaries — conflating them hides the whole point that capital and the IPS exist so the DGS never has to pay.",
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.viva.frueherkennung-enabler",
+      "module": "m17",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board question: explain how the Früherkennung converts 'compensate after failure' into 'prevent before failure', and what legal mechanism lets a scheme spend on prevention.",
+      "tags": {
+        "spine": "reg",
+        "risk": "alternative measures / least-cost"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Early action needs an early signal: you cannot deploy preventive support against a failure you only discover at the counter.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "The RTFA utilisation + Ampelung (RED in the Extremfall) is the forward-looking trigger that lets the SRK/ÖRS act while options are cheap.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "An IPS recognised as / operating a DGS may use its available financial means for 'alternative measures' (failure-prevention) — not only payouts.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Condition: the least-cost / cheaper-than-payout test must be met (and the other conditions).",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r5",
+          "text": "Why prevention wins: even with super-preference, DGS recovery from the estate is slow and partial — a prevented failure is a payout that never happens.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says RED automatically triggers an immediate DGS payout of €100.000 to every depositor.",
+        "Says RED means the bank is immediately put into BRRD resolution.",
+        "Claims DGS funds can be spent on prevention with no cheaper-than-payout condition."
+      ],
+      "modelAnswer": "Prevention requires a forward-looking signal: the Früherkennung's RTFA utilisation and the Ampelung (RED in the Extremfall) surface a member's trouble while it is still fixable, so the ÖRS/Sektorrisikokomitee can decide to deploy capital or liquidity support before any deposit becomes unavailable. Legally, an IPS that is recognised as (or operates) a DGS may use its available financial means not just to pay depositors but for the DGSD's 'alternative measures' — failure prevention — provided this passes the least-cost (cheaper-than-payout) test and the conditions are met. That turns 'compensate after' into 'prevent before', which is decisive because even though covered deposits are super-preferred, recovery from the estate is slow and partial, so a prevented failure (no payout at all) is the cheaper outcome.",
+      "sourceStatus": "matches"
+    },
+    {
+      "id": "m17.viva.oers-vs-dgs-membership",
+      "module": "m17",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board question: a colleague asserts 'the ÖRS is the Raiffeisen deposit-guarantee scheme'. Untangle the ÖRS's role from the statutory DGS membership, and state what must be verified.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "scheme structure / verification"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m17",
+        "anchor": "m17-s2"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The ÖRS (Österreichische Raiffeisen-Sicherungseinrichtung) is the sector's Sicherungseinrichtung: it operates the R-IPS and runs the Früherkennung over its members — an IPS/monitoring role.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "WHICH statutory DGS the sector's banks belong to today is a separate, deposit-guarantee question that must be verified on the FMA register — not inferred from the IPS role or from memory.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Context: since 2019 Austria consolidated into a single statutory scheme (Einlagensicherung AUSTRIA) for most banks; the sector formerly ran the Österreichische Raiffeisen-Einlagensicherung.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Flags that 2024–2026 CMDI changes and the current arrangement may post-date the Leitfaden (09/2024).",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Asserts the current Raiffeisen DGS membership from memory without pointing to the FMA register.",
+        "Equates the ÖRS (IPS/Sicherungseinrichtung) with the statutory deposit-guarantee scheme.",
+        "States CMDI/scheme specifics as settled fact rather than 'verify against current sources'."
+      ],
+      "modelAnswer": "The ÖRS — Österreichische Raiffeisen-Sicherungseinrichtung — is the sector's Sicherungseinrichtung named in the Leitfaden: it operates the R-IPS and runs the Früherkennung's early-warning system over its members, which is an institutional-protection and monitoring role, not in itself a statutory deposit-guarantee scheme. Which statutory DGS the sector's banks belong to today (the single Einlagensicherung AUSTRIA scheme that Austria consolidated into in 2019, versus a sector arrangement) is a separate deposit-guarantee question that must be checked against the FMA's current register rather than asserted from memory. The deposit-guarantee membership and 2024–2026 CMDI changes are exactly the specifics most likely to have moved and may post-date the Leitfaden, so they are flagged for verification.",
+      "sourceStatus": "post-source",
+      "sourceNote": "Module's reg box: current Raiffeisen DGS membership and Austrian scheme structure must be verified on the FMA register; CMDI 2024-2026 may post-date the Leitfaden (09/2024)."
+    }
+  ],
+  "module": "m17"
+}

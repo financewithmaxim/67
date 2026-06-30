@@ -1,0 +1,417 @@
+{
+  "cards": [
+    {
+      "id": "m14.num.bat-submission",
+      "module": "m14",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Credit-risk data flow: how many Bankarbeitstage (BAT) after quarter-end do the Landesorganisationen / RSG have to submit the R1 to the ÖRS?",
+      "answer": {
+        "value": 10,
+        "tol": 0,
+        "unit": "BAT"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "credit-data-timeline"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s3"
+      }
+    },
+    {
+      "id": "m14.num.bat-roundtrip",
+      "module": "m14",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Approximate end-to-end latency (in BAT) of the R1 credit-risk loop — from quarter-ultimo to the granular results being back in the banks' hands (10 BAT submit + ÖRS QA/calc + 10 BAT return)?",
+      "answer": {
+        "value": 20,
+        "tol": 1,
+        "unit": "BAT"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "credit-data-timeline"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s3"
+      }
+    },
+    {
+      "id": "m14.num.cva-position",
+      "module": "m14",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the data-source → risk map, which COREP own-funds Positionsnummer feeds CVA risk (Kreditbewertungsanpassung, M7)? Give the position number.",
+      "answer": {
+        "value": 7516000,
+        "tol": 0
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "cva",
+        "crr": "CRR:Art382"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s4"
+      }
+    },
+    {
+      "id": "m14.num.cet1-position",
+      "module": "m14",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the worked example, which COREP own-funds position number is the CET1 input that lands on the Deckungsmasse side of the RTFA? Give the position number.",
+      "answer": {
+        "value": 7810002,
+        "tol": 0
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "deckungsmasse"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s7"
+      }
+    },
+    {
+      "id": "m14.num.gvk-top",
+      "module": "m14",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the R1, how many top GvK positions are carried to drive the HHI concentration surcharge on the corporate UL?",
+      "answer": {
+        "value": 110,
+        "tol": 0
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "concentration"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s7"
+      }
+    },
+    {
+      "id": "m14.cloze.reuse-formats",
+      "module": "m14",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "To minimise manual effort the Früherkennung reuses the supervisory reporting formats {{c1}} (own funds), {{c2}} (financial reporting) and {{c3}} (the Austrian suite), supplemented for credit risk by the dedicated {{c4}} format.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "COREP"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "FINREP"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "VERA"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "R1"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "reuse-principle"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s2"
+      }
+    },
+    {
+      "id": "m14.cloze.deckungsmasse-sources",
+      "module": "m14",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Deckungsmassen (M13) are fed by pure supervisory reuse: the Stille-Reserven Meldung ({{c1}}), COREP positions {{c2}}, plus {{c3}} — which is why the reuse principle makes COREP/FINREP quality drive the whole RTFA.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Beleg 12",
+            "Beleg12"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "80/81",
+            "80 / 81"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "FINREP"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "deckungsmasse"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s4"
+      }
+    },
+    {
+      "id": "m14.cloze.sot-origin",
+      "module": "m14",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "The IRRBB Supervisory Outlier Test draws its threshold methodology from {{c1}} (the IRRBB guidelines) and the {{c2}}; the §9 update aligned its position numbers with the IRRBB {{c3}} so the SOT uses the same gap data as the Zinsrisiko computation in M6.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "EBA/GL/2018/02",
+            "EBA GL 2018/02"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "SOT RTS",
+            "SOT-RTS"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "ITS"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "irrbb-sot"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s5"
+      }
+    },
+    {
+      "id": "m14.deriv.credit-loop",
+      "module": "m14",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "Trace one quarter of credit risk through the R1 loop, from quarter-ultimo submission to results returning.",
+      "steps": [
+        {
+          "prompt": "Within how many BAT after quarter-ultimo must the R1 be submitted, and by whom?",
+          "kind": "pick",
+          "expected": "10 BAT, by the Landesorganisationen / RSG",
+          "explain": "Quarter-ultimo data in the R1 format per the ÖRS Datenspezifikation, per Landesgruppen-Mitglied (KI-Gruppe), within 10 Bankarbeitstage."
+        },
+        {
+          "prompt": "Who runs the central step, and what does it produce?",
+          "kind": "pick",
+          "expected": "the ÖRS — Qualitätssicherung plus the central credit-risk calc (EL, UL, FX add-on, HHI surcharge)",
+          "explain": "Risikoposition = Exposure − interne Sicherheiten; EL=LGD·PD, UL via IRB (Art.153/154), FX add-on, HHI on top-110 GvK."
+        },
+        {
+          "prompt": "Within how many BAT are results returned, and at what granularity?",
+          "kind": "pick",
+          "expected": "10 BAT, both aggregated and detailed at input granularity",
+          "explain": "The return leg mirrors the submission leg — same 10-BAT clock, results at the input granularity."
+        },
+        {
+          "prompt": "What is the approximate end-to-end latency?",
+          "kind": "pick",
+          "expected": "~20 BAT",
+          "explain": "10 BAT + 10 BAT ≈ 20 BAT round-trip — the reason the RTFA is a quarterly, not real-time, tool."
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "credit-data-timeline"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s7"
+      }
+    },
+    {
+      "id": "m14.disc.reporting-envelope",
+      "module": "m14",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Classify the reporting envelope: quarterly cadence, EUR currency, Excel templates and the srg-office@rbinternational.com address, versus the unconsolidated/consolidated scopes and the underlying COREP/FINREP/VERA formats. Reg, ÖRS, or mixed — and produce the split.",
+      "verdict": "mixed",
+      "rubric": [
+        "Quarterly cadence (on OeNB-Meldekalender deadlines), EUR currency, the Excel-template packaging and the reporting address are ÖRS proportionality choices.",
+        "The requirement to deliver both unconsolidated AND (where applicable) consolidated, and the underlying COREP/FINREP/VERA formats, are regulatory and cannot be chosen away.",
+        "So the envelope is mixed: the ÖRS chooses the packaging/cadence, but it reuses regulatory formats and must serve the regulatory consolidation scopes (solo / §30-BWG KI-Gruppe / IPS views)."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "reuse-principle"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s2"
+      }
+    },
+    {
+      "id": "m14.disc.sot-vs-var",
+      "module": "m14",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A colleague adds the IRRBB Supervisory Outlier Test outcome to the risk side of the RTFA, next to the M6 Zinsrisiko VaR. Reg or ÖRS — and what is wrong with the treatment?",
+      "verdict": "reg",
+      "rubric": [
+        "The SOT is regulatory (EBA/GL/2018/02; SOT RTS) — a prescribed pass/fail outlier test on ΔEVE/ΔNII under standard rate shocks, so the verdict is reg.",
+        "But it is a Kennzahl/limit — a Pillar-2 supervisory flag — NOT a capital charge to add to the Deckungsmasse risk side.",
+        "The actual interest-rate capital figure is the Zinsrisiko VaR (M6); adding the SOT on top double-counts interest-rate risk."
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "irrbb-sot"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s5"
+      }
+    },
+    {
+      "id": "m14.viva.reuse-quality",
+      "module": "m14",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Leitfaden states 'COREP/FINREP data quality directly drives RTFA quality.' Defend why the reuse principle makes this true, and name the tradeoff it creates.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States the design principle: reuse the supervisory formats the bank must file anyway (COREP/FINREP/VERA), supplementing only credit risk (R1), to minimise manual effort.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Explains propagation: a defect in the reused report (e.g. misclassified NPE in FINUS/FINUD, a wrong own-funds line in COREP) flows untouched into the Deckungsmasse and the traffic light.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Names the tradeoff: reuse saves effort but transfers the data-quality burden onto the supervisory reporting team rather than removing it.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the Früherkennung builds its own independent data warehouse insulated from supervisory reporting.",
+        "Framing data quality as purely a modelling concern rather than a sourcing one."
+      ],
+      "modelAnswer": "Because the framework deliberately reuses the COREP/FINREP/VERA formats the bank already files — supplementing only credit risk via the R1 — almost every RTFA input is a recycled supervisory figure rather than a freshly computed one. A defect in those reports, such as a misclassified NPE in FINUS/FINUD or a wrong own-funds line in COREP, therefore flows untouched into the Deckungsmasse and the traffic light. The reuse principle buys minimal manual effort and automatic alignment with what the supervisor sees, but the price is that it transfers the entire data-quality burden onto the supervisory reporting team.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "reuse-principle"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s1"
+      }
+    },
+    {
+      "id": "m14.viva.bat-latency",
+      "module": "m14",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Explain the timing of the R1 credit-risk loop and why it makes the RTFA a quarterly monitoring tool rather than a real-time one.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The 10-BAT deadline applies to BOTH legs: 10 BAT to submit the quarter-ultimo R1, and 10 BAT for the ÖRS to return results.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "End-to-end latency is therefore roughly 20 BAT, so a quarter-ultimo credit number reaches the banks only weeks after quarter-end.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Concludes that this round-trip latency is precisely why the RTFA is a quarterly early-warning tool, not real-time.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Saying the 10-BAT clock covers the whole round trip (forgetting the return leg).",
+        "Claiming results return at a coarser granularity than the input — they return at input granularity."
+      ],
+      "modelAnswer": "The 10-BAT clock is symmetric: the Landesorganisationen / RSG have 10 Bankarbeitstage after quarter-ultimo to submit the R1, and the ÖRS then has 10 BAT to run quality assurance and the central credit calc and return results, aggregated and detailed at input granularity. End-to-end that is roughly 20 BAT, so the quarter-ultimo credit number is only in the banks' hands several weeks after quarter-end. That inherent latency — not a modelling limitation — is why the Früherkennung is designed as a quarterly monitoring instrument rather than a real-time one.",
+      "tags": {
+        "spine": "ors",
+        "risk": "credit-data-timeline"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m14",
+        "anchor": "m14-s3"
+      }
+    }
+  ],
+  "module": "m14"
+}

@@ -1,0 +1,483 @@
+{
+  "cards": [
+    {
+      "id": "m23.num.lcr-buffer",
+      "module": "m23",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Stylised Raiffeisenbank liquid assets (market value): central-bank reserves €120m; non-covered-bond Level 1 EU sovereign bonds €80m; AA covered bonds (Level 2A) €60m; qualifying RMBS (Level 2B) €40m. Apply the LCR haircuts (L1 0%, L2A 15%, L2B RMBS 25%); no cap binds. What is the post-haircut liquidity buffer in €m?",
+      "answer": {
+        "value": 281,
+        "tol": 0.5,
+        "unit": "€m"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "HQLA-buffer / haircuts"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s4"
+      }
+    },
+    {
+      "id": "m23.num.nco",
+      "module": "m23",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Same balance sheet. Gross 30-day outflows total €340m. Inflows: performing retail repayments €60m at 50% and FI receivables €40m at 100%. With the standard 75% inflow cap, compute the 30-day stressed net cash outflow NCO\\(_{30}\\) in €m.",
+      "answer": {
+        "value": 270,
+        "tol": 0.5,
+        "unit": "€m"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "net-cash-outflow / inflow-cap"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s4"
+      }
+    },
+    {
+      "id": "m23.num.lcr-ratio",
+      "module": "m23",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "With a buffer of €281m and NCO\\(_{30}\\) of €270m, what is the LCR (as a fraction)? Does it clear the minimum?",
+      "answer": {
+        "value": 1.041,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "LCR-ratio"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s4"
+      }
+    },
+    {
+      "id": "m23.num.classification-cliff",
+      "module": "m23",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Starting from buffer €281m and NCO €270m, supervision rejects the 'stable' tag on €600m of retail deposits, reclassifying them from the 5% to the 10% run-off rate. Assets are unchanged. What is the new LCR (as a fraction)?",
+      "answer": {
+        "value": 0.937,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "deposit-classification cliff"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s4"
+      }
+    },
+    {
+      "id": "m23.deriv.buffer-waterfall",
+      "module": "m23",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Derive the LCR buffer for the stylised book: reserves €120m, non-covered L1 sovereigns €80m, L2A covered bonds €60m, L2B RMBS €40m. Apply haircuts and the adjusted-amount caps in sequence.",
+      "steps": [
+        {
+          "prompt": "Post-haircut non-covered Level 1 = reserves + sovereigns at 0% haircut?",
+          "kind": "pick",
+          "expected": "200",
+          "explain": "120 + 80 = 200, both 0% haircut."
+        },
+        {
+          "prompt": "Post-haircut Level 2A = €60m at 15% haircut?",
+          "kind": "pick",
+          "expected": "51",
+          "explain": "60 × (1 − 0.15) = 51."
+        },
+        {
+          "prompt": "Post-haircut Level 2B = €40m RMBS at 25% haircut?",
+          "kind": "pick",
+          "expected": "30",
+          "explain": "40 × (1 − 0.25) = 30."
+        },
+        {
+          "prompt": "Does the 40% Level-2 cap bind? Test L2 total 81 against 2/3 × adjusted L1 (= 2/3 × 200 = 133.3).",
+          "kind": "pick",
+          "expected": "no",
+          "explain": "81 < 133.3, so the 40% cap does not bind; the 15/85 L2B sub-cap (44.3) also does not bind."
+        },
+        {
+          "prompt": "Buffer = sum of eligible amounts in €m?",
+          "kind": "pick",
+          "expected": "281",
+          "explain": "200 + 51 + 30 = 281; non-covered L1 share 200/281 ≈ 71% ≥ 30% floor satisfied."
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "Annex-I cap waterfall"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s3"
+      }
+    },
+    {
+      "id": "m23.cloze.composition-floor",
+      "module": "m23",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "In the LCR buffer, non-covered-bond Level 1 must be at least {{c1}} of the buffer (composition floor); total Level 2 may not exceed {{c2}}; and within that, Level 2B is sub-capped at {{c3}}. These caps bite on the Annex I {{c4}} amounts, not on the raw post-haircut total.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "30%",
+            "0.30",
+            "30"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "40%",
+            "0.40",
+            "40"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "15%",
+            "0.15",
+            "15"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "adjusted",
+            "angepasste",
+            "unwound"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "composition floor & caps"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s3"
+      }
+    },
+    {
+      "id": "m23.cloze.inflow-cap",
+      "module": "m23",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "LCR inflows are normally capped at {{c1}} of gross outflows, so HQLA must cover at least {{c2}} of the drain. Specialised/promotional lenders may use a {{c3}} cap, and fully pass-through intragroup/IPS and promotional flows can be {{c4}} from the cap.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "75%",
+            "0.75",
+            "75"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "25%",
+            "0.25",
+            "25"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "90%",
+            "0.90",
+            "90"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "exempt",
+            "exempted",
+            "0%"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "inflow cap & exemptions",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s5"
+      }
+    },
+    {
+      "id": "m23.cloze.nsfr-factors",
+      "module": "m23",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "NSFR factors: regulatory capital and >1y liabilities score {{c1}} ASF; stable retail/SME deposits <1y score {{c2}} ASF; performing residential mortgages (≤35% RW) carry {{c3}} RSF; and a flat {{c4}} RSF add-on is charged on gross derivative liabilities.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "100%",
+            "1.00",
+            "100"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "95%",
+            "0.95",
+            "95"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "65%",
+            "0.65",
+            "65"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "20%",
+            "0.20",
+            "20"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "NSFR ASF/RSF factors",
+        "crr": "CRR:Art428a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s3"
+      }
+    },
+    {
+      "id": "m23.disc.deposit-taxonomy",
+      "module": "m23",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "The sector Leitfaden Liquidität prescribes a single, uniform deposit-classification taxonomy (stable / less-stable / operational, plus the DGS-covered vs. excess split) used by every member Raiffeisenbank. Is this taxonomy a CRR-forced regulatory value or an ÖRS proportionality choice — and what is the produced tradeoff?",
+      "verdict": "ors",
+      "rubric": [
+        "Separates the two layers: the DelVO hard-wires the run-off RATES (reg), but bucketing each deposit into stable/less-stable/operational is the bank's/sector's modelling freedom (ors).",
+        "Produces the upside of the uniform taxonomy: comparability across members, central-function efficiency, and defensibility before the Aufsichtsrat.",
+        "Produces the cost: a standard taxonomy can be more conservative than a tailored local model for an atypical member, sacrificing buffer headroom — proportionality means small members accept the standard rather than build bespoke behavioural models."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "sector deposit taxonomy"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s5"
+      }
+    },
+    {
+      "id": "m23.disc.runoff-classification",
+      "module": "m23",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "A risk officer claims 'the whole LCR denominator is a bank modelling choice.' True or false? Separate what the DelVO fixes from the bank's freedom, and state the tradeoff.",
+      "verdict": "mixed",
+      "rubric": [
+        "Reg-fixed: every run-off and inflow rate (stable retail 5%, non-operational NFC 40%, unsecured FI 100%, inflow cap 75%) is hard-wired by the DelVO for cross-bank comparability.",
+        "Bank freedom: ONLY the classification — is the deposit stable? is the portion operational? is the collateral Level 1? — which is where supervisory scrutiny concentrates.",
+        "Tradeoff: fixed rates buy comparability at the cost of risk-sensitivity; since classification is the only lever, a defensible deposit-stability narrative (ILAAP) is examined as hard as the number."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "reg rate vs ors classification"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s3"
+      }
+    },
+    {
+      "id": "m23.viva.two-ratios",
+      "module": "m23",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend to the Aufsichtsrat why the framework needs BOTH the LCR and the NSFR — why is one not redundant given the other?",
+      "rubric": [
+        {
+          "id": "horizon",
+          "text": "States the LCR is a 30-day stock/cash test while the NSFR is a one-year structural funding test (ASF ÷ RSF).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "failmode",
+          "text": "Gives the canonical failure the other misses: a government-bond buffer funded entirely with 1-month wholesale passes the LCR but fails the NSFR because short funding (0% ASF) of a non-trivially-liquid asset is penalised.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "nonsubsume",
+          "text": "Concludes neither subsumes the other — tactical 30-day survival vs. strategic term-funding structure.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the NSFR is just the LCR over a longer horizon with the same mechanics.",
+        "Saying one ratio replaces the other for small banks under proportionality.",
+        "Confusing the 75% inflow cap (an LCR mechanic) with an NSFR feature."
+      ],
+      "modelAnswer": "The LCR is a tactical stock test: enough HQLA, after haircuts and caps, to cover the net cash that drains out over an acute 30-day stress. The NSFR is a structural one-year test that weights funding by stability (ASF) and assets by required stable funding (RSF). They are not redundant because a bank can hold a vast govvie buffer that sails through the LCR yet fund it with one-month wholesale paper — fine on day 1, but on day 31 the paper matures into a shut market, which only the NSFR (0% ASF against a positive-RSF asset) catches. One is the 30-day siege test, the other the term-funding test; neither subsumes the other.",
+      "tags": {
+        "spine": "reg",
+        "risk": "LCR vs NSFR rationale",
+        "crr": "CRR:Art428a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s2"
+      }
+    },
+    {
+      "id": "m23.viva.ilaap-icaap",
+      "module": "m23",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Place the ILAAP against the ICAAP for the board: how do they relate, and why must their stress scenarios be consistent?",
+      "rubric": [
+        {
+          "id": "counterpart",
+          "text": "Identifies the ILAAP as the liquidity counterpart of the ICAAP — both board-owned internal adequacy processes that feed the SREP (where a weak ILAAP can trigger Pillar 2 liquidity guidance/add-ons).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "resource",
+          "text": "Distinguishes the resources: ICAAP = capital / loss absorption; ILAAP = liquidity & funding / payment capacity, with metrics like survival period, counterbalancing capacity and internal stress LCR.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "link",
+          "text": "Explains consistency: a liquidity stress that forces asset fire-sales crystallises losses and consumes capital, so the two sets of adverse scenarios must be mutually consistent — two readings of one stressed balance sheet.",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Saying the ILAAP replaces the ICAAP for liquidity-rich banks.",
+        "Calling the ILAAP a pure payment-systems report.",
+        "Claiming the two processes are unrelated."
+      ],
+      "modelAnswer": "The ILAAP is to liquidity what the ICAAP is to capital: both are internal, board-owned adequacy processes that feed the SREP, and both run the same normative-plus-economic two-perspective logic. The ICAAP asks whether the bank can absorb losses over the horizon; the ILAAP asks whether it can meet outflows and stay funded, using metrics like the survival period, counterbalancing capacity and an internal stress LCR. Their scenarios must be consistent because a liquidity stress that forces fire-sales realises losses and so consumes capital — they are two readings of a single stressed balance sheet, and a weak ILAAP can attract Pillar 2 liquidity add-ons.",
+      "tags": {
+        "spine": "reg",
+        "risk": "ILAAP vs ICAAP"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s5"
+      }
+    },
+    {
+      "id": "m23.viva.adjusted-amount-caps",
+      "module": "m23",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "A junior analyst computes the Level 2B sub-cap as 15% of the raw post-haircut HQLA total. Defend why this is wrong and state the correct mechanism.",
+      "rubric": [
+        {
+          "id": "adjusted",
+          "text": "States the 40% and 15% caps bite on the Annex I ADJUSTED amounts produced by the unwinding algorithm (unwind every short-term secured transaction collateralised with HQLA back to cash), not on the raw post-haircut total.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "ratios",
+          "text": "Gives the operational form: total Level 2 ≤ 2/3 of adjusted Level 1 (→ 40% of the whole), and L2B ≤ 15/85 of (Level 1 + capped L2A) (→ 15%); when a cap binds the excess is EXCLUDED from the buffer entirely, not down-weighted.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "whenwrong",
+          "text": "Notes the shortcut coincides only when no cap binds and no secured-transaction unwinding shifts the composition; a repo against your sovereigns or a covered-bond-heavy buffer breaks it.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Asserting the flat 15%-of-raw-total shortcut is always correct.",
+        "Saying excess Level 2B is merely down-weighted rather than excluded.",
+        "Claiming Level 1 is uniformly uncapped and zero-haircut (ignoring the 7% EHQ covered-bond haircut and the 30% floor)."
+      ],
+      "modelAnswer": "The shortcut is wrong because the DelVO Annex I caps act on adjusted amounts, not the raw post-haircut total: the algorithm first unwinds every short-term secured-funding/lending/collateral-swap transaction collateralised with HQLA back to cash, then applies the limits to that unwound composition. Operationally this reduces to total Level 2 ≤ 2/3 of adjusted Level 1 (the 40% cap) and L2B ≤ 15/85 of Level 1 plus capped L2A (the 15% sub-cap), and any excess is excluded from the buffer outright rather than down-weighted. The flat-15%-of-total trick only happens to match when no cap binds and no repo against HQLA shifts the composition; the moment a sovereign repo or a covered-bond-heavy buffer moves the mix, it over- or under-states the eligible buffer, so you must run the algorithm.",
+      "tags": {
+        "spine": "reg",
+        "risk": "adjusted-amount caps"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m23",
+        "anchor": "m23-s3"
+      }
+    }
+  ],
+  "module": "m23"
+}

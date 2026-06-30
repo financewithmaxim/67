@@ -1,0 +1,436 @@
+{
+  "cards": [
+    {
+      "id": "m21.num.backstop-shortfall",
+      "module": "m21",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "A commercial loan created in 2021 (inside the post-26-April-2019 Art. 47a–47c backstop) is non-performing in its 4th year following classification: EUR 400,000 unsecured and EUR 600,000 secured by immovable property; EUR 250,000 of IFRS 9 stage-3 provisions already booked. Using the year-4 Art. 47c factors (unsecured 100%, immovable-secured 25%), what CET1 deduction does the prudential backstop force? \\(\\;\\text{Shortfall}=\\max(0,\\;\\text{required}-\\text{coverage})\\)",
+      "answer": {
+        "value": 300000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "calendar-provisioning",
+        "crr": "CRR:Art47c"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s4"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Required = 400k×100% + 600k×25% = 550k; shortfall over the 250k provision = 300k, deducted from CET1 under Art. 36(1)(m). The Art. 47c ramp factors (incl. the immovable year-4 = 0.25, NOT 0.35) are flagged to-verify in the module against the consolidated Reg. (EU) 2019/630 text; the output depends on them."
+    },
+    {
+      "id": "m21.num.le-limit",
+      "module": "m21",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Tier-1 capital is EUR 30,000,000. What is the large-exposures limit (post-CRM) to a single client or group of connected clients? \\(\\;E^{\\ast}_{j}\\le 25\\%\\times\\text{T1}\\)",
+      "answer": {
+        "value": 7500000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "concentration",
+        "crr": "CRR:Art395"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-6"
+      }
+    },
+    {
+      "id": "m21.num.le-adjusted-base",
+      "module": "m21",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "A EUR 300,000 calendar-provisioning shortfall has just been deducted, so the Tier-1 base is now EUR 29,700,000. What is the recomputed 25%-of-T1 large-exposures limit? (This is how the backstop quietly shaves every concentration limit.) \\(\\;0.25\\times(30{,}000{,}000-300{,}000)\\)",
+      "answer": {
+        "value": 7425000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "concentration",
+        "crr": "CRR:Art395"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s4"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Output depends on the EUR 300,000 deduction, which rests on the to-verify Art. 47c year-4 immovable factor of 0.25; module flags the EUR 7,425,000 result accordingly."
+    },
+    {
+      "id": "m21.num.npl-trigger",
+      "module": "m21",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "At or above what gross-NPL ratio do the EBA Guidelines on management of non-performing and forborne exposures (EBA/GL/2018/06) require a bank to build an NPE strategy, operational reduction plan and forbearance policy? (Answer as a fraction.)",
+      "answer": {
+        "value": 0.05,
+        "tol": 0.01,
+        "unit": "fraction of gross loans"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "npe-process"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-5"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Module cites the 5% gross-NPL trigger in EBA/GL/2018/06 as flagged to-verify; soft law, but effectively binding once the FMA adopts it."
+    },
+    {
+      "id": "m21.cloze.stacking-order",
+      "module": "m21",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Capital stacking as a % of TREA: \\(\\text{TSCR}=8\\%+{{c1}}\\); \\(\\text{OCR}=\\text{TSCR}+{{c2}}\\); the CET1 MDA trigger \\(=4.5\\%+\\text{P2R}_{\\text{CET1}}+{{c2}}\\). P2G is non-binding and sits {{c3}} the combined buffer.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "P2R",
+            "Pillar 2 Requirement",
+            "Pillar-2 requirement"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "CBR",
+            "combined buffer requirement",
+            "combined buffer"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "above",
+            "on top of",
+            "over"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "mda-stacking",
+        "crr": "CRR:Art141"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-4"
+      }
+    },
+    {
+      "id": "m21.cloze.p2r-composition",
+      "module": "m21",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "Since CRD V (Art. 104a), P2R need not be met entirely in CET1: mirroring the composition of Pillar 1 it must be met with at least {{c1}} CET1 and at least {{c2}} Tier 1, with the remainder eligible as AT1/T2.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "56.25%",
+            "56.25",
+            "56,25%"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "75%",
+            "75"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "p2r-composition",
+        "crr": "CRR:Art104a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-3"
+      }
+    },
+    {
+      "id": "m21.cloze.backstop-tracks",
+      "module": "m21",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "Art. 47c sets three collateral tracks that reach full (100%) coverage at different speeds: unsecured by year {{c1}}, movable / other-secured by year {{c2}}, and immovable-secured / eligible-guaranteed from year {{c3}}. (Note the counter-intuitive ordering: movable reaches full cover *before* immovable.)",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "3",
+            "three"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "8",
+            "eight"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "10",
+            "ten"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "calendar-provisioning",
+        "crr": "CRR:Art47c"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-5"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Track end-points (yr 3 / yr 8 / yr 10) are flagged to-verify in the module against the consolidated Art. 47c text."
+    },
+    {
+      "id": "m21.deriv.backstop-deduction",
+      "module": "m21",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "en",
+      "front": "Derive the CET1 deduction the prudential backstop forces on a 2021-originated NPE: EUR 400,000 unsecured + EUR 600,000 immovable-secured, in its 4th year, with EUR 250,000 stage-3 provisions.",
+      "steps": [
+        {
+          "prompt": "Gate 1 — origination date. The exposure was created in 2021. Does the Art. 47a–47c hard backstop apply at all?",
+          "kind": "pick",
+          "expected": "Yes — created on/after 26 April 2019, so it is inside the Pillar-1 backstop (not the ECB Addendum's Pillar-2 legacy world).",
+          "explain": "The first question on any NPE is when the exposure was created, not how old the default is. Pre-26-April-2019 stock falls outside Art. 47a–47c entirely."
+        },
+        {
+          "prompt": "Gate 2 — split by collateral and read BOTH legs from the same year-4 column. What are the required-coverage factors?",
+          "kind": "pick",
+          "expected": "Unsecured = 100% (full from year 3); immovable-secured = 25% (the year-4 factor, NOT the year-5 0.35).",
+          "explain": "Reading the secured leg one column too far (0.35) is the signature error the module corrects."
+        },
+        {
+          "prompt": "Compute the required minimum coverage.",
+          "kind": "pick",
+          "expected": "400,000×100% + 600,000×25% = 400,000 + 150,000 = EUR 550,000.",
+          "explain": "Factor applies to the relevant portion: unsecured factor to the unsecured part, immovable factor to the secured part."
+        },
+        {
+          "prompt": "Net eligible coverage (the EUR 250,000 stage-3 provision) and state the shortfall.",
+          "kind": "pick",
+          "expected": "max(0, 550,000 − 250,000) = EUR 300,000.",
+          "explain": "Backstop credits existing accounting provisions and certain other adjustments against the requirement."
+        },
+        {
+          "prompt": "Where does the EUR 300,000 go, and under which article?",
+          "kind": "pick",
+          "expected": "Deducted directly from CET1 under Art. 36(1)(m) — a capital deduction, not an RWA add-on. Accounting P&L does not move.",
+          "explain": "The backstop is a clock, not a credit assessment: capital falls purely because the default is old."
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "calendar-provisioning",
+        "crr": "CRR:Art47c"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s4"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "All numeric outputs rest on the to-verify Art. 47c factors (immovable year-4 = 0.25)."
+    },
+    {
+      "id": "m21.disc.icaap-confidence",
+      "module": "m21",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The ICAAP economic perspective is run at a 99.9% one-year confidence level. Is that 99.9% a regulatory value the CRR/ECB forces, or an ÖRS proportionality choice — and what trade-off does the choice carry? (Produce the trade-off, not just the label.)",
+      "verdict": "ors",
+      "rubric": [
+        "ÖRS choice: the ECB Guide to the ICAAP mandates only that the level be 'consistent with a high level of solvency', it does NOT set a number — so 99.9% is a sector modelling decision, not a regulatory constant.",
+        "Produced trade-off: a HIGHER confidence level is easier to defend to the supervisor but consumes more economic capital and can make the bank look constrained.",
+        "Produced trade-off: a LOWER level frees economic capital but invites the supervisory challenge 'why are you less prudent than your A-IRB Pillar-1 99.9% calibration?'",
+        "The sector picks one number centrally so the choice is consistent across all primaries and defensible once, not 300 times."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "icaap-calibration"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-1"
+      }
+    },
+    {
+      "id": "m21.disc.ips-exemption",
+      "module": "m21",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Intra-sector exposures get a 0% risk weight (Art. 113(7)) and exemption from the 25% large-exposures limit (Art. 400(2)). Is this relief regulatory or an ÖRS choice — and what is the trade-off the sector pays for it?",
+      "verdict": "mixed",
+      "rubric": [
+        "Mixed: the CRR GRANTS the 0% weight and the LE exemption (regulatory benefit), but only conditionally — Art. 113(7) requires a contractual/statutory liability arrangement, a common risk-monitoring system, and aggregated/consolidated risk reporting.",
+        "Building and running that risk-monitoring apparatus (the Früherkennung this course teaches) is the ÖRS decision and the price of the relief.",
+        "Produced trade-off: the sector accepts a heavy, centralised early-warning and risk-aggregation system in exchange for the capital relief.",
+        "If the monitoring apparatus degrades, the exemption degrades with it — the soft-law obligation is the consideration for the hard-law benefit; the relief is not a birthright of the Raiffeisen brand."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "ips-concentration",
+        "crr": "CRR:Art113-7"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-7"
+      }
+    },
+    {
+      "id": "m21.viva.p2r-p2g-asymmetry",
+      "module": "m21",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "A bank's CET1 ratio falls below its P2G but stays above its combined buffer requirement and P2R. Explain the consequence and state the correct stacking order of Pillar 1, P2R, the combined buffer and P2G.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States P2G is non-binding guidance — breaching it is NOT a requirement breach and does not trigger the Art. 141 MDA distribution ladder.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Names the actual consequence: intensified supervision and a remediation/recovery-plan dialogue, not an automatic distribution restriction.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Gives the stacking order: Pillar 1 (8%) + P2R = TSCR; + combined buffer requirement (CBR) = OCR; P2G sits ABOVE the combined buffer.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Adds that the MDA trigger is the combined buffer requirement (Art. 141) and that P2R is binding — breaching it is a requirement breach with the same MDA consequences as a Pillar-1 breach.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says P2G sits below / under the combined buffer.",
+        "Claims breaching P2G triggers an automatic Art. 141 MDA distribution restriction.",
+        "Claims breaching P2G forces an Art. 36(1)(m) CET1 deduction equal to the shortfall."
+      ],
+      "modelAnswer": "No capital requirement is breached: P2G is non-binding supervisory guidance that sits above the combined buffer, so falling into it does not engage the Art. 141 MDA ladder — which bites only on the combined buffer requirement. The practical consequence is intensified supervision and a remediation/recovery dialogue, plus loss of supervisory goodwill, not an automatic distribution cap. The correct order is Pillar 1 (8%) + P2R = TSCR, then + the combined buffer requirement = OCR, with P2G layered on top of the buffer; P2R, by contrast, is binding and a breach carries the same MDA consequences as a Pillar-1 breach.",
+      "tags": {
+        "spine": "reg",
+        "risk": "mda-stacking",
+        "crr": "CRR:Art141"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-4"
+      }
+    },
+    {
+      "id": "m21.viva.calendar-provisioning-regimes",
+      "module": "m21",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Viva question: 'Is calendar provisioning Pillar 1 or Pillar 2?' Give the full, correct answer — vintage/origination gate, the three collateral tracks, and the nature of the backstop.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The CRR Art. 47a–47c backstop is Pillar 1 — a hard, automatic CET1 deduction under Art. 36(1)(m) — since the 2019 amendment (Reg. (EU) 2019/630).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "It applies only to exposures created on/after 26 April 2019; the ECB Addendum is the Pillar-2 supervisory expectation governing the pre-cut-off legacy stock.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Names the three collateral tracks and end-points: unsecured (full by year 3), movable/other-secured (full by year 8), immovable-secured/eligible-guaranteed (full from year 10).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "States the backstop is a clock, not a credit assessment — a well-collateralised, recoverable loan is still deducted if it is old enough.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says the CRR Art. 47a–47c backstop is merely Pillar-2 guidance.",
+        "Says the ECB Addendum is the hard Pillar-1 deduction (inverting the two regimes).",
+        "Conflates the two regimes or quotes the Addendum for exposures from 26 April 2019.",
+        "Reads both legs of a split exposure from different year columns."
+      ],
+      "modelAnswer": "Since the 2019 amendment, the CRR Art. 47a–47c prudential backstop is Pillar 1: an automatic CET1 deduction under Art. 36(1)(m) of any shortfall of coverage below the calendar minimum. It applies only to exposures created on or after 26 April 2019; the older legacy stock is instead governed by the ECB Addendum, a Pillar-2 supervisory expectation, so quoting the wrong one fails the question. The minimum coverage ramps along three collateral tracks — unsecured to full coverage by year 3, movable/other-secured by year 8, and immovable-secured or eligible-guaranteed from year 10 — applied to the relevant portion of the exposure. Crucially it is a clock, not a credit assessment: even a well-secured, recoverable loan is deducted purely because the default has aged.",
+      "tags": {
+        "spine": "reg",
+        "risk": "calendar-provisioning",
+        "crr": "CRR:Art47a-47c"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m21",
+        "anchor": "m21-s3-5"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Track end-points and the 26 April 2019 cut-off are flagged to-verify in the module against Reg. (EU) 2019/630."
+    }
+  ],
+  "module": "m21"
+}

@@ -1,0 +1,449 @@
+{
+  "cards": [
+    {
+      "id": "m13.num.freier-ueberschuss-q3",
+      "module": "m13",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "UGB-Rechnungskreis, reporting at Q3. Budgeted Jahresüberschuss after tax = €4.0m, Mindestausschüttung = €1.0m, Gewinnvortrag = €2.0m. Compute the freier Jahresüberschuss for the Problemfall — applying the quarterly haircut ONLY to the budgeted JÜ. Answer in EUR.",
+      "tags": {
+        "spine": "ors",
+        "risk": "earnings buffer / quarterly haircut hits the budget only"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "answer": {
+        "value": 4600000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m13.num.deckungsmasse-pf",
+      "module": "m13",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "UGB Problemfall Deckungsmasse. Blocks (€m): freier Überschuss 4.6 + Freies Kapital 30.0 + Stille Reserven 8.0 + Excess/Shortfall (provisions 6.0 − EL 5.0). What is the total Deckungsmasse, in EUR?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "cover aggregation across the four blocks"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s4"
+      },
+      "answer": {
+        "value": 43600000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m13.num.rlb-60-cap",
+      "module": "m13",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "RLB 60%-Verkehrswert option. Verkehrswert of the RLB participation = €432m; summed Buchwert across the RBn = €104m. What is the MAXIMUM recognisable stille Reserve under the cap (0.6·VW − BW)? Answer in EUR.",
+      "tags": {
+        "spine": "ors",
+        "risk": "RLB 60% option — conditional + capped"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "answer": {
+        "value": 155200000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m13.num.rlb-ordinary",
+      "module": "m13",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Same RLB participation (Verkehrswert €432m, Buchwert €104m). Under the ORDINARY recognition (16% of the Verkehrswert, previously allowed), how much stille Reserve is creditable? Answer in EUR.",
+      "tags": {
+        "spine": "ors",
+        "risk": "ordinary vs 60%-option recognition"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "answer": {
+        "value": 69120000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m13.num.excess-shortfall-sign",
+      "module": "m13",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Across the whole portfolio, Wertberichtigungen (provisions) = €5m and modelled Expected Loss = €6m. Compute the SIGNED excess/shortfall contribution to the Deckungsmasse (Vorsorgen − EL), in EUR. (Negative ⇒ a shortfall that subtracts, in BOTH scenarios.)",
+      "tags": {
+        "spine": "boundary",
+        "risk": "EL re-entry — sign of excess/shortfall",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "sourceStatus": "erratum",
+      "sourceNote": "The module (§3.4 formula, worked example, and quiz) consistently defines Excess/Shortfall = Wertberichtigungen − Expected Loss, giving 5 − 6 = −1m (a shortfall that subtracts). The _authoring_brief.md master fact sheet (line 285) writes it reversed as 'EL − Wertberichtigungen'; that reversal is a fact-sheet erratum. This card follows the module's (self-consistent) convention.",
+      "answer": {
+        "value": -1000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m13.cloze.haircut-ramp",
+      "module": "m13",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "The quarterly haircut h_Q on the budgeted Jahresüberschuss ramps with prudence (least realised early in the year): Q1 {{c1}}, Q2 {{c2}}, Q3 {{c3}}, Q4 {{c4}}.",
+      "tags": {
+        "spine": "ors",
+        "risk": "quarterly haircut ramp 85/85/90/100%"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "85%",
+            "85",
+            "0.85",
+            "0,85"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "85%",
+            "85",
+            "0.85",
+            "0,85"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "90%",
+            "90",
+            "0.9",
+            "0,9"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "100%",
+            "100",
+            "1.0",
+            "1"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m13.cloze.extremfall-skeleton",
+      "module": "m13",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Extremfall Deckungsmasse skeleton: Freier Überschuss + Freies Kapital + Stille Reserven {{c1}} Neubewertungsreserve + Excess/Shortfall. The explicit {{c2}} line is the only structural term distinguishing it from the Problemfall skeleton.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Problemfall vs Extremfall skeleton"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "−",
+            "-",
+            "minus"
+          ],
+          "render": "operator"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "− Neubewertungsreserve",
+            "minus Neubewertungsreserve",
+            "Neubewertungsreserve subtraction",
+            "Neubewertungsreserve"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m13.deriv.rlb-60-option",
+      "module": "m13",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "Derive the RLB 60%-Verkehrswert option for the RLB participation: Verkehrswert €432m, summed Buchwert €104m.",
+      "tags": {
+        "spine": "ors",
+        "risk": "RLB 60% option derivation — full vs ordinary vs cap"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "steps": [
+        {
+          "prompt": "Full stille Reserve = Verkehrswert − Buchwert = ?",
+          "kind": "pick",
+          "expected": "€328m (432 − 104)",
+          "explain": "The total hidden reserve — not all of it is recognisable as cover."
+        },
+        {
+          "prompt": "Ordinary recognition = 16% of the Verkehrswert = ?",
+          "kind": "pick",
+          "expected": "≈€69m (432 × 0.16 = 69.12m)",
+          "explain": "Only 16% of the Verkehrswert was creditable before the option."
+        },
+        {
+          "prompt": "60% option cap = 0.6·VW − BW = ?",
+          "kind": "pick",
+          "expected": "≈€155m (0.6·432 − 104 = 259.2 − 104 = 155.2m)",
+          "explain": "The maximum the option allows — still well short of the €328m full reserve."
+        },
+        {
+          "prompt": "Which figure applies, and to whom?",
+          "kind": "pick",
+          "expected": "Up to €155m, but ONLY for a Bundesland over the yellow threshold (ÖRS choice); otherwise the ordinary €69m",
+          "explain": "The option is conditional (over yellow) and capped — not a default rule, and not for a green institution's Problemfall."
+        }
+      ]
+    },
+    {
+      "id": "m13.disc.haircut-spine",
+      "module": "m13",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Claim: 'The 85/85/90/100% quarterly haircut on the budgeted Jahresüberschuss is a CRR/EBA-mandated value.' Classify (reg / ors / mixed) and PRODUCE the tradeoff.",
+      "tags": {
+        "spine": "ors",
+        "risk": "reg vs ÖRS — quarterly haircut"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "the produced tradeoff: the ramp is an ÖRS proportionality/prudence choice, NOT CRR-forced — CRR is silent on counting budgeted profit in a going-concern cover",
+        "states it trades recognition of an uncertain early-year budget (least realised, macro can still turn) against prudence, so only 85% counts in Q1/Q2 rising to 100% by Q4",
+        "notes the haircut touches ONLY the budgeted JÜ — never the Gewinnvortrag (already earned) or the Mindestausschüttung (a fixed deduction)"
+      ]
+    },
+    {
+      "id": "m13.disc.floor-vs-exception",
+      "module": "m13",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Claim: 'Both the €5m CET1 floor on Freies Kapital AND its small-institution exception are pure ÖRS proportionality choices.' Classify and produce the tradeoff.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "reg vs ÖRS — €5m floor and its exception"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "the produced tradeoff: the €5m absolute minimum is REGULATORY (BWG/CRR-forced) — Freies Kapital may not be claimed if it would drop CET1 below €5m",
+        "the EXCEPTION (for a very small institution) is an ÖRS proportionality allowance, conditional on a binding sector-Sicherungseinrichtung backstop that commits to top up, NOTIFIED to the ÖRS",
+        "so the claim is wrong: the floor is reg and only the exception is ors ⇒ the card is mixed"
+      ]
+    },
+    {
+      "id": "m13.viva.neubewertungsreserve-strip",
+      "module": "m13",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat: why is the Neubewertungsreserve stripped from the Deckungsmasse in BOTH the Problemfall and the Extremfall, and by what DIFFERENT mechanics?",
+      "tags": {
+        "spine": "ors",
+        "risk": "Neubewertungsreserve double-strip trap"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s6"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States it is OUT under both scenarios (net effect identical)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Extremfall mechanic: an explicit '− Neubewertungsreserve' deduction line",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Problemfall mechanic: it never enters because Freies Kapital is defined net of it from the outset (NOT added back)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Rationale: volatile, scenario-correlated paper value, not hard loss-absorbing substance — can evaporate in the very stress tested",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "claims it is added back in the Problemfall because it was 'only removed in the Extremfall'",
+        "treats the Neubewertungsreserve as hard CET1 that can absorb loss"
+      ],
+      "modelAnswer": "The Neubewertungsreserve is excluded from the cover under both scenarios because it is volatile, scenario-correlated fair-value paper rather than durable loss-absorbing substance — in the very stress we test it can evaporate. The mechanics differ: in the Extremfall it is an explicit '− Neubewertungsreserve' deduction line, whereas in the Problemfall it simply never enters, because Freies Kapital is defined as CET1 net of the Neubewertungsreserve from the outset. Either way the net effect is identical, so it must not be 'added back' in the Problemfall on the mistaken belief it was only removed in the Extremfall."
+    },
+    {
+      "id": "m13.viva.ifrs-double-count",
+      "module": "m13",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Explain the IFRS/CRR-Rechnungskreis double-count avoidance: why does the Problemfall freier Überschuss ADD BACK expected risk costs, and why does the Extremfall add NO after-tax period surplus?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "IFRS 9 double-count of EL and period profit"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Under IFRS 9 the EL loss allowance already reduces equity / own funds",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Adding expected risk costs back to the surplus prevents charging EL twice (once in the surplus, again as the excess/shortfall)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "The after-tax period surplus is already in equity, captured by anrechenbare Eigenmittel in the Extremfall, so adding it again as 'next-year profit' double-counts — hence continuing-ops pre-tax + Gewinnvortrag only",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Links to Module 5: capital carries UL only; EL lives in the Deckungsmasse",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "says IFRS banks are riskier and simply need a bigger buffer",
+        "claims IFRS forbids counting any surplus at all"
+      ],
+      "modelAnswer": "Under IFRS 9 the expected-loss allowance already reduces equity and hence own funds. Because the excess/shortfall block nets EL against provisions a second time, the IFRS Problemfall adds the expected risk costs back to the budgeted Konzernüberschuss to avoid charging EL twice. In the Extremfall the period surplus after tax is likewise already inside equity, which the cover counts directly through anrechenbare Eigenmittel; adding a separate 'next-year after-tax profit' would double-count, so the Extremfall uses only profit from continuing operations pre-tax plus Gewinnvortrag. It is the same discipline as Module 5: capital carries unexpected loss only, while expected loss lives in the Deckungsmasse."
+    },
+    {
+      "id": "m13.viva.freies-kapital-pf-vs-ef",
+      "module": "m13",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Contrast Freies Kapital in the Problemfall vs the Extremfall, and justify why the Extremfall adds back the Abzugsposten Beteiligungen and includes nachrangiges Fremdkapital.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Freies Kapital — going vs gone concern",
+        "crr": "CRR:Art36"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m13",
+        "anchor": "m13-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Problemfall = only the hard CET1 ABOVE the Eigenmittelerfordernis (incl. P2R & combined buffer), net of Neubewertungsreserve",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Extremfall = anrechenbare Eigenmittel − Neubewertungsreserve + nachrangiges FK + Abzugsposten Beteiligungen (the full stack)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Going concern must keep the minimum intact (breaching it IS the failure event); the gone concern may use the whole stack incl. subordinated debt because the minimum no longer needs protecting",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Abzugsposten Beteiligungen are added back because participation risk is captured separately as Beteiligungsrisiko (Module 11) — leaving them deducted would double-penalise",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "counts the regulatory minimum CET1 as loss-absorbing in the Problemfall",
+        "leaves participations deducted AND charges Beteiligungsrisiko, double-counting"
+      ],
+      "modelAnswer": "In the Problemfall the bank is a going concern, so only the hard CET1 it holds above its Eigenmittelerfordernis (including the P2R and the combined buffer requirement), net of the Neubewertungsreserve, is free — the minimum itself cannot absorb loss because breaching it is the failure event. In the Extremfall it is a gone concern near liquidation, so the whole stack is available: anrechenbare Eigenmittel minus the Neubewertungsreserve, plus nachrangiges Fremdkapital (subordinated debt absorbs loss in liquidation), plus the Abzugsposten Beteiligungen added back. The add-back avoids double-penalising participations, whose risk is already captured separately as Beteiligungsrisiko in Module 11."
+    }
+  ],
+  "module": "m13"
+}

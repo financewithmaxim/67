@@ -1,0 +1,454 @@
+{
+  "cards": [
+    {
+      "id": "m16.num.output-floor-rate",
+      "module": "m16",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Output Floor: aggregate RWAs computed under internal models must be at least what fraction of the RWAs the same book attracts under the standardised approaches (fully phased-in)?",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor",
+        "crr": "Reg(EU)2024/1623"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s2"
+      },
+      "answer": {
+        "value": 0.725,
+        "tol": 0.001
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "72,5% post-dates the Leitfaden (09/2024); stated as adopted/expected, verify against EUR-Lex Reg (EU) 2024/1623 and EBA."
+    },
+    {
+      "id": "m16.num.max-model-benefit",
+      "module": "m16",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "At the fully phased-in output floor (72,5%), what is the maximum fraction of standardised-approach RWAs that a bank's internal models may save it (as a fraction)?",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s2"
+      },
+      "answer": {
+        "value": 0.275,
+        "tol": 0.001
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Complement of the 72,5% floor: a model can save at most 27,5% of SA RWAs (module §2.2 key box). Verify the rate against current sources."
+    },
+    {
+      "id": "m16.num.floored-rwa",
+      "module": "m16",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "IRB bank, same book: SA RWA = €1.000m, internal-model RWA = €650m, output floor at 72,5%. What is the floored RWA, in euros?",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s4"
+      },
+      "answer": {
+        "value": 725000000,
+        "tol": 500000,
+        "unit": "EUR"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Worked example from §4.1: 0,725·1.000m = 725m > 650m, so the floor binds. 72,5% is post-source; verify."
+    },
+    {
+      "id": "m16.num.output-floor-bite",
+      "module": "m16",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Same bank (SA €1.000m, IRB €650m, floor 72,5%): the floor binds at €725m. What is the resulting RWA increase relative to the model number, as a fraction?",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s4"
+      },
+      "answer": {
+        "value": 0.115,
+        "tol": 0.005
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "(725−650)/650 = 75/650 = +11,5% (§4.1 Step 3). Lowers the capital ratio proportionally for fixed capital."
+    },
+    {
+      "id": "m16.cloze.crr3-instruments",
+      "module": "m16",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "\"Basel IV\" is the 2017 finalisation of Basel III; in the EU it is transposed by {{c1}} — Regulation (EU) {{c2}}, directly applicable, carrying the measurement rules — plus {{c3}}, a Directive carrying buffers, fit-and-proper and supervisory powers (transposed into the BWG).",
+      "tags": {
+        "spine": "reg",
+        "risk": "framing",
+        "crr": "Reg(EU)2024/1623"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "CRR III",
+            "CRR3",
+            "CRR-III"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "2024/1623",
+            "(EU) 2024/1623"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "CRD VI",
+            "CRD6",
+            "CRD-VI"
+          ],
+          "render": "pick"
+        }
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "Regulation number 2024/1623 and the CRD VI label post-date the Leitfaden; verify against EUR-Lex."
+    },
+    {
+      "id": "m16.cloze.sma-formula",
+      "module": "m16",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "New op-risk Standardised Measurement Approach (SMA), replacing BIA/TSA/AMA: Op-risk capital = {{c1}} × {{c2}}, where the first is the Business Indicator Component and the second — set to {{c3}} in the EU by Union discretion — is the Internal Loss Multiplier (so loss history does not yet scale the charge).",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "BIC",
+            "Business Indicator Component"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "ILM",
+            "Internal Loss Multiplier"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "1",
+            "one",
+            "1,0",
+            "1.0"
+          ],
+          "render": "number"
+        }
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "ILM=1 is an EU/Union discretion that post-dates the Leitfaden; verify the discretion still holds."
+    },
+    {
+      "id": "m16.cloze.output-floor-factor",
+      "module": "m16",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Output Floor: \\(RWA_{floored}=\\max\\big(RWA_{IM},\\; k\\cdot RWA_{SA}\\big)\\), with k = {{c1}} (i.e. {{c2}}), applied at the aggregate bank level and phasing in annually to ~{{c3}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "0,725",
+            "0.725"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "72,5%",
+            "72.5%"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "2030",
+            "around 2030",
+            "~2030"
+          ],
+          "render": "number"
+        }
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "Rate (72,5%) and the ~2030 phase-in are post-source; verify the phase-in path against EUR-Lex/EBA."
+    },
+    {
+      "id": "m16.deriv.output-floor",
+      "module": "m16",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "en",
+      "front": "Derive the output-floor bite for an IRB bank: SA RWA = €1.000m, internal-model RWA = €650m, floor at 72,5%.",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s4"
+      },
+      "steps": [
+        {
+          "prompt": "Compute the floor from the standardised RWA at the fully phased-in factor.",
+          "kind": "pick",
+          "expected": "0,725 × 1.000m = €725m",
+          "explain": "The floor is 72,5% of the standardised-approach RWA on the same book."
+        },
+        {
+          "prompt": "Apply the floor against the internal-model RWA of €650m.",
+          "kind": "pick",
+          "expected": "max(650, 725) = €725m",
+          "explain": "Take the max; 725 > 650, so the floor is binding and adds back the difference."
+        },
+        {
+          "prompt": "Read the RWA bite relative to the model number.",
+          "kind": "pick",
+          "expected": "(725 − 650)/650 = +11,5%",
+          "explain": "RWAs rise 11,5%, lowering the capital ratio proportionally for a fixed capital base."
+        }
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "Mechanics are robust; the 72,5% rate is post-source and must be verified."
+    },
+    {
+      "id": "m16.disc.scalars-vs-base",
+      "module": "m16",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Leitfaden's CVA charge = 8% · CVA-Position × 0,71 (Problemfall) / 1,33 (Extremfall). Classify the 0,71/1,33 factors versus the 8% own-funds charge they multiply (reg vs ÖRS), and state precisely what CRR III changes.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "cva"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s3"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "The 0,71/1,33 factors are an ÖRS quantile-rescaling choice (rescaling the 99% regulatory CVA base to 95% / 99,9%) — they STAY under CRR III",
+        "The underlying CVA Eigenmittelerfordernis (8% own-funds charge, PosNr 7516000) is a regulatory CRR figure",
+        "CRR III supersedes that regulatory base: BA-CVA/SA-CVA replace it with a more risk-sensitive charge, and the unchanged ÖRS scalars then ride on the new base"
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "BA-CVA/SA-CVA replacement post-dates the Leitfaden; verify against EUR-Lex/EBA."
+    },
+    {
+      "id": "m16.disc.solo-vs-consol",
+      "module": "m16",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A standardised-approach Raiffeisenbank argues: 'We use the SA, so the output floor is irrelevant to us.' Is the floor's bite a regulatory mechanism or an ÖRS choice, and where does it actually bind for the sector?",
+      "tags": {
+        "spine": "reg",
+        "risk": "consolidation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s2"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "The output floor is a CRR III regulatory mechanism: RWA_floored = max(RWA_IM, 0,725·RWA_SA)",
+        "For an SA bank solo it is non-binding — internal and standardised RWAs coincide, so the max is simply the SA number",
+        "It binds at the IRB user RBI and reaches the sector through R-IPS consolidation, lifting the consolidated Auslastung the Früherkennung monitors — so the 'irrelevant to us' conclusion is wrong"
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "Output floor and its timeline post-date the Leitfaden; verify."
+    },
+    {
+      "id": "m16.disc.floor-rwa-not-capital",
+      "module": "m16",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Statement: 'The output floor adds a 72,5% capital requirement to the bank.' Is this a regulatory rule or an ÖRS choice, and what is the precise error in the statement?",
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s6"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "The floor is a regulatory (CRR III) rule, not an ÖRS modelling choice",
+        "It floors the RWA denominator — RWA_floored = max(RWA_IM, 0,725·RWA_SA) — it does NOT add a capital charge to the numerator",
+        "Effect: it raises RWAs, which lowers the capital ratio for fixed capital; confusing 'a floor on RWAs' with 'a floor on capital' yields wrong impact arithmetic"
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "Rate post-source; mechanism (floor on RWAs) is the load-bearing point."
+    },
+    {
+      "id": "m16.viva.why-basel-iv",
+      "module": "m16",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat: what is 'Basel IV', why was it created, and what is its headline instrument?",
+      "tags": {
+        "spine": "reg",
+        "risk": "rwa-variability"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s1"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Names it as the 2017 finalisation of Basel III, not a new accord",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Identifies EU transposition as CRR III (Regulation (EU) 2024/1623) plus CRD VI",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "States the purpose: reduce unwarranted RWA variability from internal models and restore comparability/credibility of capital ratios",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes the headline instrument is the Output Floor — it changes how RWAs are measured, not buffer percentages",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims Basel IV is a brand-new accord separate from Basel III",
+        "Says it mainly raises buffer/CET1 percentages rather than changing how RWAs are measured"
+      ],
+      "modelAnswer": "Basel IV is the 2017 finalisation of Basel III, not a new accord; in the EU it is implemented through CRR III (Regulation (EU) 2024/1623) for the measurement rules and CRD VI for buffers and governance. It exists because differently calibrated internal models let two banks with identical portfolios report very different RWAs, which corroded the comparability and credibility of capital ratios. Its headline instrument is the Output Floor, which puts an aggregate floor under model-based RWAs at 72,5% of the standardised result rather than raising buffer percentages.",
+      "sourceStatus": "post-source",
+      "sourceNote": "All dates/rates/regulation numbers post-date the Leitfaden; verify against EUR-Lex/EBA/FMA."
+    },
+    {
+      "id": "m16.viva.leitfaden-impact",
+      "module": "m16",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend the maintenance plan: what does CRR III mean for the Leitfaden Früherkennung — which parts survive and which must be re-anchored?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "methodology"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m16",
+        "anchor": "m16-s4"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The scaling/quantile-rescaling architecture (×0,71/×1,33, 95%/99,9%) survives; CRR III moves the regulatory bases that sit under it",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Op risk: the income-based 15%/5% basis is superseded by the SMA's BIC (ILM=1 in the EU) and must be re-anchored",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "CVA: BA-CVA/SA-CVA replace the own-funds charge that the 0,71/1,33 scalars multiply",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "FRTB replaces the trading-book market-risk base (EU own-funds reporting deferred) and the output floor lifts RBI's RWAs, tightening R-IPS-consolidated capital",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims the ÖRS scalars themselves change (e.g. to 0,5/2,0)",
+        "Says CRR III leaves the Leitfaden's bases untouched and no update is needed"
+      ],
+      "modelAnswer": "The Leitfaden is a Früherkennung overlay that scales regulatory charges to 95% and 99,9%; CRR III leaves that scaling architecture intact but replaces several of the underlying regulatory bases it rides on. The two clearest supersessions are op risk — the income-based 15%/5% basis is replaced by the SMA's BIC, with ILM set to 1 in the EU — and CVA, where BA-CVA/SA-CVA replace the own-funds charge that the 0,71/1,33 scalars multiply. In addition FRTB replaces the trading-book market-risk base (EU own-funds reporting deferred) and the output floor lifts RBI's RWAs, tightening the sector's R-IPS-consolidated capital, so the ÖRS must re-anchor the op-risk and CVA bases in the next update wave while verifying all dates and rates against EUR-Lex/EBA/FMA.",
+      "sourceStatus": "post-source",
+      "sourceNote": "Supersessions (SMA, BA-CVA/SA-CVA, FRTB, output floor) post-date the Leitfaden; verify."
+    }
+  ],
+  "module": "m16"
+}

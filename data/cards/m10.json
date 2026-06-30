@@ -1,0 +1,451 @@
+{
+  "cards": [
+    {
+      "id": "m10.num.verkehrswert",
+      "module": "m10",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Worked example (§4): a participation has on-balance Buchwert €12,0m, an off-balance Haftung of nominal €15,0m on an obligor whose Ausübungswahrscheinlichkeit (exercise probability) is 20%, and stille Reserven €5,0m. Compute the Verkehrswert (fair value), in euros.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko",
+        "crr": "CRR:CCF-analogy"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s4"
+      },
+      "sourceStatus": "erratum",
+      "sourceNote": "Module §4 prose attributes the 20% Ausübungswahrscheinlichkeit to the participation's own 2,5 rating, but the §5.5 table maps 2,5→30% and 2,0→20%. The §5.5 note resolves the slip: the exercise probability is driven by the GUARANTEED OBLIGOR's rating (here 2,0 → 20%), not the participation's own 2,5 rating. This card states 20% directly to stay internally consistent.",
+      "answer": {
+        "value": 20000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m10.num.offbalance-gewichtung",
+      "module": "m10",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "An off-balance Eventualverpflichtung (Haftung) has nominal €15,0m. The relevant obligor is rated 2,0 → Ausübungswahrscheinlichkeit 20% (the CCF analogue). What weighted off-balance amount enters the Verkehrswert, in euros?",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · off-balance",
+        "crr": "CRR:CCF-analogy"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s5"
+      },
+      "answer": {
+        "value": 3000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m10.num.problemfall",
+      "module": "m10",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Verkehrswert €20,0m. Segment = Industrie, book value > €10m → master band table; rating 2,5 → Problemfall band 10–15%; mid-band picked (no special concentration, mid-cyclical). Compute the Problemfall participation risk, in euros.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · Problemfall 95%"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s4"
+      },
+      "answer": {
+        "value": 2500000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m10.num.extremfall",
+      "module": "m10",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Same participation, Verkehrswert €20,0m, rating 2,5 → Extremfall band 30–45%, mid-band 37,5%. Compute the Extremfall participation risk, in euros (it should be exactly 3× the Problemfall of €2,5m).",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · Extremfall 99,9%"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s4"
+      },
+      "answer": {
+        "value": 7500000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m10.cloze.kernformel",
+      "module": "m10",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "The whole framework collapses to one product: Beteiligungsrisiko = {{c1}} · {{c2}}, where {{c1}} = Buchwert (on-balance carrying value + weighted off-balance via Ausübungswahrscheinlichkeiten) + {{c3}}.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · core formula"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Verkehrswert",
+            "fair value"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "Risikofaktor",
+            "Risikofaktor (Haircut)",
+            "Haircut",
+            "risk factor"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "stille Reserven",
+            "stille Reserve",
+            "hidden reserves"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m10.cloze.rbi-spezialfall",
+      "module": "m10",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "RBI participation special case: the holding is assessed directly from its external rating A2 (≙ rating class {{c1}}) → {{c2}} Problemfall / {{c3}} Extremfall — note this sits at the TOP of the 1,0 band, a deliberately conservative pick for the group's central institution.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · RBI"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s5"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "1,0",
+            "1.0",
+            "1"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "10%",
+            "10",
+            "0,10",
+            "0.10"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "30%",
+            "30",
+            "0,30",
+            "0.30"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m10.cloze.werteleiter",
+      "module": "m10",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "On the value ladder a falling participation value first eats the {{c1}} (Reduktion stiller Reserven — cover lost, no P&L hit), then breaches book value forcing a {{c2}} (Teilwertabschreibung — a realised write-down), then forces an action: a disposal loss and/or a {{c3}} (cash injection).",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · sub-risks"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "stille Reserve",
+            "stille Reserven",
+            "hidden reserve"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "Wertberichtigung",
+            "Teilwertabschreibung",
+            "write-down",
+            "TWA"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "Nachschuss",
+            "Nachschusspflicht",
+            "capital injection",
+            "top-up"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m10.deriv.worked-example",
+      "module": "m10",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "Derive the full Beteiligungsrisiko for an Industriebeteiligung rated 2,5: on-balance Buchwert €12,0m, off-balance Haftung €15,0m (exercise probability 20%), stille Reserven €5,0m, book value > €10m.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · end-to-end"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s4"
+      },
+      "sourceStatus": "erratum",
+      "sourceNote": "The §4 example weights the off-balance Haftung at 20%, which the §4 prose wrongly attributes to the participation's 2,5 rating (the §5.5 table maps 2,5→30%). Per the §5.5 note the 20% is the GUARANTEED OBLIGOR's rate (2,0→20%); the exercise probability follows the guarantee's obligor, not the participation. The front gives 20% explicitly so the derivation stays consistent with the €20,0m result.",
+      "steps": [
+        {
+          "prompt": "Step 1 — build the Verkehrswert from on-balance + weighted off-balance + stille Reserven.",
+          "kind": "pick",
+          "expected": "12,0 + (0,20·15,0) + 5,0 = €20,0m",
+          "explain": "Off-balance enters at its rating-driven Ausübungswahrscheinlichkeit (CCF analogue), not full nominal: 0,20·15 = 3,0m. The 20% is driven by the guarantee's obligor (2,0), not the participation's own 2,5 rating."
+        },
+        {
+          "prompt": "Step 2 — choose the table and the Risikofaktoren.",
+          "kind": "pick",
+          "expected": "Industrie & book > €10m → master/bank band table; rating 2,5 → Problemfall 10–15%, Extremfall 30–45%; mid-band = 12,5% / 37,5%",
+          "explain": "Industrie > €10m shares the general/bank band table. Mid-band chosen because no special concentration and mid-cyclical."
+        },
+        {
+          "prompt": "Step 3 — compute Problemfall and Extremfall risk.",
+          "kind": "pick",
+          "expected": "20,0·12,5% = €2,5m (Problemfall); 20,0·37,5% = €7,5m (Extremfall)",
+          "explain": "Risiko = Verkehrswert · Risikofaktor for each scenario."
+        },
+        {
+          "prompt": "Step 4 — sanity-check with the 3× rule.",
+          "kind": "pick",
+          "expected": "7,5 / 2,5 = 3,0 ✓ (bands 10–15% → 30–45% are ×3 at both ends)",
+          "explain": "Extremfall ≈ 3× Problemfall is a rule of thumb the bands obey by construction (except where Extremfall saturates at 100%)."
+        }
+      ]
+    },
+    {
+      "id": "m10.disc.zehn-mio-schwelle",
+      "module": "m10",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A colleague says: 'A participation with book value below €10m carries no Beteiligungsrisiko charge.' Is the €10m line a CRR-forced materiality threshold or an ÖRS proportionality choice — and what does it actually control? Produce the tradeoff.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Beteiligungsrisiko · materiality"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s5"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "Names it an ÖRS proportionality choice, not a CRR figure — essentially every number in this module is ÖRS expert estimation.",
+        "Produces the tradeoff: the threshold controls EFFORT (individual band assessment vs flat per-rating-class factors), not the EXISTENCE of the charge.",
+        "Refutes the colleague: below €10m flat per-rating-class factors still apply, and they are deliberately conservative — there is still a charge.",
+        "Notes it is applied per single participation (book value), not a portfolio aggregate."
+      ]
+    },
+    {
+      "id": "m10.disc.bankbuch-aktien",
+      "module": "m10",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "An equity sits in the Bankbuch (banking book). Is it charged under Beteiligungsrisiko or under Preisrisiko Bankbuch / Marktrisiko — and is the boundary a regulatory rule or an ÖRS classification call? Produce the tradeoff.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Beteiligungsrisiko vs Marktrisiko"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s6"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "Produces the tradeoff: strategic holdings → Beteiligungsrisiko (expert haircut bands); indirect / fund / index holdings → Preisrisiko Bankbuch (market-vola VaR or an index like the ATX, Module 6).",
+        "States it is OR, never both — the classification must be unambiguous per holding to avoid either a gap or a double count.",
+        "Identifies the split as the boundary/ÖRS classification call: the existence of a charge is reg-anchored, but the bucket each holding lands in is the ÖRS judgement."
+      ]
+    },
+    {
+      "id": "m10.disc.konfidenzniveaus",
+      "module": "m10",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "In Beteiligungsrisiko the loss is set at 95% (Problemfall) and 99,9% (Extremfall). Are these confidence levels an ÖRS invention here, or a regulatory anchor — and where does the genuine ÖRS modelling actually sit? Produce the tradeoff.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Beteiligungsrisiko · VaR confidence"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s2"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "Identifies the 95% / 99,9% confidence levels as the Säule-2 anchors shared by every risk type (Module 4 vertical consistency) — the 99,9% Extremfall is the regulatory/IRB-analogue level, the 95% Problemfall the ÖRS rescaling of it.",
+        "Produces the tradeoff: what is genuinely ÖRS is not the percentile but that the percentile is encoded DIRECTLY in the expert haircut bands, not derived from a modelled loss distribution.",
+        "Notes there is essentially no CRR formula being approximated for the haircuts themselves — genuine internal modelling under proportionality."
+      ]
+    },
+    {
+      "id": "m10.viva.reg-vs-ors-headline",
+      "module": "m10",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend the Beteiligungsrisiko methodology to the Aufsichtsrat: how much of it is genuinely regulatory and how much is ÖRS expert estimation? Give your one-line headline and the supporting split.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Beteiligungsrisiko · reg/ÖRS split",
+        "crr": "CRR:CCF-analogy"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s6"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States the headline: essentially EVERY number — haircut bands, exercise probabilities, the €10m threshold, the 5%/15% own-property factors, the 3× rule, the no-diversification stance — is ÖRS expert estimation under proportionality.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Names the regulatory anchors: the concept of holding capital against equity investments, the CCF analogy (CRR Part Three), and the Säule-2 confidence levels (95% / 99,9%).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Explains why bands not point values: avoids Scheingenauigkeit (false precision) and lets the band absorb the holding's concentration and cyclicality.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes the model is backtested annually against realised company valuations and rating migrations, then recalibrated.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the haircut bands are CRR-mandated values.",
+        "Presenting a mid-band point (e.g. 12,5%) to senior management as a measurement rather than a justified expert estimate."
+      ],
+      "modelAnswer": "The honest headline is that this is a transparent, backtested expert model, not a market measurement: essentially every number — the haircut bands, the Ausübungswahrscheinlichkeiten, the €10m threshold, the 5%/15% own-property factors, the 3× rule and the no-diversification stance — is an ÖRS choice under proportionality. What is regulatory is only the frame: the duty to hold capital against equity investments, the CCF analogy from CRR Part Three, and the Säule-2 confidence levels (95% / 99,9%). The factors are given as bands precisely to avoid Scheingenauigkeit and to let the assessor absorb a holding's concentration and cyclicality, and the mapping is backtested annually against realised valuations and rating migrations."
+    },
+    {
+      "id": "m10.viva.ips-doppelzaehlung",
+      "module": "m10",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Explain why a Primärbank's Beteiligungsrisiko on its Landeszentrale stake is correct on a SOLO basis yet must be removed in the consolidated R-IPS view (Module 12).",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Beteiligungsrisiko · IPS consolidation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m10",
+        "anchor": "m10-s6"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Identifies the Sektorbeteiligung (the Landeszentrale stake) as INTERNAL to the consolidation circle.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Produces the double-count: solo, the Primärbank correctly charges the stake's risk; on consolidation the underlying assets are ALSO counted as the group's own risk — counted twice.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "States that Module 12 / Ch.7 explicitly excludes participation risks within the consolidation circle (and intra-group credit exposures) to avoid overstating risk.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes solo is correct for solo — never report a solo Beteiligungsrisiko as if it were the group number.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Saying the solo number is simply wrong (it is correct on a solo basis).",
+        "Claiming diversification / correlation < 1 removes it — there is no diversification credit (correlation = +1); it is a consolidation exclusion, not a diversification effect."
+      ],
+      "modelAnswer": "A Sektorbeteiligung such as a Primärbank's stake in its Landeszentrale is internal to the RBG consolidation circle, so on a solo basis charging Beteiligungsrisiko on it is exactly right. But on a consolidated R-IPS basis the Landeszentrale's underlying assets are already counted as the group's own risk, so also charging the participation in those same assets double-counts. That is why Module 12 (Ch.7) explicitly excludes participation risks within the consolidation circle, alongside intra-group credit exposures — the fix is a consolidation exclusion, not a diversification credit, since the framework runs correlation = +1 with no diversification. Solo is right for solo; you must never report the solo Beteiligungsrisiko as the group figure."
+    }
+  ],
+  "module": "m10"
+}

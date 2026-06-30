@@ -1,0 +1,463 @@
+{
+  "cards": [
+    {
+      "id": "m01.num.basel-min-total",
+      "module": "m01",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "A small Raiffeisenbank (Primärbank) must hold a minimum **total capital ratio** against its risk-weighted assets under Pillar 1. What is that minimum, as a fraction of RWA?",
+      "tags": {
+        "spine": "reg",
+        "risk": "solvency/own-funds",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s4"
+      },
+      "answer": {
+        "value": 0.08,
+        "tol": 0.01,
+        "unit": "fraction of RWA"
+      }
+    },
+    {
+      "id": "m01.num.basel-min-cet1",
+      "module": "m01",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Under Pillar 1 (CRR), what is the **minimum CET1 ratio** a Primärbank must hold against RWA (before the capital conservation buffer)?",
+      "tags": {
+        "spine": "reg",
+        "risk": "solvency/own-funds",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s4"
+      },
+      "answer": {
+        "value": 0.045,
+        "tol": 0.01,
+        "unit": "fraction of RWA"
+      }
+    },
+    {
+      "id": "m01.num.problemfall-return-period",
+      "module": "m01",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Problemfall is calibrated at a 95% Konfidenzintervall. At 100% Auslastung (utilisation), how often — once every how many years — is a loss exceeding the Deckungsmasse statistically expected? Compute 1/(1−0.95).",
+      "tags": {
+        "spine": "ors",
+        "risk": "RTFA/Problemfall calibration"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s2"
+      },
+      "answer": {
+        "value": 20,
+        "tol": 0.01,
+        "unit": "years"
+      }
+    },
+    {
+      "id": "m01.num.dgs-coverage",
+      "module": "m01",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Einlagensicherung / DGS (a scheme legally distinct from the R-IPS) pays out *after* a member's failure. What is the coverage cap **per depositor per institution**, in euros?",
+      "tags": {
+        "spine": "reg",
+        "risk": "deposit guarantee"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s6"
+      },
+      "answer": {
+        "value": 100000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "The €100,000 DGSD/ESAEG cap is named in m01 Trap 2 but its full treatment (DGSD 2014/49/EU, ESAEG, Einlagensicherung AUSTRIA, 0.8% target level) is deferred to Module 17 and flagged there for verification against current FMA/ESA sources."
+    },
+    {
+      "id": "m01.cloze.crr-crd-bwg",
+      "module": "m01",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Basel has no legal force; the EU codifies it as the {{c1}} (Regulation (EU) {{c2}}), which is directly applicable, plus the {{c3}} (Directive {{c4}}), which must be transposed — in Austria via {{c5}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "legal architecture",
+        "crr": "CRR:575/2013"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "CRR",
+            "Capital Requirements Regulation"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "575/2013",
+            "(EU) 575/2013"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "CRD",
+            "Capital Requirements Directive"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "2013/36/EU"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c5",
+          "accept": [
+            "BWG §39/§39a",
+            "§39/§39a BWG",
+            "§39a BWG",
+            "§39 BWG"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m01.cloze.el-ul-ledger",
+      "module": "m01",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the RTFA ledger the {{c1}} (EL) is a cost of doing business, covered by {{c2}} and netted as an excess/shortfall in the Deckungsmasse; the {{c3}} (UL) is the surprise, which {{c4}} must absorb.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "EL/UL split"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "expected loss",
+            "erwarteter Verlust"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "provisions",
+            "Wertberichtigungen",
+            "Vorsorgen",
+            "Wertberichtigungen/Vorsorgen"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "unexpected loss",
+            "unerwarteter Verlust"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "capital",
+            "Eigenmittel",
+            "own funds"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m01.cloze.problemfall-extremfall-pillars",
+      "module": "m01",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Conceptual root to hold onto: Problemfall (95%, 'above the regulatory minimum after a bad year?') ≈ Pillar {{c1}} / normative view; Extremfall (99,9%, a Liquidationsfall) ≈ Pillar {{c2}} / economic (ICAAP) view.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "normative vs economic view"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "1"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "2"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m01.deriv.basel-to-desk",
+      "module": "m01",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "Trace one parameter from Basel to your desk: how does a Basel Committee standard become binding on a single Austrian Raiffeisenbank, and what is the Leitfaden's place in that chain?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "legal cascade",
+        "crr": "CRR:575/2013"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s3"
+      },
+      "steps": [
+        {
+          "prompt": "A standard is agreed by the BCBS in Basel. Does it have direct legal force in Austria?",
+          "kind": "pick",
+          "expected": "No — Basel is a non-binding standard agreed by the Basel Committee; it has no legal force of its own.",
+          "explain": "Basel must be turned into EU law before it binds anyone."
+        },
+        {
+          "prompt": "How does the EU make the hard numbers (own funds, IRB Art. 153/154, default Art. 178) binding with NO national transposition?",
+          "kind": "pick",
+          "expected": "Via the CRR — Regulation (EU) 575/2013 — which is directly applicable in every member state.",
+          "explain": "A Regulation applies as-is; citing a CRR article means directly binding law."
+        },
+        {
+          "prompt": "How are buffers, supervision and the ICAAP/SREP mandate brought in?",
+          "kind": "pick",
+          "expected": "Via the CRD — Directive 2013/36/EU — which must be transposed into national law.",
+          "explain": "A Directive sets goals member states must legislate for."
+        },
+        {
+          "prompt": "Where does Austria transpose the CRD and anchor the risk-bearing-capacity duty?",
+          "kind": "pick",
+          "expected": "In the BWG — §39/§39a (comprehensive risk capture, measurement, monitoring; the RTFA/ICAAP duty).",
+          "explain": "§39a is the national hook the Leitfaden operationalises."
+        },
+        {
+          "prompt": "What, then, is the ÖRS Leitfaden itself in this hierarchy?",
+          "kind": "pick",
+          "expected": "Neither CRR nor BWG — it is a sector minimum standard operationalising §39a BWG, enabled by the Proportionalitätsgedanke.",
+          "explain": "Defense template: 'CRR forces X; BWG requires an RTFA process; the ÖRS Leitfaden operationalises it as Y.'"
+        }
+      ]
+    },
+    {
+      "id": "m01.disc.pillar1-minima",
+      "module": "m01",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "The 8% total / 4.5% CET1 minima plus the capital conservation buffer that a Primärbank must hold: is this a regulatory value or an ÖRS proportionality choice? Produce the tradeoff, don't just label it.",
+      "tags": {
+        "spine": "reg",
+        "risk": "Pillar 1 minima",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s4"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Identifies 8%/4.5% + CCB as CRR/CRD Pillar-1 minima — directly binding via the CRR, which the bank cannot proportionally simplify away.",
+        "Produces the tradeoff: a single hard, comparable floor buys cross-bank comparability and a non-negotiable backstop at the cost of fine risk-sensitivity to one bank's actual situation.",
+        "Contrasts the layer: proportionality bites at the §39a/Leitfaden (Pillar 2) level, NOT on the Pillar-1 minima — so this number is reg, not an ÖRS choice."
+      ]
+    },
+    {
+      "id": "m01.disc.risk-grouping",
+      "module": "m01",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Leitfaden states that the grouping and treatment of risk types 'folgt nicht der gesetzlichen Gliederung' of §39a BWG. Is this divergence a regulatory requirement or an ÖRS modelling decision? Produce the tradeoff.",
+      "tags": {
+        "spine": "ors",
+        "risk": "proportionality / risk taxonomy"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s5"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "Identifies the grouping as an ÖRS modelling decision taken under the Proportionalitätsgedanke — not a CRR/legal mandate.",
+        "Produces the tradeoff: sector comparability and computational tractability (one consistent taxonomy across all R-IPS members) versus theoretical/legal purity of the statutory §39a catalogue.",
+        "Notes the constraint: §39a still requires the full risk catalogue to be CAPTURED; only the structure/treatment is the ÖRS choice."
+      ]
+    },
+    {
+      "id": "m01.disc.confidence-levels",
+      "module": "m01",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Problemfall 95% and Extremfall 99,9% confidence levels: are these regulatory values or ÖRS choices? Distinguish the two and produce the tradeoff.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "scenario confidence",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s2"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "Splits it: the 99,9%/1-year Extremfall mirrors the regulatory IRB / Pillar-2 economic-capital level (CRR Art. 153, a Liquidationsfall per OeNB/FMA); the 95% Problemfall rescaling is an ÖRS proportionality choice.",
+        "Produces the tradeoff: the 95% normative view answers 'are we above the regulatory minimum after a bad year?' (≈1-in-20), while 99,9% answers 'do we hold enough economic substance for our own risk?' — fewer false alarms vs deeper tail capture.",
+        "Maps the pair: Problemfall → Pillar 1 / normative; Extremfall → Pillar 2 / ICAAP economic view."
+      ]
+    },
+    {
+      "id": "m01.viva.solvent-still-fails",
+      "module": "m01",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat: why can a fully *solvent* bank still fail? Name the two distinct failure modes and say which prudential instrument protects against each.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "solvency vs liquidity"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s1"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Distinguishes insolvency (asset losses exceed the equity cushion — owes more than it owns) from illiquidity (solvent on paper but cannot meet today's payments).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Capital / Eigenmittel protects against insolvency; liquidity rules (LCR/NSFR, the Leitfaden Liquidität) protect against illiquidity.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Gives the mechanism: maturity/risk transformation — a run, depositors withdraw faster than illiquid long-dated assets can be turned to cash.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Cites a concrete case (Northern Rock, 2007 — well-capitalised yet failed for lack of liquidity).",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims capital is a pot of cash that can be drawn down to meet a run — capital is a liability-side loss-absorbing cushion, not liquidity.",
+        "Conflates the two failure modes — asserts that more capital cures an illiquidity run."
+      ],
+      "modelAnswer": "A bank funds illiquid, long-dated, risky loans with liquid, short-dated deposits, so two distinct things can kill it. Insolvency is when losses on the asset side exceed the equity cushion, so the bank owes more than it owns — that is what capital (Eigenmittel) absorbs. Illiquidity is when a bank that is solvent on paper cannot meet payments today because depositors run faster than assets can be turned to cash — that is what the liquidity rules (LCR/NSFR) address. Northern Rock in 2007 was solvent yet failed for lack of liquidity, which is exactly why capital and liquidity are governed as separate problems."
+    },
+    {
+      "id": "m01.viva.three-layers",
+      "module": "m01",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner asks you to defend a methodology choice. Place it in the three legal layers — CRR, BWG, ÖRS Leitfaden — and state the one-sentence defense template.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "legal layering / defense",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m01",
+        "anchor": "m01-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Layer 1 — CRR (Regulation (EU) 575/2013) is directly applicable binding law holding the hard numbers (own funds, IRB Art. 153/154, default Art. 178).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Layer 2 — CRD (Directive 2013/36/EU) transposed into national law via BWG §39/§39a, carrying the risk-bearing-capacity / ICAAP-SREP duty.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Layer 3 — the Leitfaden is neither CRR nor BWG: a sector minimum standard the ÖRS sets to operationalise §39a, licensed by the Proportionalitätsgedanke.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "States the defense template: 'the CRR forces X; the BWG requires a risk-bearing-capacity process; the ÖRS Leitfaden operationalises it as Y.'",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Treats the Leitfaden as binding EU law or cites it as if it were a CRR article.",
+        "Claims the CRR must be transposed into national law before it applies (it is directly applicable)."
+      ],
+      "modelAnswer": "I locate the choice in three layers. The CRR (Regulation (EU) 575/2013) is directly applicable and fixes the hard numbers — own funds, the IRB risk-weight formulas (Art. 153/154), the default definition (Art. 178); where it forces a value, I have no discretion. The CRD (Directive 2013/36/EU), transposed in Austria via BWG §39/§39a, mandates a comprehensive risk-bearing-capacity and ICAAP/SREP process but not its exact mechanics. The Leitfaden itself is neither — it is a sector minimum standard the ÖRS sets to operationalise §39a under the proportionality principle, which is where simplifications legitimately live. So I defend any choice as: the CRR forces X, the BWG requires an RTFA process, and the ÖRS Leitfaden operationalises it as Y."
+    }
+  ],
+  "module": "m01"
+}

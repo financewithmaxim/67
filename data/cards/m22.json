@@ -1,0 +1,439 @@
+{
+  "cards": [
+    {
+      "id": "m22.num.pd-stress",
+      "module": "m22",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Retail mortgage segment, baseline \\(PD^{TTC}=1.2\\%\\) so \\(\\operatorname{logit}(0.012)=-4.412\\). The PD satellite has \\(\\beta_u=0.30\\) per pp of unemployment (logit scale); the adverse scenario adds \\(+4\\) pp unemployment. Compute the stressed point-in-time PD \\(=1/(1+\\exp(-\\operatorname{logit}^{stress}))\\) as a fraction.",
+      "answer": {
+        "value": 0.0387,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "credit"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-1"
+      }
+    },
+    {
+      "id": "m22.num.lgd-stress",
+      "module": "m22",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "LGD satellite: \\(LGD^{stress}=\\min(1,\\;LGD^{base}(1+\\delta))\\) with \\(\\delta=\\gamma\\cdot(-\\Delta\\text{HPI})\\). Baseline \\(LGD^{base}=20\\%\\), \\(\\gamma=0.50\\), property prices \\(\\Delta\\text{HPI}=-20\\%\\). Compute the stressed LGD as a fraction.",
+      "answer": {
+        "value": 0.22,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "credit",
+        "crr": "CRR:Art181"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-2"
+      }
+    },
+    {
+      "id": "m22.num.delta-el",
+      "module": "m22",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Segment EAD = €500m. Baseline \\(EL=PD\\cdot LGD\\cdot EAD\\) with \\(PD=1.2\\%,\\,LGD=20\\%\\); stressed with \\(PD=3.87\\%,\\,LGD=22\\%\\). Taking the incremental provision as approximately the incremental EL (ignoring tax/earnings), compute the incremental EL hitting CET1, in EUR.",
+      "answer": {
+        "value": 3060000,
+        "tol": 10000,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "credit"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s4"
+      }
+    },
+    {
+      "id": "m22.num.cet1-ratio-stress",
+      "module": "m22",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "After the shock, post-stress CET1 = €86.94m (opening €90m less €3.06m provision) and post-stress total RWA = €924.3m (opening €750m plus €174.3m segment RWA migration). Compute the post-stress CET1 ratio as a fraction.",
+      "answer": {
+        "value": 0.0941,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "capital"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s4"
+      }
+    },
+    {
+      "id": "m22.num.rst-max-cet1",
+      "module": "m22",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Reverse stress test: non-viability is defined as a CET1 ratio of 5.0%. Holding the migrated denominator \\(RWA^{stress}\\approx€924\\text{m}\\), compute the maximum tolerable CET1 (in EUR) the bank can fall to before breaching the threshold.",
+      "answer": {
+        "value": 46200000,
+        "tol": 100000,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "capital"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s6-1"
+      }
+    },
+    {
+      "id": "m22.cloze.numerator-channels",
+      "module": "m22",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "In a stress the dominant numerator (CET1) mechanic is {{c1}}: a downgrade pushes a loan from Stufe 1 to Stufe 2, so the IFRS 9 provision jumps from 12-month to {{c2}} ECL — a step-change larger than the marginal PD move alone.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "stage migration",
+            "Stufenmigration",
+            "stage-2 migration",
+            "stage migration (Stufe 1 to 2)"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "lifetime",
+            "lifetime ECL",
+            "Lifetime-ECL"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "credit"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-3"
+      }
+    },
+    {
+      "id": "m22.cloze.hurdle-stack",
+      "module": "m22",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "CET1 requirements stack: {{c1}} Pillar 1 minimum, plus the CET1 portion of P2R (binding), plus the combined buffer, and finally {{c2}} sitting on top — non-binding, with no mechanical formula linking it to the stress result.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "4.5%",
+            "0.045",
+            "4.5"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "P2G",
+            "Pillar 2 guidance",
+            "Pillar-2 guidance"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "capital",
+        "crr": "CRD:Art141"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s4"
+      }
+    },
+    {
+      "id": "m22.cloze.retail-formula",
+      "module": "m22",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "For retail residential mortgages, CRR Art. {{c1}} fixes the asset correlation at R = {{c2}} and applies NO {{c3}} adjustment — that \\((1+(M-2.5)b)/(1-1.5b)\\) term belongs to the corporate formula (Art. 153) and must not be carried into a retail calculation.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "154",
+            "154(3)",
+            "Art 154"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "0.15",
+            "15%"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "maturity",
+            "maturity adjustment",
+            "M"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art154"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-3"
+      }
+    },
+    {
+      "id": "m22.deriv.macro-to-capital",
+      "module": "m22",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "Derive the transmission chain from a macro adverse scenario to the post-stress CET1 ratio, naming each link correctly.",
+      "steps": [
+        {
+          "prompt": "The macro path x_t enters the portfolio through which class of linking models?",
+          "kind": "pick",
+          "expected": "the satellite models (Satellitenmodelle)",
+          "explain": "Satellite models are the calibrated, estimated links from macro factors to the risk parameters; they must be estimated, not asserted."
+        },
+        {
+          "prompt": "Which two stressed risk parameters do the satellites produce, and via what device each?",
+          "kind": "pick",
+          "expected": "stressed PD (logit shift) and stressed LGD (collateral/HPI haircut)",
+          "explain": "PD via a logit shift keeping it in (0,1); LGD via a property-price-driven uplift, capped at 100%."
+        },
+        {
+          "prompt": "How does the numerator (CET1) move — and what must NOT be used?",
+          "kind": "pick",
+          "expected": "via IFRS 9 ECL provisions (Stufe 1 to 2 lifetime ECL) plus the IRB EL-shortfall deduction; NOT raw regulatory EL",
+          "explain": "The P&L channel is accounting ECL through retained earnings, plus the Art. 36(1)(d)/159 CRR shortfall deduction where regulatory EL exceeds provisions."
+        },
+        {
+          "prompt": "How does the denominator (RWA) move?",
+          "kind": "pick",
+          "expected": "RWA migration: higher PD/LGD raise the IRB risk weight, so RWA rises",
+          "explain": "The IRB K is a function of PD and LGD; migration to higher-risk-weight grades inflates the denominator, here the dominant channel (~84%)."
+        },
+        {
+          "prompt": "Against what is the resulting post-stress ratio read, and what does breaching it arm?",
+          "kind": "pick",
+          "expected": "the stack P1 (4.5%) + P2R + combined buffer + P2G; breaching the combined buffer arms the MDA",
+          "explain": "MDA (Art. 141 CRD / §24 BWG) automatically caps dividends, AT1 coupons and variable pay — the decisive trip-wire is the combined buffer, not the 4.5% floor."
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "capital"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-3"
+      }
+    },
+    {
+      "id": "m22.disc.static-vs-dynamic",
+      "module": "m22",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The EU-wide EBA test runs a static balance sheet with no management actions; an institution's own ICAAP stress test runs a dynamic balance sheet with management actions. Which is regulatory-mandated, which is an ÖRS modelling choice, and what does the contrast trade off?",
+      "verdict": "mixed",
+      "rubric": [
+        "The static balance sheet is REGULATORY: mandated by the EBA EU-wide methodology so the cross-bank league table is comparable (assets maturing are replaced like-for-like, no deleveraging)",
+        "The dynamic balance sheet with management actions is an ÖRS modelling decision in the bank's own ICAAP, whose purpose is realistic self-assessment, not comparison",
+        "Tradeoff produced: static buys cross-bank comparability at the cost of realism; dynamic buys realism at the cost of comparability and the risk of self-serving assumptions — importing one constraint into the other mislabels the test and draws a supervisory question"
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "governance"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s5-1"
+      }
+    },
+    {
+      "id": "m22.disc.sector-satellite",
+      "module": "m22",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The Sektor-Risikocontrolling supplies a common scenario set and centrally estimated satellite parameters (β, γ) that each Raiffeisen primary bank applies to its own portfolio. Regulatory requirement or ÖRS proportionality choice — and what is the tradeoff?",
+      "verdict": "ors",
+      "rubric": [
+        "Names it an ÖRS proportionality choice: most primary banks are too small to run a full bottom-up satellite suite alone",
+        "Benefit: guarantees a coherent, comparable stress across the Verbund while each Institut still reflects its own exposure mix",
+        "Tradeoff produced: centrally estimated β and γ may not fit an atypical local portfolio (e.g. tourism- or agriculture-heavy), so the Leitfaden expects a local plausibility overlay"
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "credit"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s5-2"
+      }
+    },
+    {
+      "id": "m22.disc.retail-correlation",
+      "module": "m22",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The worked example uses asset correlation R = 0.15 and drops the maturity-adjustment term for the retail mortgage. Is the choice regulatory or ÖRS, and what is the trap if you get it wrong?",
+      "verdict": "reg",
+      "rubric": [
+        "R = 0.15 is REGULATORY: CRR Art. 154(3) fixes it for retail residential mortgages — the bank cannot change it",
+        "The absence of the maturity adjustment is also regulatory: the (1+(M-2.5)b)/(1-1.5b) term belongs to the Art. 153 corporate/institution/sovereign formula, not retail",
+        "Trap/tradeoff: the prescribed retail curve trades exposure-specific maturity precision for cross-bank comparability; importing the corporate M-term into a retail calculation overstates RWA and is methodologically wrong"
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art154"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-3"
+      }
+    },
+    {
+      "id": "m22.viva.el-not-pl",
+      "module": "m22",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the examiner: in a stress test of an IRB portfolio, how does credit loss actually reach CET1, and why is 'just deduct expected loss from capital' wrong?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The numerator moves through IFRS 9 ECL provisions hitting P&L and, via retained earnings, CET1 — dominated by Stufe 1 to Stufe 2 stage migration from 12-month to lifetime ECL",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "For IRB there is a SEPARATE numerator effect: the EL-shortfall deduction from CET1 (Art. 36(1)(d) / 159 CRR) where regulatory EL exceeds provisions (excess provisions instead add to Tier 2 up to a cap)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Keeps three quantities distinct — accounting ECL (IFRS 9), regulatory EL (CRR), and the shortfall that reconciles them — so no single raw-EL number is applied twice",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Treats raw regulatory PD·LGD·EAD as if it lands directly in the income statement or is deducted from capital as one number",
+        "Lets the same loss hit the numerator via provisions and then forgets it also raises the denominator (RWA), or applies EL twice"
+      ],
+      "modelAnswer": "In a stress the CET1 numerator moves through IFRS 9 expected-credit-loss provisions, which flow through P&L and retained earnings; the dominant mechanic is stage migration — a downgrade pushes a loan from Stufe 1 to Stufe 2, jumping the provision from 12-month to lifetime ECL. For IRB exposures there is a second, distinct effect: where regulatory EL (PD·LGD·EAD) exceeds provisions, the EL-shortfall is deducted directly from CET1 under Art. 36(1)(d)/159 CRR, while excess provisions may instead be added to Tier 2 up to a cap. The defender therefore keeps accounting ECL, regulatory EL, and the shortfall deduction separate — 'deduct EL from capital' is wrong because it skips the entire IFRS 9 / shortfall machinery and risks applying one raw number twice.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "credit",
+        "crr": "CRR:Art159"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s3-3"
+      }
+    },
+    {
+      "id": "m22.viva.reverse-stress-board",
+      "module": "m22",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner asks why reverse stress testing is a board (Aufsichtsrat) instrument and not merely a number. Defend its governance purpose.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The deliverable is a narrative of failure — the named scenarios that render the bank non-viable, their plausibility, and the early-warning indicators that signal you are on that path — not a single figure",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "It is required (EBA/GL/2018/04) and its failure scenarios feed the recovery plan (Sanierungsplan) via the BRRD recovery-planning regime: failure scenarios become triggers, recovery options become the answer",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Governance dignity: it escapes the survivorship/anchoring bias of forward scenarios by starting from non-viability, so the board decides BEFORE the crisis what would count as the crisis",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Describes it as just 'the adverse scenario, but a bit worse' rather than fixing non-viability and solving backward for the scenario",
+        "Claims it produces a mechanical pass/fail or a capital hurdle number"
+      ],
+      "modelAnswer": "Reverse stress testing fixes the endpoint — the bank is non-viable — and solves backward for the scenarios that produce it, so its deliverable is a narrative of failure: the named scenarios, their plausibility, and the early-warning indicators that show you are on that path. It is required by EBA/GL/2018/04, and its failure scenarios flow into the Sanierungsplan via the BRRD recovery-planning regime, becoming the triggers against which pre-agreed recovery options are the answer. Its governance value is precisely that it escapes the anchoring bias of forward scenarios, which are imagined by people who run the bank and tend to test survivable worlds — so the Aufsichtsrat decides before the crisis what would count as the crisis.",
+      "tags": {
+        "spine": "reg",
+        "risk": "governance"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m22",
+        "anchor": "m22-s6-2"
+      }
+    }
+  ],
+  "module": "m22"
+}

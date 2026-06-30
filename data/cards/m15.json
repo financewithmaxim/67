@@ -1,0 +1,438 @@
+{
+  "cards": [
+    {
+      "id": "m15.num.materiality-relative",
+      "module": "m15",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Retail (Mengengeschäft) obligor: total on-balance exposure €40.000, overdue €350. Compute the relative-component ratio of the Erheblichkeitsschwelle (overdue / on-balance exposure), as a fraction.",
+      "tags": {
+        "spine": "reg",
+        "risk": "over-flagging small past-due on large exposure",
+        "crr": "CRR:Art178"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s4"
+      },
+      "answer": {
+        "value": 0.00875,
+        "tol": 0.0002,
+        "unit": "fraction"
+      }
+    },
+    {
+      "id": "m15.num.materiality-binding-threshold",
+      "module": "m15",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Retail obligor with €40.000 total on-balance exposure. What is the minimum overdue amount (in €) that makes the obligation material, i.e. that simultaneously clears the absolute (€100) AND the relative (1%) component? (Hint: the binding floor is max(T_abs, 1%·exposure).)",
+      "tags": {
+        "spine": "reg",
+        "risk": "relative test dominates the absolute floor on large exposures",
+        "crr": "CRR:Art178"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "answer": {
+        "value": 400,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m15.num.lgd-corporate-pooled",
+      "module": "m15",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "ÖRS Daten-Pool (living/lebende portfolio) pooled LGD for the Corporate Forderungsklasse, as a fraction?",
+      "tags": {
+        "spine": "ors",
+        "risk": "ÖRS pooled estimate vs 45% F-IRB anchor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "answer": {
+        "value": 0.455,
+        "tol": 0.001,
+        "unit": "fraction"
+      }
+    },
+    {
+      "id": "m15.num.lgd-default-51",
+      "module": "m15",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Calibrated LGD assigned to default code 5,1 (sonstige Ausfallgründe / UtP), as a fraction? (Provisioning-calibrated, not empirical.)",
+      "tags": {
+        "spine": "ors",
+        "risk": "calibration value mistaken for empirical recovery"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "answer": {
+        "value": 0.8,
+        "tol": 0.001,
+        "unit": "fraction"
+      }
+    },
+    {
+      "id": "m15.cloze.art178-triggers",
+      "module": "m15",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "CRR Art. 178(1) defines default by two alternative triggers — either suffices: (a) {{c1}} (the qualitative, forward-looking trigger), and (b) more than {{c2}} days past due on a material credit obligation (the quantitative trigger).",
+      "tags": {
+        "spine": "reg",
+        "risk": "treating the triggers as cumulative rather than alternative",
+        "crr": "CRR:Art178"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Unlikeliness to Pay",
+            "UtP",
+            "unlikely to pay",
+            "Unwahrscheinlichkeit der vollständigen Rückzahlung"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "90"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m15.cloze.cure-reaging",
+      "module": "m15",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Cure (Gesundung): general sustainable improvement over at least {{c1}} months; the past-due re-aging probation (Wohlverhaltensperiode, RZ 71 EBA/GL/2016/07) is at least {{c2}} days between two checks, with the overdue counter at most {{c3}} days at the 2nd check; any new default criterion restarts the process.",
+      "tags": {
+        "spine": "reg",
+        "risk": "confusing the 12-month general period with the 90-day re-aging probation",
+        "crr": "EBA/GL/2016/07"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "12"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "90"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "30"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m15.deriv.materiality-conjunction",
+      "module": "m15",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "mix",
+      "front": "A retail obligor has €40.000 total on-balance exposure and is overdue €500 for 95 days. Work the Erheblichkeitsschwelle and assign the code.",
+      "tags": {
+        "spine": "reg",
+        "risk": "skipping the relative test or the AND",
+        "crr": "CRR:Art178"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s4"
+      },
+      "steps": [
+        {
+          "prompt": "Absolute component: is €500 ≥ the retail T_abs of €100?",
+          "kind": "pick",
+          "expected": "Yes",
+          "explain": "€500 > €100, so the absolute floor is cleared."
+        },
+        {
+          "prompt": "Relative component: €500 / €40.000 = 1,25% — is this ≥ 1%?",
+          "kind": "pick",
+          "expected": "Yes",
+          "explain": "1,25% > 1%, so the relative floor is cleared."
+        },
+        {
+          "prompt": "Materiality is a conjunction (absolute AND relative) — is the obligation material?",
+          "kind": "pick",
+          "expected": "Yes",
+          "explain": "Both components hold simultaneously, so the obligation is material and the 90-day clock counts."
+        },
+        {
+          "prompt": "With the obligation material and >90 days past due, which default code applies?",
+          "kind": "pick",
+          "expected": "5,0",
+          "explain": "The >90-day past-due trigger (Art. 178(1)(b)) maps to ÖRS code 5,0."
+        }
+      ]
+    },
+    {
+      "id": "m15.disc.insolvenz-vs-pastdue",
+      "module": "m15",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Two obligors each owe €50. Obligor A has filed for Insolvenz; obligor B is 95 days past due (retail, large exposure). Which is in default, and why does the €100 absolute threshold treat them differently?",
+      "tags": {
+        "spine": "reg",
+        "risk": "applying the materiality gate to a UtP event",
+        "crr": "CRR:Art178"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Insolvenz is an Unlikeliness-to-Pay trigger (Art. 178(1)(a)) and bypasses the Erheblichkeitsschwelle entirely — ≥€1 suffices, so A defaults at code 5,2.",
+        "The €100/€500 absolute and 1% relative tests gate ONLY the >90-day past-due trigger (Art. 178(1)(b)); applying them to an insolvency is a category error.",
+        "B's €50 past-due fails the €100 absolute component, so B is NOT in default despite >90 days.",
+        "Tradeoff produced: the materiality gate suppresses noise on trivial past-due balances, while UtP events (insolvency, Fälligstellung+expected loss) must fire immediately regardless of size — noise-suppression vs prompt loss recognition."
+      ]
+    },
+    {
+      "id": "m15.disc.lgd-455-vs-45",
+      "module": "m15",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "An exam answer states 'Corporate unsecured LGD is 45%.' The Leitfaden applies 45,5% to Corporate. Is the 45% right, and what is the distinction?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "conflating the regulatory anchor with the pooled estimate"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s5"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "45% is the regulatory F-IRB supervisory LGD for unsecured senior exposures (CRR) — a reg-forced anchor, applied to FI/Sov/LRG/CIU where ÖRS has no pooled data.",
+        "45,5% is the ÖRS Daten-Pool (living portfolio) pooled estimate for Corporate — an ÖRS proportionality choice that overrides the 45% anchor where internal data exist.",
+        "Tradeoff produced: the ÖRS estimate sits essentially ON the regulatory anchor for Corporate (45,5 ≈ 45), but the two retail segments (54,4% / 55,8%) sit materially ABOVE it — pooled data say retail recoveries are weaker than the flat 45% implies.",
+        "So '45%' is correct ONLY for the regulatory classes without internal data, not for Corporate — confusing the two mislabels the reg/ÖRS spine."
+      ]
+    },
+    {
+      "id": "m15.disc.default-lgd-calibration",
+      "module": "m15",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Should the default-class LGDs 80% (5,1) and 100% (5,2) be validated by backtesting them against realised recovery rates?",
+      "tags": {
+        "spine": "ors",
+        "risk": "validating a calibration choice as if it were an estimate"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "No: 80% / 100% are NOT empirical recovery estimates — they are calibration choices set so EL on defaulted exposures aligns with booked provisioning (provisioning-calibrated).",
+        "They are an ÖRS choice, distinct from the living-portfolio LGDs (45,5 / 54,4 / 55,8%) which ARE data-pool estimates (with a conservatism add-on) and would be validated.",
+        "Tradeoff produced: calibrating to provisions guarantees EL-vs-Vorsorge consistency in the Deckungsmasse, at the cost that the default-class LGD is no longer a measured recovery — so backtesting it against recoveries is a category error."
+      ]
+    },
+    {
+      "id": "m15.viva.both-thresholds",
+      "module": "m15",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat: why is the Erheblichkeitsschwelle a conjunction (absolute AND relative) rather than 'either component', and what error does the AND prevent?",
+      "tags": {
+        "spine": "reg",
+        "risk": "treating materiality as absolute-OR-relative",
+        "crr": "CRR:Art178"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States both components: absolute €100 retail / €500 non-retail AND relative 1% of total on-balance exposures (excl. equity).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Explains it is a logical AND — both must hold simultaneously.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Names the error the AND prevents: over-flagging a small absolute balance immaterial relative to a large exposure (e.g. €350 on €40.000 = 0,875% < 1% → not default).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Connects to comparability: consistent flagging keeps the multi-bank data-pool and pooled PDs defensible.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says materiality is 'absolute OR relative'",
+        "Applies the threshold to insolvency / Fälligstellung (UtP events have no threshold)",
+        "Claims >90 days alone is sufficient regardless of materiality"
+      ],
+      "modelAnswer": "The Erheblichkeitsschwelle of Leitlinie (EU) 2020/978 has two components that must hold simultaneously: an absolute floor of €100 for retail / €500 for non-retail, and a relative floor of 1% of total on-balance exposures excluding equity. Because it is a logical AND, a balance that clears one but not the other stays immaterial — a €350 overdue on a €40.000 exposure passes the €100 test but fails the 1% test (0,875%), so it is not a default. The AND prevents over-flagging small absolute amounts that are trivial relative to a large exposure, and that consistency is exactly what keeps our multi-bank data-pool and the PDs calibrated on it comparable and defensible to the supervisor."
+    },
+    {
+      "id": "m15.viva.cure-loss-bearing",
+      "module": "m15",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend the cure (Gesundung) machinery: state the timing checks, the segment scope, and why certain default reasons cannot cure by 'the customer paying again'.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "wrong scope or wrong cure timing",
+        "crr": "EBA/GL/2016/07"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Timing: ≥12 months general sustainable improvement; past-due re-aging needs ≥90-day probation between two checks with the overdue counter ≤30 days at the 2nd check; a new default criterion restarts it.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Scope: non-retail cures the WHOLE customer (default attaches at obligor level); retail may cure a single facility.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Loss-bearing reasons (Direktabschreibung, EWB-Auflösung, Forderungsverzicht, Forderungsverkauf) cannot end by resumed payment — the economic loss is already realised and resumed payment does not reverse it.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "After a valid cure a NEW (non-default) rating is freshly assigned, not the pre-default grade.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says any default cures the moment payment resumes",
+        "Swaps the scope (claims retail = whole customer / non-retail = single facility)",
+        "Gives the re-aging probation as 30 days or the general period as 90 days"
+      ],
+      "modelAnswer": "Curing a past-due default requires a sustainable improvement over at least 12 months in general, and for the past-due trigger a re-aging two-stage check: a Wohlverhaltensperiode of at least 90 days between two checks, with the overdue counter at or below 30 days at the second check, restarting on any new default criterion. Scope follows where the default attaches: non-retail cures the whole customer because default sits at obligor level, whereas retail may cure a single facility. Loss-bearing reasons — Direktabschreibung, EWB-Auflösung, Forderungsverzicht, Forderungsverkauf — cannot be cured by resumed payment because the economic loss is already realised and paying again does not reverse it; after any valid cure a fresh non-default rating is assigned rather than the old grade."
+    },
+    {
+      "id": "m15.viva.lgd-feeds-capital",
+      "module": "m15",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Explain to senior management how the choice of LGD propagates into capital — why does swapping the 45% regulatory anchor for the 54,4% / 55,8% retail pooled estimates 'move capital directly'?",
+      "tags": {
+        "spine": "ors",
+        "risk": "treating LGD as affecting only EL or as second-order"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m15",
+        "anchor": "m15-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "LGD enters EL = LGD·PD·EAD, which sits in the Deckungsmasse as the excess/shortfall against provisions.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "LGD also enters the IRB unexpected loss K = [LGD·PD_cond − LGD·PD]·(maturity adj.) derived in M5.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "LGD scales BOTH terms linearly, so a higher pooled retail LGD raises EL and UL proportionally — capital moves directly.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes the spine: retail 54,4 / 55,8% (ÖRS estimates) sit above the 45% reg anchor, so internal data raise retail capital vs the flat supervisory value.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims LGD affects only EL and not the IRB UL",
+        "Treats LGD as entering non-linearly or as negligible to capital",
+        "Confuses LGD with PD in the conditional-PD term"
+      ],
+      "modelAnswer": "LGD enters the credit machinery twice: in expected loss EL = LGD·PD·EAD, which sits in the Deckungsmasse as the excess/shortfall against provisions, and in the IRB unexpected loss K = [LGD·PD_cond − LGD·PD]·(maturity adjustment) derived in M5. Because LGD multiplies both terms linearly, raising it lifts EL and UL in direct proportion. So choosing the pooled retail estimates 54,4% / 55,8% over the flat 45% regulatory anchor — both above it — raises retail EL and capital directly; the reg-vs-ÖRS choice on LGD is not cosmetic, it moves the number."
+    }
+  ],
+  "module": "m15"
+}

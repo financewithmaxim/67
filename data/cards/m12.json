@@ -1,0 +1,422 @@
+{
+  "cards": [
+    {
+      "id": "m12.num.naive-sum",
+      "module": "m12",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Mini-IPS worked example. Solo risks: P's participation in the RLB €1,5m (Beteiligungsrisiko), P's €3m deposit at the RLB €0,2m (intra-group credit risk), RLB's participation in RBI €6,0m (Beteiligungsrisiko), all other non-intra-group risk €40,0m. Compute the naïve sum of solo risks (ρ=+1 addition, no eliminations), in euros.",
+      "tags": {
+        "spine": "ors",
+        "risk": "aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s4"
+      },
+      "answer": {
+        "value": 47700000,
+        "tol": 0.001,
+        "unit": "EUR"
+      },
+      "sourceNote": "Worked-example figures are stylised/illustrative per the module disclaimer, not Leitfaden values; the arithmetic (1,5+0,2+6,0+40,0=47,7m) is the load-bearing point."
+    },
+    {
+      "id": "m12.num.ips-consolidated",
+      "module": "m12",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Same mini-IPS. From the naïve sum €47,7m, apply the §7 IPS eliminations: drop the P→RLB participation risk (€1,5m), the P deposit-at-RLB credit risk (€0,2m) and the RLB→RBI participation risk (€6,0m). What is the consolidated IPS risk, in euros?",
+      "tags": {
+        "spine": "ors",
+        "risk": "consolidation",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s4"
+      },
+      "answer": {
+        "value": 40000000,
+        "tol": 0.001,
+        "unit": "EUR"
+      },
+      "sourceNote": "Stylised figures; consolidated risk (€40,0m) is LOWER than the naïve sum because intra-circle links are removed."
+    },
+    {
+      "id": "m12.num.double-count-gap",
+      "module": "m12",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "Same mini-IPS. By how much does the naïve sum of solo risks (€47,7m) exceed the consolidated IPS risk (€40,0m)? This gap equals the double-counted intra-sector exposure. Answer in euros.",
+      "tags": {
+        "spine": "ors",
+        "risk": "consolidation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s4"
+      },
+      "answer": {
+        "value": 7700000,
+        "tol": 0.001,
+        "unit": "EUR"
+      },
+      "sourceNote": "Stylised; 1,5+0,2+6,0=7,7m is the intra-circle (Primärbank→Landeszentrale→RBI) double/triple count."
+    },
+    {
+      "id": "m12.deriv.rho-plus-one-collapse",
+      "module": "m12",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Derive why pure addition of two VaRs is exactly the correlation-of-+1 corner, and why that is the most conservative aggregation.",
+      "tags": {
+        "spine": "ors",
+        "risk": "aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s3"
+      },
+      "steps": [
+        {
+          "prompt": "Write the two-risk parametric (variance–covariance) VaR in terms of \\(\\mathrm{VaR}_A,\\mathrm{VaR}_B,\\rho\\).",
+          "kind": "pick",
+          "expected": "\\(\\mathrm{VaR}_P=\\sqrt{\\mathrm{VaR}_A^{2}+\\mathrm{VaR}_B^{2}+2\\rho\\,\\mathrm{VaR}_A\\mathrm{VaR}_B}\\)",
+          "explain": "Same algebra as the standard deviation of a sum of two correlated normals; exact for jointly elliptical losses."
+        },
+        {
+          "prompt": "Set \\(\\rho=1\\). What does the radicand become?",
+          "kind": "pick",
+          "expected": "\\((\\mathrm{VaR}_A+\\mathrm{VaR}_B)^{2}\\)",
+          "explain": "The cross term completes the square: a perfect square."
+        },
+        {
+          "prompt": "So \\(\\mathrm{VaR}_P\\big|_{\\rho=1}=?\\)",
+          "kind": "pick",
+          "expected": "\\(\\mathrm{VaR}_A+\\mathrm{VaR}_B\\) (the arithmetic sum)",
+          "explain": "\"Add the single risks\" and \"assume ρ=+1\" are the same statement."
+        },
+        {
+          "prompt": "Over \\(\\rho\\in[-1,1]\\), where does the sum sit relative to all other aggregations?",
+          "kind": "pick",
+          "expected": "the maximum — most conservative, zero diversification credit",
+          "explain": "\\(\\mathrm{VaR}_P(\\rho)\\) is monotone increasing in ρ, so the sum is the upper bound; any ρ<1 yields a diversification benefit."
+        }
+      ]
+    },
+    {
+      "id": "m12.cloze.rho-across-vs-within",
+      "module": "m12",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Across risk types the Leitfaden assumes \\(\\rho={{c1}}\\) (pure addition). The only place \\(\\rho\\,{{c2}}\\,1\\) is used is {{c3}} a single risk type — e.g. within market risk, Zinsrisiko ↔ Credit-Spread.",
+      "tags": {
+        "spine": "ors",
+        "risk": "aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "+1",
+            "1"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "<"
+          ],
+          "render": "operator"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "within",
+            "inside"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m12.cloze.ips-risk-eliminations",
+      "module": "m12",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "IPS §7 risk side — two eliminations: (1) intra-circle {{c1}} (participations in the Zentralinstitut and Spezialgesellschaften); (2) intra-group {{c2}}, e.g. the {{c3}} a Primärbank holds at its Landeszentrale.",
+      "tags": {
+        "spine": "ors",
+        "risk": "consolidation",
+        "crr": "CRR:Art113(7)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s5"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Beteiligungsrisiken",
+            "Beteiligungsrisiko",
+            "participation risks"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "credit exposures",
+            "Kreditforderungen",
+            "exposures",
+            "credit risk"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "Liquiditätsreserve",
+            "liquidity reserve"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m12.cloze.stille-reserven-basis",
+      "module": "m12",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the consolidated views, stille Reserven (hidden reserves) are always taken on the {{c1}} basis, because hidden reserves exist only at the {{c2}} level and vanish in the IFRS consolidated accounts.",
+      "tags": {
+        "spine": "ors",
+        "risk": "deckungsmasse"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s5"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "§30 BWG KI-Gruppe",
+            "§30 BWG",
+            "KI-Gruppe"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "single-institution",
+            "single institution",
+            "Einzelinstituts",
+            "single-institution (solo)"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m12.disc.addition-is-ors-not-crr",
+      "module": "m12",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A board member asserts: 'We add all single risks with zero cross-type diversification because the CRR mandates a ρ=+1 aggregation.' Tag the real driver (reg vs ÖRS) and produce the tradeoff it makes.",
+      "tags": {
+        "spine": "ors",
+        "risk": "aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s2"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "the produced tradeoff point: pure +1 addition is an ÖRS proportionality choice, NOT a CRR mandate",
+        "names what is sacrificed: realism / diversification credit, in exchange for conservatism and comparability across hundreds of banks",
+        "links the conservatism to defending the simple 95% Problemfall quantile to the FMA/OeNB (an upper-bound total offsets the mild quantile)",
+        "notes the only regulatory element nearby is the consolidation SCOPE (§30 BWG KI-Gruppe), not the +1 assumption"
+      ]
+    },
+    {
+      "id": "m12.disc.solo-risk-consolidated-cover",
+      "module": "m12",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Claim: 'A Primärbank may set its Solo risk against the consolidated IPS Deckungsmasse — both are the bank's own numbers.' Give the verdict and produce the tradeoff/error.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "scope-consistency"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s5"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "the produced tradeoff point: this violates the consistency rule — risk and Deckungsmasse must be on the SAME scope (Solo-Solo, KI-KI, IPS-IPS)",
+        "names the mismatch: a Solo risk still CONTAINS the intra-group participation and the Liquiditätsreserve exposure, while the consolidated cover has netted them out and uses consolidated own funds",
+        "states the consequence: a flattering, meaningless Auslastung",
+        "separates the strands: §30 BWG defines the prudential KI-Gruppe scope (reg) while the IPS economic consolidation and the same-scope rule are ÖRS"
+      ]
+    },
+    {
+      "id": "m12.disc.within-market-rho-not-contradiction",
+      "module": "m12",
+      "type": "discrimination",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Claim: 'Using \\(\\rho<1\\) between interest-rate and credit-spread risk inside market risk contradicts the +1 aggregation rule.' Verdict and tradeoff.",
+      "tags": {
+        "spine": "ors",
+        "risk": "aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s2"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "the produced tradeoff point: no contradiction — \\(\\rho<1\\) is permitted only WITHIN a single risk type (M6), never ACROSS types",
+        "names the mechanism: each risk type still collapses to ONE risk-type number, which then enters the cross-type addition at \\(\\rho=+1\\)",
+        "states the trade: intra-type realism (a correlation matrix) is allowed where it is measurable, but cross-type conservatism (no diversification) is preserved",
+        "lists the only intra-type spots: market risk (Zins↔Spread), FX (currencies), spread (rating classes), FLVaR (maturity bands)"
+      ]
+    },
+    {
+      "id": "m12.viva.conservatism-defends-95",
+      "module": "m12",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board question: 'Why does the ÖRS take zero cross-type diversification credit, and how does that conservatism justify running the Problemfall at only 95%?'",
+      "tags": {
+        "spine": "ors",
+        "risk": "aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Addition across risk types IS the ρ=+1 corner: VaR_P=√(VaR_A²+VaR_B²+2ρ·VaR_A·VaR_B) collapses to VaR_A+VaR_B at ρ=1.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Because VaR_P(ρ) increases in ρ, the sum is the MAXIMUM over all ρ — the most conservative aggregation, granting zero diversification.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Layering that upper-bound aggregation on top of the 95% systematically pushes the total UP, offsetting the mildness of the low quantile — so the simple 95% is defensible to the FMA/OeNB.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes the only ρ<1 used is within a single risk type (market, FX, spread, FLVaR), never across types.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Describing the absence of cross-type diversification as a 'missing benefit' or accident rather than a deliberate ρ=+1 choice.",
+        "Claiming the CRR mandates the +1 aggregation.",
+        "Claiming addition corresponds to ρ=0 (independence) or maximises diversification."
+      ],
+      "modelAnswer": "Adding the material single risks is mathematically identical to assuming perfect positive correlation: with VaR_P=√(VaR_A²+VaR_B²+2ρ·VaR_A·VaR_B), setting ρ=1 makes the radicand a perfect square and the root collapses to VaR_A+VaR_B. Since VaR_P(ρ) is monotone increasing in ρ, that sum is the maximum over all correlations — the single most conservative aggregation, taking zero diversification credit. The ÖRS chooses it on purpose: a low 95% quantile alone could look soft, but stacking the most conservative aggregation on top systematically lifts the aggregate, so the total is an upper bound we can defend to the supervisor. The only correlations below 1 live inside a single risk type (market, FX, spread, FLVaR), and each still feeds the cross-type addition at ρ=+1."
+    },
+    {
+      "id": "m12.viva.ips-adjustments-and-crr-analogue",
+      "module": "m12",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Board question: 'Walk through the §7 IPS consolidation adjustments — both sides of the Auslastung — and connect them to the CRR's CET1 cross-holding deductions.'",
+      "tags": {
+        "spine": "boundary",
+        "risk": "consolidation",
+        "crr": "CRR:Art36,43-48"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m12",
+        "anchor": "m12-s5"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Risk side: eliminate intra-circle Beteiligungsrisiken (participations in the ZI / Spezialgesellschaften) along the Primärbank→Landeszentrale→RBI chain.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Risk side: eliminate intra-group credit exposures (Intra-Group-Geschäfte, e.g. the Liquiditätsreserve a Primärbank holds at its Landeszentrale), which net to zero in the circle.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Cover side: use consolidated available own funds, with deduction / stille-Reserven adjustments for non-consolidated participations so the cover is not overstated.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "States the same-scope rule: never pair a Solo risk with a consolidated cover; consolidation makes risk LOWER than the naïve sum of solos.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r5",
+          "text": "Connects to the CRR: CET1 cross-holding deductions (Art.36, 43–48) are the cover-side analogue; the IPS risk-side elimination is the risk-side analogue of the same anti-double-counting principle.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Saying the eliminations RAISE consolidated risk (sign error — they lower it).",
+        "Pairing a Solo risk with a consolidated Deckungsmasse.",
+        "Re-deriving stille Reserven from the IFRS consolidated balance sheet instead of the §30 BWG single-institution basis."
+      ],
+      "modelAnswer": "On the risk side, §7 strips out the intra-sector double counts: intra-circle Beteiligungsrisiken (a Primärbank's stake in the RLB, the RLB's stake in RBI — the same capital counted at each layer of the Primärbank→Landeszentrale→RBI chain) and intra-group credit exposures such as the Liquiditätsreserve, an intercompany claim that nets to zero in the circle. On the cover side, we replace summed solo own funds with consolidated available own funds and apply the deduction / stille-Reserven adjustments for non-consolidated participations, with stille Reserven taken on the §30 BWG basis. Because both numerator and denominator change, the Auslastung differs across Solo, KI-Gruppe and IPS, and the iron rule is to keep risk and cover on the same scope — consolidated risk is always lower than the naïve sum of solos. This is the risk-side twin of the CRR: its CET1 cross-holding deductions (Art.36, 43–48) stop the sector double-counting capital on the cover side, while §7 stops it double-counting the risk that capital backs on the risk side — the same euro, never counted twice."
+    }
+  ],
+  "module": "m12"
+}

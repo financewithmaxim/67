@@ -1,0 +1,429 @@
+{
+  "cards": [
+    {
+      "id": "m06.num.tb-factor-problemfall",
+      "module": "m06",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Trading-book Preisrisiko: the position-risk own-funds charge is regulatorily calibrated at 99%. What multiplicative factor rescales it to the Problemfall confidence (95%)? Give \\(\\Phi^{-1}(0{,}95)/\\Phi^{-1}(0{,}99)\\).",
+      "answer": {
+        "value": 0.71,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "Preisrisiko Handelsbuch"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s5"
+      }
+    },
+    {
+      "id": "m06.num.tb-factor-extremfall",
+      "module": "m06",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Trading-book Preisrisiko: rescale the 99%-calibrated own-funds charge to the Extremfall confidence (99,9%). Give the factor \\(\\Phi^{-1}(0{,}999)/\\Phi^{-1}(0{,}99)\\).",
+      "answer": {
+        "value": 1.33,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "Preisrisiko Handelsbuch"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s5"
+      }
+    },
+    {
+      "id": "m06.num.fx-chf-var95",
+      "module": "m06",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "FX VaR (Problemfall). Open long position €10,0 m in CHF, 250-day-scaled vola \\(\\sigma=6{,}0\\%\\), \\(\\Phi^{-1}(0{,}95)=1{,}6449\\). Compute \\(\\text{VaR}=|P|\\cdot\\sigma\\cdot z_q\\) in euros.",
+      "answer": {
+        "value": 986940,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "Währungsrisiko"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s4"
+      }
+    },
+    {
+      "id": "m06.num.quantile-ratio",
+      "module": "m06",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Pure vertical VaR scaling: by what factor does the Extremfall VaR exceed the Problemfall VaR when nothing else changes? Give \\(\\Phi^{-1}(0{,}999)/\\Phi^{-1}(0{,}95)=3{,}0902/1{,}6449\\).",
+      "answer": {
+        "value": 1.879,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "Marktrisiko / VaR-Konsistenz"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s4"
+      }
+    },
+    {
+      "id": "m06.deriv.fx-diversified",
+      "module": "m06",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Two open FX positions (95% / Problemfall): CHF €10,0 m at \\(\\sigma=6{,}0\\%\\), USD €8,0 m at \\(\\sigma=7{,}0\\%\\), \\(z=1{,}6449\\), correlation \\(\\rho=0{,}45\\). Derive the single-currency VaRs, the undiversified sum, and the diversified VaR (in €m).",
+      "steps": [
+        {
+          "prompt": "CHF VaR = 10,0·0,06·1,6449 (€m)?",
+          "kind": "pick",
+          "expected": "0,987",
+          "explain": "|P|·σ·z = 0,600·1,6449 = €0,987 m."
+        },
+        {
+          "prompt": "USD VaR = 8,0·0,07·1,6449 (€m)?",
+          "kind": "pick",
+          "expected": "0,921",
+          "explain": "|P|·σ·z = 0,560·1,6449 = €0,921 m."
+        },
+        {
+          "prompt": "Undiversified aggregate (€m)?",
+          "kind": "pick",
+          "expected": "1,908",
+          "explain": "Sign-neutral sum 0,987+0,921 = €1,908 m — the prudent bound."
+        },
+        {
+          "prompt": "Diversified = √(0,987²+0,921²+2·0,45·0,987·0,921) (€m)?",
+          "kind": "pick",
+          "expected": "1,625",
+          "explain": "√(0,974+0,848+0,818)=√2,640=€1,625 m. Only this figure is set against the Deckungsmasse; benefit ≈ €0,283 m."
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "Währungsrisiko"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s4"
+      }
+    },
+    {
+      "id": "m06.cloze.irrbb-bw",
+      "module": "m06",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "mix",
+      "front": "IRRBB risk per Laufzeitband and currency: \\(\\text{Risiko}_{b,c} = {{c1}} - {{c2}}\\). The first term discounts the gap \\(g_{b,c}\\) at the spot rate; the second discounts it at the rate scaled by its volatility (rate·Vola).",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "BW",
+            "Barwert",
+            "present value"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "BW^sim",
+            "BW_sim",
+            "simulierter Barwert",
+            "simulated present value"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "IRRBB"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s3"
+      }
+    },
+    {
+      "id": "m06.cloze.log-shift",
+      "module": "m06",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "mix",
+      "front": "The stetige (log-return) volatility \\(\\sigma=\\operatorname{sd}[\\ln(r_t/r_{t-1})]\\) requires every rate level \\(r_t \\,{{c1}}\\, 0\\). Where a 3-year history contains negative rates, lift the whole curve by a +{{c2}} bp parallel shift so the method is defined again.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            ">",
+            "gt",
+            "greater than"
+          ],
+          "render": "operator"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "200",
+            "200 bp",
+            "2,00"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "IRRBB",
+        "crr": "EBA/GL/2018/02"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s3"
+      }
+    },
+    {
+      "id": "m06.disc.shift-200bp",
+      "module": "m06",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Classify the +200 bp parallel shift used in the IRRBB volatility computation: is it a CRR/EBA-forced regulatory stress, or an ÖRS modelling choice? Produce the tradeoff it makes.",
+      "verdict": "ors",
+      "rubric": [
+        "Tradeoff produced: the shift exists ONLY to lift negative rate levels above zero so the stetige (log-return) volatility ln(r_t/r_{t-1}) is mathematically defined — it is not a +200 bp economic stress and yields no risk number itself.",
+        "Tradeoff produced: it distorts the absolute LEVEL of the curve (a near-zero rate looks like 2,0%, understating its relative vola) but PRESERVES the relative-volatility method the whole framework relies on — a deliberate accuracy-for-tractability swap.",
+        "Names that the number coincides with the EBA/GL/2018/02 standard parallel shock / SOT shift, but here serves the volatility computation, not the outlier test — so the classification is ÖRS workaround, not regulatory scenario."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "IRRBB",
+        "crr": "EBA/GL/2018/02"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s3"
+      }
+    },
+    {
+      "id": "m06.disc.holding-period",
+      "module": "m06",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "An analyst proposes 'scaling the trading-book charge to the 250-day holding period like the other market sub-risks.' Is the holding-period frame here reg-set, ÖRS-set, or mixed? Produce the tradeoff/error.",
+      "verdict": "mixed",
+      "rubric": [
+        "Tradeoff produced: the 250-day banking-book holding period is an ÖRS proportionality choice (3-year vola scaled by square-root-of-time), applied to IRRBB, FX, banking-book price and spread risk.",
+        "Tradeoff produced: the trading book has NO holding period — it is taken from the regulatory own-funds charge (position+FX+commodity) and merely rescaled by quantile ratio (0,71 / 1,33), so it is own-funds-based, not VaR-based.",
+        "Names the category error: 'scaling the trading-book charge to 250 days' mixes a VaR construct with an own-funds construct — the proposal is wrong."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "Marktrisiko"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s6"
+      }
+    },
+    {
+      "id": "m06.disc.div-undiv",
+      "module": "m06",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "FX aggregation gives an undiversified sum of €1,908 m and a diversified (matrix) figure of €1,625 m. Which is the RTFA charge, and is permitting ρ<1 here reg-forced or an ÖRS choice? Produce the tradeoff.",
+      "verdict": "ors",
+      "rubric": [
+        "Tradeoff produced: the DIVERSIFIED figure (√(vᵀCv) ≈ €1,625 m) is the one set against the Deckungsmasse; the undiversified sign-neutral SUM (€1,908 m, implicit ρ=1) is reported alongside as the prudent upper bound.",
+        "Tradeoff produced: they coincide only at ρ=1; reporting the undiversified number as the RTFA charge over-states risk, reporting the diversified one as the 'worst case' under-states it.",
+        "Names that within-risk-type diversification (FX currencies, spread rating classes, IRRBB bands) is an ÖRS-permitted exception, while ACROSS risk types the guide still adds with ρ=+1 — so this benefit is an ÖRS choice, not regulatorily mandated."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "Währungsrisiko / Aggregation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s6"
+      }
+    },
+    {
+      "id": "m06.viva.tb-fx-dedup",
+      "module": "m06",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat: why is the trading-book market-risk number taken as (position + FX + commodity own-funds charge) MINUS the FX own-funds charge? What is the residual, and what is reg vs ÖRS here?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The open foreign-currency position is already captured in full — across BOTH books — by the separate Währungsrisiko sub-risk.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Leaving the FX charge inside the trading-book number would double-count the same open Devisenposition, so it is subtracted.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "The residual position-risk charge covers general + specific + option risk.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Identifies the spine: the own-funds charge is the regulatory (CRR) input; the de-duplication subtraction is the ÖRS rule.",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Claims FX risk is immaterial and can be ignored — wrong; it is fully measured, just elsewhere.",
+        "Claims the CRR forbids charging FX in the trading book — wrong; it is a double-count avoidance, not a prohibition.",
+        "Claims the subtraction is because the FX charge is always larger than the position charge."
+      ],
+      "modelAnswer": "The trading book is taken from the regulatory own-funds requirement for position, FX and commodity risk — but the open foreign-currency position is already measured in full, across both books, by the standalone Währungsrisiko VaR. Leaving the regulatory FX charge inside the trading-book figure would therefore double-count the same Devisenposition, so we net it out: trading-book price risk = (position + FX + commodity charge) − FX charge, with the residual position charge covering general, specific and option risk. The charge itself is the CRR regulatory input; the subtraction is the ÖRS de-duplication rule.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Preisrisiko Handelsbuch",
+        "crr": "CRR:Art351-354"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s2"
+      }
+    },
+    {
+      "id": "m06.viva.spread-no-doublecount",
+      "module": "m06",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend: why is there no double-count between Credit-Spread VaR and credit risk (Module 5), and how is the boundary enforced in the credit-risk inputs?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Credit risk captures default and migration driven by the borrower's rating.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Spread risk captures the market REPRICING of credit — a spread can widen with the rating unchanged, which credit risk does not see.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Boundary enforcement: 'nur Wertpapiere' is set to M = 1 year in the credit-risk formula (instead of the default M = 2,5y), moving its downgrade/spread component into the Credit-Spread VaR.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Within market risk the Zinsrisiko ↔ Credit-Spread correlation is considered (per §7), since the bond PV moves with both the risk-free curve and the spread.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims spread risk only covers defaults — wrong; default/migration is the credit-risk module.",
+        "Claims they are the same risk measured twice on purpose for prudence — wrong; they are distinct drivers.",
+        "Claims credit-spread risk applies only to equities — wrong; it is on securities/covered bonds by Forderungs- × Ratingklasse."
+      ],
+      "modelAnswer": "Credit risk and spread risk look adjacent but capture different drivers: credit risk (Module 5) measures default and rating migration, while Credit-Spread VaR measures the market repricing of credit — a spread can widen with the rating left unchanged, which the credit-risk model never sees. To keep the two clean the credit module sets M = 1 year for 'nur Wertpapiere' (against the default M = 2,5 years), so a security's downgrade/spread component is charged here as PV2 − PV1 rather than twice. Within market risk the guide additionally recognises the Zinsrisiko ↔ Credit-Spread correlation per §7, because a bond's PV moves with both the risk-free curve and its spread.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "Spreadrisiko",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s5"
+      }
+    },
+    {
+      "id": "m06.viva.shift-not-stress",
+      "module": "m06",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner says: 'The guide applies a 200 bp rate stress in IRRBB.' Correct them. What does the +200 bp shift actually do, what does it trade off, and why is the coincidence with EBA/GL/2018/02 a trap?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Corrects the framing: the +200 bp shift is a computational device, NOT a stress scenario — it produces no risk number by itself.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "States the mechanism: log-return (stetige) volatility ln(r_t/r_{t-1}) needs strictly positive rates; negative rates in the 3-year history make ln(r_t) undefined, so +200 bp lifts every level above zero.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "After shifting, RELATIVE volatility is computed on the shifted series and fed into the VaR.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Flags the trap: the number coincides with the EBA/GL/2018/02 standard parallel shock / Supervisory Outlier Test shift, but the purpose here is the volatility computation, not the outlier test (real SOT shocks live in IRRBB outlier reporting).",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Agrees that +200 bp is the IRRBB stress scenario that produces the risk number.",
+        "Claims the shift converts 95% confidence to 99,9%.",
+        "Claims the shift scales volatility from one day to 250 days."
+      ],
+      "modelAnswer": "The +200 bp parallel shift is a computational device, not an economic stress: it produces no risk number on its own. Its only job is to make the stetige (log-return) volatility computable — ln(r_t/r_{t-1}) requires strictly positive rate levels, and the post-2014 3-year history contains negative rates, so ln(r_t) is undefined; adding 200 bp lifts every tenor above zero. We then compute the relative volatility on the shifted series and feed it into the VaR. The number happens to coincide with the EBA/GL/2018/02 standard parallel shock and the Supervisory Outlier Test, but that is a coincidence of magnitude — here it enables the volatility method, it is not the SOT shock; reading it as a stress is the trap.",
+      "tags": {
+        "spine": "ors",
+        "risk": "IRRBB",
+        "crr": "EBA/GL/2018/02"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m06",
+        "anchor": "m06-s3"
+      }
+    }
+  ],
+  "module": "m06"
+}

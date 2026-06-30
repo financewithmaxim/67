@@ -1,0 +1,396 @@
+{
+  "cards": [
+    {
+      "id": "m09.num.factor-gapsum",
+      "module": "m09",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Simplified factor approach. >1y gaps (€ m) and Laufzeitbänder (yrs): 1–2y +50 @1,5; 2–3y +60 @2; 3–4y −20 @3; ≥5y(netted) −10 @5. Compute the weighted gap sum \\(\\sum_i Gap_i\\cdot\\text{Laufzeitband}_i\\).",
+      "answer": {
+        "value": 85,
+        "tol": 0.01,
+        "unit": "€ m·yr"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s4"
+      }
+    },
+    {
+      "id": "m09.num.factor-charge",
+      "module": "m09",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Simplified factor approach, before discounting. With weighted gap sum 85, Preisabweichung = indicator × vola = \\(0{,}01\\cdot1\\), and the fixed haircut 75%, compute \\(85\\cdot 0{,}01\\cdot 0{,}75\\) (the pre-Abzinsung Liquiditätsrisiko, € m).",
+      "answer": {
+        "value": 0.6375,
+        "tol": 0.001,
+        "unit": "€ m"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s4"
+      }
+    },
+    {
+      "id": "m09.num.undiv-flvar",
+      "module": "m09",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Full FLVaR, 2 bands. Per-band PV2−PV1: band 2–3y = −1,2 € m; band ≥5y = −1,5 € m. Compute the undiversified FLVaR (\\(\\sum_i (PV2_i-PV1_i)\\), € m).",
+      "answer": {
+        "value": -2.7,
+        "tol": 0.01,
+        "unit": "€ m"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-3"
+      }
+    },
+    {
+      "id": "m09.num.div-flvar",
+      "module": "m09",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Diversified FLVaR. Per-band contribution vector \\(d=(-1{,}2,\\,-1{,}5)^{\\mathsf T}\\), CDS correlation \\(\\rho=0{,}6\\). Compute \\(\\text{FLVaR}_{\\text{div}}=\\sqrt{d^{\\mathsf T}\\,CDS\\text{-}Corr\\,d}\\) (€ m).",
+      "answer": {
+        "value": 2.42,
+        "tol": 0.01,
+        "unit": "€ m"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-5"
+      }
+    },
+    {
+      "id": "m09.cloze.mischzinssatz",
+      "module": "m09",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Base Mischzinssatz = (IRS + CDS)·(1 − {{c1}}) + {{c2}}·Primäreinlagenanteil. The wholesale leg costs swap + sovereign-CDS spread; the retail leg costs the savings rate. Under stress, the CDS leg additionally carries {{c3}} at 99,9% over the holding period.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Primäreinlagenanteil",
+            "primary-deposit share"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "SPI",
+            "Sparindikator",
+            "savings indicator"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "CDS-Vola",
+            "CDS-Vola(99,9%)",
+            "CDS volatility"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-4"
+      }
+    },
+    {
+      "id": "m09.cloze.flvar-calibration",
+      "module": "m09",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "FLVaR calibration: confidence {{c1}} (regulatory-anchored) and holding period {{c2}} days (ÖRS, analogy to IRRBB). The gap basis is the open non-cumulative Normalfall gaps in maturity bands {{c3}}, with bands >5y netted (Saldierung).",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "99,9%",
+            "99.9%",
+            "99,9 %"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "250"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            ">1y",
+            "> 1 year",
+            "greater than 1 year"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-1"
+      }
+    },
+    {
+      "id": "m09.deriv.factor-approach",
+      "module": "m09",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Derive the simplified factor-approach Liquiditätsrisiko for a small bank from its >1y gaps to a present-value charge.",
+      "steps": [
+        {
+          "prompt": "What is the duration-like weighting applied to each gap before any factor?",
+          "kind": "pick",
+          "expected": "Multiply each Gap_i by its Laufzeitband in years and sum: Σ Gap_i·Band_i",
+          "explain": "Gap·Band is a first-order (duration) proxy for the PV sensitivity that PV2−PV1 computes exactly in the full approach."
+        },
+        {
+          "prompt": "What fixed assumptions set the Preisabweichung in this approach?",
+          "kind": "pick",
+          "expected": "Preisabweichung = indicator × vola = 0,01 × 1 = 0,01 (savings indicator 1%, 100bp vola scaled to 99,9%/1y, full primary-deposit funding)",
+          "explain": "The approach replaces the bank-specific Mischzinssatz / CDS / SPI machinery with three fixed assumptions (Primäreinlagenanteil = 1, indicator 1%, 100bp vola)."
+        },
+        {
+          "prompt": "Which fixed haircut is then applied?",
+          "kind": "pick",
+          "expected": "Multiply by 75% (the ÖRS fixed haircut)",
+          "explain": "The 0,75 haircut is a deliberate ÖRS simplification, not a CRR figure."
+        },
+        {
+          "prompt": "What is the final step to reach the charge?",
+          "kind": "pick",
+          "expected": "Multiply by the Abzinsungsfaktor (discount factor) to bring the future gap-closing cost to present value",
+          "explain": "Discounting is last because the gaps are future cash flows: Liquiditätsrisiko = (Σ Gap·Band·0,01)·0,75·DF."
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-6"
+      }
+    },
+    {
+      "id": "m09.disc.problemfall-charge",
+      "module": "m09",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A controller proposes reserving economic capital (Deckungsmasse) against the Problemfall short-term payment ability at 95%, symmetric to how the Extremfall reserves the FLVaR. Is the no-capital treatment of the Problemfall reg-forced or an ÖRS proportionality choice — and produce the tradeoff that justifies it.",
+      "verdict": "ors",
+      "rubric": [
+        "Identifies that the Problemfall levies NO Deckungsmassen charge — an ÖRS choice, not a CRR requirement.",
+        "Produces the category argument: short-term payment ability is a flow/liquidity discipline (limits + survival period + Kennziffern per Leitfaden Liquidität), and capital does not generate cash on the day a payment is due.",
+        "Contrasts with the Extremfall: only the structural funding-cost risk is a genuine present-value loss distribution, so only it consumes economic capital via the FLVaR.",
+        "States the tradeoff: holding capital against 'running out of cash next week' is category-confusion that would mis-state RTFA; proportionality keeps liquidity wired in asymmetrically."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s2"
+      }
+    },
+    {
+      "id": "m09.disc.flvar-vs-ratios",
+      "module": "m09",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Classify the LCR, the NSFR, and the FLVaR by reg-vs-ÖRS status, and produce the division of labour: does the FLVaR substitute for the ratios?",
+      "verdict": "mixed",
+      "rubric": [
+        "LCR (HQLA vs 30-day stressed net outflows, ≥100%) and NSFR (available vs required stable funding over 1y, ≥100%) are regulatory Pillar-1 adequacy ratios under CRR Part Six.",
+        "FLVaR is the ÖRS economic structural complement living in the Extremfall — a 99,9%/250-day present-value charge, not a pass/fail ratio.",
+        "Produces the tradeoff: the FLVaR does NOT duplicate or replace a ratio; the ratios constrain adequacy but do not VALUE the residual >1y funding-cost risk — the FLVaR prices exactly that PV loss.",
+        "Places short-term payment ability (LCR's turf) in the Problemfall's limit-monitored domain with no capital charge."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "liquidity-funding",
+        "crr": "CRR:PartSix"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s5-1"
+      }
+    },
+    {
+      "id": "m09.disc.calibration-split",
+      "module": "m09",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the FLVaR calibration — 99,9% confidence, 250-day holding period, >5y Saldierung, 75% factor-approach haircut — separate what is regulatory-anchored from what is an ÖRS proportionality choice, and produce why the split is defensible.",
+      "verdict": "mixed",
+      "rubric": [
+        "99,9% confidence is the regulatory-anchored Extremfall quantile (forced).",
+        "250-day holding period is an ÖRS choice by analogy to IRRBB (Module 6), making the liquidity number VaR-consistent with the rest of the Extremfall.",
+        ">5y netting (Saldierung) and the 75% factor-approach haircut are ÖRS simplifications.",
+        "Produces the tradeoff: the ÖRS choices trade long-horizon precision (poorly validatable run-off beyond 5y) and full-model granularity for a defensible, auditable, internally consistent capital number."
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-1"
+      }
+    },
+    {
+      "id": "m09.viva.sign-convention",
+      "module": "m09",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An institution's undiversified FLVaR comes out at +3,1 € m. Walk the board through the sign convention: does it flow into the Extremfall, and why is the treatment asymmetric?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "A POSITIVE undiversified FLVaR means structural over-funding (more long-term funding than long assets), not a funding need, so +3,1 € m does NOT enter the Extremfall charge.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "A NEGATIVE undiversified FLVaR signals a Refinanzierungsbedarf (funding need): short of stable funding in the long bands, so spread widening is a loss — that is the risk that counts.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "States the principle: you capitalise the cost of having to borrow, never a windfall from cheaper future funding — liquidity-price risk is asymmetric by design.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes the sign must be checked on the undiversified figure before any diversified FLVaR is even computed/admitted.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the positive figure is added as a 3,1 € m capital charge.",
+        "Claiming a positive (over-funding) FLVaR generates a capital benefit/relief.",
+        "Confusing the sign with the diversified-vs-undiversified distinction."
+      ],
+      "modelAnswer": "A positive undiversified FLVaR means the bank is structurally over-funded — it holds more long-term funding than long assets — so the +3,1 € m is not a Refinanzierungsbedarf and does not flow into the Extremfall. The FLVaR only counts as risk when it is negative, i.e. a genuine funding need where widening spreads on the open >1y gaps inflict a present-value loss. The treatment is asymmetric by design: you capitalise the cost of having to borrow, never a windfall from cheaper future funding. So the sign of the undiversified figure is the gate — check it before admitting anything, diversified or not.",
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s3-3"
+      }
+    },
+    {
+      "id": "m09.viva.asymmetry",
+      "module": "m09",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend the Problemfall/Extremfall asymmetry: why does only ONE of the two faces of Liquiditätsrisiko consume economic capital, and where does market-liquidity risk sit?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Names the two faces: (i) short-term Zahlungsunfähigkeit (payment ability, a flow problem on a horizon of days) and (ii) structural Liquiditätspreisrisiko (higher own refinancing cost on the gap, a value problem on a horizon of years).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Problemfall: limit-/Kennziffern-managed per the Leitfaden Liquidität with NO Deckungsmassen charge — capital cannot pay a counterparty on the day, so reserving against it is category-confusion.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Extremfall: the structural funding-cost risk IS a present-value loss you can put a 99,9% number on, so only it is capitalised — via the FLVaR, and only when there is a funding need.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Market-liquidity risk (selling an asset only at a price concession) is NOT a separate liquidity charge — it is captured via holding periods in market risk and haircuts in the Liquiditätspuffer.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Saying the Problemfall consumes capital / is symmetric to the Extremfall.",
+        "Treating the FLVaR as a payment-default (Zahlungsunfähigkeit) measure rather than a funding-cost/price risk.",
+        "Inventing a separate capital charge for market-liquidity risk."
+      ],
+      "modelAnswer": "Liquidity risk has two faces that demand different instruments. Short-term Zahlungsunfähigkeit is a flow problem on a horizon of days — managed with limits, a survival period and Kennziffern per the Leitfaden Liquidität — and it carries no Deckungsmassen charge, because capital absorbs value losses, it does not produce cash on demand. The structural Liquiditätspreisrisiko is a value problem on a horizon of years: if refinancing the open long gap gets dearer, the present value of that future cost is a loss today, and that is a genuine 99,9% loss distribution — so only it consumes economic capital, via the FLVaR in the Extremfall (and only when the position is a funding need). Market-liquidity risk is not a third charge here; it is already captured through holding periods in market risk and haircuts in the Liquiditätspuffer.",
+      "tags": {
+        "spine": "ors",
+        "risk": "liquidity-funding"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m09",
+        "anchor": "m09-s2"
+      }
+    }
+  ],
+  "module": "m09"
+}

@@ -1,0 +1,409 @@
+{
+  "cards": [
+    {
+      "id": "m04.num.problemfall-waiting-time",
+      "module": "m04",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "At 100% Problemfall utilisation (confidence q = 95%), treating years as i.i.d. Bernoulli trials, the expected number of years until the first loss exceeding the Deckungsmasse is \\(1/(1-q)\\). Give the value in years.",
+      "tags": {
+        "spine": "ors",
+        "risk": "RTFA confidence"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s3"
+      },
+      "answer": {
+        "value": 20,
+        "tol": 0.01,
+        "unit": "years"
+      }
+    },
+    {
+      "id": "m04.num.extremfall-waiting-time",
+      "module": "m04",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "For the Extremfall (q = 99,9%), the expected waiting time to the first breach is \\(1/(1-q)\\). Give it in years.",
+      "tags": {
+        "spine": "reg",
+        "risk": "RTFA confidence"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s3"
+      },
+      "answer": {
+        "value": 1000,
+        "tol": 1,
+        "unit": "years"
+      }
+    },
+    {
+      "id": "m04.num.cva-problemfall-factor",
+      "module": "m04",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "A CVA charge is calibrated at 99%. Under the normal/parametric assumption, the Problemfall (95%) scaling factor is \\(\\Phi^{-1}(0{,}95)/\\Phi^{-1}(0{,}99)=1{,}6449/2{,}3263\\). Give the factor.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "VaR vertical re-scale"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s4"
+      },
+      "answer": {
+        "value": 0.71,
+        "tol": 0.01
+      }
+    },
+    {
+      "id": "m04.num.cva-extremfall-factor",
+      "module": "m04",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Same 99%-calibrated CVA charge: the Extremfall (99,9%) scaling factor is \\(\\Phi^{-1}(0{,}999)/\\Phi^{-1}(0{,}99)=3{,}0902/2{,}3263\\). Give the factor.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "VaR vertical re-scale"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s4"
+      },
+      "answer": {
+        "value": 1.33,
+        "tol": 0.01
+      }
+    },
+    {
+      "id": "m04.num.worked-problemfall-auslastung",
+      "module": "m04",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Worked example B (Solo): Problemfall Risiko = €86 m, Deckungsmasse (CRR+P2R+Puffer) = €93 m. Compute the Auslastung \\(=\\text{Risiko}/\\text{Deckungsmasse}\\) as a fraction.",
+      "tags": {
+        "spine": "ors",
+        "risk": "RTFA utilisation"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s4"
+      },
+      "answer": {
+        "value": 0.925,
+        "tol": 0.005
+      }
+    },
+    {
+      "id": "m04.cloze.traffic-light-thresholds",
+      "module": "m04",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "Problemfall traffic light: grün at Auslastung ≤ {{c1}}; gelb above that; rot above {{c2}}. The subtle point: the gelb test uses cover including the Puffer (CRR+P2R+Puffer), while the rot test {{c3}} the buffers (CRR+P2R only).",
+      "tags": {
+        "spine": "ors",
+        "risk": "RTFA traffic light"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s5"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "90%",
+            "90"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "95%",
+            "95"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "excludes",
+            "drops",
+            "removes"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m04.cloze.var-consistency-engine",
+      "module": "m04",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "VaR is consistent two ways. Vertical (re-scale the confidence) multiplies by the quantile ratio {{c1}}. Horizontal (re-scale the holding period, square-root-of-time) multiplies by {{c2}}.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "VaR consistency"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "\\(\\Phi^{-1}(q_2)/\\Phi^{-1}(q_1)\\)",
+            "Phi^{-1}(q2)/Phi^{-1}(q1)"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "\\(\\sqrt{T_2/T_1}\\)",
+            "sqrt(T2/T1)"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m04.deriv.extremfall-scalar",
+      "module": "m04",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Derive the Extremfall scaling factor that converts a 99%-calibrated charge to the 99,9% economic-capital confidence.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "VaR vertical re-scale"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s4"
+      },
+      "steps": [
+        {
+          "prompt": "Which VaR-consistency dimension changes confidence (not horizon)?",
+          "kind": "pick",
+          "expected": "vertical",
+          "explain": "Vertical consistency re-scales the confidence level; horizontal re-scales the holding period."
+        },
+        {
+          "prompt": "Under the normal assumption, VaR_q2 = VaR_q1 × (what)?",
+          "kind": "pick",
+          "expected": "\\(\\Phi^{-1}(q_2)/\\Phi^{-1}(q_1)\\)",
+          "explain": "A parametric VaR is a quantile multiple of a volatility, so converting confidence is a ratio of standard-normal quantiles."
+        },
+        {
+          "prompt": "Insert the quantiles for q2 = 0,999 and q1 = 0,99.",
+          "kind": "pick",
+          "expected": "3,0902 / 2,3263",
+          "explain": "Φ⁻¹(0,999)=3,0902 and Φ⁻¹(0,99)=2,3263."
+        },
+        {
+          "prompt": "Evaluate the ratio.",
+          "kind": "pick",
+          "expected": "1,33",
+          "explain": "3,0902/2,3263 ≈ 1,33 — the Leitfaden's Extremfall CVA scalar."
+        }
+      ]
+    },
+    {
+      "id": "m04.disc.95-confidence-choice",
+      "module": "m04",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "An examiner says: '95% is the CRR-minimum confidence, so the Problemfall is regulation-driven.' Is the 95% Problemfall confidence reg or ÖRS, and what tradeoff justifies it?",
+      "tags": {
+        "spine": "ors",
+        "risk": "RTFA confidence"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s5"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "95% is NOT a CRR minimum; it is an ÖRS Risikoappetit / modelling choice (so the examiner's premise is wrong).",
+        "Names the produced tradeoff: 95% accepts a ~once-in-20-years remedial trigger (1/(1-0,95)=20) in exchange for not over-capitalising the sector.",
+        "Defends it via the mutual safety nets (IPS/Sicherungseinrichtungen) standing behind a single bank, plus correlation +1 aggregation and portfolio-scale statistics making 95% representative."
+      ]
+    },
+    {
+      "id": "m04.disc.999-extremfall-anchor",
+      "module": "m04",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Is the 99,9% / 1-year Extremfall calibration an ÖRS appetite choice or regulatory-anchored? Produce the reason, not just the label.",
+      "tags": {
+        "spine": "reg",
+        "risk": "RTFA confidence",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s3"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Regulatory-anchored: the CRR IRB credit risk-weight formula is itself calibrated to 99,9% / one-year.",
+        "Produced tradeoff/benefit: using the same calibration makes the economic-capital number commensurable with the regulatory IRB number and defensible to the supervisor (OeNB/FMA Gesamtbankrisikosteuerung).",
+        "Contrast: the requirement to run an ICAAP at all rests on §39a BWG — also reg, not an ÖRS invention."
+      ]
+    },
+    {
+      "id": "m04.disc.problemfall-red-denominator",
+      "module": "m04",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Two near-identical traffic-light claims: (A) the Problemfall yellow and red tests both use cover = CRR+P2R+Puffer; (B) yellow uses CRR+P2R+Puffer but red switches to CRR+P2R. Which is correct and what is the logic the switch encodes?",
+      "tags": {
+        "spine": "reg",
+        "risk": "RTFA traffic light"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s5"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Claim B is correct: in the Problemfall the denominator changes — yellow includes the buffers, red excludes them (CRR+P2R only).",
+        "Produces the tradeoff: yellow warns when you start eating into the Kapitalerhaltungspuffer/supervisory buffers; red fires only when you would breach the HARD minimum even after buffers are exhausted.",
+        "Notes the Extremfall uses a single denominator throughout, so this asymmetry is Problemfall-specific."
+      ]
+    },
+    {
+      "id": "m04.viva.which-scenario-steers",
+      "module": "m04",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend: why does the RTFA need two scenarios, and can a bank be 'greener' in the Extremfall than the Problemfall?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "RTFA design"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s2"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Two different questions: Problemfall = stay above the regulatory minimum (incl. P2R + buffers) after a plausibly bad year (Pillar 1 / normative); Extremfall = enough economic substance to survive a near-fatal stress, a Liquidationsfall (Pillar 2 / ICAAP).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "BOTH numerator and denominator change between scenarios — it is not one risk against more/less cover but two definitions of risk against two definitions of cover.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Yes, greener-in-Extremfall is possible: the Extremfall risk is larger but its Deckungsmasse counts essentially the full own-funds stack (while excluding next-year profit and stripping the Neubewertungsreserve), which can outweigh the higher risk.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Therefore the Leitfaden lets each institution decide which scenario is the binding steering measure and which is the side-condition.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming a higher confidence must always give a worse (redder) ratio.",
+        "Asserting the Extremfall is always the binding constraint.",
+        "Saying the two scenarios differ only in the percentage and use the same Deckungsmasse."
+      ],
+      "modelAnswer": "The RTFA answers two distinct questions, so it needs two calibrations: the Problemfall (95%) is the normative Pillar-1 view — will we stay above the regulatory minimum including P2R and buffers after a bad year — while the Extremfall (99,9%, one year) is the economic Pillar-2/ICAAP Liquidationsfall asking whether we have enough substance to survive a near-fatal stress. Crucially both the numerator and the denominator are redefined between scenarios: the Problemfall cover leans on earnings plus free capital above the minimum, whereas the Extremfall counts essentially the entire own-funds stack but excludes next year's hoped-for profit and the Neubewertungsreserve. Because the larger Extremfall risk is met by a larger Extremfall cover, a bank can genuinely be greener in the Extremfall than in the Problemfall, which is exactly why the Leitfaden lets each institution choose which scenario steers and which is merely the side-condition."
+    },
+    {
+      "id": "m04.viva.reporting-and-aggregation",
+      "module": "m04",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Board defense: what reporting does a yellow/red result trigger and to whom, and how does the RTFA aggregate single risks?",
+      "tags": {
+        "spine": "reg",
+        "risk": "RTFA reporting",
+        "crr": "BWG:§63(3)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m04",
+        "anchor": "m04-s5"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Gelb (Beobachtungsstatus) → a Management Summary commenting on the result and the measures to reduce risk or raise the Deckungsmasse.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Rot → a detailed Management Summary with concrete steps and timelines to get back to yellow.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Addressees: Landesorganisationen for an RLB and its Primärbanken; the ÖRS for all RLBs, subsidiaries, individual Primärbanken, RBI and the R-IPS; auditor's Redepflicht per §63(3) BWG goes to bg-lg@raiffeisen-einlagensicherung.at.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Aggregation across risk TYPES is addition with correlation +1 (no cross-type diversification); correlation <1 enters only within a risk type (e.g. currencies in FX, rating classes in spread risk, Zins vs Credit-Spread inside market risk).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r5",
+          "text": "Notes that >90% on a single-institution basis is 'not targeted' and triggers planning of remedial measures regardless of colour.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the RTFA uses a full correlation matrix / square-root aggregation across risk types.",
+        "Saying yellow and red trigger the same report.",
+        "Asserting cross-type diversification benefit is allowed."
+      ],
+      "modelAnswer": "A yellow result puts the unit in Beobachtungsstatus and requires a Management Summary commenting on the outcome and the measures to cut risk or lift the Deckungsmasse; a red result escalates this to a detailed summary with concrete steps and timelines to return to yellow. Reports flow to the Landesorganisationen for an RLB and its Primärbanken, and to the ÖRS for all RLBs, their subsidiaries, individual Primärbanken, RBI and the R-IPS, while the Bankprüfer's Redepflicht under §63(3) BWG is sent to bg-lg@raiffeisen-einlagensicherung.at. On aggregation, the RTFA deliberately adds material single risks with correlation +1, granting no diversification benefit across risk types — which is part of what makes the simple 95% defensible — and only allows correlation below one within a risk type, such as between currencies, rating classes, or Zinsrisiko and Credit-Spread risk inside market risk."
+    }
+  ],
+  "module": "m04"
+}

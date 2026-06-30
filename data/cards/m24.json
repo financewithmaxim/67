@@ -1,0 +1,424 @@
+{
+  "cards": [
+    {
+      "id": "m24.num.mrel-rwa-ratio",
+      "module": "m24",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Worked example (§4): \\(P_1=8.0\\%\\), \\(P_2\\text{R}=2.0\\%\\) of TREA, CBR \\(=3.5\\%\\), SRB-default MCC \\(=\\) CBR \\(-125\\,\\text{bps}\\). Compute the risk-weighted MREL ratio \\(\\text{MREL}_{\\text{RWA}}=2(P_1+P_2\\text{R})+\\text{MCC}\\) (as a fraction of TREA).",
+      "answer": {
+        "value": 0.2225,
+        "tol": 0.0005,
+        "unit": "fraction of TREA"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "MREL calibration",
+        "crr": "BRRD2:Art45c"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s4"
+      }
+    },
+    {
+      "id": "m24.num.mcc-srb-default",
+      "module": "m24",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "SRB-default market confidence charge (Marktvertrauenspuffer) with CBR \\(=3.5\\%\\): \\(\\text{MCC}=\\text{CBR}-125\\,\\text{bps}\\), floored at zero. Give the MCC as a fraction of TREA.",
+      "answer": {
+        "value": 0.0225,
+        "tol": 0.0005,
+        "unit": "fraction of TREA"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "MCC mis-calibration (not CBR-CCyB)",
+        "crr": "SRB-MREL-Policy-2024"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s3"
+      }
+    },
+    {
+      "id": "m24.num.mmda-shortfall",
+      "module": "m24",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Resolution entity: binding MREL \\(=\\)EUR 940m, holds EUR 700m CET1 + EUR 300m non-CET1 subordinated eligible debt, CBR \\(=\\)EUR 140m. Using the CET1-specific test (apply non-CET1 to MREL first), compute the M-MDA shortfall in euros.",
+      "answer": {
+        "value": 80000000,
+        "tol": 100000,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "CET1 double-counting",
+        "crr": "BRRD2:Art16a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s4"
+      }
+    },
+    {
+      "id": "m24.num.residual-cet1",
+      "module": "m24",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Same scenario (MREL EUR 940m, CET1 held EUR 700m, non-CET1 eligible debt EUR 300m). After applying non-CET1 debt to MREL first, compute the residual CET1 available to cover the CBR, in euros.",
+      "answer": {
+        "value": 60000000,
+        "tol": 100000,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "scarce-CET1 allocation",
+        "crr": "BRRD2:Art16a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s4"
+      }
+    },
+    {
+      "id": "m24.num.dgs-target-fund",
+      "module": "m24",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Sector covered deposits \\(=\\)EUR 50,000m. DGSD/ESAEG target level is 0.8% of covered deposits. Compute the target available financial means, in euros.",
+      "answer": {
+        "value": 400000000,
+        "tol": 100000,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "DGS fund sizing",
+        "crr": "DGSD:Art10"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s5"
+      }
+    },
+    {
+      "id": "m24.num.dgs-bank-contribution",
+      "module": "m24",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "A primary bank with EUR 500m covered deposits, sector-average annual levy 0.05% of covered deposits, aggregate risk weight ARW \\(=0.75\\). Compute its illustrative annual risk-based DGS contribution: \\(0.05\\%\\times 500\\text{m}\\times 0.75\\), in euros.",
+      "answer": {
+        "value": 187500,
+        "tol": 500,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "risk-based levy (ARW latitude)",
+        "crr": "DGSD:Art13"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s5"
+      }
+    },
+    {
+      "id": "m24.cloze.mrel-two-components",
+      "module": "m24",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "MREL has two legs: MREL = {{c1}} + {{c2}}. The {{c1}} answers 'how much loss must be absorbed to reach failure' (= P1+P2R); the {{c2}} answers 'how much capital rebuilds viability' (= P1+P2R+MCC).",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "LAA",
+            "loss-absorption amount",
+            "loss absorption amount"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "RCA",
+            "recapitalisation amount",
+            "recapitalization amount"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "MREL structure",
+        "crr": "BRRD2:Art45c"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s3"
+      }
+    },
+    {
+      "id": "m24.cloze.dgs-parameters",
+      "module": "m24",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "DGSD/ESAEG cold figures: coverage level {{c1}} EUR per depositor per institution; fund target {{c2}} of covered deposits; payout deadline {{c3}} working days; and under BRRD Art. 109 a capped DGS contribution in resolution of at most {{c4}} of the target level.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "100000",
+            "100,000",
+            "EUR 100,000"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "0.8%",
+            "0,8%",
+            "0.8 percent"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "7",
+            "seven"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "50%",
+            "50 percent",
+            "half"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "DGS parameters",
+        "crr": "DGSD:Art6"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s5"
+      }
+    },
+    {
+      "id": "m24.deriv.mmda-cet1-specific",
+      "module": "m24",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Walk the CET1-specific M-MDA check. Inputs: binding MREL EUR 940m, CET1 held EUR 700m, non-CET1 subordinated eligible debt EUR 300m, CBR EUR 140m.",
+      "steps": [
+        {
+          "prompt": "How much MREL must be met with CET1, after applying non-CET1 eligible debt first?",
+          "kind": "pick",
+          "expected": "940 - 300 = EUR 640m of CET1 consumed by MREL",
+          "explain": "Non-CET1 subordinated eligible debt is applied to MREL first; the remainder of MREL must be filled with CET1."
+        },
+        {
+          "prompt": "What is the residual CET1 left to cover the CBR?",
+          "kind": "pick",
+          "expected": "700 - 640 = EUR 60m",
+          "explain": "Only CET1 not already spent on MREL is available for the CBR — the same euro cannot be spent twice."
+        },
+        {
+          "prompt": "What is the M-MDA shortfall against the CBR?",
+          "kind": "pick",
+          "expected": "140 - 60 = EUR 80m shortfall, so M-MDA bites",
+          "explain": "The CBR (EUR 140m) must be met with CET1 on top of MREL; residual CET1 is only EUR 60m, so distributions/AT1 coupons/variable remuneration can be capped."
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "M-MDA computation",
+        "crr": "BRRD2:Art16a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s4"
+      }
+    },
+    {
+      "id": "m24.disc.pia-liquidation-spine",
+      "module": "m24",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Classify the spine: 'A Niederösterreich primary bank carries a liquidation strategy (negative PIA) and the sector backs that outcome with R-IPS/DGS mutual support.' Is the driver reg, ÖRS, or mixed — and produce the tradeoff that decision creates?",
+      "verdict": "mixed",
+      "rubric": [
+        "the produced tradeoff point: the PIA outcome itself is REG (BRRD Art. 32(5)/SRMR Art. 18(5) force liquidation when ordinary insolvency meets the resolution objectives to the same extent — functions substitutable, deposits DGS-protected), but how the sector organises mutual support around that outcome is an ÖRS modelling decision",
+        "names the cost saved: liquidation strategy ⇒ no external MREL beyond own funds ⇒ no costly subordinated-debt programme at the primary level (post Directive 2024/1174)",
+        "names the cost incurred: the burden of preventing failure shifts onto the R-IPS and DGS — cheaper in capital, heavier in mutual solidarity",
+        "notes the PIA is decided by substitutability, NOT balance-sheet size: a large bank can fail it, a small one can pass it"
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "PIA reg-vs-ÖRS boundary",
+        "crr": "BRRD:Art32"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s2"
+      }
+    },
+    {
+      "id": "m24.disc.mmda-correct-vs-doublecount",
+      "module": "m24",
+      "type": "discrimination",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Two routes to the M-MDA shortfall both yield EUR 80m: (A) compare total eligible instruments EUR 1,000m against a stacked MREL+CBR of EUR 1,080m; (B) apply non-CET1 debt to MREL first, then test residual CET1 (EUR 60m) against the CBR (EUR 140m). Which is methodologically correct, and produce the tradeoff/error?",
+      "verdict": "reg",
+      "rubric": [
+        "the produced tradeoff point: route B is the only correct route — the M-MDA test (BRRD2 Art. 16a) is CET1-specific; the CBR can ONLY be met with CET1 not already spent on MREL",
+        "identifies route A's silent error: comparing total instruments against a stacked MREL+CBR figure lets the EUR 300m non-CET1 subordinated debt implicitly count toward the CBR — the double-counting M-MDA exists to forbid",
+        "notes the two give the same number here only by coincidence; under other input mixes route A misstates the shortfall",
+        "consequence: model CET1 as a scarce resource (non-CET1 to MREL first, CET1 fills the rest, residual CET1 vs CBR) — never two independent ratios checked in parallel"
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "double-counting CET1",
+        "crr": "BRRD2:Art16a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s4"
+      }
+    },
+    {
+      "id": "m24.viva.escalation-ladder",
+      "module": "m24",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Distinguish recovery (Sanierung), early intervention (frühzeitiges Eingreifen), and resolution (Abwicklung) — who acts, on what trigger, and what sits between an indicator breach and a FOLTF determination?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Recovery/Sanierungsplan: written by the BANK, assumes survival (going concern), approved by the supervisor; a recovery-indicator breach triggers MANAGEMENT escalation, not resolution",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Early intervention (BRRD Art. 27–29, transposed in BaSAG): a SUPERVISORY going-concern power filling the gap before FOLTF — force execution of the recovery plan (Art. 27), remove/replace management (Art. 28), appoint a temporary administrator / vorläufiger Verwalter (Art. 29)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Resolution/Abwicklungsplan: written by the RESOLUTION AUTHORITY (SRB/FMA), assumes failure; opened only on FOLTF (Art. 32) PLUS a positive public-interest assessment",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "States the full ladder: indicator breach → management escalation → supervisory early intervention → FOLTF → resolution or liquidation",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming a recovery-indicator breach itself triggers resolution (skips the middle rungs and makes failure look like a cliff)",
+        "Saying the bank writes the resolution plan, or the authority writes the recovery plan (authors are reversed)",
+        "Treating early intervention as a gone-concern/resolution tool rather than a going-concern supervisory power"
+      ],
+      "modelAnswer": "Recovery is what the bank does to save itself: it authors a living Sanierungsplan (BRRD Art. 5, BaSAG) assuming survival, with calibrated indicators whose breach triggers management escalation, not resolution. Between an indicator breach and a 'failing or likely to fail' determination sits supervisory early intervention (BRRD Art. 27–29): the FMA/SSM can force execution of the recovery plan, replace the management body (Art. 28), or install a vorläufiger Verwalter (Art. 29) while the bank is still a going concern. Resolution is different in kind — the resolution authority authors the Abwicklungsplan assuming failure, and it opens only on FOLTF (Art. 32) plus a positive public-interest assessment; the bank merely supplies data. Different documents, different authors, different worlds.",
+      "tags": {
+        "spine": "reg",
+        "risk": "conflating the three regimes",
+        "crr": "BRRD:Art27"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s2"
+      }
+    },
+    {
+      "id": "m24.viva.ips-dgs-resolution-sequencing",
+      "module": "m24",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat the sector's three-way safety net — R-IPS vs DGS vs resolution. Which bites first, who pays at each layer, and what is the proportionality bargain?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "R-IPS bites FIRST and hardest: a going-concern PREVENTION tool that can inject capital/liquidity into a wobbling member before FOLTF — upstream even of supervisory early intervention; paid by the sector members mutually",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "DGS (ESAEG) acts AFTER failure: payout of covered deposits (≤ 7 working days, EUR 100,000) OR a capped contribution in resolution (BRRD Art. 109); paid from the ex-ante levied fund",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Resolution (SRB/FMA) is last and essentially never used for primary banks: requires FOLTF + positive PIA; loss borne by shareholders & creditors (bail-in), then the SRF",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Names the proportionality bargain/tradeoff: a healthy IPS means members rarely reach FOLTF, so MREL is near-absent at the primary level — capital-cheap, but paid for by pre-funded mutual solidarity rather than market-funded bail-in",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Putting resolution or DGS payout first in the sequence (the IPS acts upstream of both)",
+        "Claiming the State's resolution tools are the sector's primary backstop",
+        "Saying the DGS is only a payout vehicle and never contributes in resolution (ignores BRRD Art. 109)"
+      ],
+      "modelAnswer": "The sector runs three overlapping mechanisms in a deliberate order. The R-IPS bites first: as a going-concern prevention tool it can recapitalise or fund a wobbling member before it ever reaches FOLTF — upstream even of supervisory early intervention — and it is paid for mutually by the members. The DGS (ESAEG) is the next layer, acting after failure: it pays covered deposits up to EUR 100,000 within seven working days, and under BRRD Art. 109 it can also be required to contribute in a resolution, capped by the NCWO counterfactual and 50% of its target level. Resolution by the SRB/FMA is the last layer and essentially never reached for a primary bank, since it needs FOLTF plus a positive PIA; there shareholders and creditors bear losses via bail-in before the SRF. The defensible board narrative: we do not rely on the State's resolution tools because we have priced and pre-funded mutual support that stops failures upstream — that is the proportionality bargain, and it is exactly why MREL is near-absent at the primary level.",
+      "tags": {
+        "spine": "ors",
+        "risk": "sequencing the safety net",
+        "crr": "BRRD:Art109"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m24",
+        "anchor": "m24-s6"
+      }
+    }
+  ],
+  "module": "m24"
+}

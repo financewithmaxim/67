@@ -1,0 +1,448 @@
+{
+  "cards": [
+    {
+      "id": "m20.num.bic-bi2bn",
+      "module": "m20",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Under the SMA, a bank has Business Indicator BI = €2bn. Compute its Business Indicator Component (BIC) using the marginal-coefficient schedule (12% / 15% / 18%; bucket boundaries €1bn and €30bn). Answer in euros.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk SMA",
+        "crr": "CRR III:BIC art (Basel d424)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "answer": {
+        "value": 270000000,
+        "tol": 0.005,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m20.num.ildc-worked",
+      "module": "m20",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Worked example: |II−IE| = €0,90bn but capped at 2,25%·IEA with IEA = €30bn; dividend income DI = €0,05bn. Compute the ILDC (interest, lease & dividend component) in euros.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk BI",
+        "crr": "CRR III:BI art"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "answer": {
+        "value": 725000000,
+        "tol": 0.005,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m20.num.bic-worked",
+      "module": "m20",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Worked example: Business Indicator BI = €1,775bn. Using marginal coefficients 12% (first €1bn) and 15% (€1bn–€30bn slice), compute the BIC in euros.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk SMA",
+        "crr": "CRR III:BIC art"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s4"
+      },
+      "answer": {
+        "value": 236250000,
+        "tol": 0.005,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m20.num.ilm-worked",
+      "module": "m20",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Loss component LC = €0,40bn and BIC = €0,23625bn. Compute the Internal Loss Multiplier ILM = ln(e − 1 + (LC/BIC)^0,8), with e ≈ 2,718.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk ILM",
+        "crr": "CRR III:ILM art"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s4"
+      },
+      "answer": {
+        "value": 1.178,
+        "tol": 0.01
+      }
+    },
+    {
+      "id": "m20.deriv.bi-to-orc",
+      "module": "m20",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "en",
+      "front": "Derive operational-risk capital for the worked-example Landesbank from BI components through to op-risk RWA, applying the EU ILM election.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk SMA",
+        "crr": "CRR III:SMA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s4"
+      },
+      "steps": [
+        {
+          "prompt": "Aggregate the BI components ILDC=€0,725bn, SC=€0,85bn, FC=€0,20bn. BI = ?",
+          "kind": "pick",
+          "expected": "€1,775bn",
+          "explain": "BI = ILDC + SC + FC = 0,725 + 0,85 + 0,20 = €1,775bn."
+        },
+        {
+          "prompt": "Map BI=€1,775bn through the marginal buckets (12% to €1bn, 15% on the €1–30bn slice). BIC = ?",
+          "kind": "pick",
+          "expected": "€236,25m",
+          "explain": "0,12·1 + 0,15·0,775 = 0,12 + 0,11625 = €0,23625bn ≈ €236,25m."
+        },
+        {
+          "prompt": "Apply the EU ILM election to obtain ORC.",
+          "kind": "pick",
+          "expected": "ORC = BIC = €236,25m (ILM = 1)",
+          "explain": "The EU sets ILM = 1 for all institutions, so ORC = BIC and loss data does not drive the capital number."
+        },
+        {
+          "prompt": "Convert ORC to op-risk RWA.",
+          "kind": "pick",
+          "expected": "12,5 × €236,25m ≈ €2,953bn",
+          "explain": "Op-risk RWA = 12,5 · ORC; at an 8% minimum this reproduces the €236,25m own-funds requirement by construction."
+        }
+      ]
+    },
+    {
+      "id": "m20.cloze.saccr-ead-rc",
+      "module": "m20",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "SA-CCR exposure: \\( \\mathrm{EAD} = {{c1}} \\times (\\mathrm{RC} + \\mathrm{PFE}) \\). For a MARGINED netting set the replacement cost is \\( \\mathrm{RC} = \\max\\big(V-C,\\ {{c2}},\\ 0\\big) \\), recognising re-accumulation up to the threshold plus minimum transfer amount.",
+      "tags": {
+        "spine": "reg",
+        "risk": "counterparty/SA-CCR",
+        "crr": "SA-CCR (bcbs279)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "1,4",
+            "1.4"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "TH+MTA−NICA",
+            "TH+MTA-NICA",
+            "TH + MTA - NICA"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m20.cloze.bacva-rho-alpha",
+      "module": "m20",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "BA-CVA (reduced) aggregates per-counterparty SCVA with single-factor correlation \\( \\rho = {{c1}} \\). The per-counterparty charge \\( \\mathrm{SCVA}_c = \\tfrac{1}{\\alpha}\\,RW_c \\sum_{NS} M\\,\\mathrm{EAD}\\,DF \\) carries a leading \\( 1/\\alpha \\) (with \\( \\alpha = {{c2}} \\)) that {{c3}} the SA-CCR alpha so CVA exposure is not double-scaled.",
+      "tags": {
+        "spine": "reg",
+        "risk": "CVA",
+        "crr": "CVA (d507)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "50%",
+            "0,5",
+            "0.5"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "1,4",
+            "1.4"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "removes",
+            "cancels",
+            "strips out"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m20.cloze.frtb-es-sbm",
+      "module": "m20",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "FRTB internal models discard VaR for expected shortfall at the \\( {{c1}} \\) confidence level with liquidity-horizon scaling. Under the standardised SBM, capital across the high/medium/low correlation scenarios is aggregated by taking the {{c2}} (not the sum), then DRC and RRAO are added.",
+      "tags": {
+        "spine": "reg",
+        "risk": "market/FRTB",
+        "crr": "FRTB (d457)"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "97,5%",
+            "97.5%"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "maximum",
+            "max"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m20.cloze.frtb-ownfunds-date",
+      "module": "m20",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "Timing: CRR III (Regulation (EU) 2024/1623) generally applies from {{c1}}, but a Commission delegated act deferred the FRTB market-risk OWN-FUNDS application to {{c2}} (with documented pressure for a further deferral to 2027). Report FRTB before that date; do not capitalise it at the binding multiplier.",
+      "tags": {
+        "spine": "reg",
+        "risk": "market/FRTB timing",
+        "crr": "CRR III:2024/1623"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s5"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "CRR III and the FRTB own-funds deferral post-date the Leitfaden 09/2024; the actually-adopted delegated-act date must be re-verified against EUR-Lex/EBA before reliance (further deferral to 2027 was under discussion).",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "1 January 2025",
+            "1 Jan 2025",
+            "01 January 2025"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "1 January 2026",
+            "1 Jan 2026",
+            "01 January 2026"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m20.disc.sma-marginal-vs-flat",
+      "module": "m20",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "A board member computes op-risk capital as 15% × BI = €300m for a bank with BI = €2bn. Classify the 12%/15%/18% schedule on the reg/ÖRS spine and produce what treating it as a flat 15% actually costs.",
+      "tags": {
+        "spine": "reg",
+        "risk": "op-risk SMA",
+        "crr": "CRR III:BIC art"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s6"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Names the 12/15/18% coefficients and the €1bn/€30bn boundaries as CRR III regulatory values (transposing Basel d424), not an ÖRS proportionality choice.",
+        "Produces the correct marginal figure: 12%·€1bn + 15%·€1bn = €270m, so the flat 15% (€300m) overstates by about 11% at BI = €2bn.",
+        "States the overstatement is boundary-dependent: just above €1bn, flat 15% versus 12% overstates by roughly a quarter (15/12 − 1 = 25%); it is not a fixed amount."
+      ]
+    },
+    {
+      "id": "m20.disc.ilm-election-reliance",
+      "module": "m20",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "A Raiffeisen Primärbank sets ORC = BIC by relying on the EU's ILM = 1 election and keeps no loss dataset. Place this on the reg/ÖRS spine and produce the tradeoff.",
+      "tags": {
+        "spine": "ors",
+        "risk": "op-risk ILM",
+        "crr": "CRR III:ILM art"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "Distinguishes the layers: the EU election ILM = 1 is itself the regulatory value, but the bank's reliance on it (and skipping loss collection below threshold) is an ÖRS proportionality decision.",
+        "Produces the gain: ORC = BIC removes loss data from the capital formula and avoids the data-quality minefield of building a 10-year loss dataset.",
+        "Produces the cost: forfeits any relief a clean loss history (LC < BIC ⇒ ILM < 1) would earn — a benign bank pays the same BIC-driven charge as a sloppy peer of equal size.",
+        "Notes the €1bn BI boundary still triggers a mandatory loss-data-collection obligation independent of the ILM election — bucket and election are separate switches."
+      ]
+    },
+    {
+      "id": "m20.viva.capital-up-output-floor",
+      "module": "m20",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Senior management asks: 'Did our capital go up under CRR III?' Give a board-grade, decompositional answer.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "output floor / capital impact",
+        "crr": "CRR III:output floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s5"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Refuses a single yes/no and decomposes by charge (op-risk, SA-CCR, FRTB), naming the output floor as the ultimate binding constraint for IRB banks.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Op-risk under SMA usually rises modestly for fee-heavy banks because the services component (max(FCI,FCE)+max(OOI,OOE)) bites.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r3",
+          "text": "SA-CCR can raise derivative EAD versus CEM but falls for well-margined sets via the MPOR-driven maturity factor; FRTB raises market-risk capital.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "States SMA, SA-CVA and FRTB-SA all sit in the numerator of the 72,5% output floor, phasing 50%→72,5% by 2030, so SA charges gain relevance year by year.",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Claiming a flat 'yes, capital rose X%' with no decomposition by charge.",
+        "Asserting the output floor is irrelevant to op/market risk because those are not credit risk.",
+        "Treating FRTB as already binding for own funds before its deferred application date."
+      ],
+      "modelAnswer": "It depends on the charge, so the honest answer is decompositional. Operational risk under the SMA typically rises modestly for fee-heavy banks because the services component bites; SA-CCR can lift derivative EAD versus CEM but shrinks for well-margined sets through the MPOR-driven maturity factor; and FRTB raises market-risk capital. For an IRB bank, though, the ultimate binding constraint is the output floor: RWA may not fall below 72,5% of the standardised RWA, and SMA, SA-CVA and FRTB-SA all sit in that numerator. Because the floor phases from 50% in 2025 to 72,5% by 2030, our standardised charges grow in capital relevance year by year even if our modelled numbers do not move."
+    },
+    {
+      "id": "m20.viva.cva-tiers-exemptions",
+      "module": "m20",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Explain the revised CVA framework under CRR III: the tiers, what gates the advanced tier, and the status of the exemptions.",
+      "tags": {
+        "spine": "reg",
+        "risk": "CVA",
+        "crr": "CRR III:Art382"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m20",
+        "anchor": "m20-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Names three tiers — BA-CVA reduced, BA-CVA full (adds eligible hedges), and SA-CVA — and that BA-CVA is the default/fallback.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "States SA-CVA reuses FRTB-style sensitivities (delta/vega) and therefore requires prior supervisory permission, unlike BA-CVA.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Gives BA-CVA-reduced aggregation with ρ = 50% over per-counterparty SCVA, and that SCVA removes the SA-CCR alpha via a leading 1/α.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Characterises the exemptions as retained but now subject to mandatory calculation, reporting and disclosure (CRR III Art. 382) — NOT narrowed.",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Saying BA-CVA-reduced recognises hedges (only the full version does).",
+        "Saying the exemptions were narrowed or no longer need reporting.",
+        "Mapping the Leitfaden 0,71/1,33 scalars onto BA-CVA correlation parameters."
+      ],
+      "modelAnswer": "CRR III replaces the CRR II standardised/advanced split with three tiers. BA-CVA is the default: the reduced version aggregates per-counterparty standalone CVA capital (SCVA) under a single-factor correlation ρ = 50%, while the full version additionally recognises eligible CVA hedges. SA-CVA is the advanced tier, computing delta and vega capital from FRTB-style sensitivities of CVA to its risk factors, and precisely because it leans on those sensitivities it requires prior supervisory permission. The longstanding exemptions — non-financial counterparties below the clearing threshold, certain intragroup trades, and pension schemes — are retained, not narrowed; what changed is that institutions must now calculate, report and disclose the CVA own-funds requirement that would otherwise apply to them under Art. 382."
+    }
+  ],
+  "module": "m20"
+}

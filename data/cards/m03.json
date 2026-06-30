@@ -1,0 +1,467 @@
+{
+  "cards": [
+    {
+      "id": "m03.num.auslastung-after-p2r",
+      "module": "m03",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Worked example: RWA = €1.000m, available own funds €150m, Problemfall Risiko (95% unexpected loss) = €17m. A new SREP P2R of 2% raises the required capital incl. buffers (P1 8% + P2R 2% + CBR 3% = 13%) to €130m, so the freies Kapital (yellow denominator) is €150m − €130m = €20m. Compute the Problemfall Auslastung (Risiko ÷ freies Kapital) as a fraction.",
+      "answer": {
+        "value": 0.85,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "p2r-problemfall",
+        "crr": "CRD:Art97"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s4"
+      }
+    },
+    {
+      "id": "m03.num.freies-kapital-after",
+      "module": "m03",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Worked example: available own funds €150m. After the 2% SREP P2R the required capital including buffers (P1+P2R+CBR = 13% of €1.000m RWA) is €130m. Compute the freies Kapital (free capital = own funds − requirement incl. buffers, the Problemfall yellow denominator) in € m.",
+      "answer": {
+        "value": 20,
+        "tol": 0.01,
+        "unit": "EUR m"
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "deckungsmasse",
+        "crr": "CRD:Art97"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s4"
+      }
+    },
+    {
+      "id": "m03.num.stack-incl-buffers",
+      "module": "m03",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "On RWA = €1.000m with Pillar 1 = 8%, a SREP P2R = 2%, and a combined buffer requirement (CCB+CCyB+SyRB) = 3%, compute the total required capital 'incl. buffers' (P1+P2R+Puffer) in € m.",
+      "answer": {
+        "value": 130,
+        "tol": 0.01,
+        "unit": "EUR m"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "capital-stack",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s3-2"
+      }
+    },
+    {
+      "id": "m03.num.ccb-rate",
+      "module": "m03",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Within the combined buffer requirement (CBR), the capital conservation buffer (Kapitalerhaltungspuffer) component is fixed at what CET1 rate? Answer as a fraction.",
+      "answer": {
+        "value": 0.025,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "buffers",
+        "crr": "CRD:Art129"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s3-2"
+      }
+    },
+    {
+      "id": "m03.cloze.stack-order",
+      "module": "m03",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Capital stack, bottom-to-top: Pillar 1 → {{c1}} → combined buffer requirement (CBR) → {{c2}}. The first add-on is binding and sits BELOW the buffers; the second is non-binding and sits ON TOP of the buffers.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "P2R",
+            "Pillar 2 Requirement",
+            "Säule 2 Anforderung"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "P2G",
+            "Pillar 2 Guidance",
+            "Säule 2 Empfehlung"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "capital-stack",
+        "crr": "CRD:Art104a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s3-2"
+      }
+    },
+    {
+      "id": "m03.cloze.pillar1-mins",
+      "module": "m03",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Pillar 1 minimum (CRR Art. 92): 8% total own funds, of which {{c1}}% must be CET1 and {{c2}}% Tier 1.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "4.5",
+            "4,5"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "6",
+            "6.0",
+            "6,0"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "capital-stack",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s3-2"
+      }
+    },
+    {
+      "id": "m03.cloze.traffic-light",
+      "module": "m03",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Problemfall traffic light: yellow fires above {{c1}}% utilisation, read against cover INCL. buffers (CRR+P2R+Puffer) — i.e. crossing the MDA line; red fires above {{c2}}%, read against cover EXCL. buffers (CRR+P2R only) — the hard-minimum breach.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "90"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "95"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "mda-traffic-light",
+        "crr": "CRD:Art141"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s3-2"
+      }
+    },
+    {
+      "id": "m03.deriv.p2r-moves-problemfall",
+      "module": "m03",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Show how a new 2% SREP P2R moves the Problemfall light without touching risk. RWA = €1.000m, own funds €150m, Risiko = €17m.",
+      "steps": [
+        {
+          "prompt": "After the 2% P2R, what is the required capital incl. buffers (P1 8% + P2R 2% + CBR 3%) on €1.000m RWA?",
+          "kind": "pick",
+          "expected": "13% × 1.000 = €130m",
+          "explain": "The P2R raises the requirement from 11% (€110m) to 13% (€130m); the buffers stack on top of P1+P2R."
+        },
+        {
+          "prompt": "What is the freies Kapital (yellow denominator) = own funds − requirement incl. buffers?",
+          "kind": "pick",
+          "expected": "150 − 130 = €20m",
+          "explain": "Free capital shrinks from €40m (before) to €20m purely through the supervisor's add-on."
+        },
+        {
+          "prompt": "With Risiko = €17m unchanged, what is the Auslastung (Risiko ÷ freies Kapital)?",
+          "kind": "pick",
+          "expected": "17 / 20 = 85%",
+          "explain": "Up from 42,5%. The P2R moved the DENOMINATOR, not the €17m risk — the normative lens worsens while the Extremfall is untouched."
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "p2r-problemfall",
+        "crr": "CRD:Art97"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s4"
+      }
+    },
+    {
+      "id": "m03.disc.p2r-vs-p2g",
+      "module": "m03",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "P2R and P2G both come out of the SREP. Someone treats them as interchangeable (both hard, or both soft). Is the distinction regulatory or an ÖRS choice — and what is the actual tradeoff that matters for the Problemfall?",
+      "verdict": "reg",
+      "rubric": [
+        "Both are regulatory in origin (SREP-set under CRD) — this is a reg distinction, not an ÖRS modelling choice",
+        "P2R is BINDING and sits BELOW the buffers → a breach is treated like an own-funds shortfall and is MDA-relevant once the combined buffer is eaten",
+        "P2G is NON-BINDING and sits ON TOP of the buffers → a breach triggers only a supervisory dialogue, no automatic MDA distribution restriction",
+        "Consequence/tradeoff: only P2R (never P2G) enters the Problemfall denominator — the 'inklusive Säule 2 Anforderung, falls von der Aufsicht vorgegeben' clause"
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "p2r-p2g",
+        "crr": "CRD:Art104a"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s3-1"
+      }
+    },
+    {
+      "id": "m03.disc.correlation-plus1",
+      "module": "m03",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The Extremfall aggregates material single risks with correlation = +1 (simple addition across risk types). Regulatory requirement or ÖRS choice — and what does it trade off?",
+      "verdict": "ors",
+      "rubric": [
+        "An ÖRS modelling/proportionality choice, NOT a CRR requirement",
+        "It is the MOST conservative aggregation — gives away all cross-type diversification benefit (the opposite of a real internal model with corr<1 that REDUCES capital)",
+        "Tradeoff: simplicity and defensibility across ~400 banks (and no data to estimate cross-type correlations) vs theoretical fidelity / lower diversified capital",
+        "Correlation <1 enters only WITHIN a risk type (e.g. between currencies, between rating classes, Zins↔Credit-Spread inside market risk)"
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "economic-capital",
+        "crr": ""
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s5-1"
+      }
+    },
+    {
+      "id": "m03.disc.proportionality",
+      "module": "m03",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "CRD Art. 73 / §39a BWG require EVERY institution to run an ICAAP, yet ~400 Primärbanken run one standardised simplified ICAAP rather than bespoke internal economic-capital models. Is the simplified version a breach of the rule or a sanctioned choice — and on what basis?",
+      "verdict": "ors",
+      "rubric": [
+        "Sanctioned, not a breach: the Proportionalitätsgedanke (CRD/EBA proportionality) lets ICAAP DEPTH scale with the institution's size and complexity",
+        "The simplification is the ÖRS choice — fixed parameters (M = 2,5; 5% op-risk factor; 5% sonstige-Risiken buffer), pooled data (LGD pool), and corr +1 stand in for bank-specific models",
+        "Tradeoff: operational feasibility + statistical robustness (a single small bank has too little data to estimate its own tail/correlations) vs bank-specific precision",
+        "It is the licence for every later simplification; the built-in conservatism (e.g. corr +1) buys back the modelling error the simplification introduces"
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "proportionality",
+        "crr": "CRD:Art73"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s5-3"
+      }
+    },
+    {
+      "id": "m03.viva.icaap-vs-srep",
+      "module": "m03",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner says 'we completed our SREP this quarter.' Correct them: define ICAAP vs SREP, name each legal anchor, and state how the two feed each other.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "ICAAP is the BANK's own internal process (CRD Art. 73 → §39a BWG); the bank performs its ICAAP",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "SREP is the SUPERVISOR's review/scoring (CRD Art. 97, ECB/SSM or FMA/OeNB); the supervisor does the SREP TO the bank, so 'we did our SREP' is wrong",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "The SREP scores four blocks (business model, governance, capital risk, liquidity & funding risk) and outputs the Pillar-2 add-ons P2R and P2G",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "The ÖRS Leitfaden/RTFA IS the sector's standardised ICAAP; the ICAAP feeds the SREP, the SREP feeds back the add-on the ICAAP must respect",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Says the bank performs the SREP on itself",
+        "Swaps the legal anchors (Art. 97 for ICAAP / Art. 73 for SREP)",
+        "Claims ICAAP and SREP are two names for the same exercise"
+      ],
+      "modelAnswer": "You run the ICAAP — the bank's own Internal Capital Adequacy Assessment Process (CRD Art. 73, transposed in §39a BWG) — self-assessing that capital covers all material risks under both perspectives. The supervisor (ECB/SSM for a significant institution like RBI, otherwise FMA/OeNB) runs the SREP — the Supervisory Review and Evaluation Process (CRD Art. 97) — scoring business model, governance, capital risk and liquidity & funding risk, and from that sets the Pillar-2 add-ons P2R (binding) and P2G (guidance). So 'we did our SREP' is wrong: you do your ICAAP, the supervisor does the SREP to you. The ICAAP feeds the SREP and the SREP feeds back the add-on the ICAAP must then respect; in our sector the standardised Leitfaden is that ICAAP.",
+      "tags": {
+        "spine": "reg",
+        "risk": "icaap-srep",
+        "crr": "CRD:Art73"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s2-1"
+      }
+    },
+    {
+      "id": "m03.viva.normative-economic-analogy",
+      "module": "m03",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend the mapping 'normative ↔ Problemfall, economic ↔ Extremfall' to the Aufsichtsrat — and say precisely where the analogy breaks.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Normative perspective = can we meet ALL regulatory/supervisory demands (P1+P2R+buffers, P2G soft) continuously, multi-year, baseline + adverse → maps to the Problemfall",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Economic perspective = the bank's own internal view of all material risks at its own (higher) confidence, here 99,9% → maps to the Extremfall",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "It is an ANALOGY, not an identity: the ECB normative view is genuine multi-year capital planning, but the Problemfall compresses it into a one-year, 95% unexpected-loss quantile",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Second gap: the Extremfall is at 99,9% but deliberately conservative (corr +1), not the ECB's diversified internal model",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "States the Problemfall IS the ECB's full normative perspective",
+        "Claims the Problemfall is a multi-year planning exercise",
+        "Swaps the confidence levels (calls the economic view 95% / the normative view 99,9%)"
+      ],
+      "modelAnswer": "The ECB ICAAP requires two perspectives in parallel: a normative view — can we continuously meet all regulatory and supervisory capital demands (Pillar 1 + P2R + buffers, with P2G as a soft target) over a multi-year horizon under baseline and adverse scenarios — and an economic view — is there enough substance against our own, fuller, higher-confidence picture of all material risks. The normative view maps to the Problemfall and the economic view to the Extremfall at 99,9%. But it is an analogy, not an identity: the ECB's normative perspective is a genuine multi-year capital-planning exercise, whereas our Problemfall compresses it into a one-year, 95% unexpected-loss quantile against a one-year Deckungsmasse; and our Extremfall, though at 99,9%, is a deliberately conservative correlation-+1 construction rather than a diversified internal model. I would present both mappings as conceptual bridges and flag those two gaps when challenged.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "two-perspectives",
+        "crr": ""
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s2-2"
+      }
+    },
+    {
+      "id": "m03.viva.economic-not-diversified",
+      "module": "m03",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner challenges: 'your Extremfall is an economic-capital model, so it should hand you a diversification benefit.' Respond.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Reject the premise: the Extremfall is economic in SCOPE (all material risks: Beteiligungs-, makroökonomisches, Konzentrations-, Zinsänderungsrisiko) and CONFIDENCE (own 99,9%) and own parameters — not in claiming diversification",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "It aggregates with correlation = +1 (simple addition), the most conservative possible — the OPPOSITE of a diversified internal model that uses corr<1 to reduce capital",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "This is a deliberate ÖRS proportionality trade: simplicity/defensibility over theoretical fidelity (it gives away diversification benefit on purpose)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Correlation <1 enters only WITHIN a risk type (currencies, rating classes, Zins↔Credit-Spread)",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Accepts that the Extremfall claims cross-type diversification",
+        "Describes the Extremfall as a diversified internal model",
+        "Treats correlation +1 as a CRR requirement rather than an ÖRS choice"
+      ],
+      "modelAnswer": "I'd push back on the premise. Our Extremfall is 'economic' in that it widens the risk scope to all material risks Pillar 1 omits (Beteiligungs-, makroökonomisches, Konzentrations- and Zinsänderungsrisiko), lifts confidence to our own uniform 99,9%, and uses our own parameters — but it deliberately does NOT claim diversification. It aggregates the material single risks with correlation = +1, i.e. simple addition, which is the most conservative possible treatment and the exact opposite of a real internal model that uses correlations below 1 to reduce capital. That is a conscious ÖRS proportionality trade — simplicity and defensibility over theoretical fidelity, giving away diversification benefit on purpose, which also buys back the modelling error the simplification introduces. Correlation below 1 enters only within a single risk type, e.g. between currencies, between rating classes, or between interest-rate and credit-spread risk inside market risk.",
+      "tags": {
+        "spine": "ors",
+        "risk": "economic-capital",
+        "crr": ""
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m03",
+        "anchor": "m03-s5-1"
+      }
+    }
+  ],
+  "module": "m03"
+}

@@ -1,0 +1,484 @@
+{
+  "cards": [
+    {
+      "id": "m18.num.pd-floor-retail",
+      "module": "m18",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "The CRR sets a hard PD input floor below which no estimated PD may fall for capital. For a retail-pooled Sektorrating grade, what is that floor (as a fraction)?",
+      "tags": {
+        "spine": "reg",
+        "risk": "PD input floor",
+        "crr": "CRR:Art163"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "answer": {
+        "value": 0.0003,
+        "tol": 0.00001
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "0.03% is set by CRR Art.163(1) for retail (Art.160(1) for corporate/institution). The module flags CRR III (from 2025) as having revisited IRB input floors; treat 0.03% as a live figure under the current regime."
+    },
+    {
+      "id": "m18.num.realised-lgd-discounted",
+      "module": "m18",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "A single defaulted facility has \\(EAD=\\text{€}500{,}000\\). Net recoveries discounted to the default date at the prescribed risk-free + 5% rate (here 8%) sum to €343,644. Give the realised LGD.",
+      "tags": {
+        "spine": "reg",
+        "risk": "LGD discounting to default date",
+        "crr": "CRR:Art181"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s4"
+      },
+      "answer": {
+        "value": 0.3127,
+        "tol": 0.005
+      }
+    },
+    {
+      "id": "m18.num.pool-lgd-cure",
+      "module": "m18",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "The loss-case LGD is 31.27%. Across the default-weighted pool 30% of defaults cure (and stay cured past the cure period) with \\(\\text{LGD}_{\\text{cure}}=5\\%\\). Give the default-weighted pool LGD \\((1-\\pi_{\\text{cure}})\\,\\text{LGD}_{\\text{loss}}+\\pi_{\\text{cure}}\\,\\text{LGD}_{\\text{cure}}\\).",
+      "tags": {
+        "spine": "reg",
+        "risk": "cure-rate blend",
+        "crr": "CRR:Art181"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s4"
+      },
+      "answer": {
+        "value": 0.2339,
+        "tol": 0.005
+      }
+    },
+    {
+      "id": "m18.num.lgd-final-moc",
+      "module": "m18",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "The long-run default-weighted pool LGD is 23.39%. Three non-overlapping MoC add-ons apply: A = +1.5pp (data/method), B = +0.8pp (relevant change), C = +1.2pp (residual estimation error). Give the final regulatory LGD before any downturn loading (as a fraction).",
+      "tags": {
+        "spine": "reg",
+        "risk": "Margin of Conservatism (A/B/C)",
+        "crr": "EBA/GL/2017/16"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s4"
+      },
+      "answer": {
+        "value": 0.2689,
+        "tol": 0.005
+      }
+    },
+    {
+      "id": "m18.deriv.pd-central-tendency-kappa",
+      "module": "m18",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Calibrate a retail PD to its long-run central tendency and floor a tail grade. Year-by-year observed default rates over the 5-year window are 0.90%, 2.48%, 1.51%, 1.03%, 0.89%; the scorecard's raw exposure-weighted average PD is \\(p^{\\text{raw}}=1.10\\%\\).",
+      "tags": {
+        "spine": "reg",
+        "risk": "central-tendency calibration + PD floor",
+        "crr": "CRR:Art163"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s4"
+      },
+      "steps": [
+        {
+          "prompt": "Compute the year-weighted (arithmetic) central tendency \\(\\overline{CT}\\) of the five annual default rates.",
+          "kind": "pick",
+          "expected": "1.362%",
+          "explain": "(0.90+2.48+1.51+1.03+0.89)/5 = 6.81/5 = 1.362%. The year-weighted mean gives the crisis year (2020) equal standing — the prudent, central-tendency-faithful choice."
+        },
+        {
+          "prompt": "Solve the one-parameter scaling \\(\\kappa=\\overline{CT}/p^{\\text{raw}}\\) that lifts the portfolio-average PD to the central tendency.",
+          "kind": "pick",
+          "expected": "1.238",
+          "explain": "1.362%/1.10% = 1.238. Multiplicative scaling is monotone, so it fixes the level while preserving rank-ordering."
+        },
+        {
+          "prompt": "A grade with raw PD 0.02% is scaled by κ then floored. What is its final PD?",
+          "kind": "pick",
+          "expected": "0.03%",
+          "explain": "0.02%×1.238 = 0.0248% < the retail floor of 0.03% (CRR Art.163(1)), so it is lifted to 0.03%. Calibration fixes the level; the floor catches the tail."
+        }
+      ]
+    },
+    {
+      "id": "m18.cloze.lgd-discount-rate",
+      "module": "m18",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "EBA/GL/2017/16 forbids discounting workout recoveries at the facility's effective interest rate. Instead, each net cash flow is discounted to the {{c1}} date using a {{c2}} rate.",
+      "tags": {
+        "spine": "reg",
+        "risk": "prescribed LGD discount rate",
+        "crr": "EBA/GL/2017/16"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "default",
+            "default date",
+            "moment of default"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "risk-free + 5%",
+            "risk-free plus 5%",
+            "risk-free rate plus a 5% add-on",
+            "risk-free + 5% add-on"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m18.cloze.retail-correlations-b",
+      "module": "m18",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Prescribed (not estimated) parameters: residential-mortgage retail correlation \\(\\rho=\\) {{c1}}, QRRE correlation \\(\\rho=\\) {{c2}}, and the maturity adjustment \\(b(\\mathrm{PD})=(0.11852-{{c3}}\\cdot\\ln \\mathrm{PD})^2\\).",
+      "tags": {
+        "spine": "reg",
+        "risk": "prescribed correlation & maturity functions",
+        "crr": "CRR:Art154"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "0.15",
+            "0,15"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "0.04",
+            "0,04"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "0.05478",
+            "0,05478"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m18.cloze.firb-fixed-inputs",
+      "module": "m18",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "Under Foundation-IRB the bank self-estimates PD but takes fixed inputs: senior-unsecured LGD = {{c1}}, subordinated LGD = {{c2}}, and effective maturity \\(M\\) defaults to {{c3}} years.",
+      "tags": {
+        "spine": "reg",
+        "risk": "F-IRB regulatory LGD/M",
+        "crr": "CRR:Art161"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s5"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "45%",
+            "45",
+            "0.45"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "75%",
+            "75",
+            "0.75"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "2.5",
+            "2,5"
+          ],
+          "render": "number"
+        }
+      ],
+      "sourceStatus": "post-source",
+      "sourceNote": "Module notes the F-IRB 45%/75% LGDs are themselves subject to CRR III change; confirm for the current regime."
+    },
+    {
+      "id": "m18.disc.appropriate-adjustment-vs-moc",
+      "module": "m18",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "An inspector finds your missing-downturn correction to the long-run average has been folded into the Category-C Margin of Conservatism. Distinguish the appropriate adjustment from the MoC and state the error.",
+      "tags": {
+        "spine": "reg",
+        "risk": "appropriate adjustment vs MoC double-count",
+        "crr": "CRR:Art181"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "The appropriate adjustment (CRR Art.181(1)(b)) corrects a KNOWN structural gap in the long-run average — e.g. a missing bad year in an unrepresentative observation period.",
+        "The MoC adds a cushion for RESIDUAL uncertainty on top of an already best-estimated parameter (categories A data/method, B relevant change, C statistical error).",
+        "Both are CRR/EBA-mandated regulatory instruments — neither is an ÖRS proportionality choice.",
+        "Folding the missing-downturn correction into Category-C MoC (or vice versa) is a methodological error, and if both are present it is a double-count — a fast TRIM-inspection failure."
+      ]
+    },
+    {
+      "id": "m18.disc.pd-floor-article",
+      "module": "m18",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "A colleague cites CRR Art.160(1) to floor a retail-pooled Sektorrating PD at 0.03%. Is the citation and the floor itself a regulatory value or an ÖRS choice, and what does the floor trade off?",
+      "tags": {
+        "spine": "reg",
+        "risk": "PD floor article + risk-sensitivity tradeoff",
+        "crr": "CRR:Art163"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "The retail PD floor lives in CRR Art.163(1); Art.160(1) governs corporate/institution exposures — citing Art.160 for a retail-pooled PD is a real error.",
+        "The floor value (~0.03%) is a regulatory value, not an ÖRS modelling choice; it is a live figure under CRR III.",
+        "The tradeoff: it surrenders risk-sensitivity (your best grades cannot earn a sub-floor PD even if your data supports it) for a hard backstop against optimistic tails collapsing capital toward zero."
+      ]
+    },
+    {
+      "id": "m18.disc.leitfaden-45-lgd-reuse",
+      "module": "m18",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The Leitfaden reuses a fixed 45% LGD instead of estimating it. Senior management asks: is the 45% a regulatory value or an ÖRS modelling decision? Resolve and produce the tradeoff.",
+      "tags": {
+        "spine": "ors",
+        "risk": "reg constant vs ÖRS proportionality reuse"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s5"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "The 45% senior-unsecured LGD is itself a CRR Foundation-IRB regulatory value (reg).",
+        "Reusing that constant inside the Leitfaden — rather than self-estimating LGD — is an ÖRS proportionality decision (ors), a consequence of the regime the primaries already inhabit.",
+        "The tradeoff: simplicity and regulatory alignment versus surrendered risk-sensitivity — a heavily-secured mortgage book is genuinely over-capitalised at 45%.",
+        "Capturing that collateral benefit would require migrating to A-IRB with the full estimation, validation and downturn-LGD machinery; the sector judges that not worth it for most primaries."
+      ]
+    },
+    {
+      "id": "m18.viva.downturn-lgd",
+      "module": "m18",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Explain to the Aufsichtsrat why the LGD entering the Vasicek formula must be a downturn LGD that exceeds the long-run average.",
+      "tags": {
+        "spine": "reg",
+        "risk": "downturn LGD rationale",
+        "crr": "EBA/GL/2019/03"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The Vasicek formula stresses PD to the 99.9th percentile of the systematic factor, but LGD enters as a multiplicative constant — it is NOT stressed by the formula.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "LGD and PD are positively correlated through the cycle: in a downturn more borrowers default AND collateral values fall, so recoveries shrink exactly when defaults spike.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "A long-run-average LGD plugged into a downturn-PD formula therefore understates capital, because it assumes recoveries are as good in the crash as on average.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "EBA/GL/2019/03 fix: feed a downturn-calibrated LGD; if no material downturn effect is evidenced, apply an add-on / minimum margin as a fallback.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the Vasicek formula already stresses LGD to 99.9%.",
+        "Claiming LGD and PD are independent / uncorrelated through the cycle."
+      ],
+      "modelAnswer": "The supervisory formula pushes PD to the 99.9% systematic-factor tail but takes LGD as a flat multiplicative constant, so it never stresses recoveries itself. Empirically LGD and PD move together — in a downturn defaults spike while collateral values collapse, so recoveries are worst precisely when defaults are highest. Plugging a long-run-average LGD into that stressed-PD formula therefore understates capital, which is why EBA/GL/2019/03 requires a downturn-calibrated LGD (≥ the long-run average), with an add-on as a fallback where no material downturn effect can be evidenced."
+    },
+    {
+      "id": "m18.viva.moc-no-double-count",
+      "module": "m18",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend your Margin of Conservatism to a TRIM-style on-site inspection: decompose it and avoid the two classic failures.",
+      "tags": {
+        "spine": "reg",
+        "risk": "MoC categories & double-counting",
+        "crr": "EBA/GL/2017/16"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s3"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Final estimate = best estimate + MoC, decomposed into A (data/methodological deficiencies), B (relevant changes to underwriting/collection/risk appetite), C (general/residual statistical estimation error).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Category C must capture ONLY residual statistical uncertainty and must not re-capture the deficiencies already quantified in A or the change effects in B (no double-count).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "The MoC is separate from the Art.181(1)(b) appropriate adjustment and is not a substitute for fixing the data; each component is traced to a specific identified deficiency/change/quantified error.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "The MoC is applied at the level of the final estimate, not buried in intermediate steps.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Describing the MoC as a slush fund tuned until capital looks comfortable.",
+        "Using the MoC as a substitute for fixing the data or for the Art.181(1)(b) appropriate adjustment."
+      ],
+      "modelAnswer": "I present the regulatory parameter as best estimate plus a categorised MoC: Category A for data and methodological deficiencies, B for relevant changes in underwriting, collection or risk appetite, and C for the residual statistical estimation error of the point estimate. Each component is traced to a specific, documented deficiency, change or quantified confidence interval, and Category C is scoped to exclude anything already counted in A or B so there is no double-count. The MoC is applied at the level of the final estimate and is kept distinct from the Art.181(1)(b) appropriate adjustment, which separately corrects a structural gap in the long-run average — it is neither a slush fund nor a substitute for repairing the underlying data."
+    },
+    {
+      "id": "m18.viva.conservatism-direction-cure",
+      "module": "m18",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "A junior analyst, 'being conservative', adds a positive margin to every LGD input — including the cure rate. What is wrong, and what is the governing principle?",
+      "tags": {
+        "spine": "reg",
+        "risk": "direction of conservatism (sign)",
+        "crr": "EBA/GL/2017/16"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m18",
+        "anchor": "m18-s6"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Conservatism is defined by direction: an adjustment is prudent only if it INCREASES the final capital number.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "A higher cure rate means more defaults are assumed to recover without loss, which LOWERS pool LGD and capital — so a positive add-on to the cure rate is anti-conservative (wrong sign).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Prudence on the cure rate means assuming FEWER cures (a lower cure rate raises LGD); the same direction-discipline applies to the Art.181(1)(b) appropriate adjustment.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "For PD and LGD themselves the conservative direction is upward.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming adding a margin to every input is always prudent.",
+        "Claiming the cure rate does not affect LGD."
+      ],
+      "modelAnswer": "Conservatism is not 'add a positive number everywhere' — it is 'move the final capital number up'. The cure rate enters LGD inversely: \\(\\text{LGD}=(1-\\pi_{\\text{cure}})\\text{LGD}_{\\text{loss}}+\\pi_{\\text{cure}}\\text{LGD}_{\\text{cure}}\\), so raising the cure rate lowers pool LGD and reduces capital, making a positive margin on it anti-conservative. The prudent move is to assume fewer cures, and the analyst must check the sign of every adjustment — including the Art.181(1)(b) appropriate adjustment — against whether it actually increases the capital outcome."
+    }
+  ],
+  "module": "m18"
+}

@@ -1,0 +1,418 @@
+{
+  "cards": [
+    {
+      "id": "m07.num.problemfall-scalar",
+      "module": "m07",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Compute the CVA Problemfall scalar from standard-normal quantiles: \\( \\Phi^{-1}(0{,}95)/\\Phi^{-1}(0{,}99) = 1{,}6449/2{,}3263 = \\;?\\)",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s4"
+      },
+      "answer": {
+        "value": 0.7071,
+        "tol": 0.01
+      }
+    },
+    {
+      "id": "m07.num.extremfall-scalar",
+      "module": "m07",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Compute the CVA Extremfall scalar: \\( \\Phi^{-1}(0{,}999)/\\Phi^{-1}(0{,}99) = 3{,}0902/2{,}3263 = \\;?\\)",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s4"
+      },
+      "answer": {
+        "value": 1.3284,
+        "tol": 0.01
+      }
+    },
+    {
+      "id": "m07.num.cva-em-erfordernis",
+      "module": "m07",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "A COREP CVA risk-exposure amount (PosNr 7516000) is €50.000.000. Apply the regulatory own-funds weight to get the CVA-Eigenmittelerfordernis (in EUR).",
+      "tags": {
+        "spine": "reg",
+        "risk": "CVA",
+        "crr": "CRR:Art381-386"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s3"
+      },
+      "answer": {
+        "value": 4000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m07.num.problemfall-betrag",
+      "module": "m07",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "CVA-EM-Erfordernis = €4.000.000. Compute the CVA Problemfall figure (×0,71), in EUR.",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s5"
+      },
+      "answer": {
+        "value": 2840000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m07.num.extremfall-betrag",
+      "module": "m07",
+      "type": "numeric",
+      "format": "md",
+      "lang": "mix",
+      "front": "CVA-EM-Erfordernis = €4.000.000. Compute the CVA Extremfall figure (×1,33), in EUR.",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s5"
+      },
+      "answer": {
+        "value": 5320000,
+        "tol": 0.01,
+        "unit": "EUR"
+      }
+    },
+    {
+      "id": "m07.num.ext-prob-ratio",
+      "module": "m07",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "By the FIXED quantile ratio (NOT the Beteiligungsrisiko '3× rule'), by how much does the CVA Extremfall exceed the Problemfall? \\( 1{,}33/0{,}71 = \\Phi^{-1}(0{,}999)/\\Phi^{-1}(0{,}95) = 3{,}0902/1{,}6449 = \\;?\\)",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s5"
+      },
+      "answer": {
+        "value": 1.88,
+        "tol": 0.02
+      }
+    },
+    {
+      "id": "m07.cloze.definition",
+      "module": "m07",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "CVA risk = potential mark-to-market loss on derivative receivables caused by a {{c1}} of the counterparty's credit spread, the position {{c2}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "CVA",
+        "crr": "CRR:Art381-386"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s2"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "widening",
+            "blow-out",
+            "widening (increase)"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "not having defaulted",
+            "no default",
+            "having not defaulted"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m07.cloze.scalar-identity",
+      "module": "m07",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Both CVA scalars are pure quantile ratios off the 99% base: \\(0{,}71=\\Phi^{-1}(0{,}95)/\\Phi^{-1}(0{,}99)\\) and \\(1{,}33=\\Phi^{-1}({{c1}})/\\Phi^{-1}(0{,}99)\\). The identical pair also rescales the trading-book {{c2}} (M6).",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s6"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "0,999",
+            "0.999",
+            "99,9%",
+            "99.9%"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "Preisrisiko",
+            "Preisrisiko Handelsbuch",
+            "price risk",
+            "Preisrisiko (Handelsbuch)"
+          ],
+          "render": "pick"
+        }
+      ]
+    },
+    {
+      "id": "m07.deriv.scalars",
+      "module": "m07",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Derive the CVA Problemfall and Extremfall scalars from the regulatory base confidence.",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s4"
+      },
+      "steps": [
+        {
+          "prompt": "At what confidence is the standardised regulatory CVA charge calibrated?",
+          "kind": "pick",
+          "expected": "99%",
+          "explain": "The CRR Title VI standardised CVA charge is a 99% number — the fixed regulatory base."
+        },
+        {
+          "prompt": "Under normality VaR_q = Φ⁻¹(q)·σ. Taking the ratio VaR_q2/VaR_q1, what happens to σ?",
+          "kind": "pick",
+          "expected": "it cancels",
+          "explain": "σ is confidence-independent, so re-scaling confidence is a pure ratio of standard-normal quantiles."
+        },
+        {
+          "prompt": "Problemfall scalar = Φ⁻¹(0,95)/Φ⁻¹(0,99) = 1,6449/2,3263 = ?",
+          "kind": "pick",
+          "expected": "0,71",
+          "explain": "0,7071 → 0,71; below 1 because 95% < 99% (less capital)."
+        },
+        {
+          "prompt": "Extremfall scalar = Φ⁻¹(0,999)/Φ⁻¹(0,99) = 3,0902/2,3263 = ?",
+          "kind": "pick",
+          "expected": "1,33",
+          "explain": "1,3284 → 1,33; above 1 because 99,9% > 99% (more capital)."
+        }
+      ]
+    },
+    {
+      "id": "m07.disc.reg-vs-ors-split",
+      "module": "m07",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "In the CVA chain '8% × PosNr 7516000, then ×0,71 / ×1,33', classify each element as regulatory or ÖRS choice, and state the tradeoff the ÖRS part buys.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "CVA",
+        "crr": "CRR:Art381-386"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s4"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "Names the regulatory-fixed elements: the CVA risk-exposure amount (PosNr 7516000), the 8% own-funds weight, and the 99% calibration confidence (all CRR Title VI).",
+        "Names the ÖRS choices: (1) importing the regulatory charge instead of modelling CVA, and (2) rescaling confidence by normal-quantile ratios (0,71 / 1,33).",
+        "Produces the tradeoff: the ÖRS scaling buys a one-multiplication, fully auditable, sector-standardisable figure at the cost of normal-tail accuracy."
+      ]
+    },
+    {
+      "id": "m07.disc.import-vs-model",
+      "module": "m07",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Leitfaden imports the regulatory CVA charge rather than building its own CVA model. Reg-forced or ÖRS choice — and what is the tradeoff?",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s3"
+      },
+      "verdict": "ors",
+      "rubric": [
+        "Identifies this as an ÖRS proportionality choice — the CRR does not force the bank to reuse the COREP charge inside the RTFA.",
+        "Produces the tradeoff: full CVA modelling needs per-netting-set expected-exposure profiles, counterparty CDS/proxy spreads and a sensitivity/simulation engine — data-hungry and impossible to standardise across ~400 Raiffeisenbanken.",
+        "Notes the justification: CVA is rarely the binding risk for a Raiffeisenbank, so the precision sacrificed is immaterial."
+      ]
+    },
+    {
+      "id": "m07.disc.cva-default-dva",
+      "module": "m07",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "A junior nets a DVA paper gain into the CVA figure and also books the counterparty's jump-to-default here. Which treatments are correct under the regulatory scope, and where does each risk belong?",
+      "tags": {
+        "spine": "reg",
+        "risk": "CVA",
+        "crr": "CRR:Art381-386"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s2"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "CVA risk = spread-driven MTM loss with no default — that, and only that, belongs in this §5.2 charge.",
+        "Counterparty default (jump-to-default of the receivable) belongs in credit risk (M5) via the derivative's EAD/exposure; booking it here double-counts.",
+        "DVA (own-spread paper gain) is excluded from the regulatory CVA charge entirely — you may not net a 'gain' from your own deterioration into the figure."
+      ]
+    },
+    {
+      "id": "m07.viva.normality-tradeoff",
+      "module": "m07",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend, then critique, the normal-distribution assumption behind the 0,71 / 1,33 CVA scalars. Does 1,33 over- or under-state the extreme tail, and why is the simplification nonetheless defensible?",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA-tail"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s7"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States the assumption: VaR = Φ⁻¹(q)·σ holds only under a normal/parametric distribution — that is exactly what lets σ cancel and makes the scaling a pure quantile ratio.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Direction of the error: real credit spreads are fat-tailed (they gap/jump in stress), so the true 99,9%/99% quantile ratio EXCEEDS 1,33 — therefore 1,33 may UNDERSTATE the genuine extreme tail.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Defends the tradeoff: a one-multiplication, fully auditable, proportional scaling, justified because CVA is rarely the binding risk for a Raiffeisenbank.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Contrasts op-risk (M8), which deliberately blends a lognormal precisely to respect tails, showing the normal shortcut here was a conscious choice.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the assumption is lognormal, or that 1,33 OVERstates the tail.",
+        "Claiming 1,33 is exact or distribution-free."
+      ],
+      "modelAnswer": "The scalars rest on VaR = Φ⁻¹(q)·σ, valid only under normality; that is exactly what lets σ cancel so re-scaling confidence becomes the pure quantile ratio Φ⁻¹(0,999)/Φ⁻¹(0,99) = 1,33. But credit spreads are fat-tailed — they gap and jump in stress — so the true 99,9%/99% ratio is larger than 1,33, meaning 1,33 may understate the genuine extreme tail of CVA risk. The simplification is nonetheless defensible: it delivers a single, fully auditable multiplication that is standardisable across the sector, and CVA is rarely the binding risk for a Raiffeisenbank. That the Leitfaden blends a lognormal for op-risk (M8) shows the normal shortcut here was a conscious proportionality call, not an oversight."
+    },
+    {
+      "id": "m07.viva.one-formula-three-uses",
+      "module": "m07",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Explain why 0,71 and 1,33 have 'nothing intrinsically to do with CVA', where else the identical machinery appears, and what the CRR III flag changes.",
+      "tags": {
+        "spine": "ors",
+        "risk": "CVA"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m07",
+        "anchor": "m07-s6"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "The CRR III BA-CVA/SA-CVA recalibration post-dates the Leitfaden 09/2024 (EU application 1 Jan 2025); verify against current EUR-Lex / EBA. The 0,71/1,33 scaling step itself is unaffected.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States they are general vertical-consistency scalars — Φ⁻¹(0,95)/Φ⁻¹(0,99) and Φ⁻¹(0,999)/Φ⁻¹(0,99) — pure confidence-rescaling off a 99% base, with nothing CVA-specific.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Gives the reuse: the trading-book Preisrisiko (M6) uses the IDENTICAL 0,71 / 1,33; op-risk (M8) the same idea on a 99,9% anchor, but with a mixed normal/lognormal (giving 5,0%).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "CRR III flag: the standardised CVA method is replaced by BA-CVA / SA-CVA (EU application 1 Jan 2025), so the risk-exposure amount behind PosNr 7516000 is recalibrated — but the 0,71/1,33 scaling is unaffected because it is pure quantile arithmetic.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Treating 0,71 as a CVA-specific haircut set by CRR Title VI.",
+        "Claiming CRR III changes the 0,71 / 1,33 scalars themselves."
+      ],
+      "modelAnswer": "0,71 and 1,33 are not CVA constants — they are general vertical-consistency factors, Φ⁻¹(0,95)/Φ⁻¹(0,99) and Φ⁻¹(0,999)/Φ⁻¹(0,99), that rescale any VaR off a 99% base under normality. The same machinery drives the trading-book Preisrisiko in M6 (the identical 0,71 / 1,33) and, conceptually, op-risk in M8 — though op-risk anchors at 99,9% and blends a lognormal, giving its 5,0% factor instead. Under CRR III the standardised CVA framework is replaced by BA-CVA / SA-CVA from 1 Jan 2025, recalibrating the risk-exposure amount behind PosNr 7516000; the scaling step is unaffected because it is pure quantile arithmetic. So memorise the formula, not the numbers."
+    }
+  ],
+  "module": "m07"
+}

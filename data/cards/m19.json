@@ -1,0 +1,426 @@
+{
+  "cards": [
+    {
+      "id": "m19.num.floored-rwa",
+      "module": "m19",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "An IRB bank reports \\(RWA_{own}=\\text{\\euro}8{,}500\\text{m}\\) and \\(RWA_{SA}=\\text{\\euro}12{,}920\\text{m}\\). At the 2030 floor factor \\(f=72.5\\%\\), what regulatory RWA (in €m) must it hold? Use \\(RWA_{reg}=\\max(RWA_{own},\\,f\\cdot RWA_{SA})\\).",
+      "answer": {
+        "value": 9367,
+        "tol": 0.01,
+        "unit": "€m"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s4"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "CRR III (Reg. (EU) 2024/1623) post-dates the Leitfaden 09/2024; 72.5% terminal floor factor flagged for verification against EUR-Lex/EBA.",
+      "caveat": "Worked example treats total RWA as credit-risk-only to isolate the floor mechanic."
+    },
+    {
+      "id": "m19.num.model-density",
+      "module": "m19",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "For \\(RWA_{own}=\\text{\\euro}8{,}500\\text{m}\\) and \\(RWA_{SA}=\\text{\\euro}12{,}920\\text{m}\\), compute the model density \\(\\rho=RWA_{own}/RWA_{SA}\\) as a fraction. (The floor binds iff \\(\\rho<f\\).)",
+      "answer": {
+        "value": 0.6579,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s4"
+      }
+    },
+    {
+      "id": "m19.num.scaling-removal",
+      "module": "m19",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "CRR III removes the old 1.06 IRB scaling factor on \\(RWA_{IRB}\\). By what multiplicative factor is IRB RWA reduced from this change alone, i.e. \\(1/1.06\\)? Give the fraction.",
+      "answer": {
+        "value": 0.9434,
+        "tol": 0.005
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "irb-calibration"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s3"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Removal of the 1.06 factor is a CRR III change post-dating the Leitfaden 09/2024; ~5.7% IRB RWA reduction, all else equal."
+    },
+    {
+      "id": "m19.num.consolidated-density",
+      "module": "m19",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "A central institution has \\(RWA_{own}=\\text{\\euro}8{,}500\\text{m}\\), \\(RWA_{SA}=\\text{\\euro}12{,}920\\text{m}\\). Consolidate in €30,000m of pure-SA primary-bank RWA (where \\(RWA_{own}=RWA_{SA}\\)). Compute the consolidated density \\(\\rho_{grp}=\\frac{8{,}500+30{,}000}{12{,}920+30{,}000}\\) as a fraction.",
+      "answer": {
+        "value": 0.897,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "consolidation-scope"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s5"
+      },
+      "caveat": "Whether primary banks sit inside the prudential consolidation, and whether Austria floors sub-consolidated/solo levels, changes this arithmetic."
+    },
+    {
+      "id": "m19.deriv.floor-binding",
+      "module": "m19",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Determine whether the Output Floor binds for an IRB bank with \\(RWA_{own}=\\text{\\euro}8{,}500\\text{m}\\) and \\(RWA_{SA}=\\text{\\euro}12{,}920\\text{m}\\) in 2030 (\\(f=72.5\\%\\)), and state the floored RWA and the add-on.",
+      "steps": [
+        {
+          "prompt": "Compute the model density \\(\\rho=RWA_{own}/RWA_{SA}\\).",
+          "kind": "pick",
+          "expected": "\\(\\rho = 8{,}500/12{,}920 = 0.6579 = 65.8\\%\\)",
+          "explain": "ρ is the ratio of modelled to standardised RWA — the quantity the floor tests."
+        },
+        {
+          "prompt": "Compare \\(\\rho\\) with \\(f=72.5\\%\\): does the floor bind?",
+          "kind": "pick",
+          "expected": "Yes — \\(\\rho=65.8\\% < 72.5\\%\\), so the floor binds.",
+          "explain": "The floor binds iff ρ < f; here the model is too aggressive relative to the SA benchmark."
+        },
+        {
+          "prompt": "Apply \\(RWA_{reg}=\\max(RWA_{own},\\,f\\cdot RWA_{SA})\\).",
+          "kind": "pick",
+          "expected": "\\(\\max(8{,}500,\\,0.725\\times12{,}920=9{,}367)=\\text{\\euro}9{,}367\\text{m}\\)",
+          "explain": "The floor sets a minimum at 72.5% of SA RWA — not the full SA number, never an average."
+        },
+        {
+          "prompt": "State the floor add-on (extra RWA over the model).",
+          "kind": "pick",
+          "expected": "\\(9{,}367-8{,}500=\\text{\\euro}867\\text{m}\\) of pure regulatory overlay.",
+          "explain": "At the 8% minimum that is ~€69m of additional own funds carried purely because the floor binds."
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s4"
+      }
+    },
+    {
+      "id": "m19.cloze.scra-institution-grades",
+      "module": "m19",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "Under CRR III's SCRA, unrated **institutions** sort into three grades with longer-term risk weights: Grade A = {{c1}}, Grade B = {{c2}}, Grade C = {{c3}}.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "40%",
+            "40"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "75%",
+            "75"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "150%",
+            "150"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "scra"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s2"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "SCRA grades A/B/C = 40/75/150% (short-term concessions 30%/20%) are CRR III figures post-dating the Leitfaden; the module flags a drafting trap where B and C are easily transposed."
+    },
+    {
+      "id": "m19.cloze.floor-factor-ccf",
+      "module": "m19",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "At full phase-in (2030) the Output-Floor factor reaches {{c1}}; separately, CRR III raises the credit-conversion factor on unconditionally cancellable commitments from 0% to {{c2}}.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "72.5%",
+            "72,5%",
+            "72.5"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "10%",
+            "10"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s3"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Floor phase-in 50%(2025)→72.5%(2030) and the 0%→10% UCC CCF are CRR III provisions post-dating the Leitfaden 09/2024."
+    },
+    {
+      "id": "m19.cloze.supervisory-lgd-split",
+      "module": "m19",
+      "type": "cloze",
+      "format": "md",
+      "lang": "en",
+      "front": "CRR III lowers the F-IRB senior-unsecured supervisory LGD for **non-financial corporates** to {{c1}}, while {{c2}} is retained for institutions and financial-sector entities.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "40%",
+            "40"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "45%",
+            "45"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "supervisory-lgd"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s3"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "The 40%/45% senior-unsecured supervisory LGD split is a CRR III recalibration post-dating the Leitfaden 09/2024 (which carries a 45% unsecured default)."
+    },
+    {
+      "id": "m19.disc.corporate-vs-institution-lgd",
+      "module": "m19",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Claim: 'When a large corporate is forced onto F-IRB under CRR III, its senior-unsecured book takes the supervisory LGD of 45%.' Is the value reg-forced or an ÖRS choice — and what is actually traded off?",
+      "verdict": "reg",
+      "rubric": [
+        "Flags the figure as wrong: CRR III LOWERED the corporate senior-unsecured F-IRB supervisory LGD to 40%; 45% is retained only for institutions/financial-sector entities.",
+        "Identifies both LGD values as CRR-forced (reg) supervisory parameters, not ÖRS proportionality choices.",
+        "Produces the tradeoff: F-IRB removes the bank's LGD-modelling licence for large corporates (revenue > €500m), but the lower 40% supervisory LGD partly cushions that scope loss versus the old 45% regime."
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "supervisory-lgd"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s3"
+      },
+      "sourceStatus": "post-source",
+      "sourceNote": "Confusable near-pair 40% vs 45%; CRR III split post-dates the Leitfaden 09/2024."
+    },
+    {
+      "id": "m19.disc.scra-ig-vs-blanket",
+      "module": "m19",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "For hundreds of unrated SME/institution counterparties, a bank can invest in evidence to earn the 65%/Grade-A weights or apply a conservative blanket 100%/Grade-B. Is that decision reg-forced or an ÖRS choice — and what is traded off?",
+      "verdict": "ors",
+      "rubric": [
+        "Separates the layers: the 65%/Grade-A risk weights and their qualifying criteria are CRR-defined, but operationalising the investment-grade and SCRA-grade tests consistently across the book is an ÖRS proportionality / data-quality choice.",
+        "Produces the tradeoff: tighter evidence standards earn the 65% / Grade-A weight but raise the cost of proof; a blanket 100% / Grade-B saves effort but inflates RWA.",
+        "Adds the floor spillover: the inflated SA RWA raises the floor benchmark \\(f\\cdot RWA_{SA}\\) for IRB peers, so one bank's conservatism feeds the sector's floor denominator."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "scra"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s2"
+      }
+    },
+    {
+      "id": "m19.disc.consolidation-scope",
+      "module": "m19",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "At IPS level, should the sector consolidate broadly so the many SA primary banks dilute the IRB density before flooring? Is the level of application reg-forced or an ÖRS choice — and what is traded off?",
+      "verdict": "ors",
+      "rubric": [
+        "States the floor applies primarily at the highest EU consolidation level, with Member-State discretion to also floor sub-consolidated/solo levels — so the scope and the discretion are genuine choices, not automatic.",
+        "Produces the tradeoff: broad consolidation pulls \\(\\rho\\) toward 1 (SA primary banks where \\(RWA_{own}=RWA_{SA}\\) raise it), easing or removing the floor and freeing capital, but drags more entities into the heavier reporting/governance perimeter.",
+        "Notes the counter-lever: national-discretion solo/sub-consolidated flooring can re-impose the constraint on an IRB sub-group that the group dilution would otherwise mask."
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "consolidation-scope"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s5"
+      }
+    },
+    {
+      "id": "m19.viva.pure-sa-vs-irb",
+      "module": "m19",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend to the Aufsichtsrat: why is the Output Floor structurally non-binding for a pure-SA Raiffeisenbank but capable of binding the IRB Raiffeisenlandesbank?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "For a pure-SA bank \\(RWA_{own}\\equiv RWA_{SA}\\), so \\(\\rho=100\\%>72.5\\%\\) and \\(RWA_{reg}=\\max(RWA_{SA},0.725\\,RWA_{SA})=RWA_{SA}\\) — the floor is mathematically inert.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Frames the floor as a constraint on modelling licence: a bank with no IRB licence cannot have it revoked — it is inert by construction, not exempted.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "The IRB RLB can have \\(\\rho<72.5\\%\\), so the floor binds and forces a capital add-on (RWA = \\(f\\cdot RWA_{SA}\\) above the model).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Notes the pure-SA bank's capital still moves — via revised SA risk weights and CCFs (RE mechanic, 10% UCC CCF, SCRA) — but never via the floor.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming SA banks are 'exempted' from the floor by the proportionality principle (it is inert by construction, not exempted).",
+        "Saying a binding floor forces a bank to report the FULL SA number rather than 72.5% of it."
+      ],
+      "modelAnswer": "The Output Floor compares modelled RWA to standardised RWA, so it only bites a bank that runs internal models. A pure-SA Raiffeisenbank computes a single number, hence \\(RWA_{own}=RWA_{SA}\\), \\(\\rho=100\\%\\), and \\(\\max(RWA_{SA},0.725\\,RWA_{SA})=RWA_{SA}\\) — the floor is inert by construction, not by exemption. Its capital still changes, but only because the revised SA risk weights and CCFs changed, never because of the floor. The IRB Raiffeisenlandesbank, by contrast, can drive \\(\\rho\\) below 72.5%, at which point the floor binds and imposes \\(f\\cdot RWA_{SA}\\) as a hard minimum above its own model output.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s4"
+      }
+    },
+    {
+      "id": "m19.viva.input-vs-output-floor",
+      "module": "m19",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "A manager asks you to 'add up' the capital impact of the IRB input floors and the Output Floor. Explain why that is wrong and how the two constraints actually interact.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Input floors are micro: per-exposure regulatory minima on PD/LGD/CCF inside the IRB function (e.g. PD 0.05%, retail unsecured LGD 30%), reshaping the distribution of modelled RWA.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "The Output Floor is macro: a per-bank aggregate cap \\(RWA_{reg}=\\max(RWA_{own},\\,f\\cdot RWA_{SA})\\).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "They partly substitute: applying an input floor RAISES \\(RWA_{own}\\), which raises \\(\\rho\\) and makes the Output Floor LESS likely to bind.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "The binding constraint is the max, never the sum — present both but do not double-count the conservatism.",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Treating the input floors and the Output Floor as additive capital charges.",
+        "Claiming a bank heavily hit by input floors is therefore closer to (more likely to breach) the Output Floor."
+      ],
+      "modelAnswer": "Input floors and the Output Floor operate at different levels: input floors are micro minima on PD/LGD/CCF applied inside the IRB risk-weight function per exposure, while the Output Floor is a macro cap on aggregate RWA, \\(RWA_{reg}=\\max(RWA_{own},\\,f\\cdot RWA_{SA})\\). They are not additive — in fact they partly substitute, because an input floor raises \\(RWA_{own}\\), which lifts the model density \\(\\rho\\) and pushes the bank further from the Output Floor. A bank can be untouched by input floors yet slammed by the Output Floor, or vice versa; the correct briefing presents both but reports the binding one as the maximum, never the sum.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "input-vs-output-floor"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m19",
+        "anchor": "m19-s3"
+      }
+    }
+  ],
+  "module": "m19"
+}

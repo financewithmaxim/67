@@ -1,0 +1,514 @@
+{
+  "cards": [
+    {
+      "id": "m02.num.cet1-min",
+      "module": "m02",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "CRR Art. 92(1): the Pillar-1 minimum ratio for hartes Kernkapital, \\(\\frac{\\text{CET1}}{\\text{Gesamtrisikobetrag}}\\), expressed as a fraction. Give the floor.",
+      "tags": {
+        "spine": "reg",
+        "risk": "solvency / capital-quality floor",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s2-4-min-ratios"
+      },
+      "answer": {
+        "value": 0.045,
+        "tol": 0.0005,
+        "unit": "fraction of TREA"
+      }
+    },
+    {
+      "id": "m02.num.leverage-min",
+      "module": "m02",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "CRR Part Seven (Art. 92(1)(d)): the Leverage Ratio = \\(\\frac{\\text{T1 (Kernkapital)}}{\\text{Gesamtrisikopositionsmessgröße}}\\) must be at least what fraction? (Note: numerator is T1, denominator is the UNWEIGHTED total exposure.)",
+      "tags": {
+        "spine": "reg",
+        "risk": "übermäßige Verschuldung / non-risk-based backstop",
+        "crr": "CRR:Art429"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s5-3-leverage"
+      },
+      "answer": {
+        "value": 0.03,
+        "tol": 0.0005,
+        "unit": "fraction of total exposure"
+      }
+    },
+    {
+      "id": "m02.num.at1-trigger",
+      "module": "m02",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "CRR Art. 54: an AT1 instrument's contractual loss-absorption (write-down / conversion) trigger must fire when the CET1 ratio falls to at least what minimum threshold, expressed as a fraction?",
+      "tags": {
+        "spine": "reg",
+        "risk": "going-concern recap mechanics",
+        "crr": "CRR:Art54"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s2-2-at1"
+      },
+      "answer": {
+        "value": 0.05125,
+        "tol": 0.0001,
+        "unit": "fraction of TREA (CET1 ratio)"
+      }
+    },
+    {
+      "id": "m02.num.freies-kapital-pf",
+      "module": "m02",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Worked example (Problemfall). CET1 = €60m; the binding buffered CET1 requirement (4,5% + 2,5% CCB on €600m RWA) = €42m; Neubewertungsreserve = €4m. Compute *freies Kapital* = (CET1 − requirement) − Neubewertungsreserve, in euros. (The €5m legal floor does not bind here.)",
+      "tags": {
+        "spine": "ors",
+        "risk": "free-capital / Deckungsmasse build",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s4-worked-example"
+      },
+      "answer": {
+        "value": 14000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "sourceNote": "Problemfall freies Kapital = CET1-above-requirement − Neubewertungsreserve, subject to the €5m ÖRS/legal floor (§5.5). Stripping the Neubewertungsreserve is the ÖRS conservative choice, hence spine=ors. Matches the §4 worked example (60 − 42 − 4 = 14)."
+    },
+    {
+      "id": "m02.deriv.buffered-cet1",
+      "module": "m02",
+      "type": "deriveStep",
+      "format": "md",
+      "lang": "en",
+      "front": "Derive the binding CET1 demand for the §4 worked example: RWA = €600m, CET1 minimum 4,5%, CCB 2,5%, no P2R, CCyB/SyRB = 0; CET1 held = €60m.",
+      "tags": {
+        "spine": "reg",
+        "risk": "buffer stacking / CET1-only requirement",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s4-worked-example"
+      },
+      "steps": [
+        {
+          "prompt": "CET1 Pillar-1 minimum in euros (4,5% of €600m)?",
+          "kind": "pick",
+          "expected": "€27m",
+          "explain": "0,045 · 600 = 27. This is the hard CET1 floor under Art. 92(1)(a)."
+        },
+        {
+          "prompt": "Add the CCB: the CET1 requirement INCLUDING the buffer (4,5% + 2,5% of €600m)?",
+          "kind": "pick",
+          "expected": "€42m",
+          "explain": "The 2,5% CCB is CET1-only and stacks ON TOP of the 4,5% minimum, not inside it: (0,045 + 0,025) · 600 = 42. This is the binding CET1 demand."
+        },
+        {
+          "prompt": "CET1 above the requirement, given CET1 = €60m?",
+          "kind": "pick",
+          "expected": "€18m",
+          "explain": "60 − 42 = 18. This surplus is what feeds the Problemfall freies Kapital BEFORE the Neubewertungsreserve strip and the €5m floor."
+        }
+      ]
+    },
+    {
+      "id": "m02.cloze.min-ratios",
+      "module": "m02",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "mix",
+      "front": "CRR Art. 92(1) Pillar-1 minima on the Gesamtrisikobetrag: \\(\\frac{\\text{CET1}}{\\text{TREA}}\\ge\\) {{c1}}, \\(\\frac{\\text{T1}}{\\text{TREA}}\\ge\\) {{c2}}, \\(\\frac{\\text{Gesamtkapital}}{\\text{TREA}}\\ge\\) {{c3}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "the three tiered floors",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s2-4-min-ratios"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "4,5%",
+            "4.5%",
+            "0,045",
+            "0.045"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "6%",
+            "6,0%",
+            "0,06",
+            "0.06"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "8%",
+            "8,0%",
+            "0,08",
+            "0.08"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m02.cloze.deckungsmasse-pos",
+      "module": "m02",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Leitfaden §8.1 Deckungsmasse position numbers: Gesamtrisikobetrag = {{c1}}; hartes Kernkapital (CET1) = {{c2}}; Kapitalerhaltungspuffer (CCB) = {{c3}}; einbehaltene Gewinne (retained earnings) = {{c4}}.",
+      "tags": {
+        "spine": "reg",
+        "risk": "stack → cover-fund position mapping",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s5-4-mapping"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "7980000"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "7810002"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "8127010"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "7812000"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m02.cloze.ors-specialties",
+      "module": "m02",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "ÖRS / Raiffeisen specialties: the cooperative liability supplement {{c1}} (Pos. 410) is ADDED, while the IPS support-fund contribution {{c2}} (Pos. 420) is DEDUCTED; and a legal freies-Kapital floor of {{c3}} binds tiny members.",
+      "tags": {
+        "spine": "ors",
+        "risk": "Genossenschaft / IPS proportionality items",
+        "crr": "CRR:Art113"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s5-6-ors-specialties"
+      },
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "Haftsummenzuschlag"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "IPS-Beitrag",
+            "B-IPS",
+            "IPS-Beitrag / B-IPS"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "€5m",
+            "5 Mio €",
+            "5 Mio. €",
+            "EUR 5m",
+            "5.000.000 €"
+          ],
+          "render": "number"
+        }
+      ]
+    },
+    {
+      "id": "m02.disc.ccb-vs-ccyb",
+      "module": "m02",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Two buffer rates in the stack: (A) the 2,5% Kapitalerhaltungspuffer (CCB); (B) the antizyklischer Puffer (CCyB) / Systemrisikopuffer (SyRB) / O-SII surcharge. Are these the same kind of fixed number, and how should you treat each in a live RTFA?",
+      "tags": {
+        "spine": "boundary",
+        "risk": "reg-fixed vs authority-set / time-varying rate",
+        "crr": "CRR:CRD-buffers"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s5-1-buffers"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "Names the CCB 2,5% as fixed in EU law (CRD) — a true regulatory constant you may quote as-is.",
+        "Names CCyB/SyRB/O-SII as authority-set (in Austria the FMA on FMSB advice), institution/jurisdiction-specific, and time-varying.",
+        "Produces the tradeoff: any CCyB/SyRB/O-SII rate post-dates the 09/2024 Leitfaden, so it must be verified against the current FMA/FMSB list before use; the CCB need not.",
+        "States the stable-vs-variable boundary: buffer MECHANICS are stable, buffer RATES (except CCB) are time-varying inputs.",
+        "Notes all of them are met in CET1 and stack on top of the 8% (they share mechanics, differ only in who sets the rate)."
+      ]
+    },
+    {
+      "id": "m02.disc.t2-buffer",
+      "module": "m02",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "A bank passes all three Pillar-1 ratios but is €4m inside its combined buffer, with €15m of spare T2. A colleague says 'use the surplus T2 to cover the buffer shortfall.' Is that a regulatory option or a category error — and what actually follows?",
+      "tags": {
+        "spine": "reg",
+        "risk": "tier eligibility / MDA gate",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s6-traps"
+      },
+      "verdict": "reg",
+      "rubric": [
+        "Rejects it: T2 (Ergänzungskapital) is gone-concern and can count toward the 8% total only — never toward the 4,5% CET1 floor, the 6% T1 floor, or ANY buffer (all CET1).",
+        "Produces the tradeoff: a gone-concern instrument cannot do a going-concern job, so surplus T2 can never plug a CET1 or buffer shortfall.",
+        "States the consequence: the bank is inside the combined buffer requirement ⇒ the MDA / Ausschüttungssperre (CRD Art. 141) bites — distributions, AT1 coupons and bonuses are capped.",
+        "Distinguishes solvency from distribution: passing Pillar-1 means not insolvent, but the buffer breach is a distribution gate, not a solvency floor."
+      ]
+    },
+    {
+      "id": "m02.disc.pf-vs-ef",
+      "module": "m02",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "The Leitfaden builds *freies Kapital* differently in the Problemfall vs the Extremfall from the SAME own-funds stack. Identify which build counts T2 / nachrangiges FK and which adds back the Abzugsposten Beteiligungen — and say why the loss-absorption regime drives the difference.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "going-concern vs gone-concern cover fund",
+        "crr": "CRR:Art62"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s5-5-freies-kapital"
+      },
+      "verdict": "mixed",
+      "rubric": [
+        "Problemfall (going concern / normative): counts ONLY CET1 surplus above the requirement (incl. P2R), less the Neubewertungsreserve, with the €5m floor — the living cushion; no T2.",
+        "Extremfall (gone concern / Liquidationsfall): takes ALL anrechenbare Eigenmittel, ADDS nachrangiges FK (T2) and ADDS BACK the Abzugsposten Beteiligungen, still stripping the Neubewertungsreserve.",
+        "Produces the tradeoff: T2 is added only in the Extremfall because subordinated debt absorbs loss in liquidation but not in a living bank; participations are added back because in wind-up they have recoverable value for creditors.",
+        "Notes both strip the Neubewertungsreserve (a fragile, market-dependent cover) in BOTH scenarios.",
+        "Flags the boundary: the tier/CRR definitions are reg, but choosing which to count per scenario (and the €5m floor / Neubewertungsreserve strip) is the ÖRS modelling layer — hence the spine sits on the boundary."
+      ]
+    },
+    {
+      "id": "m02.viva.three-floors",
+      "module": "m02",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend to the Aufsichtsrat: why does the CRR impose THREE separate minimum ratios (4,5% / 6% / 8%) rather than a single 8% total-capital floor?",
+      "tags": {
+        "spine": "reg",
+        "risk": "capital quality vs quantity",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s2-4-min-ratios"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The three floors enforce capital QUALITY, not just quantity: of the 8% total, ≥6% must be going-concern T1 and ≥4,5% the hardest CET1.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Caps substitution by lower-quality tiers: AT1 may fill at most 1,5pp of the 6%, and T2 at most 2pp of the 8%.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Names the failure mode a single floor allows: an '8%-of-subordinated-debt' bank with almost no hard equity — the 2008 going-concern gap.",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r4",
+          "text": "Links to buffers: because quality matters, the buffer stack sits entirely in CET1 on top of the 8%.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the three ratios differ because they use different denominators (they all divide by the same Gesamtrisikobetrag).",
+        "Claiming a single 8% floor of any tier mix would be equally safe.",
+        "Treating AT1 and T2 as interchangeable with CET1."
+      ],
+      "modelAnswer": "A lone 8% floor measures only quantity — a bank could meet it entirely with dated subordinated debt that does nothing for a living institution, which is precisely the going-concern gap exposed in 2008. The CRR therefore tiers the floors: ≥4,5% must be CET1 (hardest, write-down-anytime equity) and ≥6% must be T1 (going-concern), so AT1 can substitute at most 1,5pp and T2 at most 2pp. The three ratios thus encode a quality constraint, and the buffers reinforce it by sitting entirely in CET1 on top of the 8%."
+    },
+    {
+      "id": "m02.viva.t2-mda",
+      "module": "m02",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "A bank passes all three Pillar-1 ratios yet faces a distribution restriction. Explain to senior management how a bank that is 'not insolvent' can still be barred from paying dividends and AT1 coupons, and why its surplus T2 does not help.",
+      "tags": {
+        "spine": "reg",
+        "risk": "MDA / Ausschüttungssperre",
+        "crr": "CRR:Art141"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s5-2-mda"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Buffers are a distribution gate, not a solvency floor: falling into the combined buffer requirement (CBR) above the hard minimum triggers the MDA regime (CRD Art. 141).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "The buffers (CCB/CCyB/SyRB/O-SII) must be met in CET1 and stack on top of the 8%, so passing the 8% total ratio says nothing about buffer compliance.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Surplus T2 is gone-concern and cannot count toward any buffer or CET1/T1 floor, so it cannot cure the breach.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "The MDA caps dividends, AT1 coupons and bonuses by a formula that tightens as the breach deepens (Ausschüttungssperre).",
+          "weight": 1,
+          "required": false
+        },
+        {
+          "id": "r5",
+          "text": "Links to M4: this is why the Problemfall yellow test includes buffers (CRR+P2R+Puffer) while the red test excludes them (CRR+P2R only).",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Saying T2 can be used to fill a CET1 buffer shortfall.",
+        "Conflating a buffer breach with a Pillar-1 (solvency) breach / the red line.",
+        "Claiming the buffer is carved out of the 8% rather than stacked on top."
+      ],
+      "modelAnswer": "The combined buffer requirement is not a hard solvency floor — it is a distribution gate. When CET1 drops into the buffer band (above the 4,5%+P2R minimum but below 4,5%+P2R+CBR) the bank stays solvent but enters the Maximum Distributable Amount regime under CRD Art. 141, capping dividends, AT1 coupons and bonuses by a formula that tightens with the breach (the Ausschüttungssperre). Passing the 8% total ratio is irrelevant here because every buffer must be met in CET1 and stacks on top of the minima; gone-concern T2 cannot count toward any buffer or CET1/T1 floor, so a fat T2 cushion cannot rescue the breach. This is exactly the M4 traffic-light split: buffers belong in the yellow test, the bare minimum in the red."
+    },
+    {
+      "id": "m02.viva.crossholdings",
+      "module": "m02",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Explain why holdings in other financial-sector entities are deducted from CET1 (CRR Art. 36(1)(h)/(i)), and why this matters far more in a Raiffeisen sector than for a stand-alone joint-stock bank.",
+      "tags": {
+        "spine": "reg",
+        "risk": "double-counting across the IPS",
+        "crr": "CRR:Art36"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m02",
+        "anchor": "m02-s3-2-deductions"
+      },
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States the purpose: deducting financial-sector holdings stops the SAME euro of capital being counted twice — once at the holder, once at the holdee (double-counting across the system).",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Identifies the Raiffeisen amplifier: the sector is a web of mutual participations (Raiffeisenbank → RLB → RBI), so these deductions can be a large slice of the stack, not a footnote.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Produces the consequence: getting them wrong systematically OVERSTATES aggregate sector capital.",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Links forward: this is the conceptual seed of M12's IPS consolidation (eliminate intra-circle participations) and the M13 double-counting problem.",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claiming the deduction penalises cooperative banks rather than preventing double-counting.",
+        "Classifying cross-holdings as operational risk.",
+        "Asserting the holdings are deducted because they are intangible / have no value."
+      ],
+      "modelAnswer": "Art. 36(1)(h)/(i) deducts holdings in other financial-sector entities so that one euro of capital is not counted at two banks simultaneously — if Bank A holds CET1-eligible shares in Bank B and neither deducts, that capital is double-counted across the system. In the Raiffeisen sector this is acute because it is built on mutual participations (a Raiffeisenbank in its RLB, the RLB in RBI), so the deductions can be a large part of the stack rather than a footnote, and mishandling them systematically overstates aggregate sector capital. That is exactly why M12's IPS consolidation must eliminate intra-circle participations and intra-group exposures, and why the double-counting problem reappears in M13's Deckungsmassen."
+    }
+  ],
+  "module": "m02"
+}

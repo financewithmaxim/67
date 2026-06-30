@@ -1,0 +1,474 @@
+{
+  "cards": [
+    {
+      "id": "m11.num.makro-increment",
+      "module": "m11",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "A portfolio's current credit risk is \\(EL+UL=\\)€50m. The calibrated §5.8 downturn (\\(PD'=PD\\cdot1{,}25\\), \\(LGD'=LGD\\cdot1{,}05\\)) reruns the IRB formula to a new credit risk of €64m. What makroökonomisches Risiko is added to the stack (in €)?",
+      "answer": {
+        "value": 14000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "macro"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.8"
+      }
+    },
+    {
+      "id": "m11.num.fw-em-problemfall",
+      "module": "m11",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Problemfall, no full currency separation. FX Risikoposition (Corporates/Retail/LRG/CIU) = €40m; use the 15% Problemfall proxy for \\(v_{fx}\\); own-funds factor 8%. Compute the Fremdwährungs-Eigenmittelrisiko (in €).",
+      "answer": {
+        "value": 480000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "boundary",
+        "risk": "fx-ownfunds",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.10"
+      }
+    },
+    {
+      "id": "m11.num.puffer-5pct",
+      "module": "m11",
+      "type": "numeric",
+      "format": "md",
+      "lang": "en",
+      "front": "Every quantified single risk (credit + market + op + CVA + participation + country + macro + Großkredite + FW-EM) sums to €100m. Compute the §5.10 sonstige-Risiken buffer (Puffer), in €.",
+      "answer": {
+        "value": 5000000,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "other-buffer"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.10"
+      }
+    },
+    {
+      "id": "m11.deriv.fw-em-chain",
+      "module": "m11",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "mix",
+      "front": "Derive the Fremdwährungs-Eigenmittelrisiko for a €40m FX Risikoposition in the Problemfall with no full currency separation.",
+      "steps": [
+        {
+          "prompt": "With no full currency separation, what stands in for \\(v_{fx}\\) in the Problemfall?",
+          "kind": "pick",
+          "expected": "the 15% FX proxy (Extremfall would use 30%)",
+          "explain": "When the data lacks a full currency split, the Leitfaden substitutes the scenario FX proxy: 15% in the Problemfall, 30% in the Extremfall."
+        },
+        {
+          "prompt": "Compute the uplift to the assessment base \\(\\Delta\\)Bemessungsgrundlage.",
+          "kind": "pick",
+          "expected": "€40m × 0,15 = €6m",
+          "explain": "ΔBemessungsgrundlage = Risikoposition_FX · v_fx = 40m·0,15 = €6m of additional RWA base."
+        },
+        {
+          "prompt": "Apply the own-funds factor to get the FW-EM-Risiko.",
+          "kind": "pick",
+          "expected": "0,08 × €6m = €0,48m",
+          "explain": "The 8% own-funds rate on the €6m base gives €0,48m of Deckungsmasse consumed. In the Extremfall this charge is €0 (not applied)."
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "fx-ownfunds",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.10"
+      }
+    },
+    {
+      "id": "m11.cloze.makro-stress",
+      "module": "m11",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "The §5.8 downturn stresses the two credit drivers: \\(PD'=PD\\cdot\\) {{c1}} and \\(LGD'=LGD\\cdot\\) {{c2}}, calibrated (from the Leitfaden Stresstesting) to a ~{{c3}} GDP decline; the macro number is the difference covering both EL and UL.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "1,25",
+            "1.25"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "1,05",
+            "1.05"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "2%",
+            "2 %",
+            "2"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "macro"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.8"
+      }
+    },
+    {
+      "id": "m11.cloze.laender-settings",
+      "module": "m11",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "Länderrisiko (§5.3) reuses the IRB engine but takes only the {{c1}} term, is computed {{c2}} collateral, uses the {{c3}} PD of the obligor's country, and excludes Ratingstufe {{c4}}.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "UL",
+            "unexpected loss",
+            "unerwarteter Verlust"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "before",
+            "vor",
+            "before (vor Sicherheiten)"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "sovereign",
+            "sovereign-rating",
+            "Staaten-"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c4",
+          "accept": [
+            "5,x",
+            "5.x"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "country"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.3"
+      }
+    },
+    {
+      "id": "m11.cloze.grosskredite-vs-crr",
+      "module": "m11",
+      "type": "cloze",
+      "format": "md",
+      "lang": "mix",
+      "front": "The §5.9 Großkredite monitor relates the largest GvK exposures to {{c1}} (R-IPS members excluded), whereas the CRR Part Four legal large-exposure limit caps a single client/GvK at {{c2}} of {{c3}}.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "R-IPS CET1",
+            "R-IPS CET1 (Kernkapital)",
+            "Kernkapital"
+          ],
+          "render": "pick"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "25%",
+            "25 %",
+            "25"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c3",
+          "accept": [
+            "Tier 1",
+            "Tier-1",
+            "Tier 1 capital"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "large-exposure",
+        "crr": "CRR:Art395"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.9"
+      }
+    },
+    {
+      "id": "m11.disc.makro-calibration",
+      "module": "m11",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "Claim: 'The PD·1,25 / LGD·1,05 macro stress is a CRR-mandated calibration.' Classify the source spine and produce the tradeoff.",
+      "verdict": "ors",
+      "rubric": [
+        "Names the calibration as an ÖRS modelling choice taken from the Leitfaden Stresstesting (a ~2% GDP decline → PDs +~25%, LGDs +~5%), NOT a CRR-forced number",
+        "States the tradeoff: a fixed point-in-time multiplier buys a simple, comparable downturn overlay across hundreds of banks, but cannot reflect each book's true PD/LGD cyclical sensitivity (a high-PD book actually moves more because the conditional-PD response is convex)",
+        "Notes the mechanic is reg-neutral: it reruns the same M5 IRB engine and differences EL+UL, so only the inputs are an ÖRS judgement"
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "macro"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.8"
+      }
+    },
+    {
+      "id": "m11.disc.grosskredite-vs-limit",
+      "module": "m11",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner asserts §5.9 Risiko aus Großkrediten IS the binding 25%-of-Tier-1 large-exposure rule. Classify (reg/ors/mixed) and produce the tradeoff.",
+      "verdict": "mixed",
+      "rubric": [
+        "Separates the layers: the 25%-of-Tier-1 cap on a single client/GvK is REG (CRR Part Four, binding legal limit); the §5.9 measure is an ÖRS sector-level concentration MONITOR relating aggregated largest GvK exposures to R-IPS CET1 (non-binding)",
+        "Produces the tradeoff: the legal limit is per-single-name and hard, so it misses aggregated sector build-up; the §5.9 monitor is macro-prudential and aggregate but non-binding, so it informs governance rather than capping anyone",
+        "Adds that concentration is also handled elsewhere — the HHI granularity add-on inside credit risk (M5) and internal limits — so §5.9 is one lens of three, not a substitute for the CRR limit"
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "large-exposure",
+        "crr": "CRR:Art395"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.9"
+      }
+    },
+    {
+      "id": "m11.disc.fw-em-factor-base",
+      "module": "m11",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "mix",
+      "front": "Classify the Fremdwährungs-Eigenmittelrisiko charge: are the 8% factor AND its base reg or ÖRS? Produce the tradeoff.",
+      "verdict": "mixed",
+      "rubric": [
+        "Splits the construct: the 8% own-funds factor applied to the RWA-base uplift is REG (the CRR 8% own-funds rate); the base/scaling — the 3-yr FX vola or the 15% Problemfall / 30% Extremfall proxy, and the Problemfall-only application — is an ÖRS modelling choice",
+        "Produces the tradeoff: the 15%/30% proxy buys a usable number when full currency separation is missing, at the cost of crudeness (one flat vola across all FX books); the reg 8% keeps the charge anchored to the actual own-funds requirement",
+        "States the boundary: applying the 8%-on-RWA-base charge in the Extremfall is wrong — in a liquidation the capital-requirement effect is irrelevant, so it is a Problemfall-only construct"
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "fx-ownfunds",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.10"
+      }
+    },
+    {
+      "id": "m11.viva.makro-el-ul-credit-only",
+      "module": "m11",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend: why is makroökonomisches Risiko (§5.8) the one RTFA capital figure that includes EL, and why is it applied to credit risk only?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "States it is the deliberate exception to the 'capital = pure UL' rule: it takes the difference in EL+UL because a downturn raises expected loss too, and the aim is the FULL credit-book deterioration",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Explains it is credit-only because credit is the most material single risk; stressing the smaller risks would add complexity without materiality",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Gives the mechanic: PD·1,25, LGD·1,05 (≈2% GDP decline), rerun the M5 IRB conditional-PD/K machinery, subtract the un-stressed total",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Distinguishes it from M5's FX PD-elasticity (reacts to the exchange rate, not GDP)",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Applying the PD·1,25 / LGD·1,05 stress to market or operational risk",
+        "Stripping EL out and taking only the UL difference",
+        "Claiming EL stays in the Deckungsmasse here as elsewhere"
+      ],
+      "modelAnswer": "Makro risk breaks the usual 'capital number is pure UL, EL sits in the Deckungsmasse' rule on purpose: a cyclical downturn lifts expected loss as well as unexpected loss, so to capture the full deterioration of the book it differences EL+UL, not UL alone. It is applied to credit risk only because credit is the most material single risk — overlaying the same stress on the smaller risks would add complexity without materiality. Mechanically you stress the two drivers (PD·1,25, LGD·1,05, calibrated to a ~2% GDP decline from the Leitfaden Stresstesting), rerun the M5 IRB formula, and subtract the un-stressed credit total. It is distinct from M5's FX PD-elasticity, which reacts to the exchange rate rather than GDP.",
+      "tags": {
+        "spine": "ors",
+        "risk": "macro"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.8"
+      }
+    },
+    {
+      "id": "m11.viva.puffer-justify-tradeoff",
+      "module": "m11",
+      "type": "viva",
+      "format": "md",
+      "lang": "en",
+      "front": "Defend the 5% sonstige-Risiken buffer (§5.10): what it stands for, how it scales, why a flat % is justified, and its weakness.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "It is 5% of the SUM of all quantified risks → a ×1,05 on the whole stack, computed last on everything else (incl. macro and FW-EM); not a separate bolt-on line",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "It is a proxy for the qualitative §3.10 risks that are hard to model: strategic, reputational, business-model, systemic, model risk",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Justified partly because future operating income is NOT counted in the Extremfall Deckungsmasse — the usual first cushion against soft risks is absent, so a flat capital buffer proxies it",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Names the tradeoff: a flat % cannot distinguish a high- from a low-strategic/business-model-risk bank — comparability and simplicity bought at the cost of risk sensitivity",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Calling it a CRR-mandated 5% (it is an ÖRS choice, not reg)",
+        "Treating it as a fixed independent line rather than 5% of the total",
+        "Computing it before the other §5 items so it understates the stack"
+      ],
+      "modelAnswer": "The §5.10 buffer adds 5% of the sum of all quantified risks — a ×1,05 on the entire stack — and must be computed last, on everything else including the macro and FW-EM numbers, so it genuinely scales the whole total rather than being a separate line item. It stands in for the §3.10 qualitative risks (strategic, reputational, business-model, systemic, model) that are too soft to model directly. The flat-percentage approach is defensible chiefly because the Extremfall (a Liquidationsfall) Deckungsmasse excludes future operating income — the earnings stream that would normally be the first cushion against these risks — so a flat capital buffer is a reasonable proxy for that missing cushion. Its weakness is risk-insensitivity: it charges a bank with high strategic/business-model risk exactly the same 5% as a low-risk one, buying comparability across hundreds of banks at the cost of discrimination.",
+      "tags": {
+        "spine": "ors",
+        "risk": "other-buffer"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.10"
+      }
+    },
+    {
+      "id": "m11.viva.fw-em-vs-m5-fx",
+      "module": "m11",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend the separation of the Fremdwährungs-Eigenmittelrisiko (§5.10) from the FX credit-risk add-on (M5), including scenario applicability and mechanics.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "FW-Eigenmittelrisiko hits the CAPITAL-REQUIREMENT side: FX appreciation → higher euro Saldo → higher Bemessungsgrundlage/RWA base → higher own-funds requirement → less free Deckungsmasse",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "The M5 FX credit add-on hits the EXPOSURE/LOSS side: appreciation raises the euro exposure/loss of FX loans → bigger UL",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Scenario split: FW-EM is Problemfall ONLY (irrelevant in an Extremfall liquidation); the M5 FX credit add-on applies in BOTH scenarios; charging both is correct, charging FW-EM in the Extremfall is not",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r4",
+          "text": "Mechanics of FW-EM: scale the Corporates/Retail/LRG/CIU FX Risikoposition by the 3-yr FX vola (or 15%/30% proxy), then take 8%",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Treating the two FX effects as identical / intentional double-count",
+        "Applying the FW-Eigenmittelrisiko in the Extremfall",
+        "Saying FW-EM raises the exposure/loss rather than the capital-requirement base"
+      ],
+      "modelAnswer": "These are two distinct FX effects. The FW-Eigenmittelrisiko works on the capital-requirement side: an FX appreciation raises the euro Saldo of FX loans, which lifts the Bemessungsgrundlage (RWA base) and hence the own-funds requirement, leaving less free Deckungsmasse. The M5 FX credit-risk add-on works on the asset side: the same appreciation raises the euro exposure and loss of FX loans, producing a bigger unexpected loss. They apply in different scenarios — the M5 add-on in both, the FW-Eigenmittelrisiko in the Problemfall only, because in an Extremfall liquidation the going-concern capital-requirement effect is irrelevant. Charging both in the Problemfall is correct; charging the FW-EM in the Extremfall is the error. Mechanically the FW-EM scales the Corporates/Retail/LRG/CIU FX Risikoposition by the 3-yr FX vola (or the 15%/30% proxy when currency separation is missing) and takes 8% of that base.",
+      "tags": {
+        "spine": "boundary",
+        "risk": "fx-ownfunds",
+        "crr": "CRR:Art92"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m11",
+        "anchor": "m11-s5.10"
+      }
+    }
+  ],
+  "module": "m11"
+}
