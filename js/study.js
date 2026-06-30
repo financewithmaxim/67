@@ -6,6 +6,7 @@ import { COURSE } from './course.js';
 import { computeCalibration } from './calibration.js';
 import { createGistSync } from './gistsync.js';
 import { createGistClient } from './gist-client.js';
+import { mergeDecks } from './deckindex.js';
 
 const root = document.getElementById('trainer-root');
 const summary = document.getElementById('session-summary');
@@ -37,9 +38,15 @@ async function boot() {
   await store.ready();
   document.querySelectorAll('.trainer-tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
   try {
-    const res = await fetch('data/cards/m05.json', { cache: 'no-cache' });
-    deck = (await res.json()).cards || [];
-  } catch { summary.textContent = 'Could not load the m05 deck.'; setMode('sync'); return; }
+    const manifest = await (await fetch('data/cards/manifest.json', { cache: 'no-cache' })).json();
+    const decks = await Promise.all((manifest.decks || []).map(id =>
+      fetch(`data/cards/${id}.json`, { cache: 'no-cache' }).then(r => r.json()).catch(() => ({ cards: [] }))
+    ));
+    deck = mergeDecks(decks);
+  } catch {
+    summary.textContent = 'Could not load the decks — you can still use Sync & backup to export/import.';
+    setMode('sync'); return;
+  }
   byId = new Map(deck.map(c => [c.id, c]));
   setMode('review');
 }
