@@ -7,6 +7,7 @@ import { computeCalibration } from './calibration.js';
 import { createGistSync } from './gistsync.js';
 import { createGistClient } from './gist-client.js';
 import { mergeDecks } from './deckindex.js';
+import { canonicalAnchor } from './anchors.js';
 
 const root = document.getElementById('trainer-root');
 const summary = document.getElementById('session-summary');
@@ -178,7 +179,8 @@ function reveal(card, response, confidence) {
   else if (card.caveat) html += `<div class="box verify"><div class="box-title">⚑ Verify</div><p>${esc(card.caveat)}</p></div>`;
 
   if (card.sourceRef && card.sourceRef.module && card.sourceRef.anchor) {
-    html += `<p class="trainer-source"><a href="modules/${esc(card.sourceRef.module)}.html#${esc(card.sourceRef.anchor)}" target="_blank" rel="noopener">↗ open this in the module</a></p>`;
+    const anchor = canonicalAnchor(card.sourceRef.anchor);
+    html += `<p class="trainer-source"><a href="modules/${esc(card.sourceRef.module)}.html#${esc(anchor)}" target="_blank" rel="noopener">↗ open this in the module</a></p>`;
   }
 
   html += gradeButtons(card, machine);
