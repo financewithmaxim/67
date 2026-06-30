@@ -35,6 +35,7 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
 
   const subs = new Set();
   function notify() { for (const fn of subs) { try { fn(snapshot); } catch { /* a subscriber must not break a write */ } } }
+  function assertReady() { if (!snapshot) throw new Error('call await store.ready() before mutating'); }
 
   async function ready() {
     if (readyPromise) return readyPromise;
@@ -61,6 +62,7 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
   }
 
   async function putSched(cardId, partial) {
+    assertReady();
     const prev = snapshot.sched[cardId] || { rev: 0 };
     snapshot.sched[cardId] = {
       ...prev, ...partial,
@@ -73,13 +75,15 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
   }
 
   async function appendReview(entry) {
-    const rec = { id: genId(), ts: now(), ...entry };
+    assertReady();
+    const rec = { ...entry, id: genId(), ts: now() };
     snapshot.reviews.push(rec);
     persist(); notify();
     return rec;
   }
 
   async function patch(path, value) {
+    assertReady();
     let obj = snapshot;
     for (let i = 0; i < path.length - 1; i++) {
       const k = path[i];

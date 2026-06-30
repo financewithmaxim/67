@@ -100,3 +100,29 @@ test('subscribe fires after a mutation and unsubscribe stops it', async () => {
   await store.putSched('c1', { reps: 2 });
   assert.equal(n, 1);
 });
+
+test('appendReview generates a unique id even under a frozen clock', async () => {
+  const store = createStore({ storage: fakeStorage(), now: () => 700 });
+  await store.ready();
+  const r1 = await store.appendReview({ cardId: 'c1', grade: 'good' });
+  const r2 = await store.appendReview({ cardId: 'c1', grade: 'again' });
+  assert.notEqual(r1.id, r2.id);
+});
+
+test("appendReview's generated id/ts win over any supplied in the entry", async () => {
+  const store = createStore({ storage: fakeStorage(), now: () => 700 });
+  await store.ready();
+  const r = await store.appendReview({ cardId: 'c1', id: 'caller-supplied', ts: 1 });
+  assert.notEqual(r.id, 'caller-supplied');
+  assert.equal(r.ts, 700);
+});
+
+test('a throwing subscriber does not break the write', async () => {
+  const s = fakeStorage();
+  const store = createStore({ storage: s, now: () => 1 });
+  await store.ready();
+  store.subscribe(() => { throw new Error('boom'); });
+  await store.putSched('c1', { reps: 1 });
+  assert.equal(store.getState().sched.c1.reps, 1);
+  assert.equal(JSON.parse(s.getItem('leitfaden_state_v2')).sched.c1.reps, 1);
+});
