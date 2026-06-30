@@ -521,6 +521,17 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-fam
   .modnav a:hover { transform: none; }
 }
 
+/* ---------- Trainer (Review UI) ---------- */
+.trainer-card { background: var(--bg-card); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); }
+.trainer-front { font-size: 19px; line-height: 1.6; margin: 6px 0 16px; }
+.trainer-input { font-family: var(--font); width: 100%; max-width: 420px; padding: 10px 14px; font-size: 16px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); margin: 6px 0; background: #fff; }
+textarea.trainer-input { max-width: 100%; }
+.trainer-step { margin: 10px 0; }
+.trainer-confidence, .trainer-verdict { font-family: var(--font); font-size: 14px; color: var(--ink-soft); margin: 12px 0; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.trainer-grades { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.trainer-tick { display: block; font-family: var(--font); font-size: 14.5px; margin: 6px 0; cursor: pointer; }
+.trainer-tick input { margin-right: 8px; }
+
 /* ---------- Print ---------- */
 @media print {
   .sidebar, .navtoggle, .modnav, .btn, .hero::after { display: none !important; }
