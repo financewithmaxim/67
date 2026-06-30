@@ -103,6 +103,34 @@
     ? `<a class="btn" href="study.html">Review ${n} card${n === 1 ? '' : 's'} due →</a>`
     : `<a class="btn secondary" href="study.html">Open the Trainer</a>`;
 </script>
+<script type="module">
+  import { createStore } from './js/store.js';
+  import { mergeDecks } from './js/deckindex.js';
+  import { cardsByModule, moduleReadiness } from './js/readiness.js';
+  try {
+    const store = createStore({ storage: window.localStorage });
+    await store.ready();
+    const man = await (await fetch('data/cards/manifest.json', { cache: 'no-cache' })).json();
+    const decks = await Promise.all((man.decks || []).map(id => fetch(`data/cards/${id}.json`, { cache: 'no-cache' }).then(r => r.json()).catch(() => ({ cards: [] }))));
+    const byMod = cardsByModule(mergeDecks(decks));
+    const bands = moduleReadiness(store.getState().sched, byMod, Date.now());
+    const LABEL = { 'not-started': ['·', 'not started', 'todo'], learning: ['◐', 'learning', 'learning'], due: ['◑', 'review due', 'due'], strong: ['●', 'strong', 'strong'] };
+    let started = 0, strong = 0;
+    document.querySelectorAll('[data-modstatus]').forEach(el => {
+      const band = bands[el.dataset.modstatus];
+      if (!band) return;
+      const [glyph, text, cls] = LABEL[band];
+      el.textContent = `${glyph} ${text}`;
+      el.className = `status readiness-${cls}`;
+      if (band !== 'not-started') started++;
+      if (band === 'strong') strong++;
+    });
+    const total = Object.keys(byMod).length || 24;
+    const fill = document.getElementById('progress-fill'); const label = document.getElementById('progress-label');
+    if (fill) fill.style.width = Math.round(started / total * 100) + '%';
+    if (label) label.textContent = `${started} / ${total} modules started · ${strong} strong`;
+  } catch (e) { /* readiness is an enhancement; never break the page */ }
+</script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
 </body>
 </html>
