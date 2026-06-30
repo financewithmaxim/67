@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EU Bank Capital Regulation & the ÖRS Leitfaden Früherkennung — Course</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1d3a5c">
 </head>
 <body data-module="index">
 <button class="navtoggle" id="navtoggle">☰</button>
@@ -101,5 +103,6 @@
     ? `<a class="btn" href="study.html">Review ${n} card${n === 1 ? '' : 's'} due →</a>`
     : `<a class="btn secondary" href="study.html">Open the Trainer</a>`;
 </script>
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+{
+  "name": "Leitfaden Trainer",
+  "short_name": "Trainer",
+  "description": "Spaced-repetition trainer for EU bank capital regulation (ÖRS Leitfaden Früherkennung)",
+  "start_url": "study.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f3ef",
+  "theme_color": "#1d3a5c",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
