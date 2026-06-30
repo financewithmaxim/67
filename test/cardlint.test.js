@@ -32,3 +32,23 @@ test('lintDeck flags duplicate ids', () => {
   ];
   assert.ok(lintDeck(dup).some(r => r.errors.some(e => /duplicate/i.test(e))));
 });
+
+test('lintDeck flags a deck missing the mandated type mix', () => {
+  const deck = [
+    { id: 'm05.num.a', module: 'm05', type: 'numeric', front: 'x', tags: { spine: 'reg' }, version: 'v', sourceRef: { module: 'm05', anchor: 'a' }, answer: { value: 1 } },
+    { id: 'm05.num.b', module: 'm05', type: 'numeric', front: 'y', tags: { spine: 'reg' }, version: 'v', sourceRef: { module: 'm05', anchor: 'a' }, answer: { value: 2 } },
+  ];
+  const deckErr = lintDeck(deck).find(r => r.id === '<deck>');
+  assert.ok(deckErr, 'expected a <deck> entry');
+  assert.ok(deckErr.errors.some(e => /deriveStep/.test(e)) && deckErr.errors.some(e => /viva/.test(e)));
+});
+
+test('validateCard requires sourceRef.module, not just anchor', () => {
+  const card = { id: 'm05.num.x', module: 'm05', type: 'numeric', front: 'x', tags: { spine: 'reg' }, version: 'v', sourceRef: { anchor: 'a' }, answer: { value: 1 } };
+  assert.ok(validateCard(card).some(e => /sourceRef/.test(e)));
+});
+
+test('validateCard requires the id to be namespaced to its module', () => {
+  const card = { id: 'm06.num.x', module: 'm05', type: 'numeric', front: 'x', tags: { spine: 'reg' }, version: 'v', sourceRef: { module: 'm05', anchor: 'a' }, answer: { value: 1 } };
+  assert.ok(validateCard(card).some(e => /namespaced/.test(e)));
+});

@@ -12,7 +12,8 @@ export function validateCard(card) {
   if (!card.front) e.push('front is required');
   if (!card.tags || !SPINES.includes(card.tags.spine)) e.push(`tags.spine must be one of ${SPINES.join('/')}`);
   if (!card.version) e.push('version is required');
-  if (!card.sourceRef || !card.sourceRef.anchor) e.push('sourceRef.anchor is required');
+  if (!card.sourceRef || !card.sourceRef.anchor || !card.sourceRef.module) e.push('sourceRef.module and sourceRef.anchor are required');
+  if (card.module && card.id && !card.id.startsWith(card.module + '.')) e.push(`id must be namespaced to its module (start with "${card.module}.")`);
 
   if (card.type === 'numeric' && (!card.answer || typeof card.answer.value !== 'number')) e.push('numeric card needs answer.value (a number in base units)');
   if (card.type === 'cloze' && !(Array.isArray(card.blanks) && card.blanks.length)) e.push('cloze card needs blanks[]');
@@ -21,7 +22,10 @@ export function validateCard(card) {
     if (!['reg', 'ors', 'mixed'].includes(card.verdict)) e.push('discrimination card needs verdict reg/ors/mixed');
     if (!(Array.isArray(card.rubric) && card.rubric.length)) e.push('discrimination card needs a tradeoff rubric[]');
   }
-  if (card.type === 'viva' && !(Array.isArray(card.rubric) && card.rubric.length && card.modelAnswer)) e.push('viva card needs rubric[] and modelAnswer');
+  if (card.type === 'viva') {
+    if (!(Array.isArray(card.rubric) && card.rubric.length)) e.push('viva card needs a rubric[]');
+    if (!card.modelAnswer) e.push('viva card needs a modelAnswer');
+  }
   return e;
 }
 
@@ -39,8 +43,10 @@ export function lintDeck(cards) {
   // deck-level mandated type mix
   const counts = {};
   for (const c of cards) counts[c.type] = (counts[c.type] || 0) + 1;
+  const deckErrs = [];
   for (const [t, min] of Object.entries(MIX)) {
-    if ((counts[t] || 0) < min) out.push({ id: `<deck>`, errors: [`deck needs >= ${min} ${t} cards (has ${counts[t] || 0})`] });
+    if ((counts[t] || 0) < min) deckErrs.push(`deck needs >= ${min} ${t} cards (has ${counts[t] || 0})`);
   }
+  if (deckErrs.length) out.push({ id: '<deck>', errors: deckErrs });
   return out;
 }
