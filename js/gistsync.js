@@ -14,7 +14,8 @@ export function createGistSync({ store, client, config, now = () => Date.now() }
 
     const local = store.getState();
     const merged = remote && remote.state ? mergeStates(local, remote.state) : local;
-    await store.saveState(merged);            // adopt the merged result locally regardless of push outcome
+    try { await store.saveState(merged); }    // adopt the merged result locally regardless of push outcome
+    catch (e) { dirty = true; return { status: 'error', kind: 'store', error: String(e) }; }
 
     let pushed;
     try { pushed = await client.push(merged); }
@@ -27,7 +28,7 @@ export function createGistSync({ store, client, config, now = () => Date.now() }
   }
 
   function status() {
-    return { lastSyncedAt: config.get('lastSyncedAt') || null, cursor: config.get('syncCursor') || null, dirty };
+    return { lastSyncedAt: config.get('lastSyncedAt') ?? null, cursor: config.get('syncCursor') ?? null, dirty };
   }
 
   return { sync, status, markDirty };

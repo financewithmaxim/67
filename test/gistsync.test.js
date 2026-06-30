@@ -55,3 +55,9 @@ test('push failure surfaces error kind (local already holds the merge)', async (
   assert.equal(res.kind, 'push');
   assert.ok(store._peek().sched.b, 'merge was adopted locally even though push failed');
 });
+
+test('unconfigured client returns {status:"unconfigured"} without throwing', async () => {
+  const gs = createGistSync({ store: fakeStore(emptyState('A')), client: null, config: fakeConfig(), now: () => 1 });
+  const res = await gs.sync();
+  assert.equal(res.status, 'unconfigured');
+});
