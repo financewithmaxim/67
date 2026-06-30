@@ -4,6 +4,8 @@ import { buildQueue } from './queue.js';
 import { gradeAnswer } from './grading.js';
 import { COURSE } from './course.js';
 import { computeCalibration } from './calibration.js';
+import { createGistSync } from './gistsync.js';
+import { createGistClient } from './gist-client.js';
 
 const root = document.getElementById('trainer-root');
 const summary = document.getElementById('session-summary');
@@ -81,6 +83,7 @@ function setMode(m) {
   mode = m;
   document.querySelectorAll('.trainer-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
   if (m === 'calibration') { renderCalibration(); return; }
+  if (m === 'sync') { renderSync(); return; }
   const ids = m === 'drill' ? drillIds() : m === 'viva' ? vivaIds() : reviewIds();
   if (!ids.length) { summary.textContent = emptyMsg(m); root.innerHTML = ''; return; }
   startSession(ids);
@@ -224,6 +227,75 @@ function finish(card, chosen, confidence, response, machine) {
   store.appendReview({ cardId: card.id, grade: g, confidence, objective: machine.objective, pointsHit: ticks.length, mode });
   pos++;
   renderCard();
+}
+
+function deviceConfig() {
+  return {
+    get: k => (store.getDevice() || {})[k],
+    set: (k, v) => store.patchDevice({ [k]: v }),
+  };
+}
+
+function buildGistSync() {
+  const cfg = deviceConfig();
+  const token = cfg.get('gistToken');
+  if (!token) return null;
+  const client = createGistClient({ token, config: cfg });
+  return createGistSync({ store, client, config: cfg });
+}
+
+function renderSync() {
+  summary.textContent = 'Sync & backup — optional, no server';
+  const cfg = deviceConfig();
+  const hasToken = !!cfg.get('gistToken');
+  const st = buildGistSync() ? buildGistSync().status() : { lastSyncedAt: null, dirty: false };
+  const last = st.lastSyncedAt ? new Date(st.lastSyncedAt).toLocaleString() : 'never';
+  root.innerHTML = `
+    <div class="widget">
+      <div class="widget-title">Cross-device sync (private GitHub gist)</div>
+      <p class="widget-note">Paste a GitHub <strong>classic PAT with the <code>gist</code> scope</strong> (it can read/write all your gists — set an expiry). Your state syncs to one <em>secret</em> gist; the token stays only on this device.</p>
+      <div class="sync-row">
+        <input id="sync-token" type="password" placeholder="ghp_…  (gist scope)" value="${hasToken ? '••••••••' : ''}">
+        <button class="btn" id="sync-connect">Connect</button>
+      </div>
+      <div class="sync-row">
+        <button class="btn" id="sync-now" ${hasToken ? '' : 'disabled'}>Sync now</button>
+        <span class="sync-status" id="sync-status">Last synced: ${last}${st.dirty ? ' · unsynced changes' : ''}</span>
+      </div>
+      <hr>
+      <div class="widget-title">Manual backup</div>
+      <div class="sync-row">
+        <button class="btn secondary" id="sync-export">Export JSON</button>
+        <label class="btn secondary" style="cursor:pointer">Import JSON<input id="sync-import" type="file" accept="application/json" style="display:none"></label>
+      </div>
+      <p class="widget-note" id="sync-msg"></p>
+    </div>`;
+
+  const msg = (t) => { const e = root.querySelector('#sync-msg'); if (e) e.textContent = t; };
+  root.querySelector('#sync-connect').addEventListener('click', async () => {
+    const v = root.querySelector('#sync-token').value.trim();
+    if (!v || v.startsWith('•')) { msg('Enter a token.'); return; }
+    store.patchDevice({ gistToken: v });
+    try { if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); } catch {}
+    try { await createGistClient({ token: v, config: deviceConfig() }).ensureGist(); msg('Connected. A secret gist is ready — click "Sync now".'); renderSync(); }
+    catch (e) { msg('Connect failed: ' + e.message); }
+  });
+  root.querySelector('#sync-now').addEventListener('click', async () => {
+    const gs = buildGistSync(); if (!gs) { msg('Connect first.'); return; }
+    msg('Syncing…');
+    const r = await gs.sync();
+    msg(r.status === 'ok' ? 'Synced ✓' : `Sync ${r.kind || ''} error: ${r.error || r.status}`);
+    renderSync();
+  });
+  root.querySelector('#sync-export').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(store.exportState(), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'leitfaden-trainer-backup.json'; a.click(); URL.revokeObjectURL(a.href);
+  });
+  root.querySelector('#sync-import').addEventListener('change', async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    try { await store.importState(JSON.parse(await f.text()), 'merge'); msg('Imported (merged) ✓'); }
+    catch (err) { msg('Import failed: ' + err.message); }
+  });
 }
 
 boot();

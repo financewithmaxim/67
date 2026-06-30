@@ -579,3 +579,8 @@ textarea.trainer-input { max-width: 100%; }
 
 .trainer-source { font-family: var(--font); font-size: 13.5px; margin-top: 10px; }
 .trainer-source a { color: var(--brand-2); }
+
+/* ---------- Sync & backup ---------- */
+.sync-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
+.sync-row input[type="password"] { font-family: var(--mono); font-size: 14px; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); min-width: 280px; }
+.sync-status { font-family: var(--font); font-size: 13px; color: var(--ink-faint); }

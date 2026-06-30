@@ -111,5 +111,11 @@ export function createStore({ storage, now = () => Date.now() } = {}) {
     return snapshot;
   }
 
-  return { ready, getState, getDevice: () => device, putSched, appendReview, patch, saveState, subscribe, sync, exportState, importState };
+  function patchDevice(partial) {
+    device = { ...device, ...partial };
+    storage.setItem(DEVICE_KEY, JSON.stringify(device));
+    return device;
+  }
+
+  return { ready, getState, getDevice: () => device, putSched, appendReview, patch, saveState, subscribe, sync, exportState, importState, patchDevice };
 }
