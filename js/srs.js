@@ -12,6 +12,16 @@ const clampEase = e => Math.max(EASE_FLOOR, e);
 const capDays = d => Math.min(CAP_DAYS, d);
 const LEECH_LAPSES = 6;
 
+const FUZZ_MIN_DAYS = 4;
+const FUZZ_PCT = 0.25;
+
+// Spread intervals >= FUZZ_MIN_DAYS by +/-FUZZ_PCT using an injected rng (() => [0,1)).
+export function applyFuzz(intervalDays, rng) {
+  if (intervalDays < FUZZ_MIN_DAYS) return intervalDays;
+  const factor = 1 + FUZZ_PCT * (2 * rng() - 1); // rng 0 -> 0.75, 0.5 -> 1.0, 1 -> 1.25
+  return intervalDays * factor;
+}
+
 export function newSched() {
   return { state: 'new', interval: 0, ease: EASE_START, reps: 0, lapses: 0, lastGrade: null, pending: 0 };
 }

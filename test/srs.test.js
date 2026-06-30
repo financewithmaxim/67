@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { newSched, grade, DAY_MS, LEARN_STEP_MS } from '../js/srs.js';
+import { newSched, grade, DAY_MS, LEARN_STEP_MS, applyFuzz } from '../js/srs.js';
 
 const T0 = 1_000_000_000_000; // fixed epoch for deterministic golden tests
 
@@ -104,4 +104,15 @@ test('a 6th lapse auto-suspends (leech) instead of relearning', () => {
 test('grading a suspended card leaves it suspended (manual unsuspend is out of scope)', () => {
   const susp = { state: 'suspended', interval: 5, ease: 2, reps: 4, lapses: 6, lastGrade: 'again', pending: 3, due: T0 };
   assert.equal(grade(susp, 'good', T0).state, 'suspended');
+});
+
+test('applyFuzz leaves short intervals (< 4 days) unchanged', () => {
+  assert.equal(applyFuzz(1, () => 0.5), 1);
+  assert.equal(applyFuzz(3, () => 0), 3);
+});
+
+test('applyFuzz spreads a >=4-day interval within +/-25%, deterministically per rng', () => {
+  assert.equal(applyFuzz(100, () => 0.0), 75);   // rng 0 -> -25%
+  assert.equal(applyFuzz(100, () => 1.0), 125);  // rng 1 -> +25%
+  assert.equal(applyFuzz(100, () => 0.5), 100);  // rng 0.5 -> center
 });
