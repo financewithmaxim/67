@@ -546,6 +546,24 @@ textarea.trainer-input { max-width: 100%; }
 .cal-num { font-family: var(--font); font-size: 26px; font-weight: 800; color: var(--brand); line-height: 1.1; }
 .cal-lbl { font-family: var(--font); font-size: 12.5px; color: var(--ink-faint); margin-top: 4px; }
 
+/* ---------- Interactive widgets ---------- */
+.widget { background: var(--bg-card); border: 1px solid var(--line-strong); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 16px 20px; margin: 22px 0; box-shadow: var(--shadow-sm); }
+.widget-title { font-family: var(--font); font-weight: 700; color: var(--brand); font-size: 15px; margin-bottom: 12px; }
+.widget-sub { font-weight: 400; color: var(--ink-faint); font-size: 12.5px; }
+.widget-controls { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; }
+.widget-controls label { font-family: var(--font); font-size: 13px; color: var(--ink-soft); display: flex; flex-direction: column; gap: 3px; }
+.widget-controls input, .widget-controls select { font-family: var(--mono); font-size: 14px; padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); }
+.widget-table { width: 100%; font-size: 14px; border-collapse: collapse; }
+.widget-table td { padding: 5px 8px; border-bottom: 1px solid var(--line); }
+.widget-table td.num { font-family: var(--mono); text-align: right; }
+.widget-headline { font-family: var(--font); font-size: 17px; margin-top: 12px; color: var(--brand); }
+.widget-note { font-size: 13px; color: var(--ink-faint); margin-top: 8px; line-height: 1.55; }
+.widget-err { color: var(--red); font-size: 13.5px; }
+.widget-range { display: flex; align-items: center; gap: 10px; }
+.widget-readout { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.asrf-plot { width: 100%; max-width: 560px; height: 240px; background: #fbfaf5; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.widget-gate { background: var(--reg-bg); border: 1px dashed var(--line-strong); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; }
+
 /* ---------- Print ---------- */
 @media print {
   .sidebar, .navtoggle, .modnav, .btn, .hero::after { display: none !important; }

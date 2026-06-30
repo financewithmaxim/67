@@ -118,6 +118,8 @@
       <p>The Problemfall UL is roughly a quarter of the Extremfall UL — entirely from substituting one quantile. <em>This is VaR vertical consistency (Module 4) operating inside the credit formula.</em></p>
     </div>
 
+    <div id="irb-calc"></div>
+
     <h2>5 · In practice — the Leitfaden's credit machinery</h2>
 
     <h3>5.1 Exposure and Risikoposition</h3>
@@ -243,5 +245,6 @@ const QUIZ = { title:"Credit risk / IRB", pass:0.7, questions:[
     explain:"The IRB UL is the infinitely-granular limit. Real books are lumpy, so the surcharge = UL·HHI captures the extra unexpected loss from concentration. New UL = UL·(1+HHI); HHI uses the top ≤110 corporates (per GvK) plus a tail correction." },
 ]};
 </script>
+<script type="module" src="../js/widgets/irb-calc.js"></script>
 </body>
 </html>
