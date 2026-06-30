@@ -1,0 +1,466 @@
+{
+  "cards": [
+    {
+      "id": "m05.num.ul-extremfall",
+      "module": "m05",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Corporate exposure: EAD = 1,000,000; PD = 1.3669%; LGD = 45.5%; M = 2.5 (so maturity adjustment = 1); R = 0.1806. Extremfall (q = 99.9%, \\(\\Phi^{-1}(0.999)=3.0902\\), \\(\\Phi^{-1}(0.013669)=-2.2064\\)). Conditional PD = \\(\\Phi\\!\\big((-2.2064+0.4250\\cdot3.0902)/0.9046\\big)=16.18\\%\\). Compute the unexpected loss UL in EUR.",
+      "answer": {
+        "value": 67400,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s4"
+      }
+    },
+    {
+      "id": "m05.num.ul-problemfall",
+      "module": "m05",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "Same exposure (EAD = 1,000,000; PD = 1.3669%; LGD = 45.5%; R = 0.1806; M-adj = 1). Problemfall swaps ONLY the quantile to q = 95% (\\(\\Phi^{-1}(0.95)=1.6449\\)), giving conditional PD = \\(\\Phi(-1.6664)=4.78\\%\\). Compute UL in EUR.",
+      "answer": {
+        "value": 15520,
+        "tol": 0.01,
+        "unit": "EUR"
+      },
+      "tags": {
+        "spine": "ors",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s4"
+      }
+    },
+    {
+      "id": "m05.num.asset-correlation",
+      "module": "m05",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "At PD = 1.3669% the systematic weight \\((1-e^{-50\\,PD})/(1-e^{-50}) = 0.4951\\). Using the CRR Art. 153 curve \\(R = 0.12\\cdot w + 0.24\\cdot(1-w)\\), compute the asset correlation R (as a fraction).",
+      "answer": {
+        "value": 0.1806,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-3"
+      }
+    },
+    {
+      "id": "m05.num.cond-pd-extremfall",
+      "module": "m05",
+      "type": "numeric",
+      "format": "tex",
+      "lang": "en",
+      "front": "With \\(\\Phi^{-1}(PD)=-2.2064\\), \\(\\sqrt{R}=0.4250\\), \\(\\sqrt{1-R}=0.9046\\) and the Extremfall quantile \\(\\Phi^{-1}(0.999)=3.0902\\), compute the conditional (stressed) PD = \\(\\Phi\\big((\\Phi^{-1}(PD)+\\sqrt{R}\\,\\Phi^{-1}(q))/\\sqrt{1-R}\\big)\\) as a fraction.",
+      "answer": {
+        "value": 0.1618,
+        "tol": 0.01
+      },
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-2"
+      }
+    },
+    {
+      "id": "m05.cloze.signflip",
+      "module": "m05",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Worst-case conditional PD: \\(\\Phi\\!\\left(\\dfrac{\\Phi^{-1}(PD)\\;{{c1}}\\;\\sqrt{R}\\,\\Phi^{-1}(q)}{\\sqrt{1-R}}\\right)\\). The systematic term carries a {{c2}} sign (a bad economy is the LOWER tail of X; getting it wrong yields the BEST case).",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "+"
+          ],
+          "render": "operator"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "+",
+            "plus",
+            "positive"
+          ],
+          "render": "pick"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-2"
+      }
+    },
+    {
+      "id": "m05.cloze.quantiles",
+      "module": "m05",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "Scenario quantiles: Extremfall \\(\\Phi^{-1}(0.999) = {{c1}}\\); Problemfall \\(\\Phi^{-1}(0.95) = {{c2}}\\) (4 dp). The Problemfall swaps ONLY this quantile — everything else is held fixed.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "3.0902"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "1.6449"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-2"
+      }
+    },
+    {
+      "id": "m05.cloze.correlation-bounds",
+      "module": "m05",
+      "type": "cloze",
+      "format": "tex",
+      "lang": "en",
+      "front": "The CRR Art. 153 asset-correlation curve interpolates from {{c1}} at low PD down to {{c2}} at high PD: \\(R = 0.12\\cdot w + 0.24\\cdot(1-w)\\). High-PD names default idiosyncratically, so they are less tied to the systematic factor.",
+      "blanks": [
+        {
+          "id": "c1",
+          "accept": [
+            "0.24",
+            "24%"
+          ],
+          "render": "number"
+        },
+        {
+          "id": "c2",
+          "accept": [
+            "0.12",
+            "12%"
+          ],
+          "render": "number"
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-3"
+      }
+    },
+    {
+      "id": "m05.deriv.signflip",
+      "module": "m05",
+      "type": "deriveStep",
+      "format": "tex",
+      "lang": "en",
+      "front": "Derive the conditional PD from the borrower's latent variable: substitute the worst-case systematic factor and track the sign.",
+      "steps": [
+        {
+          "prompt": "What value of the systematic factor x is the worst case at confidence q?",
+          "kind": "pick",
+          "expected": "x = -\\Phi^{-1}(q)",
+          "explain": "A bad economy is the LOWER tail of the systematic factor X, so the worst case is x = -\\Phi^{-1}(q)."
+        },
+        {
+          "prompt": "Substituting x into the -\\sqrt{R}\\,x term, what sign does the systematic term now carry?",
+          "kind": "pick",
+          "expected": "+",
+          "explain": "The minus times the negative quantile flips to +\\sqrt{R}\\,\\Phi^{-1}(q). Keeping the minus gives the BEST case."
+        },
+        {
+          "prompt": "Write the resulting conditional PD.",
+          "kind": "pick",
+          "expected": "\\Phi((\\Phi^{-1}(PD)+\\sqrt{R}\\,\\Phi^{-1}(q))/\\sqrt{1-R})",
+          "explain": "This is the Vasicek stressed PD used in the IRB K formula."
+        }
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-2"
+      }
+    },
+    {
+      "id": "m05.disc.m-25",
+      "module": "m05",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The fixed maturity M = 2.5 years plugged into the IRB formula: regulatory value or ÖRS choice — and what does it trade off?",
+      "verdict": "ors",
+      "rubric": [
+        "Names it an ÖRS modelling/proportionality choice, not a CRR-mandated value",
+        "States it sets the maturity adjustment (1+(M-2.5)b)/(1-1.5b) exactly to 1",
+        "Tradeoff: gains comparability across ~400 banks at the cost of maturity-risk precision per exposure"
+      ],
+      "tags": {
+        "spine": "ors",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-3"
+      }
+    },
+    {
+      "id": "m05.disc.r-curve",
+      "module": "m05",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "The asset-correlation curve R(PD) interpolating 0.24 down to 0.12: regulatory or ÖRS — and the tradeoff/intuition?",
+      "verdict": "reg",
+      "rubric": [
+        "Names it a CRR Art. 153 regulatory function — not negotiable, the bank cannot change it",
+        "Intuition: high-PD names default idiosyncratically, so they are less tied to the systematic factor (lower R)",
+        "Tradeoff is regulatory by design: a fixed prescribed curve trades borrower-specific correlation realism for cross-bank comparability"
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-3"
+      }
+    },
+    {
+      "id": "m05.disc.rwa-factor",
+      "module": "m05",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "RWA = K · 12.5 · EAD. Is the 12.5 a regulatory constant or an ÖRS scaling choice — and what does it encode?",
+      "verdict": "reg",
+      "rubric": [
+        "Names it a CRR regulatory constant, not an ÖRS choice",
+        "Explains 12.5 = 1/0.08, the inverse of the 8% minimum capital ratio",
+        "Tradeoff/role: it converts the capital requirement K back into a risk-weighted-asset figure so the 8% Pillar-1 ratio applies uniformly"
+      ],
+      "tags": {
+        "spine": "reg",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s4"
+      }
+    },
+    {
+      "id": "m05.disc.lgd-pool",
+      "module": "m05",
+      "type": "discrimination",
+      "format": "md",
+      "lang": "en",
+      "front": "F-IRB uses LGD = 45% for senior unsecured, yet the worked example uses 45.5% (Corporate pool). Which figure is regulatory and which is ÖRS — and what is the tradeoff?",
+      "verdict": "mixed",
+      "rubric": [
+        "The 45% unsecured F-IRB value is REGULATORY (CRR-prescribed supervisory LGD)",
+        "The pooled 45.5% Corporate (and 54.4% / 55.8% Retail) are ÖRS data-pool estimates",
+        "Tradeoff: the pooled estimate is more loss-representative for the cooperative's book but sacrifices the simplicity/comparability of the flat supervisory 45%"
+      ],
+      "tags": {
+        "spine": "boundary",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s3-3"
+      }
+    },
+    {
+      "id": "m05.viva.problemfall",
+      "module": "m05",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Defend to the Aufsichtsrat in three sentences: why does the Problemfall use 95% rather than 99.9%, and what is the consequence for capital?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Problemfall is the ~1-in-20-year (95%) going-concern traffic-light view; Extremfall is the ~1-in-1000-year (99.9%) economic-capital / liquidation lens",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Only the quantile Φ⁻¹(q) changes inside the conditional PD — LGD, R(PD) and the maturity adjustment are unchanged",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "The Problemfall UL is therefore far smaller (≈¼ here: 15,520 vs 67,400)",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims LGD, R(PD) or the maturity adjustment changes between the scenarios",
+        "Double-counts EL inside the capital (UL) figure"
+      ],
+      "modelAnswer": "The Problemfall measures risk-bearing capacity at 95% confidence — a loss exceeded roughly once in 20 years — for the going-concern traffic-light view, whereas the Extremfall uses 99.9% as a liquidation / economic-capital lens. Mechanically only the quantile Φ⁻¹(q) is swapped (1.6449 vs 3.0902) inside the conditional-PD term; LGD, R(PD) and the maturity adjustment are all held fixed. The result is a materially smaller unexpected loss — here about a quarter: €15,520 versus €67,400.",
+      "tags": {
+        "spine": "ors",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s4"
+      }
+    },
+    {
+      "id": "m05.viva.hhi",
+      "module": "m05",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "An examiner asks: the IRB formula already covers credit risk — why does the Leitfaden add an HHI granularity surcharge?",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "The ASRF model underlying IRB assumes an infinitely granular portfolio, so single-name concentration is invisible to the formula",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Real corporate books are lumpy, so a surcharge UL·HHI captures the extra unexpected loss; new UL = UL·(1+HHI)",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "HHI = hhi21 + hhi22 measured over the top ≤110 corporates (per GvK)",
+          "weight": 1,
+          "required": false
+        }
+      ],
+      "antiPoints": [
+        "Claims the surcharge adds expected loss rather than unexpected loss",
+        "Confuses the granularity surcharge with the maturity adjustment"
+      ],
+      "modelAnswer": "The ASRF model that underlies the IRB formula assumes an infinitely granular portfolio, so by construction it ignores single-name concentration. Real corporate books are lumpy, so the Leitfaden bolts on a granularity surcharge equal to UL·HHI to capture the unexpected loss the formula structurally cannot see, giving a new UL of UL·(1+HHI). The HHI is computed as hhi21 + hhi22 over the top ≤110 corporate borrowers per GvK. (Sector and regional concentration are not captured here — they stem from the single-factor assumption and are handled by separate country/sector limits.)",
+      "tags": {
+        "spine": "ors",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s5-3"
+      }
+    },
+    {
+      "id": "m05.viva.fx-elasticity",
+      "module": "m05",
+      "type": "viva",
+      "format": "md",
+      "lang": "mix",
+      "front": "Explain to the board how the FX shock feeds PD, give the governing elasticity, and reconcile it with the printed Leitfaden example.",
+      "sourceStatus": "erratum",
+      "sourceNote": "The Leitfaden's printed example reads '2% + 273%·25%·2% = 3.005%' but the governing FX-elasticity of PD_PiT is 1.9 (190%). The printed line is internally inconsistent: 273% ≠ 190%, and 1.9 yields 2%·(1+1.9·0.25)=2.95%, while the printed 3.005% implies an elasticity of ~2.0. Treat 1.9 as governing and the 273%/3.005% figures as an erratum.",
+      "rubric": [
+        {
+          "id": "r1",
+          "text": "Governing parameter is the FX-elasticity of PD_PiT = 1.9 (190%), an ÖRS choice",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r2",
+          "text": "Point-in-time PD = PD_TtC·(1 + 1.9·Δfx); e.g. 2%·(1 + 1.9·0.25) = 2.95%",
+          "weight": 1,
+          "required": true
+        },
+        {
+          "id": "r3",
+          "text": "Flags the printed '2% + 273%·25%·2% = 3.005%' as an erratum: 273% ≠ 190% and 3.005% implies elasticity ~2.0, not 1.9",
+          "weight": 1,
+          "required": true
+        }
+      ],
+      "antiPoints": [
+        "Adopts 273% or 3.005% as if correct",
+        "Treats the elasticity as a regulatory CRR value rather than an ÖRS modelling choice"
+      ],
+      "modelAnswer": "An FX move stresses the point-in-time PD through an ÖRS-chosen FX-elasticity of 1.9 (190%): PD_PiT = PD_TtC·(1 + 1.9·Δfx), so a 2% through-the-cycle PD under a 25% FX shock becomes 2%·(1 + 1.9·0.25) = 2.95%. The Leitfaden's printed example '2% + 273%·25%·2% = 3.005%' should be flagged as an erratum — 273% contradicts the governing 190%, and 3.005% only reconciles with an elasticity of roughly 2.0. For the deck we treat 1.9 as governing and 2.95% as the correct figure.",
+      "tags": {
+        "spine": "ors",
+        "risk": "credit",
+        "crr": "CRR:Art153"
+      },
+      "version": "Leitfaden-09/2024",
+      "sourceRef": {
+        "module": "m05",
+        "anchor": "m05-s5-2"
+      }
+    }
+  ],
+  "module": "m05"
+}
