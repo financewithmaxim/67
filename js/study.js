@@ -3,6 +3,7 @@ import { newSched, grade } from './srs.js';
 import { buildQueue } from './queue.js';
 import { gradeAnswer } from './grading.js';
 import { COURSE } from './course.js';
+import { computeCalibration } from './calibration.js';
 
 const root = document.getElementById('trainer-root');
 const summary = document.getElementById('session-summary');
@@ -27,6 +28,7 @@ function buildSidebar() {
 }
 
 let deck = [], byId = new Map(), session = [], pos = 0;
+let mode = 'review';
 
 async function boot() {
   buildSidebar();
@@ -36,11 +38,8 @@ async function boot() {
     deck = (await res.json()).cards || [];
   } catch { summary.textContent = 'Could not load the m05 deck.'; return; }
   byId = new Map(deck.map(c => [c.id, c]));
-  const q = buildQueue({ snapshot: store.getState(), cards: deck, now: Date.now(), settings: store.getState().settings });
-  session = q.session;
-  if (!session.length) { summary.textContent = '🎉 Nothing due right now. Come back when cards are scheduled.'; root.innerHTML = ''; return; }
-  pos = 0;
-  renderCard();
+  document.querySelectorAll('.trainer-tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
+  setMode('review');
 }
 
 function renderCard() {
@@ -60,6 +59,52 @@ function renderCard() {
   root.innerHTML = body;
   document.getElementById('commit').addEventListener('click', () => commit(card));
   typeset();
+}
+
+function startSession(ids) { session = ids; pos = 0; renderCard(); }
+
+function reviewIds() {
+  const q = buildQueue({ snapshot: store.getState(), cards: deck, now: Date.now(), settings: store.getState().settings });
+  return q.session;
+}
+function drillIds() { return deck.filter(c => c.type === 'discrimination').map(c => c.id); }
+function vivaIds() { return deck.filter(c => c.type === 'viva').map(c => c.id); }
+
+function emptyMsg(m) {
+  return m === 'drill' ? 'No discrimination cards in this deck yet.'
+    : m === 'viva' ? 'No viva cards in this deck yet.'
+    : '🎉 Nothing due right now. Come back when cards are scheduled.';
+}
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.trainer-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
+  if (m === 'calibration') { renderCalibration(); return; }
+  const ids = m === 'drill' ? drillIds() : m === 'viva' ? vivaIds() : reviewIds();
+  if (!ids.length) { summary.textContent = emptyMsg(m); root.innerHTML = ''; return; }
+  startSession(ids);
+}
+
+function renderCalibration() {
+  const c = computeCalibration(store.getState(), Date.now());
+  summary.textContent = 'Calibration — where confidence and accuracy diverge';
+  const acc = c.accuracy == null ? '—' : Math.round(c.accuracy * 100) + '%';
+  let html = `<div class="trainer-card"><div class="cal-grid">
+    <div class="cal-stat"><div class="cal-num">${c.reviewed}</div><div class="cal-lbl">reviews logged</div></div>
+    <div class="cal-stat"><div class="cal-num">${acc}</div><div class="cal-lbl">machine-graded accuracy</div></div>
+    <div class="cal-stat"><div class="cal-num">${c.dueNow}</div><div class="cal-lbl">due now</div></div>
+    <div class="cal-stat"><div class="cal-num">${c.suspended}</div><div class="cal-lbl">suspended (leeches)</div></div>
+  </div>`;
+  html += `<h3>Confidently wrong</h3>`;
+  html += c.confidentlyWrong.length
+    ? `<ul>${c.confidentlyWrong.map(x => `<li><code>${esc(x.cardId)}</code></li>`).join('')}</ul>`
+    : `<p style="color:var(--ink-faint)">None — high-confidence answers that turned out wrong land here (the viva failure mode to hunt).</p>`;
+  html += `<h3>Self-reported (viva)</h3>`;
+  html += c.vivaSelfReported.length
+    ? `<ul>${c.vivaSelfReported.map(x => `<li><code>${esc(x.cardId)}</code> — confidence ${esc(x.confidence || '?')}, self-grade ${esc(x.grade || '?')}</li>`).join('')}</ul>`
+    : `<p style="color:var(--ink-faint)">No viva attempts yet. These are self-scored, shown separately so they never inflate the headline accuracy.</p>`;
+  html += `</div>`;
+  root.innerHTML = html;
 }
 
 function inputFor(card) {
