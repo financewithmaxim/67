@@ -123,6 +123,25 @@ export function mountLesson(opts = {}) {
     if (isDone(h.id)) h.querySelector('.step-badge')?.classList.add('done');
   });
 
+  /* 5) predict → reveal on key takeaways — the one "key" box per section is
+     veiled behind a predict prompt so the reader commits to an answer first.
+     Content stays in the DOM (screen readers are unaffected). */
+  page.querySelectorAll('.box.key').forEach(box => {
+    const title = box.querySelector('.box-title');
+    const body = [...box.children].filter(c => c !== title);
+    if (!body.length || box.querySelector('.predict-body')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'predict-body veiled';
+    body.forEach(n => wrap.appendChild(n));
+    const btn = document.createElement('button');
+    btn.className = 'btn secondary predict-reveal';
+    btn.type = 'button';
+    btn.textContent = 'Predict it, then reveal →';
+    box.appendChild(btn);
+    box.appendChild(wrap);
+    btn.addEventListener('click', () => { wrap.classList.remove('veiled'); btn.remove(); });
+  });
+
   /* track the current section as the reader scrolls (updates the rail in place) */
   try {
     const io = new IntersectionObserver(entries => {

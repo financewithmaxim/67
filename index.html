@@ -29,7 +29,10 @@
         <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
         <div class="progress-label" id="progress-label">0 / 25 modules complete</div>
       </div>
-      <div id="reviews-due-badge" style="margin-top:14px"></div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div id="continue-cta"></div>
+        <div id="reviews-due-badge"></div>
+      </div>
     </div>
 
     <div class="box key">
@@ -130,6 +133,19 @@
     const fill = document.getElementById('progress-fill'); const label = document.getElementById('progress-label');
     if (fill) fill.style.width = Math.round(started / total * 100) + '%';
     if (label) label.textContent = `${started} / ${total} modules started · ${strong} strong`;
+
+    // "Continue" CTA — the next module worth opening: due > learning > not-started,
+    // in curriculum order; titles read from the already-rendered grid.
+    const order = (man.decks || []);
+    const pick = b => order.find(id => bands[id] === b);
+    const target = pick('due') || pick('learning') || pick('not-started') || order[0];
+    const cta = document.getElementById('continue-cta');
+    if (cta && target) {
+      const link = document.querySelector(`#curriculum a[href$="${target}.html"]`);
+      const title = link ? link.textContent.trim() : `Module ${target.replace(/^m0?/, '')}`;
+      const fresh = bands[target] === 'not-started' || !bands[target];
+      cta.innerHTML = `<a class="btn" href="modules/${target}.html">${fresh ? 'Start' : 'Continue'}: ${title} →</a>`;
+    }
   } catch (e) { /* readiness is an enhancement; never break the page */ }
 </script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>

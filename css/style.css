@@ -494,6 +494,12 @@ details.disclose > .formula, details.disclose > .tablewrap { margin: 0; border: 
 details.disclose[open] { animation: disclose-in .2s var(--ease); }
 @keyframes disclose-in { from { opacity: .4; } to { opacity: 1; } }
 
+/* predict → reveal (key takeaways) */
+.predict-reveal { margin: 2px 0 4px; }
+.predict-body { transition: filter .25s var(--ease), opacity .25s var(--ease); }
+.predict-body.veiled { filter: blur(7px); opacity: .5; user-select: none; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .predict-body { transition: none; } }
+
 /* ---------- Print ---------- */
 @media print {
   .sidebar, .navtoggle, .modnav, .btn, .hero::after, .theme-toggle, .lessonbar, .micropath-checkpoint { display: none !important; }
