@@ -167,6 +167,10 @@ function reveal(card, response, confidence) {
   if (card.sourceStatus === 'erratum' && card.sourceNote) html += `<div class="box trap"><div class="box-title">⚑ Erratum in the source</div><p>${esc(card.sourceNote)}</p></div>`;
   else if (card.caveat) html += `<div class="box verify"><div class="box-title">⚑ Verify</div><p>${esc(card.caveat)}</p></div>`;
 
+  if (card.sourceRef && card.sourceRef.module && card.sourceRef.anchor) {
+    html += `<p class="trainer-source"><a href="modules/${esc(card.sourceRef.module)}.html#${esc(card.sourceRef.anchor)}" target="_blank" rel="noopener">↗ open this in the module</a></p>`;
+  }
+
   html += gradeButtons(card, machine);
   rv.innerHTML = html;
   rv.querySelectorAll('button[data-grade]').forEach(b => b.addEventListener('click', () => finish(card, b.dataset.grade, confidence, response, machine)));

@@ -65,7 +65,7 @@
       <div class="where">\(p(x)\) = the default rate <em>in economic state \(x\)</em>. A <em>bad</em> economy is a <em>low</em> \(x\) (assets fall). As \(x\downarrow\), the numerator rises, so \(p(x)\uparrow\): defaults spike together in downturns. That co-movement is the whole point.</div>
     </div>
 
-    <h3>3.2 The ASRF limit — why this becomes a per-loan formula</h3>
+    <h3 id="m05-s3-2">3.2 The ASRF limit — why this becomes a per-loan formula</h3>
     <p>In an <strong>infinitely granular</strong> portfolio (many small exposures), the law of large numbers makes the <em>realised</em> portfolio loss rate converge to its <em>conditional expectation</em> \(p(x)\): idiosyncratic risk diversifies away, and <strong>only the systematic factor \(X\) remains</strong>. So the portfolio loss is a deterministic, monotone function of the single factor \(X\). The 99,9%-worst portfolio loss therefore happens at the 99,9%-worst value of \(X\).</p>
     <p>The worst \(X\) at confidence \(q\) is its <em>lower</em> tail (bad economy): \(x_q=\Phi^{-1}(1-q)=-\Phi^{-1}(q)\). Substitute \(x=-\Phi^{-1}(q)\) into \(p(x)\):</p>
     <div class="formula">
@@ -82,7 +82,7 @@
 
     <div id="asrf-explorer"></div>
 
-    <h3>3.3 The full CRR Art. 153 corporate formula</h3>
+    <h3 id="m05-s3-3">3.3 The full CRR Art. 153 corporate formula</h3>
     <p>The CRR plugs three regulatory choices into this skeleton: a PD-dependent <strong>asset correlation \(R\)</strong>, a <strong>maturity adjustment</strong>, and a fixed mapping to risk-weighted assets.</p>
     <div class="formula">
       $$ R(PD)=0{,}12\,\frac{1-e^{-50\,PD}}{1-e^{-50}}+0{,}24\left(1-\frac{1-e^{-50\,PD}}{1-e^{-50}}\right) $$
@@ -103,7 +103,7 @@
       <p><span class="tag reg">regulatory</span> The functional form, \(R(PD)\), \(b(PD)\), the 99,9% calibration, and the 12,5 factor are CRR Art. 153/154 — not negotiable. &nbsp; <span class="tag ors">ÖRS choice</span> The Leitfaden then fixes inputs for tractability: <strong>M = 2,5y</strong> (so the maturity adjustment = 1), unsecured <strong>LGD = 45%</strong> for FI/Sov/LRG/CIU (and pooled 45,5/54,4/55,8% for Corporate/Retail — Module 15), PDs from the master scale, and — crucially — it <strong>swaps the 99,9% quantile for 95% in the Problemfall.</strong> Each is a proportionality decision trading precision for comparability across hundreds of banks.</p>
     </div>
 
-    <h2>4 · Worked example — UL by hand, both scenarios</h2>
+    <h2 id="m05-s4">4 · Worked example — UL by hand, both scenarios</h2>
     <div class="box example">
       <div class="box-title">Worked example — a single corporate exposure</div>
       <p>Inputs: \(EAD=\)€1.000.000, rating 2,5 ⇒ \(PD=1{,}3669\%\) (master scale midpoint), \(LGD=45{,}5\%\) (Corporate pool), \(M=2{,}5\) (so maturity adj. = 1).</p>
@@ -127,7 +127,7 @@
     <h3>5.1 Exposure and Risikoposition</h3>
     <p>The <strong>Risikoposition</strong> = Exposure − interne Sicherheiten per customer, floored at zero. Exposure (§5.1) sums: the balance (book or market value for securities), <strong>weighted off-balance</strong> items (Haftungswert incl. letters of credit, derivatives, repos), <strong>weighted undrawn committed lines</strong>, and weighted (≥<strong>20%</strong>) undrawn <em>internal</em> lines. Netting and CSA cash collateral reduce the Saldo; consortium shares are deducted; <em>provisions are not</em> deducted from the Saldo (they feed the excess/shortfall instead). The ≥20% on internal lines is an <span class="tag ors">ÖRS prudence choice</span> — legally internal lines are no exposure, but the guide reserves part anyway.</p>
 
-    <h3>5.2 FX credit-risk add-on and the PD–FX elasticity</h3>
+    <h3 id="m05-s5-2">5.2 FX credit-risk add-on and the PD–FX elasticity</h3>
     <p>An FX loan's euro exposure rises when the foreign currency appreciates, so the Leitfaden <strong>scales the exposure up by the scenario-scaled annual FX volatility</strong> (3-year history) and treats the uplift as <em>unsecured</em> (collateral value unchanged) — which raises the blended LGD. FI and Sovereigns get <em>no</em> FX credit risk (materiality / already captured on consolidation).</p>
     <p>Separately, a weaker local currency raises the borrower's <em>default</em> probability. The guide estimates this with a regression of PD on GDP and FX, giving an <strong>FX-elasticity of the point-in-time PD of 1,9 (190%)</strong> <span class="tag ors">ÖRS choice</span>:</p>
     <div class="formula">
@@ -139,7 +139,7 @@
       <p>The guide's own worked example reads "\(2\% + 273\%\cdot25\%\cdot2\% = 3{,}005\%\)". That uses <strong>273%</strong>, not the stated elasticity of <strong>1,9 (190%)</strong> — and even 273% gives 3,365%, while the printed result 3,005% implies an elasticity of ~2,0. The three figures are mutually inconsistent: it is a <strong>documentation slip</strong> left over from an earlier parameterisation (the version history confirms the FX elasticity was updated). For exam and production purposes, <strong>1,9 is the governing parameter</strong>; flag the example as an erratum. Being able to spot this is exactly the "defend the methodology" skill the course targets.</p>
     </div>
 
-    <h3>5.3 Concentration — the HHI granularity surcharge</h3>
+    <h3 id="m05-s5-3">5.3 Concentration — the HHI granularity surcharge</h3>
     <p>The ASRF formula assumed infinite granularity. Real corporate books are lumpy, so the Leitfaden adds a <strong>Granularitätsaufschlag</strong> = the gap between the UL of the <em>real</em> portfolio and an infinitely granular one of the same character, approximated via a Herfindahl–Hirschman index:</p>
     <div class="formula">
       $$ HHI = hhi_{21} + hhi_{22}, \qquad hhi_{21}=\sum_i s_i^2, \qquad hhi_{22}=s_m\,(1-S_m), $$
