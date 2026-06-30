@@ -8,6 +8,7 @@ export function normEq(a, b) {
 }
 
 export function gradeAnswer(card, response = {}) {
+  response = response || {};
   switch (card.type) {
     case 'numeric': {
       const ok = gradeNumeric(response.text ?? '', card.answer || {});
@@ -35,7 +36,7 @@ export function gradeAnswer(card, response = {}) {
       const hitAnti = (response.antiTicks || []).length > 0;
       let suggestedGrade;
       if (missedRequired || hitAnti) suggestedGrade = 'again';
-      else if (ticks.length === rubric.length) suggestedGrade = 'good';
+      else if (rubric.every((_, i) => ticks.includes(i))) suggestedGrade = 'good';
       else suggestedGrade = 'hard';
       return { objective: null, suggestedGrade, missedRequired, hitAnti };
     }
